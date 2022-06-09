@@ -1,0 +1,8 @@
+# Spring Boot configuration
+spring:
+  config:
+    activate:
+      on-profile: dev
+application:
+  name: dev
+    

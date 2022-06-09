@@ -1,0 +1,5 @@
+# Spring Boot configuration
+spring:
+  config:
+    activate:
+      on-profile: prd
