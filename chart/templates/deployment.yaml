@@ -32,32 +32,8 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.springProfiles | join ","  }}
-            - name: vas_DB_HOST
-              value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
-            - name: vas_ELASTIC_HOST
-              value: {{ include "includeWithElasticContext" (list $ "elasticsearch.master.fullname") }}
-            - name: vas_KEYCLOAK_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "vas.applicationSecret.name" . }}
-                  key: keycloak-secret
-            - name: vas_CDQ_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "vas.applicationSecret.name" . }}
-                  key: cdq-key
-            - name: vas_DB_USER
-              value: {{ .Values.postgres.auth.username }}
-            - name: vas_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "includeWithPostgresContext" (list $ "postgresql.secretName") }}
-                  key: password
           ports:
             - name: http
               containerPort: 8080
@@ -65,7 +41,7 @@ spec:
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
           livenessProbe:
             httpGet:
-              path: "/actuator/health/readiness"
+              path: "/"
               port: 8080
               scheme: HTTP
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
@@ -76,7 +52,7 @@ spec:
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
           readinessProbe:
             httpGet:
-              path: "/actuator/health/readiness"
+              path: "/"
               port: 8080
               scheme: HTTP
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
@@ -87,6 +63,15 @@ spec:
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-frontend-volume
+              readOnly: true
+              mountPath: "/usr/share/nginx/html/config.json"
+              subPath: "config.json"
+      volumes:
+        - name: config-frontend-volume
+          configMap:
+            name: config-frontend
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
