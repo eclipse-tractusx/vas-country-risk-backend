@@ -9,7 +9,7 @@ image:
   repository: catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "develop"
+  tag: "main"
 
 imagePullSecrets: [ ]
 
