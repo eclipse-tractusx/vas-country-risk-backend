@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-frontend
+data:
+  config.json: |-
+    {
+      "serviceEnvironment": {{ .Values.service.environment | quote }}
+    }
