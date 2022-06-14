@@ -1,26 +1,12 @@
-# Dependencies
-FROM maven:3-openjdk-11 AS maven
-ARG BUILD_TARGET=value-added-service
-
-WORKDIR /build
-
-COPY .mvn .mvn
-COPY pom.xml .
-
-# the --mount option requires BuildKit.
-RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
+#FROM registry.app.corpintra.net/microgateway-plant/openjdk
+FROM openjdk:8-jdk-alpine
 
 
-# Copy the jar and build image
-FROM eclipse-temurin:11-jre AS irs-api
+## Modify the ports used by NGINX by default
+ARG JAR_FILE=target/*.jar
 
-ARG UID=1000
-ARG GID=1000
+# Copy JAR file
+COPY ${JAR_FILE} app.jar
 
-WORKDIR /app
 
-COPY --chown=${UID}:${GID} --from=maven /build/irs-api/target/irs-api-*-exec.jar app.jar
-
-USER ${UID}:${GID}
-
-ENTRYPOINT ["java", "-Djava.util.logging.config.file=./logging.properties", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
