@@ -12,7 +12,7 @@
 	<artifactId>value-added-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>value-added-service</name>
-	<description>Project to Validate Cuntry Risks Score</description>
+	<description>Project to Validate Country Risks Score</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

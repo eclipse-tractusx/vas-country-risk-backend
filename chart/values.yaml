@@ -84,12 +84,16 @@ livenessProbe:
   periodSeconds: 10
   successThreshold: 1
   timeoutSeconds: 1
+  path: /management/health/liveness
+  port: 8080
 readinessProbe:
   failureThreshold: 3
   initialDelaySeconds: 60
   periodSeconds: 10
   successThreshold: 1
   timeoutSeconds: 1
+  path: /management/health/readiness
+  port: 8080
 
 applicationSecret:
   enabled: false
