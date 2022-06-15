@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   registry: ghcr.io
-  repository: catenax-ng/product-value-added-service
+  repository: ghcr.io/catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "main"
