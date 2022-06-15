@@ -96,6 +96,12 @@ applicationSecret:
   keycloak: <path:vas/data/dev/keycloak#credentials-secret>
   cdq: <path:vas/data/dev/cdq#api-key>
 
+configmap:
+  # Specifies whether a configmap should be created
+  create: true
+  data:
+    spring_profiles_active: dev
+
 elastic:
   enabled: false
   security:

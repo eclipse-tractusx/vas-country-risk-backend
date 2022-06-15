@@ -67,14 +67,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: config-frontend-volume
+            - name: config-backend-volume
               readOnly: true
               mountPath: "/usr/share/nginx/html/config.json"
               subPath: "config.json"
       volumes:
-        - name: config-frontend-volume
+        - name: config-backend-volume
           configMap:
-            name: config-frontend
+            name: config-backend
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
