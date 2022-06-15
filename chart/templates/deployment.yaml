@@ -34,9 +34,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: ghcr.io/catenax-ng/product-value-added-service:main
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.springprofile }}
           ports:
             - name: http
               containerPort: 8080
