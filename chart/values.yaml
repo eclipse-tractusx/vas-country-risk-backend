@@ -119,5 +119,21 @@ postgres:
     postgresPassword: <path:vas/data/dev/postgresql#postgres-password>
     username: vas
     password: <path:vas/data/dev/postgresql#password>
+  replicaCount: 1
+  image:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 3Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  service:
+    port: 5432
+    volume: "/var/lib/postgresql/data"
 
 
