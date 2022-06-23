@@ -112,7 +112,6 @@ elastic:
     tls:
       restEncryption: false
 
-
 postgres:
   enabled: false
   auth:
@@ -120,3 +119,5 @@ postgres:
     postgresPassword: <path:vas/data/dev/postgresql#postgres-password>
     username: vas
     password: <path:vas/data/dev/postgresql#password>
+
+

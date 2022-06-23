@@ -23,4 +23,11 @@ version: 2.0.0
 # It is recommended to use it with quotes.
 appVersion: "1.0.0"
 
+# Database dependency
+dependencies:
+  - name: postgresql
+    condition: postgresql.enabled
+    version: 9.8.12
+    repository: https://charts.bitnami.com/bitnami
+
 
