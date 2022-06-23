@@ -9,12 +9,4 @@ ingress:
 
 postgresql:
   enabled: true
-  nameOverride: postgresql
-  tls:
-    enabled: true
-    certificatesSecret: backstage-postgresql-certs
-    certFilename: tls.crt
-    certKeyFilename: tls.key
-  volumePermissions:
-    enabled: true
-  initdbScriptsSecret: backstage-postgresql-initdb
+
