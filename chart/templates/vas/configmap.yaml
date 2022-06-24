@@ -4,5 +4,5 @@ kind: ConfigMap
 metadata:
   name: config-backend
 data:
-  {{- toYaml .Values.postgress.configmap.data | nindent 2 }}
+  {{- toYaml .Values.postgres.configmap.data | nindent 2 }}
 {{- end -}}
