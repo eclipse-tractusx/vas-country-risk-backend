@@ -112,62 +112,11 @@ elastic:
     tls:
       restEncryption: false
 
+
 postgres:
-  enabled: true
-  replicaCount: 1
-  image:
-    repository: postgres
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
-  configmap:
-    # Specifies whether a configmap should be created
-    create: true
-    data:
-      env:
-        POSTGRES_DB: vasdb
-        POSTGRES_USER: vas
-        POSTGRES_PASSWORD: vas123
-  podAnnotations: { }
-  imagePullSecrets: [ ]
-  podSecurityContext:
-    fsGroup: 2000
-  autoscaling:
-    enabled: false
-  securityContext:
-    allowPrivilegeEscalation: false
-    runAsNonRoot: true
-    runAsUser: 10001
-    runAsGroup: 3000
-    capabilities:
-      drop:
-        - ALL
-  port: 5432
-  livenessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-    path: /
-    port: 5432
-  readinessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-    path: /
-    port: 5432
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 3Gi
-    requests:
-      cpu: 500m
-      memory: 1Gi
-  service:
-    port: 5432
-    volume: "/var/lib/postgresql/data"
-
-
+  enabled: false
+  auth:
+    database: vas
+    postgresPassword: <path:vas/data/dev/postgresql#postgres-password>
+    username: vas
+    password: <path:vas/data/dev/postgresql#password>

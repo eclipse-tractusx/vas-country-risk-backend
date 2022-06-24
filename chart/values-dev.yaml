@@ -7,6 +7,3 @@ springProfiles:
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
 
-postgresql:
-  enabled: true
-
