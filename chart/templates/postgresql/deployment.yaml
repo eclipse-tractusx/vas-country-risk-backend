@@ -1,56 +1,89 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "postgresql.fullname" . }}
+  name: {{ include "postgres.fullname" . }}
   labels:
-    {{- include "postgresql.labels" . | nindent 4 }}
+    {{- include "postgres.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .values.postgres.autoscaling.enabled }}
+  replicas: {{ .values.postgres.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "postgresql.selectorLabels" . | nindent 6 }}
+      {{- include "postgres.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .values.postgres.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "postgresql.selectorLabels" . | nindent 8 }}
+        {{- include "postgres.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .values.postgres.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # @url: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server
+      automountServiceAccountToken: false
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .values.postgres.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: dbName
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: dbUser
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: dbPassword
+            {{- toYaml .values.postgres.securityContext | nindent 12 }}
+          image: {{ .values.postgres.image.repository }}
+          imagePullPolicy: {{ .values.postgres.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: config-postgres
           ports:
-            - containerPort: {{ .Values.service.port }}
-          volumeMounts: 
-            - mountPath: {{ .Values.service.volume }}
-              name: {{ include "postgresql.fullname" . }}
-              subPath: postgres
+            - name: http
+              containerPort: {{ .values.postgres.port }}
+              protocol: TCP
+          # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
+          livenessProbe:
+            httpGet:
+              path: {{ .values.postgres.livenessProbe.path }}
+              port: {{ .values.postgres.livenessProbe.port }}
+              scheme: HTTP
+            initialDelaySeconds: {{ .values.postgres.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .values.postgres.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .values.postgres.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .values.postgres.livenessProbe.successThreshold }}
+            failureThreshold: {{ .values.postgres.livenessProbe.failureThreshold }}
+          # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
+          readinessProbe:
+            httpGet:
+              path: {{ .values.postgres.readinessProbe.path }}
+              port: {{ .values.postgres.readinessProbe.port }}
+              scheme: HTTP
+            initialDelaySeconds: {{ .values.postgres.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .values.postgres.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .values.postgres.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .values.postgres.readinessProbe.successThreshold }}
+            failureThreshold: {{ .values.postgres.readinessProbe.failureThreshold }}
+
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}      
+            {{- toYaml .values.postgres.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-postgres-volume
+              readOnly: true
+              mountPath: "/usr/share/nginx/html/config.json"
+              subPath: "config.json"
       volumes:
-        - name: {{ include "postgresql.fullname" . }}
-          persistentVolumeClaim:
-            claimName: {{ include "postgresql.fullname" . }}
+        - name: config-postgres-volume
+          configMap:
+            name: config-postgres
+      {{- with .values.postgres.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .values.postgres.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .values.postgres.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
