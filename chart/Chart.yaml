@@ -24,11 +24,6 @@ version: 2.0.0
 appVersion: "1.0.0"
 
 # Database dependency
-dependencies:
-  - name: postgresql
-    condition: postgresql.enabled
-    version: 1.0.0
-    alias: postgres
-    repository: file://chart/templates/postgresql
+
 
 
