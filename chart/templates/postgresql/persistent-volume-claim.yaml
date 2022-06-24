@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "postgresql.fullname" . }}
+  name: {{ include "postgres.fullname" . }}
   labels:
-    {{- include "postgresql.labels" . | nindent 4 }}
+    {{- include "postgres.labels" . | nindent 4 }}
 spec:
   accessModes:
     - ReadWriteOnce
