@@ -29,6 +29,6 @@ dependencies:
     condition: postgresql.enabled
     version: 1.0.0
     alias: postgres
-    repository: file://chart/postgresql
+    repository: file://chart/templates/postgresql
 
 
