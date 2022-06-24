@@ -5,8 +5,8 @@ metadata:
   labels:
     {{- include "postgres.labels" . | nindent 4 }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.postgres.service.type }}
   ports:
     - port: {{ .Values.postgres.service.port }}
   selector:
-    {{- include "postgresql.selectorLabels" . | nindent 4 }}
+    {{- include "postgres.selectorLabels" . | nindent 4 }}
