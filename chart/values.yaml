@@ -107,7 +107,7 @@ configmap:
     spring_profiles_active: dev
 
 elastic:
-  enabled: false
+  enabled: true
   security:
     tls:
       restEncryption: false
