@@ -39,15 +39,15 @@ spec:
                 name: config-backend
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: { { .Values.springProfiles | join ","  } }
+              value: {{ .Values.springProfiles | join ","  }}
             - name: VAS_DB_HOST
               value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
             - name: VAS_DB_USER
-              value: { { .Values.postgres.auth.username } }
+              value: {{ .Values.postgres.auth.username }}
             - name: VAS_DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: { { include "includeWithPostgresContext" (list $ "postgresql.secretName") } }
+                  name: {{ include "includeWithPostgresContext" (list $ "postgresql.secretName") }}
                   key: password
           ports:
             - name: http
