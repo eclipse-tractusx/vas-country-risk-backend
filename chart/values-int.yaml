@@ -13,5 +13,5 @@ applicationSecret:
 
 postgres:
   auth:
-    postgresPassword: <path:vas/int/postgresql#postgres-password>
-    password: <path:vas/int/postgresql#password>
+    postgresPassword: <path:vas/data/int/postgresql#postgres-password>
+    password: <path:vas/data/int/postgresql#password>
