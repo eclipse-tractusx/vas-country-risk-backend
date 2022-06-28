@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: value-added-service
+
+  profiles:
+    group:
+      dev: dev
+      int: int_persistance
+      local: local_persistance
+    include: persistance
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: ['configprops', 'env', 'health', 'info', 'loggers', 'prometheus', 'threaddump', 'caches']
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    db:
+      enabled: true
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
