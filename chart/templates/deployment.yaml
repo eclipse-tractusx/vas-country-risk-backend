@@ -39,7 +39,7 @@ spec:
                 name: config-backend
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: { { .Values.springProfiles | join ","  }}
+              value: { { .Values.springProfiles }}
             - name: VAS_DB_HOST
               value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") } }
             - name: VAS_DB_USER
