@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+vas:
+  datasource:
+    host: localhost
+    user: vas
+    password: ''
+
 spring:
   application:
     name: value-added-service
