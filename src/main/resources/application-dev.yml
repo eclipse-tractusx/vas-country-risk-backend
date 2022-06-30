@@ -1,6 +1,8 @@
 vas:
   datasource:
     host: localhost
+    user: ${VAS_DB_USER}
+    password: ${VAS_DB_PASS}
 
 # Spring Boot configuration
 spring:
@@ -11,7 +13,7 @@ spring:
     username: vas
     url: jdbc:postgresql://${vas.datasource.host}:5432/vas
     driverClassName: org.postgresql.Driver
-    password: ''
+    password: ${vas_datasource_pass}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:

@@ -44,7 +44,7 @@ spec:
               value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
             - name: VAS_DB_USER
               value: {{ .Values.postgres.auth.username }}
-            - name: VAS_DB_PASS
+            - name: VAS_DATASOURCE_PASS
               valueFrom:
                 secretKeyRef:
                   name: {{ include "includeWithPostgresContext" (list $ "postgresql.secretName") }}
