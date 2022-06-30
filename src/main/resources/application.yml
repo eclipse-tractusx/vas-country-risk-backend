@@ -5,6 +5,13 @@ spring:
   application:
     name: value-added-service
 
+  profiles:
+    group:
+      dev: dev
+      int: int_persistance
+      local: local_persistance
+    include: persistance
+
 management:
   endpoints:
     web:

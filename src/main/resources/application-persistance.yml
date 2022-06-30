@@ -1,0 +1,26 @@
+vas:
+  datasource:
+    host: localhost
+
+#Local Database
+spring:
+  datasource:
+    username: vas
+    url: jdbc:postgresql://${vas.datasource.host}:5432/vas
+    driverClassName: org.postgresql.Driver
+    password: ''
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: public
+
+    #Dev & Int Database
+    datasource:
+      host: ${VAS_DB_HOST}
+      url: jdbc:postgresql://${vas.datasource.host}:5432/vas
+      password: ${VAS_DB_PASS}
+    config:
+      activate:
+        on-profile: dev,int_persistance
+
