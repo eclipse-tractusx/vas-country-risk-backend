@@ -105,7 +105,6 @@ configmap:
   create: true
   data:
     spring_profiles_active: dev
-    vas_datasource_host: project-value-added-service-postgres
 
 elastic:
   enabled: false
