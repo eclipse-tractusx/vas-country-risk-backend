@@ -4,5 +4,24 @@ spring:
     activate:
       on-profile: local
 
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:file:./target/h2db/db/vas;DB_CLOSE_DELAY=-1
+    username: vas
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  h2:
+    console:
+      enabled: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+
 application:
   name: local
