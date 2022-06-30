@@ -11,6 +11,9 @@ spring:
   application:
     name: value-added-service
 
+application:
+  name: default
+
 management:
   endpoints:
     web:
