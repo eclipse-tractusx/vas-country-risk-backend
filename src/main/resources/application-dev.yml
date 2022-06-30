@@ -2,7 +2,7 @@ vas:
   datasource:
     host: localhost
     user: vas
-    password: ''
+    password: password
 
 # Spring Boot configuration
 spring:
