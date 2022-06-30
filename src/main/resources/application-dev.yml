@@ -1,8 +1,8 @@
 vas:
   datasource:
     host: localhost
-    user: ${VAS_DB_USER}
-    password: ${VAS_DB_PASS}
+    user: vas
+    password: ''
 
 # Spring Boot configuration
 spring:

@@ -1,3 +1,9 @@
+vas:
+  datasource:
+    host: localhost
+    user: vas
+    password: ''
+
 # Spring Boot configuration
 spring:
   config:
@@ -22,6 +28,11 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
+cors:
+  origins: >
+    http://localhost:4200/,
+    https://traceability-portal.dev.demo.catena-x.net/,
+    https://traceability-portal.int.demo.catena-x.net/
 
 application:
   name: local
