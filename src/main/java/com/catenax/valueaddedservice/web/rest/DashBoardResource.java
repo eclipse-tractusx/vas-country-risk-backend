@@ -3,8 +3,6 @@ package com.catenax.valueaddedservice.web.rest;
 import com.catenax.valueaddedservice.dto.DashBoardDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,7 @@ public class DashBoardResource {
     public ResponseEntity<List<DashBoardDto>> getAllDashBoard(Pageable pageable) throws IOException {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardDto> dashBoardDtos = new ArrayList<>();
-        DashBoardDto dashBoardDto = new DashBoardDto();
+        DashBoardDto dashBoardDto;
         BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/fake-data/dashboard.csv"));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -45,9 +43,6 @@ public class DashBoardResource {
             dashBoardDto.setRating(field[6]);
             dashBoardDtos.add(dashBoardDto);
         }
-        Page<DashBoardDto> page;
-        page = new PageImpl<>(dashBoardDtos);
-        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().body(dashBoardDtos);
     }
 
