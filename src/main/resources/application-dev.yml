@@ -1,8 +1,24 @@
+vas:
+  datasource:
+    host: localhost
+
 # Spring Boot configuration
 spring:
   config:
     activate:
       on-profile: dev
+  datasource:
+    username: vas
+    url: jdbc:postgresql://${vas.datasource.host}:5432/vas
+    driverClassName: org.postgresql.Driver
+    password: ''
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: public
+
 
 application:
   name: dev
+    
