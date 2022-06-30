@@ -38,8 +38,10 @@ spec:
             - configMapRef:
                 name: config-backend
           env:
+            - name: APPLICATION_name
+              value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
             - name: VAS_DATASOURCE_HOST
-              value: {{ include "includeWithPostgresContext" (list $ "postgresql.primardddy.fullname") }}
+              value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
             - name: VAS_DATASOURCE_USER
               value: {{ .Values.postgres.auth.username }}
             - name: VAS_DATASOURCE_PASS

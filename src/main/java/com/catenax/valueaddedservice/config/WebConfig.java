@@ -18,11 +18,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${vas.datasource.password}")
     private String password;
 
+    @Value("${application.name}")
+    private String name;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
-        log.info(host);
-        log.info(password);
+        log.info("name {} pass {} host {} ",name,password,host);
         registry.addMapping("/api/**")
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("*")
