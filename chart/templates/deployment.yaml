@@ -38,10 +38,8 @@ spec:
             - configMapRef:
                 name: config-backend
           env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.springProfiles | join ","  }}
             - name: VAS_DATASOURCE_HOST
-              value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
+              value: {{ include "includeWithPostgresContext" (list $ "postgresql.primardddy.fullname") }}
             - name: VAS_DATASOURCE_USER
               value: {{ .Values.postgres.auth.username }}
             - name: VAS_DATASOURCE_PASS
