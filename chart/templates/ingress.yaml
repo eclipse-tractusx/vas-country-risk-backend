@@ -1,27 +1,31 @@
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "vas.fullname" . }}
-  labels:
-      {{- include "vas.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  # name of the ingress resource. -ingress suffix as suggestion for clear naming convention
+  name: {{ include "vas.fullname" . }}.ingress
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: {{ .Values.ingress.className }}
-  tls:
-    - hosts:
-        - {{ .Values.ingress.host }}
-      secretName: {{ include "vas.fullname" . }}-tls
   rules:
-    - host: {{ .Values.ingress.host }}
+    # IMPORTANT: specifies the entrypoint (domain), myApp will be accessible from
+    - host: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
       http:
         paths:
+          # specific path the app should be reachable on the host
+          # complete URL for the app consists of host AND path
           - path: /
             pathType: Prefix
             backend:
               service:
+                # Name of the service, the ingress controller should route the traffic to, if the host/path combination is called
+                # Adjust that to your service name
                 name: {{ include "vas.fullname" . }}
                 port:
+                  # Port number, the kubernetes service is listening on
+                  # Adjust that to your services' port
                   number: {{ .Values.service.port }}
+{{- end }}

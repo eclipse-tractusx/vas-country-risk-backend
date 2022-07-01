@@ -11,6 +11,9 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "main"
 
+appName: catenax-vas
+environment: dev
+
 imagePullSecrets: [ ]
 
 podAnnotations: { }
@@ -41,13 +44,8 @@ autoscaling:
   enabled: false
 
 ingress:
-  className: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
-  host: catenax-vas-dev.demo.catena-x.net
+  enabled: true
+
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
