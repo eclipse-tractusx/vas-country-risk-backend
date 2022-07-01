@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: {{ .Values.microservices.postgres.image.repository }}:{{ .Values.microservices.postgres.image.tag }}
+          image: bitnami/postgresql:14.4.0-debian-11-r4
           imagePullPolicy: {{ .Values.microservices.postgres.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.microservices.postgres.port }}
