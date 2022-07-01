@@ -10,6 +10,8 @@ FROM eclipse-temurin:18-jre AS value-added-service
 ARG UID=1000
 ARG GID=1000
 
+EXPOSE 8080
+
 WORKDIR /app
 
 COPY --chown=${UID}:${GID} --from=maven target/value-added-service-*.jar app.jar
