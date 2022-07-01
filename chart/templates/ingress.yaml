@@ -19,6 +19,6 @@ spec:
           - path: /
             backend:
                 serviceName: {{ include "vas.fullname" . }}
-                serviceport: { .Values.service.port }}
+                servicePort: { .Values.service.port }}
 
 {{- end }}
