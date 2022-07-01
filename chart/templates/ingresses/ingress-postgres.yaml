@@ -14,7 +14,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: svc-postgres
-          servicePort: 30000
+          serviceName: hazelcast-service
+          servicePort: 80
         path: /
 
