@@ -18,7 +18,6 @@ spec:
         paths:
           - path: /
             backend:
-              service:
                 serviceName: {{ include "vas.fullname" . }}
                 serviceport: { .Values.service.port }}
 
