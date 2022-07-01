@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/instance: in-postgres
 spec:
   rules:
-  - host: postgres.{{ .Values.environment }}.demo.catena-x.net
+  - host: postgres.dev.demo.catena-x.net
     http:
       paths:
       - backend:
