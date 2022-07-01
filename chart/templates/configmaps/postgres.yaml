@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.microservices.postgres.configmap.name }}
+  labels:
+    app: {{ .Values.microservices.postgres.name }}
+data:
+  {{- range $key, $value := .Values.microservices.postgres.configmap.env }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

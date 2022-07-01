@@ -1,119 +1,85 @@
-# Default values for vas.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-replicaCount: 1
-
-image:
-  registry: ghcr.io
-  repository: ghcr.io/catenax-ng/product-value-added-service
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "main"
-
-appName: catenax-vas
-environment: dev
-
-imagePullSecrets: [ ]
-
-podAnnotations: { }
-
-podSecurityContext:
-  fsGroup: 2000
-
-#Spring profiles under which the application should run
-springProfiles:
-  - dev
-
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-securityContext:
-  allowPrivilegeEscalation: false
-  runAsNonRoot: true
-  runAsUser: 10001
-  runAsGroup: 3000
-  capabilities:
-    drop:
-      - ALL
-
-service:
-  type: ClusterIP
-  port: 8080
-
-autoscaling:
-  enabled: false
-
+project: camunda
+namespace: template
+ociSecret:
+  name: regcred-camunda
 ingress:
-  enabled: true
+  domainName: .k8s-dev.readinessit.net
+microservices:
+  templates:
+    appname: mstemplate-camunda
+    replicaCount: 1
+    image:
+      repository: uk-london-1.ocir.io/lrtwjejdpkcc/templates/mstemplate
+      tag: camunda-0.0.72
+      pullPolicy: IfNotPresent
 
+    service:
+      type: NodePort
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
-resources:
-  limits:
-    cpu: 800m
-    memory: 2Gi
-  requests:
-    cpu: 300m
-    memory: 1Gi
+    configmap:
+        envPostgres:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://svc-postgres:30000/postgresdb
+          SPRING_DATASOURCE_USERNAME: postgresadmin
+          SPRING_DATASOURCE_PASSWORD: admin123
+          SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
+          SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+          SPRING_H2_CONSOLE_ENABLED: false
+          SPRING_JPA_SHOW-SQL: true
+        envOracle:
+          SPRING_DATASOURCE_URL: jdbc:oracle:thin:@database:30000:OraDoc
+          SPRING_DATASOURCE_USERNAME: CAMUNDA
+          SPRING_DATASOURCE_PASSWORD: CAMUNDA
+          SPRING_DATASOURCE_DRIVER-CLASS-NAME: oracle.jdbc.OracleDriver
+          SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.Oracle12cDialect
+          SPRING_H2_CONSOLE_ENABLED: false
+          SPRING_JPA_SHOW-SQL: true
+  postgres:
+    name: postgres
+    replica: 1
+    configmap:
+      name: postgres-config
+      env:
+        POSTGRES_DB: postgresdb
+        POSTGRES_USER: postgresadmin
+        POSTGRES_PASSWORD: admin123
+    image:
+      repository: postgres
+      tag: 10.4
+      pullPolicy: IfNotPresent
+    externalPort: 30000
+    port: 5432
+    pvc:
+      storageSize: 5Gi
+      storageName: postgres-pv-volume
+      storageClaimName: postgres-pv-claim
+      storageClassName: manual
+    serviceType: NodePort
+  oracle:
+    name: database
+    replicas: 1
+    image:
+      repository: container-registry.oracle.com/database/enterprise
+      tag: 12.1.0.2
+      pullPolicy: IfNotPresent
+    ports:
+      containerPort: 1521
+      hostPort: 1521
+      externalPort: 30000
+    env:
+      DBSID: OraDoc
+      DBPDB: OraPdb
+      DBPASSWD: admin
+      DBDOMAIN: local
+      DBBUNDLE: basic
+      DBMEMORY: 8g
+    registrySecret: regcred-oracle
+    pvc:
+      storageName: oracle-pv-volume
+      storageClassName: manual
+      storageClaimName: oracle-pv-claim
+      storageSize: 5Gi
 
-nodeSelector: { }
-
-tolerations: [ ]
-
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: DoesNotExist
-          topologyKey: kubernetes.io/hostname
-
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
-livenessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-  path: /management/health/liveness
-  port: 8080
-readinessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-  path: /management/health/readiness
-  port: 8080
-
-applicationSecret:
-  enabled: false
-  keycloak: <path:vas/data/dev/keycloak#credentials-secret>
-  cdq: <path:vas/data/dev/cdq#api-key>
-
-configmap:
-  # Specifies whether a configmap should be created
-  create: true
-  data:
-    spring_profiles_active: dev
-
-elastic:
-  enabled: false
-  security:
-    tls:
-      restEncryption: false
-
-postgres:
-  enabled: true
-  auth:
-    database: vas
-    postgresPassword: <path:vas/data/dev/postgresql#postgres-password>
-    username: vas
-    password: <path:vas/data/dev/postgresql#password>

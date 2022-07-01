@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.microservices.postgres.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.microservices.postgres.name }}
+  replicas: {{ .Values.microservices.postgres.replica }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.microservices.postgres.name }}
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.microservices.postgres.image.repository }}:{{ .Values.microservices.postgres.image.tag }}
+          imagePullPolicy: {{ .Values.microservices.postgres.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.microservices.postgres.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.microservices.postgres.configmap.name }}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/camunda
+              name: {{ .Values.microservices.postgres.configmap.env.POSTGRES_DB }}
+      volumes:
+        - name: {{ .Values.microservices.postgres.configmap.env.POSTGRES_DB }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.microservices.postgres.pvc.storageClaimName }}

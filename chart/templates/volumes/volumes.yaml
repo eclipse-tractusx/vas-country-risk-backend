@@ -1,0 +1,31 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Values.microservices.postgres.pvc.storageName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    type: local
+    app: {{ .Values.microservices.postgres.name }}
+spec:
+  storageClassName: {{ .Values.microservices.postgres.pvc.storageClassName }}
+  capacity:
+    storage: {{ .Values.microservices.postgres.pvc.storageSize }}
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/camunda"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.microservices.postgres.pvc.storageClaimName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.microservices.postgres.name }}
+spec:
+  storageClassName: {{ .Values.microservices.postgres.pvc.storageClassName }}
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.microservices.postgres.pvc.storageSize }}
