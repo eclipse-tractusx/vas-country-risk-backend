@@ -9,16 +9,14 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-
 spec:
   rules:
-    # IMPORTANT: specifies the entrypoint (domain), myApp will be accessible from
-    - host: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
-      http:
-        paths:
-          - path: /
-            backend:
-                serviceName: {{ include "vas.fullname" . }}
-                servicePort: { .Values.service.port }}
+  - host: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+    http:
+      paths:
+      - backend:
+          serviceName: {{ include "vas.fullname" . }}
+          servicePort: { .Values.service.port }}
+        path: /
 
 {{- end }}
