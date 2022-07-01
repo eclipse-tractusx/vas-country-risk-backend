@@ -1,85 +1,66 @@
-project: camunda
+appname: mstemplate
 namespace: template
+project: hazelcast
 ociSecret:
-  name: regcred-camunda
+  name: regcred
 ingress:
   domainName: .k8s-dev.readinessit.net
-microservices:
-  templates:
-    appname: mstemplate-camunda
-    replicaCount: 1
-    image:
-      repository: uk-london-1.ocir.io/lrtwjejdpkcc/templates/mstemplate
-      tag: camunda-0.0.72
-      pullPolicy: IfNotPresent
-
-    service:
-      type: NodePort
-      port: 80
-      targetPort: 8080
-      protocol: TCP
-      name: http
-
-    configmap:
-        envPostgres:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://svc-postgres:30000/postgresdb
-          SPRING_DATASOURCE_USERNAME: postgresadmin
-          SPRING_DATASOURCE_PASSWORD: admin123
-          SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
-          SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.PostgreSQLDialect
-          SPRING_H2_CONSOLE_ENABLED: false
-          SPRING_JPA_SHOW-SQL: true
-        envOracle:
-          SPRING_DATASOURCE_URL: jdbc:oracle:thin:@database:30000:OraDoc
-          SPRING_DATASOURCE_USERNAME: CAMUNDA
-          SPRING_DATASOURCE_PASSWORD: CAMUNDA
-          SPRING_DATASOURCE_DRIVER-CLASS-NAME: oracle.jdbc.OracleDriver
-          SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.Oracle12cDialect
-          SPRING_H2_CONSOLE_ENABLED: false
-          SPRING_JPA_SHOW-SQL: true
-  postgres:
-    name: postgres
-    replica: 1
-    configmap:
-      name: postgres-config
-      env:
-        POSTGRES_DB: postgresdb
-        POSTGRES_USER: postgresadmin
-        POSTGRES_PASSWORD: admin123
-    image:
-      repository: postgres
-      tag: 10.4
-      pullPolicy: IfNotPresent
-    externalPort: 30000
-    port: 5432
-    pvc:
-      storageSize: 5Gi
-      storageName: postgres-pv-volume
-      storageClaimName: postgres-pv-claim
-      storageClassName: manual
-    serviceType: NodePort
-  oracle:
-    name: database
-    replicas: 1
-    image:
-      repository: container-registry.oracle.com/database/enterprise
-      tag: 12.1.0.2
-      pullPolicy: IfNotPresent
-    ports:
-      containerPort: 1521
-      hostPort: 1521
-      externalPort: 30000
+embedded:
+  replicaCount: 0
+  image:
+    repository: uk-london-1.ocir.io/lrtwjejdpkcc/templates/mstemplate
+    tag: hazelcast-0.0.60
+    pullPolicy: IfNotPresent
+  configMap:
     env:
-      DBSID: OraDoc
-      DBPDB: OraPdb
-      DBPASSWD: admin
-      DBDOMAIN: local
-      DBBUNDLE: basic
-      DBMEMORY: 8g
-    registrySecret: regcred-oracle
-    pvc:
-      storageName: oracle-pv-volume
-      storageClassName: manual
-      storageClaimName: oracle-pv-claim
-      storageSize: 5Gi
+      SPRING_PROFILES_ACTIVE: prod
+      APP_HAZELCAST_INSTANCE-NAME: mstemplate
+      APP_HAZELCAST_HAZELCAST-CONFIG_KUBERNETES: true
+      APP_HAZELCAST_HAZELCAST-CONFIG_NAMESPACE: template
+      APP_HAZELCAST_HAZELCAST-CONFIG_SERVICENAME: mstemplate-service-embedded
+external:
+  replicaCount: 0
+  image:
+    repository: uk-london-1.ocir.io/lrtwjejdpkcc/templates/mstemplate
+    tag: hazelcast-0.0.61
+    pullPolicy: IfNotPresent
+  configMap:
+    env:
+      SPRING_PROFILES_ACTIVE: prod
+      APP_HAZELCAST_INSTANCE-NAME: mstemplate
+      APP_HAZELCAST_HAZELCAST-CONFIG_KUBERNETES: true
+      APP_HAZELCAST_HAZELCAST-CONFIG_NAMESPACE: template
+      APP_HAZELCAST_HAZELCAST-CONFIG_EXTERNAL-SERVICENAME: hazelcast-service:80
 
+configRefresh:
+  replicaCount: 1
+  image:
+    repository: uk-london-1.ocir.io/lrtwjejdpkcc/templates/mstemplate
+    tag: refresh-0.0.74
+    pullPolicy: IfNotPresent
+  configMap:
+    env:
+      application.yml: |-
+        app.changesimpplevar: TEST-REFRESH
+        app.stringMap.changevar: TEST-REFRESH
+        app.stringMap.changevarnotexists: NO-EXISTS-REFRESH
+
+service:
+  type: ClusterIP
+  port: 30000
+  targetPort: 8081
+  protocol: TCP
+  name: http
+
+
+hazelcast:
+  appname: hazelcast
+  replicaCount: 2
+  image:
+    repository: hazelcast/hazelcast
+    tag: 3.12.8
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 5701

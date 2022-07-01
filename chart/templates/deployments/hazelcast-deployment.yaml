@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.hazelcast.appname }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.hazelcast.appname }}
+  replicas: {{ .Values.hazelcast.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hazelcast.appname }}
+    spec:
+      containers:
+        - name: {{ .Values.hazelcast.appname }}-app
+          image: {{ .Values.hazelcast.image.repository }}:{{ .Values.hazelcast.image.tag }}
+          ports:
+          - name: {{ .Values.hazelcast.appname }}
+            containerPort: {{ .Values.hazelcast.service.targetPort }}
+          livenessProbe:
+            httpGet:
+              path: /hazelcast/health/node-state
+              port: {{ .Values.hazelcast.service.targetPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /hazelcast/health/node-state
+              port: {{ .Values.hazelcast.service.targetPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          volumeMounts:
+          - name: hazelcast-storage
+            mountPath: /data/hazelcast
+          env:
+            - name: JAVA_OPTS
+              value: "-Dhazelcast.config=/data/hazelcast/hazelcast.yaml"
+      volumes:
+      - name: hazelcast-storage
+        configMap:
+          name: hazelcast-configuration

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.hazelcast.appname }}-service
+  labels:
+    app: {{ .Values.hazelcast.appname }}
+spec:
+  type: {{ .Values.hazelcast.service.type }}
+  ports:
+    - name: {{ .Values.hazelcast.appname }}
+      port: {{ .Values.hazelcast.service.port}}
+      targetPort: {{ .Values.hazelcast.service.targetPort}}
+  selector:
+    app: {{ .Values.hazelcast.appname }}
