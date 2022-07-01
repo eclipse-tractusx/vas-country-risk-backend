@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: in-postgres
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+  labels:
+    app.kubernetes.io/instance: in-postgres
+spec:
+  rules:
+  - host: postgres.{{ .Values.environment }}.demo.catena-x.net
+    http:
+      paths:
+      - backend:
+          serviceName: svc-postgres
+          servicePort: 30000
+        path: /
+
