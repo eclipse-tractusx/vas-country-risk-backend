@@ -28,5 +28,10 @@ spec:
                   # Port number, the kubernetes service is listening on
                   # Adjust that to your services' port
                   number: {{ .Values.service.port }}
+  tls:
+    - hosts:
+        - {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+      # Default secret for certificate creation already provided to your namespace
+      secretName: tls-secret
 
 {{- end }}
