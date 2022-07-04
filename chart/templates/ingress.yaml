@@ -12,7 +12,7 @@ metadata:
 spec:
   rules:
     # IMPORTANT: specifies the entrypoint (domain), myApp will be accessible from
-    - host: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+    - host: {{ .Values.appName }}-{{ .Values.environment }}.demo.catena-x.net
       http:
         paths:
           # specific path the app should be reachable on the host
@@ -28,5 +28,10 @@ spec:
                   # Port number, the kubernetes service is listening on
                   # Adjust that to your services' port
                   number: {{ .Values.service.port }}
+  tls:
+    - hosts:
+        - {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+      # Default secret for certificate creation already provided to your namespace
+      secretName: tls-secret
 
 {{- end }}

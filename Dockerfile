@@ -1,6 +1,11 @@
 FROM maven:3-openjdk-17 AS maven
 COPY ./pom.xml /pom.xml
 COPY ./src ./src
+
+EXPOSE 8080
+EXPOSE 80
+EXPOSE 433
+
 RUN mvn clean package
 
 EXPOSE 8080
