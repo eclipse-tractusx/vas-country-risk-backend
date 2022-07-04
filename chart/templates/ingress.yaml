@@ -12,7 +12,7 @@ metadata:
 spec:
   rules:
     # IMPORTANT: specifies the entrypoint (domain), myApp will be accessible from
-    - host: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+    - host: {{ .Values.appName }}-{{ .Values.environment }}.demo.catena-x.net
       http:
         paths:
           # specific path the app should be reachable on the host

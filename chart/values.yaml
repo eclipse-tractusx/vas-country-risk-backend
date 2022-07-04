@@ -103,6 +103,7 @@ configmap:
   create: true
   data:
     spring_profiles_active: dev
+    LOGGING_LEVEL_ROOT: DEBUG
 
 elastic:
   enabled: false
