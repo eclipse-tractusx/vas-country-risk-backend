@@ -44,6 +44,7 @@ autoscaling:
   enabled: false
 
 ingress:
+  className: nginx
   enabled: true
 
 
