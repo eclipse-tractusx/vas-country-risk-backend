@@ -8,6 +8,10 @@ EXPOSE 433
 
 RUN mvn clean package
 
+EXPOSE 8080
+EXPOSE 80
+EXPOSE 433
+
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 # Copy the jar and build image
 FROM eclipse-temurin:18-jre AS value-added-service

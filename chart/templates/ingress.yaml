@@ -5,11 +5,11 @@ metadata:
   # name of the ingress resource. -ingress suffix as suggestion for clear naming convention
   name: {{ .Values.appName }}-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
     # IMPORTANT: specifies the entrypoint (domain), myApp will be accessible from
     - host: {{ .Values.appName }}-{{ .Values.environment }}.demo.catena-x.net
@@ -30,7 +30,7 @@ spec:
                   number: {{ .Values.service.port }}
   tls:
     - hosts:
-        - {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+        - {{ .Values.appName }}-{{ .Values.environment }}.demo.catena-x.net
       # Default secret for certificate creation already provided to your namespace
       secretName: tls-secret
 
