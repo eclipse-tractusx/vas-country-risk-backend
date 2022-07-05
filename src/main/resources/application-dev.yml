@@ -23,4 +23,5 @@ spring:
 
 application:
   name: dev
+  host: http://project-value-added-service-vas/api/dashboard
     

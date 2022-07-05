@@ -13,6 +13,7 @@ spring:
 
 application:
   name: default
+  host: project-value-added-service-vas/api/dashboard
 
 management:
   endpoints:

@@ -35,4 +35,4 @@ cors:
     https://traceability-portal.int.demo.catena-x.net/
 
 application:
-  name: local
+  host: http://localhost:8080/api/dashboard

@@ -105,6 +105,7 @@ configmap:
   data:
     spring_profiles_active: dev
     LOGGING_LEVEL_ROOT: DEBUG
+    APPLICATION_DEFAULT: 'novalinha'
 
 elastic:
   enabled: false
