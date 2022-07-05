@@ -104,7 +104,7 @@ configmap:
   create: true
   data:
     spring_profiles_active: dev
-    APPLICATION_HOST: http://mstemplate-service-embedded/api/dashboard
+    APPLICATION_HOST: http://mstemplate-service-embedded:8080/api/dashboard
 
 embedded:
   appname: mstemplate
