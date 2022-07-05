@@ -7,6 +7,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.service.exposePort }}
+      name: {{ .Values.service.name }}
+      targetPort: {{ .Values.service.Port}}
   selector:
     {{- include "vas.selectorLabels" . | nindent 4 }}

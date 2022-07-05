@@ -27,7 +27,7 @@ spec:
                 port:
                   # Port number, the kubernetes service is listening on
                   # Adjust that to your services' port
-                  number: {{ .Values.service.port }}
+                  number: {{ .Values.service.exposePort }}
   tls:
     - hosts:
         - {{ .Values.appName }}-{{ .Values.environment }}.demo.catena-x.net
