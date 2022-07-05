@@ -58,7 +58,7 @@ public class DashBoardResource {
 
     @Scheduled(cron = "0 * * * * *")
     public ResponseEntity<List<DashBoardDto>> makeSchedule() throws IOException {
-        log.info("REST request to make a schedule");
+        log.info("REST request to make a schedule {} ",host);
         var headers = new HttpHeaders();
         HttpEntity<Object> request = new HttpEntity<>(headers);
         RestTemplate restTemplate = new RestTemplate();
