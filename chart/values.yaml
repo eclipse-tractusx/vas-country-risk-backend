@@ -11,8 +11,9 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "main"
 
-appName: catenax-vas
+appName: vas-country-risk-backend
 environment: dev
+
 
 imagePullSecrets: [ ]
 
@@ -46,6 +47,7 @@ autoscaling:
 ingress:
   className: nginx
   enabled: true
+
 
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
