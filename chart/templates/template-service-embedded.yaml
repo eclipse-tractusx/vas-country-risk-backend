@@ -10,7 +10,5 @@ spec:
     - port: {{ .Values.embedded.service.port }}
       name: {{ .Values.embedded.service.name }}
       targetPort: {{ .Values.embedded.service.targetPort}}
-    - name: app
-      port: {{ .Values.embedded.service.targetPort}}
   selector:
     app: {{ .Values.embedded.appname }}
