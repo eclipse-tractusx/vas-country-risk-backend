@@ -16,7 +16,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ .Values.embedded.appname }}-service-embedded:8080
+          serviceName: {{ .Values.embedded.appname }}-service-embedded
           servicePort: {{ .Values.embedded.service.port}}
         path: /
 
