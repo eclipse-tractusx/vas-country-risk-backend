@@ -116,7 +116,7 @@ embedded:
   configMap:
     env:
       spring_profiles_active: dev
-      APPLICATION_HOST: http://localhost:8080
+      APPLICATION_HOST: http://localhost:8080/api/schedule
   service:
     type: ClusterIP
     port: 8080

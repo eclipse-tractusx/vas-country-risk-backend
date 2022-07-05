@@ -12,7 +12,7 @@ metadata:
     project: {{ .Values.project }}
 spec:
   rules:
-  - host: {{ .Values.embedded.appname }}-refresh{{ .Values.ingress.domainName }}
+  - host: {{ .Values.embedded.appname }}.demo.catena-x.net
     http:
       paths:
       - backend:
