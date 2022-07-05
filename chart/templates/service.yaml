@@ -9,8 +9,8 @@ spec:
   ports:
     - port: {{ .Values.service.exposePort }}
       name: {{ .Values.service.name }}
-      targetPort: {{ .Values.service.targetPort}}
+      targetPort: {{ .Values.service.port}}
     - name: app
-      port: {{ .Values.service.targetPort}}
+      port: {{ .Values.service.port}}
   selector:
     {{- include "vas.selectorLabels" . | nindent 4 }}
