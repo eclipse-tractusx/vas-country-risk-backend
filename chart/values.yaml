@@ -104,8 +104,8 @@ configmap:
   create: true
   data:
     spring_profiles_active: dev
-    LOGGING_LEVEL_ROOT: DEBUG
-    APPLICATION_DEFAULT: 'novalinha'
+    APPLICATION_HOST: localhost:8080
+
 
 elastic:
   enabled: false
