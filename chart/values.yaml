@@ -40,8 +40,6 @@ securityContext:
 service:
   type: ClusterIP
   port: 8080
-  exposePort: 80
-  name: http
 
 
 autoscaling:
