@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.embedded.appname }}-embedded
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.embedded.appname }}
+  replicas: {{ .Values.embedded.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.embedded.appname }}
+    spec:
+      containers:
+        - name: {{ .Values.embedded.appname }}-app
+          image: {{ .Values.embedded.image.repository }}:{{ .Values.embedded.image.tag }}
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value:
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.embedded.appname }}-configmap-embedded
+          ports:
+              - containerPort: {{ .Values.embedded.service.targetPort }}
+                protocol: {{ .Values.embedded.service.protocol }}
+
+
+

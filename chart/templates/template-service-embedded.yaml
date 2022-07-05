@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.embedded.appname }}-service-embedded
+  labels:
+    app: {{ .Values.embedded.appname }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.embedded.service.port }}
+      name: {{ .Values.embedded.service.name }}
+      targetPort: {{ .Values.embedded.service.targetPort}}
+    - name: app
+      port: {{ .Values.embedded.service.targetPort}}
+  selector:
+    app: {{ .Values.embedded.appname }}

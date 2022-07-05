@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: in-{{ .Values.embedded.appname }}-refresh
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+  labels:
+    app.kubernetes.io/instance: in-{{ .Values.embedded.appname }}-refresh
+    project: {{ .Values.project }}
+spec:
+  rules:
+  - host: {{ .Values.embedded.appname }}-refresh{{ .Values.ingress.domainName }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Values.embedded.appname }}-service-embedded
+          servicePort: {{ .Values.embedded.service.port}}
+        path: /
+
+
