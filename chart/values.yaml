@@ -106,23 +106,6 @@ configmap:
     spring_profiles_active: dev
     APPLICATION_HOST: http://mstemplate-service-embedded:8080/api/dashboard
 
-embedded:
-  appname: mstemplate
-  replicaCount: 1
-  image:
-    repository: ghcr.io/catenax-ng/product-value-added-service
-    tag: main
-    pullPolicy: IfNotPresent
-  configMap:
-    env:
-      spring_profiles_active: dev
-      APPLICATION_HOST: http://localhost:8080/api/schedule
-  service:
-    type: ClusterIP
-    port: 8080
-    targetPort: 8080
-    protocol: TCP
-    name: http
 
 elastic:
   enabled: false
