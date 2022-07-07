@@ -108,6 +108,8 @@ configmap:
   data:
     spring_profiles_active: dev
     APPLICATION_HOST: http://project-value-added-service-vas-service:8080/api/dashboard
+    JAVA_OPTS: " -Xmx256m -Xms256m -Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit"
+
 
 
 elastic:
