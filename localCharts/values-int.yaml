@@ -1,0 +1,17 @@
+image:
+  tag: "main"
+
+springProfiles:
+  - int
+
+ingress:
+  host: catenax-vas-int.demo.catena-x.net
+
+applicationSecret:
+  keycloak: <path:vas/int/keycloak#credentials-secret>
+  cdq: <path:vas/int/cdq#api-key>
+
+postgres:
+  auth:
+    postgresPassword: <path:vas/data/int/postgresql#postgres-password>
+    password: <path:vas/data/int/postgresql#password>
