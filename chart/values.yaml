@@ -125,3 +125,11 @@ postgres:
     postgresPassword: <path:vas/data/dev/postgresql#postgres-password>
     username: vas
     password: <path:vas/data/dev/postgresql#password>
+  ingress:
+    className: nginx
+    enabled: true
+  appName: vas-country-risk-postgres
+  environment: dev
+  service:
+    type: ClusterIP
+    port: 5432
