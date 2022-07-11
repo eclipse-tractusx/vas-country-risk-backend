@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vas.fullname" . }}-postgres-service
+  labels:
+    {{- include "vas.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+    - name: postgres
+      port: {{ .Values.postgres.service.port }}
+      targetPort: {{ .postgres.Values.service.port }}
+      protocol: TCP
+
+  selector:
+    {{- include "vas.selectorLabels" . | nindent 4 }}
