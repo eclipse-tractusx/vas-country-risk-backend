@@ -19,7 +19,7 @@ spec:
               service:
                 # Name of the service, the ingress controller should route the traffic to, if the host/path combination is called
                 # Adjust that to your service name
-                name: project-value-added-service-postgres-service
+                name: project-value-added-service-vas-postgres-service
                 port:
                   # Port number, the kubernetes service is listening on
                   # Adjust that to your services' port
