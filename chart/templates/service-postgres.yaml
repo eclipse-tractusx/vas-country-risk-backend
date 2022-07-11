@@ -17,7 +17,7 @@ spec:
       protocol: TCP
     - name: postgres
       port: {{ .Values.postgres.service.port }}
-      targetPort: {{ .postgres.Values.service.port }}
+      targetPort: {{ .Values.postgres.service.port }}
       protocol: TCP
 
   selector:
