@@ -137,7 +137,7 @@ postgres:
 pgadmin4:
   enabled: true
   secret:
-    path: portal/data/dev/pgadmin4
+    path: vas/data/dev/pgadmin4
   env:
     email: portal@catena-x.net
   existingSecret: secret-pgadmin4
