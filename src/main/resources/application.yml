@@ -5,7 +5,7 @@ vas:
   datasource:
     host: localhost
     user: default
-    password: defaultpassword
+    pass: defaultpassword
 
 spring:
   application:
