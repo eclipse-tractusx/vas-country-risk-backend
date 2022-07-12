@@ -18,13 +18,16 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${vas.datasource.password}")
     private String password;
 
+    @Value("${vas.datasource.user}")
+    private String user;
+
     @Value("${application.name}")
-    private String name;
+    private String postgrespassword;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
-        log.info("name {} pass {} host {} ",name,password,host);
+        log.info("user {} pass {} host {} postgrespassword {}",user,password,host,postgrespassword);
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("*")

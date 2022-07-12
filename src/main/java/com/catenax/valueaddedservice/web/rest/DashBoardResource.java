@@ -1,6 +1,6 @@
 package com.catenax.valueaddedservice.web.rest;
 
-import com.catenax.valueaddedservice.dto.DashBoardDto;
+import com.catenax.valueaddedservice.dto.DashBoardDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -25,13 +25,13 @@ public class DashBoardResource {
 
     private static final String ENTITY_NAME = "dataSource";
 
-    @Value(value = "classpath:config/fake-data/liquibase/fake-data/dashboard.csv")
+    @Value(value = "classpath:config/liquibase/fake-data/dashboard.json")
     private Resource json;
 
     @GetMapping("/dashboard")
-    public ResponseEntity<List<DashBoardDto>> getAllDashBoard(Pageable pageable) throws IOException {
+    public ResponseEntity<List<DashBoardDTO>> getAllDashBoard(Pageable pageable) throws IOException {
         log.debug("REST request to get a page of Dashboard");
-        List<DashBoardDto> dashBoardDtos = new ObjectMapper().readValue(json.getInputStream(),new TypeReference<List<DashBoardDto>>() {});
+        List<DashBoardDTO> dashBoardDtos = new ObjectMapper().readValue(json.getInputStream(),new TypeReference<List<DashBoardDTO>>() {});
 
         return ResponseEntity.ok().body(dashBoardDtos);
     }

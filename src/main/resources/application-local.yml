@@ -1,8 +1,4 @@
-vas:
-  datasource:
-    host: localhost
-    user: vas
-    password: password
+
 
 # Spring Boot configuration
 spring:

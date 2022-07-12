@@ -4,8 +4,8 @@ server:
 vas:
   datasource:
     host: localhost
-    user: vas
-    password: password
+    user: default
+    password: defaultpassword
 
 spring:
   application:
