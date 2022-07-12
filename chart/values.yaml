@@ -139,7 +139,8 @@ pgadmin4:
   secret:
     path: vas/data/dev/pgadmin4
   env:
-    email: portal@catena-x.net
+    email: vas@catena-x.net
+    password: password
   existingSecret: secret-pgadmin4
   ingress:
     enabled: true
