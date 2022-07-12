@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${vas.datasource.host}")
     private String host;
 
-    @Value("${vas.datasource.password}")
+    @Value("${vas.datasource.pass}")
     private String password;
 
     @Value("${vas.datasource.user}")
