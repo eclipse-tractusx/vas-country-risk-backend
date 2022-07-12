@@ -10,6 +10,9 @@ vas:
 spring:
   application:
     name: value-added-service
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
+    enabled: true
 
 application:
   name: default

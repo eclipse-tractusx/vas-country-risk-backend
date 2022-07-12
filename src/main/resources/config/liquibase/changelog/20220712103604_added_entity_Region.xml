@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!--
+        Added the entity Region.
+    -->
+    <changeSet id="20220712103604-1" author="fabiodmota">
+        <createTable tableName="t_region">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_t_region__name" />
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="company_user_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- -needle-liquibase-add-column -  will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- -needle-liquibase-add-changeset -  will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the  'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+<!--    <changeSet id="20220712103604-1-data" author="fabiodmota" context="faker">-->
+<!--        <loadData-->
+<!--                  file="config/liquibase/fake-data/t_region.csv"-->
+<!--                  separator=";"-->
+<!--                  tableName="t_region"-->
+<!--                  usePreparedStatements="true">-->
+<!--            <column name="id" type="numeric"/>-->
+<!--            <column name="name" type="string"/>-->
+<!--            <column name="type" type="string"/>-->
+<!--            <column name="description" type="string"/>-->
+<!--            &lt;!&ndash; -needle-liquibase-add-loadcolumn -  (and/or extensions) can add load columns here &ndash;&gt;-->
+<!--        </loadData>-->
+<!--    </changeSet>-->
+</databaseChangeLog>

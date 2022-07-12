@@ -1,17 +1,15 @@
 package com.catenax.valueaddedservice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
-/**
- * A DTO for the {@link react.domain.DataSource} entity.
- */
+
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class DashBoardDTO implements Serializable {
 
     private Long id;
@@ -30,5 +28,10 @@ public class DashBoardDTO implements Serializable {
 
     private String rating;
 
-
+    public DashBoardDTO(Long id,String country, Float score, String rating) {
+        this.id = id;
+        this.country = country;
+        this.score = score;
+        this.rating = rating;
+    }
 }
