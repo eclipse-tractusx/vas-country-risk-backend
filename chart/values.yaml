@@ -141,7 +141,6 @@ pgadmin4:
   env:
     email: vas@catena-x.net
     password: password
-  existingSecret: secret-pgadmin4
   ingress:
     enabled: true
     annotations:
