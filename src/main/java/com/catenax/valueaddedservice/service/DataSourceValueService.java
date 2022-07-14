@@ -1,12 +1,14 @@
 package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSourceValue;
-import com.catenax.valueaddedservice.dto.DashBoardDTO;
+import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
 import com.catenax.valueaddedservice.dto.DataSourceValueDTO;
+import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
 import com.catenax.valueaddedservice.service.mapper.DataSourceValueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class DataSourceValueService {
     private final DataSourceValueRepository dataSourceValueRepository;
 
     private final DataSourceValueMapper dataSourceValueMapper;
+
+    @Autowired
+    DataSourceRepository dataSourceRepository;
 
     public DataSourceValueService(DataSourceValueRepository dataSourceValueRepository, DataSourceValueMapper dataSourceValueMapper) {
         this.dataSourceValueRepository = dataSourceValueRepository;
@@ -92,11 +97,16 @@ public class DataSourceValueService {
     }
 
     @Transactional(readOnly = true)
-    public List<DashBoardDTO> findByScoreGreaterThan(Float number) {
-        log.debug("Request to get all DataSourceValues with score more than {}",number);
-        return dataSourceValueRepository.findByScoreGreaterThan(number);
+    public List<DashBoardTableDTO> findByRatingAndCountryAndScoreGreaterThanAndYear(Float score, List<String> country,List<String> dataSources,Integer year) {
+        log.debug("Request to get all DataSourceValues with score {} in {} in {} and year {}",score,country,dataSources,year);
+        return dataSourceValueRepository.findByRatingAndCountryAndScoreGreaterThanAndYear(score,country,dataSources,year);
     }
 
+    @Transactional(readOnly = true)
+    public List<DashBoardTableDTO> findByRatingAndCountryAndScoreGreaterThan(Float score, List<String> country,List<String> dataSources) {
+        log.debug("Request to get all DataSourceValues with score {} in {} in {} ",score,country,dataSources);
+        return dataSourceValueRepository.findByRatingAndCountryAndScoreGreaterThan(score,country,dataSources);
+    }
     /**
      * Get one dataSourceValue by id.
      *

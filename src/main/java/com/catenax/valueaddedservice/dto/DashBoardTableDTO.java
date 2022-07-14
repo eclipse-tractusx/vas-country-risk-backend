@@ -10,7 +10,7 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class DashBoardDTO implements Serializable {
+public class DashBoardTableDTO implements Serializable {
 
     private Long id;
 
@@ -24,11 +24,11 @@ public class DashBoardDTO implements Serializable {
 
     private String country;
 
-    private Float score;
+    private Float score = 0F;
 
-    private String rating;
+    private String rating = "";
 
-    public DashBoardDTO(Long id,String country, Float score, String rating) {
+    public DashBoardTableDTO(Long id, String country, Float score, String rating) {
         this.id = id;
         this.country = country;
         this.score = score;
