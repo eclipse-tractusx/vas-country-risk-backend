@@ -63,9 +63,12 @@ public class DashboardService {
     public List<DashBoardTableDTO> mapBusinessPartnerToDashboard(List<BusinessPartnerDTO> businessPartnerDTOS, List<DashBoardTableDTO> dataSourceDTOS) {
         List<DashBoardTableDTO> dashBoardTableDTOS = new ArrayList<>();
         final DashBoardTableDTO[] dashBoardTableDTO = {new DashBoardTableDTO()};
+        final int[] id = {1};
         businessPartnerDTOS.forEach(businessPartnerDTO -> {
             if (dataSourceDTOS.isEmpty()) {
                 dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO,dashBoardTableDTO[0]);
+                dashBoardTableDTO[0].setId((long) id[0]);
+                id[0]++;
                 dashBoardTableDTOS.add(dashBoardTableDTO[0]);
             } else {
                 dataSourceDTOS.forEach(element -> {
@@ -73,6 +76,8 @@ public class DashboardService {
                         dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO,dashBoardTableDTO[0]);
                         dashBoardTableDTO[0].setRating(element.getRating());
                         dashBoardTableDTO[0].setScore(element.getScore());
+                        dashBoardTableDTO[0].setId((long) id[0]);
+                        id[0]++;
                         dashBoardTableDTOS.add(dashBoardTableDTO[0]);
                     }
                 });
@@ -89,6 +94,7 @@ public class DashboardService {
         dashBoardTableDTO.setCity(businessPartnerDTO.getCity());
         dashBoardTableDTO.setCountry(businessPartnerDTO.getCountry());
         dashBoardTableDTO.setAddress(businessPartnerDTO.getAddress());
+        dashBoardTableDTO.setLegalName(businessPartnerDTO.getLegalName());
         return dashBoardTableDTO;
     }
 
