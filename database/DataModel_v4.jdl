@@ -1,0 +1,88 @@
+entity CompanyUser (t_company_user) {
+	name String required,
+    email String unique required,
+    company String required
+}
+
+entity Range (t_range){
+	range RangeType required,
+    value Integer required,
+    description String
+}
+
+entity DataSource (t_data_source) {
+	dataSourceName String unique required,
+    type Type required,
+    yearPublished Integer required,
+    fileName String
+}
+
+entity DataSourceValue (t_data_source_value) {
+	country String required,
+    iso3 String maxlength(3),
+    iso2 String maxlength(2),
+    continent String,
+    score Float
+}
+
+
+entity Region (t_region) {
+	name String unique required,
+    type Type required,
+    description String
+}
+
+entity RegionValue (t_region_value) {
+	country String,
+    iso3 String maxlength(3),
+    iso2 String maxlength(2),
+    continent String,
+}
+
+
+entity Country(t_country){
+	country String required unique,
+    iso3 String maxlength(3),
+    iso2 String maxlength(2),
+    continent String,
+}
+
+relationship OneToMany {
+    CompanyUser to DataSource, 
+}
+
+relationship OneToMany {
+    DataSource to DataSourceValue, 
+}
+
+relationship OneToMany {
+    CompanyUser to Range, 
+}
+
+relationship OneToMany {
+    Region to RegionValue, 
+}
+
+
+relationship OneToMany {
+    CompanyUser to Region, 
+}
+
+
+
+enum Type {
+    Global, Custom
+}
+
+enum RangeType {
+    Max, Between, Min
+}
+
+//  ** PAGINATION  **
+paginate * with pagination
+
+// ** DTOs **
+dto * with mapstruct
+
+// ** Service **
+service * with serviceClass

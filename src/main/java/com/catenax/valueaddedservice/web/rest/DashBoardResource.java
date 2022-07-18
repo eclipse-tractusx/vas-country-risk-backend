@@ -22,7 +22,6 @@ public class DashBoardResource {
 
     private final Logger log = LoggerFactory.getLogger(DashBoardResource.class);
 
-    private static final String ENTITY_NAME = "dataSource";
 
     @Autowired
     DashboardService dashboardService;
