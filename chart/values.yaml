@@ -107,7 +107,7 @@ configmap:
   create: true
   data:
     spring_profiles_active: dev
-    APPLICATION_NAME: <path:value-added-service/vas/data/postgresql#newkey>
+    APPLICATION_NAME: <path:value-added-service/data/vas/data/postgresql#newkey>
     APPLICATION_HOST: http://localhost:8080/api/dashboard
     JAVA_OPTS: " -Xmx256m -Xms256m -Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit"
 
@@ -123,9 +123,9 @@ postgres:
   enabled: true
   auth:
     database: vas
-    postgresPassword: <path:value-added-service/vas/data/postgresql#password>
+    postgresPassword: <path:value-added-service/data/vas/data/postgresql#password>
     username: vas
-    password: <path:value-added-service/vas/data/postgresql#password>
+    password: <path:value-added-service/data/vas/data/postgresql#password>
   ingress:
     className: nginx
     enabled: true
