@@ -1,4 +1,6 @@
 project: project-value-added-service
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 source:
   repoURL: 'https://github.com/catenax-ng/product-value-added-service'
   path: chart
