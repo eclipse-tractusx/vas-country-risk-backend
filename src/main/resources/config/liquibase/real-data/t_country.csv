@@ -1,0 +1,257 @@
+id;country;iso_3;iso_2;continent
+1;Afghanistan;AFG;AF;WORLD
+2;Åland;ALA;AX;WORLD
+3;Albania;ALB;AL;WORLD
+4;Algeria;DZA;DZ;WORLD
+5;Amerikanisch Samoa;ASM;AS;WORLD
+6;Andorra;AND;AD;WORLD
+7;Angola;AGO;AO;WORLD
+8;Anguilla;AIA;AI;WORLD
+9;Antarktis;ATA;AQ;WORLD
+10;Antigua and Barbuda;ATG;AG;WORLD
+11;Argentina;ARG;AR;WORLD
+12;Armenia;ARM;AM;WORLD
+13;Aruba;;AW;WORLD
+14;Australia;AUS;AU;WORLD
+15;Austria;AUT;AT;WORLD
+16;Azerbaijan;AZE;AZ;WORLD
+17;Bahamas;BHS;BS;WORLD
+18;Bahrain;BHR;BH;WORLD
+19;Bangladesh;BGD;BD;WORLD
+20;Barbados;BRB;BB;WORLD
+21;Belarus;BLR;BY;WORLD
+22;Belgium;BEL;BE;WORLD
+23;Belize;BLZ;BZ;WORLD
+24;Benin;BEN;BJ;WORLD
+25;Bermuda;BMU;BM;WORLD
+26;Bhutan;BTN;BT;WORLD
+27;Bolivia;BOL;BO;WORLD
+28;Bonaire, Sint Eustatius und Saba;BES;BQ;WORLD
+29;Bosnia and Herzegovina;BIH;BA;WORLD
+30;Botswana;BWA;BW;WORLD
+31;Bouvetinsel;;;WORLD
+32;Brazil;BRA;BR;WORLD
+33;British Territory in Pacific Ocean;IOT;IO;WORLD
+34;British Virgin Islands;VGB;VG;WORLD
+35;Brunei;BRN;BN;WORLD
+36;Bulgaria;BGR;BG;WORLD
+37;Burkina Faso;BFA;BF;WORLD
+38;Burundi;BDI;BI;WORLD
+39;Cabo Verde;CPV;CV;WORLD
+40;Cambodia;KHM;KH;WORLD
+41;Cameroon;CMR;CM;WORLD
+42;Canada;CAN;CA;WORLD
+43;Cayman Islands;CYM;KY;WORLD
+44;Central African Republic;CAF;CF;WORLD
+45;Chad;TCD;TD;WORLD
+46;Chile;CHL;CL;WORLD
+47;China;CHN;CN;WORLD
+48;Christmas Island;CXR;CX;WORLD
+49;Coconut Islands;CCK;CC;WORLD
+50;Colombia;COL;CO;WORLD
+51;Comoros;COM;KM;WORLD
+52;Congo Republic;COG;CG;WORLD
+53;Cook Island;COK;CK;WORLD
+54;Costa Rica;CRI;CR;WORLD
+55;Cote d'Ivoire;CIV;CI;WORLD
+56;Croatia;HRV;HR;WORLD
+57;Cuba;CUB;CU;WORLD
+58;Curacao;CUW;CW;WORLD
+59;Cyprus;CYP;CY;WORLD
+60;Czechia;CZE;CZ;WORLD
+61;Democratic Republic of the Congo;COD;CD;WORLD
+62;Denmark;DNK;DK;WORLD
+63;Djibouti;DJI;DJ;WORLD
+64;Dominica;DMA;DM;WORLD
+65;Dominican Republic;DOM;DO;WORLD
+66;East Timor;TLS;TL;WORLD
+67;Ecuador;ECU;EC;WORLD
+68;Egypt;EGY;EG;WORLD
+69;El Salvador;SLV;SV;WORLD
+70;Equatorial Guinea;GNQ;GQ;WORLD
+71;Eritrea;ERI;ER;WORLD
+72;Estonia;EST;EE;WORLD
+73;Eswatini;SWZ;SZ;WORLD
+74;Ethiopia;ETH;ET;WORLD
+75;Falklands;FLK;FK;WORLD
+76;Färöer islands;FRO;FO;WORLD
+77;Fiji;FJI;FJ;WORLD
+78;Finland;FIN;FI;WORLD
+79;France;FRA;FR;WORLD
+80;French Guyana;GUF;GF;WORLD
+81;French Polynesia;PYF;PF;WORLD
+82;French Southern and Antarctic Lands;ATF;TF;WORLD
+83;Gabon;GAB;GA;WORLD
+84;Gambia;GMB;GM;WORLD
+85;Georgia;GEO;GE;WORLD
+86;Germany;DEU;DE;WORLD
+87;Ghana;GHA;GH;WORLD
+88;Gibraltar;GIB;GI;WORLD
+89;Greece;GRC;GR;WORLD
+90;Greenland;GRL;GL;WORLD
+91;Grenada;GRD;GD;WORLD
+92;Guadeloupe;GLP;GP;WORLD
+93;Guam;GUM;GU;WORLD
+94;Guatemala;GTM;GT;WORLD
+95;Guernsey;GGY;GG;WORLD
+96;Guinea;GIN;GN;WORLD
+97;Guinea Bissau;GNB;GW;WORLD
+98;Guyana;GUY;GY;WORLD
+99;Haiti;HTI;HT;WORLD
+100;Heard and MCDonald Islands;HMD;HM;WORLD
+101;Honduras;HND;HN;WORLD
+102;Hong Kong;HKG;HK;WORLD
+103;Hungary;HUN;HU;WORLD
+104;Iceland;ISL;IS;WORLD
+105;India;IND;IN;WORLD
+106;Indonesia;IDN;ID;WORLD
+107;Iran;IRN;IR;WORLD
+108;Iraq;IRQ;IQ;WORLD
+109;Ireland;IRL;IE;WORLD
+110;Isle of Man;IMN;IM;WORLD
+111;Israel;ISR;IL;WORLD
+112;Italy;ITA;IT;WORLD
+113;Jamaica;JAM;JM;WORLD
+114;Japan;JPN;JP;WORLD
+115;Jersey;JEY;JE;WORLD
+116;Jordan;JOR;JO;WORLD
+117;Kazakhstan;KAZ;KZ;WORLD
+118;Kenya;KEN;KE;WORLD
+119;Kiribati;KIR;KI;WORLD
+120;Korea, North;PRK;KP;WORLD
+121;Korea, South;KOR;KR;WORLD
+122;Kosovo;KSV;XK;WORLD
+123;Kuwait;KWT;KW;WORLD
+124;Kyrgyzstan;KGZ;KG;WORLD
+125;Laos;LAO;LA;WORLD
+126;Latvia;LVA;LV;WORLD
+127;Lebanon;LBN;LB;WORLD
+128;Lesotho;LSO;LS;WORLD
+129;Liberia;LBR;LR;WORLD
+130;Libya;LBY;LY;WORLD
+131;Liechtenstein;LIE;LI;WORLD
+132;Lithuania;LTU;LT;WORLD
+133;Luxembourg;LUX;LU;WORLD
+134;Macao;MAC;MO;WORLD
+135;Macedonia;MKD;MK;WORLD
+136;Madagascar;MDG;MG;WORLD
+137;Malawi;MWI;MW;WORLD
+138;Malaysia;MYS;MY;WORLD
+139;Maldives;MDV;MV;WORLD
+140;Mali;MLI;ML;WORLD
+141;Malta;MLT;MT;WORLD
+142;Marshall Islands;MHL;MH;WORLD
+143;Martinique;MTQ;MQ;WORLD
+144;Mauritania;MRT;MR;WORLD
+145;Mauritius;MUS;MU;WORLD
+146;Mayotte;MYT;YT;WORLD
+147;Mexico;MEX;MX;WORLD
+148;Mikronesien;FSM;FM;WORLD
+149;Moldova;MDA;MD;WORLD
+150;Monaco;MCO;MC;WORLD
+151;Mongolia;MNG;MN;WORLD
+152;Montenegro;MNE;ME;WORLD
+153;Montserrat;MSR;MS;WORLD
+154;Morocco;MAR;MA;WORLD
+155;Mozambique;MOZ;MZ;WORLD
+156;Myanmar;MMR;MM;WORLD
+157;Namibia;NAM;NA;WORLD
+158;Nauru;NRU;NR;WORLD
+159;Nepal;NPL;NP;WORLD
+160;Netherlands;NLD;NL;WORLD
+161;Antilles;ANT;AN;WORLD
+162;Neucaledonien;NCL;NC;WORLD
+163;New Zealand;NZL;NZ;WORLD
+164;Northern Mariana Islands;MNP;MP;WORLD
+165;Nicaragua;NIC;NI;WORLD
+166;Niger;NER;NE;WORLD
+167;Nigeria;NGA;NG;WORLD
+168;Niue;NIU;NU;WORLD
+169;Norfolk Island;NFK;NF;WORLD
+170;North Macedonia;MKD;MK;WORLD
+171;Norway;NOR;NO;WORLD
+172;Oman;OMN;OM;WORLD
+173;Pakistan;PAK;PK;WORLD
+174;Palau;PLW;PW;WORLD
+175;Palastenian Territory;SE;PS;WORLD
+176;Panama;PAN;PA;WORLD
+177;Papua New Guinea;PNG;PG;WORLD
+178;Paraguay;PRY;PY;WORLD
+179;Peru;PER;PE;WORLD
+180;Philippines;PHL;PH;WORLD
+181;Pitcairn Islands;PCN;PN;WORLD
+182;Poland;POL;PL;WORLD
+183;Portugal;PRT;PT;WORLD
+184;Puerto Rico;PRI;PR;WORLD
+185;Qatar;QAT;QA;WORLD
+186;Réunion;REU;RE;WORLD
+187;Romania;ROU;RO;WORLD
+188;Russia;RUS;RU;WORLD
+189;Rwanda;RWA;RW;WORLD
+190;Saint-Barthélemy;BLM;BL;WORLD
+191;St. Helena;SHN;SH;WORLD
+192;St. Kitts and Nevis;KNA;KN;WORLD
+193;Saint Lucia;LCA;LC;WORLD
+194;Saint Martin;MAF;MF;WORLD
+195;Saint-Pierre and Miquelon;SPM;PM;WORLD
+196;Saint Vincent and the Grenadines;VCT;VC;WORLD
+197;Samoa;WSM;WS;WORLD
+198;San Marino;SMR;SM;WORLD
+199;Sao Tome and Principe;STP;ST;WORLD
+200;Saudi Arabia;SAU;SA;WORLD
+201;Senegal;SEN;SN;WORLD
+202;Serbia;SRB;RS;WORLD
+203;Serbia and Montenegro;SCG;CS;WORLD
+204;Seychelles;SYC;SC;WORLD
+205;Sierra Leone;SLE;SL;WORLD
+206;Singapore;SGP;SG;WORLD
+207;Sint Maarten;SXM;SX;WORLD
+208;Slovakia;SVK;SK;WORLD
+209;Slovenia;SVN;SI;WORLD
+210;Solomon Islands;SLB;SB;WORLD
+211;Somalia;SOM;SO;WORLD
+212;South Africa;ZAF;ZA;WORLD
+213;South Georgia and South Sandwich Islands;SGS;GS;WORLD
+214;South Sudan;SSD;SS;WORLD
+215;Spain;ESP;ES;WORLD
+216;Sri Lanka;LKA;LK;WORLD
+217;Sudan;SDN;SD;WORLD
+218;Suriname;SUR;SR;WORLD
+219;Svalbard and Jan Mayen;SJM;SJ;WORLD
+220;Swaziland;SWZ;SZ;WORLD
+221;Sweden;SWE;SE;WORLD
+222;Switzerland;CHE;CH;WORLD
+223;Syria;SYR;SY;WORLD
+224;Taiwan;TWN;TW;WORLD
+225;Tajikistan;TJK;TJ;WORLD
+226;Tanzania;TZA;TZ;WORLD
+227;Thailand;THA;TH;WORLD
+228;Timor-Leste;TLS;TL;WORLD
+229;Togo;TGO;TG;WORLD
+230;Tokelau;TKL;TK;WORLD
+231;Tonga;TON;TO;WORLD
+232;Trinidad and Tobago;TTO;TT;WORLD
+233;Tunisia;TUN;TN;WORLD
+234;Turkey;TUR;TR;WORLD
+235;Turkmenistan;TKM;TM;WORLD
+236;Turks and Caicos Islands;TCA;TC;WORLD
+237;Tuvalu;TUV;TV;WORLD
+238;Uganda;UGA;UG;WORLD
+239;Ukraine;UKR;UA;WORLD
+240;United Arab Emirates;ARE;AE;WORLD
+241;United Kingdom;GBR;GB;WORLD
+242;United States of America;USA;US;WORLD
+243;United States Minor Outlying Islands;UMI;UM;WORLD
+244;United States Virgin Islands;VIR;VI;WORLD
+245;Uruguay;URY;UY;WORLD
+246;Uzbekistan;UZB;UZ;WORLD
+247;Vanuatu;VUT;VU;WORLD
+248;Vatikanstadt;VAT;VA;WORLD
+249;Venezuela;VEN;VE;WORLD
+250;Vietnam;VNM;VN;WORLD
+251;Wallis and Futuna;WLF;WF;WORLD
+252;Westsahara;ESH;EH;WORLD
+253;Yemen;YEM;YE;WORLD
+254;Zambia;ZMB;ZM;WORLD
+255;Zimbabwe;ZWE;ZW;WORLD
+

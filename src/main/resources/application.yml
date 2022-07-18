@@ -5,11 +5,14 @@ vas:
   datasource:
     host: localhost
     user: default
-    password: defaultpassword
+    pass: defaultpassword
 
 spring:
   application:
     name: value-added-service
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
+    enabled: true
 
 application:
   name: default
