@@ -137,8 +137,6 @@ postgres:
 
 pgadmin4:
   enabled: true
-  secret:
-    path: vas/data/dev/pgadmin4
   env:
     email: vas@catena-x.net
     password: password
