@@ -99,7 +99,7 @@ readinessProbe:
 
 applicationSecret:
   enabled: false
-  keycloak: <path:vas/data/dev/keycloak#credentials-secret>
+  keycloak: <path:vas/data/keycloak#credentials-secret>
   cdq: <path:vas/data/dev/cdq#api-key>
 
 configmap:
@@ -107,7 +107,7 @@ configmap:
   create: true
   data:
     spring_profiles_active: dev
-    APPLICATION_NAME: <path:value-added-service/vas/data/dev/postgresql#newkey>
+    APPLICATION_NAME: <path:value-added-service/vas/data/postgresql#newkey>
     APPLICATION_HOST: http://localhost:8080/api/dashboard
     JAVA_OPTS: " -Xmx256m -Xms256m -Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit"
 
@@ -125,7 +125,7 @@ postgres:
     database: vas
     postgresPassword: <path:value-added-service/vas/data/postgresql#password>
     username: vas
-    password: <path:value-added-service/vas/data/dev/postgresql#password>
+    password: <path:value-added-service/vas/data/postgresql#password>
   ingress:
     className: nginx
     enabled: true
