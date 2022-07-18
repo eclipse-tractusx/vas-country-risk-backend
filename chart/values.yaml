@@ -123,7 +123,7 @@ postgres:
   enabled: true
   auth:
     database: vas
-    postgresPassword: <path:value-added-service/vas/data/dev/postgresql#password>
+    postgresPassword: <path:value-added-service/vas/data/postgresql#password>
     username: vas
     password: <path:value-added-service/vas/data/dev/postgresql#password>
   ingress:
