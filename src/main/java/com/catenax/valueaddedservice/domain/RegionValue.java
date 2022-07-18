@@ -31,11 +31,11 @@ public class RegionValue implements Serializable {
     private String country;
 
     @Size(max = 3)
-    @Column(name = "iso_3", length = 2)
+    @Column(name = "iso_3", length = 3)
     private String iso3;
 
     @Size(max = 2)
-    @Column(name = "iso_2", length = 3)
+    @Column(name = "iso_2", length = 2)
     private String iso2;
 
     @Column(name = "continent")
