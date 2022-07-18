@@ -22,12 +22,12 @@ public class WebConfig implements WebMvcConfigurer {
     private String user;
 
     @Value("${application.name}")
-    private String postgrespassword;
+    private String applicationName;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
-        log.info("user {} pass {} host {} postgrespassword {}",user,password,host,postgrespassword);
+        log.info("user {} pass {} host {} applicationName {}",user,password,host,applicationName);
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("*")
