@@ -99,8 +99,8 @@ readinessProbe:
 
 applicationSecret:
   enabled: false
-  keycloak: <path:vas/data/dev/keycloak#credentials-secret>
-  cdq: <path:vas/data/dev/cdq#api-key>
+  keycloak: <path:value-added-service/data/dev/keycloak#credentials-secret>
+  cdq: <path:value-added-service/data/dev/cdq#api-key>
 
 configmap:
   # Specifies whether a configmap should be created
@@ -122,9 +122,9 @@ postgres:
   enabled: true
   auth:
     database: vas
-    postgresPassword: <path:vas/data/dev/postgresql#postgres-password>
+    postgresPassword: <path:value-added-service/data/dev/postgresql#postgres-password>
     username: vas
-    password: <path:vas/data/dev/postgresql#password>
+    password: <path:value-added-service/data/dev/postgresql#password>
   ingress:
     className: nginx
     enabled: true
@@ -137,10 +137,9 @@ postgres:
 pgadmin4:
   enabled: true
   secret:
-    path: vas/data/dev/pgadmin4
+    path: value-added-service/data/dev/pgadmin4
   env:
     email: vas@catena-x.net
-    password: password
   ingress:
     enabled: true
     annotations:
