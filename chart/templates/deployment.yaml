@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "includeWithPostgresContext" (list $ "postgresql.secretName") }}
                   key: password
+            - name: APPLICATION_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: product-vas-country-risk-backend-pgadmin4
+                  key: password
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
