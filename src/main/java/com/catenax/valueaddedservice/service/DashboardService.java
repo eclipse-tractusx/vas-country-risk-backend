@@ -4,6 +4,7 @@ import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
+import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +40,9 @@ public class DashboardService {
     @Value(value = "classpath:config/liquibase/fake-data/dashboard.json")
     private Resource json;
 
-    public List<DashBoardTableDTO> getTableInfo(Integer year, List<String> dataSources, CompanyUser companyUser) {
+    public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUser companyUser) {
         log.debug("Request to get Table Info");
+        List<String> dataSources = ratingDTOList.stream().map(each -> each.getDataSourceName()).collect(Collectors.toList());
         List<DashBoardTableDTO> dataSourceDTOS = new ArrayList<>();
         List<BusinessPartnerDTO> businessPartnerDTOS;
         businessPartnerDTOS = getExternalBusinessPartners(companyUser);
@@ -56,7 +58,13 @@ public class DashboardService {
             }
         }
 
-
+        dataSourceDTOS.forEach(each->{
+            ratingDTOList.forEach(eachData->{
+                if(each.getRating().equalsIgnoreCase(eachData.getDataSourceName())){
+                    each.setWeight(eachData.getWeight());
+                }
+            });
+        });
         return mapBusinessPartnerToDashboard(businessPartnerDTOS, dataSourceDTOS);
     }
 
@@ -64,23 +72,30 @@ public class DashboardService {
         List<DashBoardTableDTO> dashBoardTableDTOS = new ArrayList<>();
         final DashBoardTableDTO[] dashBoardTableDTO = {new DashBoardTableDTO()};
         final int[] id = {1};
+        final List<DashBoardTableDTO>[] dataSourceCountryForBusinessPartner = new List[]{new ArrayList<>()};
         businessPartnerDTOS.forEach(businessPartnerDTO -> {
             if (dataSourceDTOS.isEmpty()) {
-                dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO,dashBoardTableDTO[0]);
+                dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO, dashBoardTableDTO[0]);
                 dashBoardTableDTO[0].setId((long) id[0]);
                 id[0]++;
                 dashBoardTableDTOS.add(dashBoardTableDTO[0]);
             } else {
-                dataSourceDTOS.forEach(element -> {
-                    if (element.getCountry().equalsIgnoreCase(businessPartnerDTO.getCountry())) {
-                        dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO,dashBoardTableDTO[0]);
-                        dashBoardTableDTO[0].setRating(element.getRating());
-                        dashBoardTableDTO[0].setScore(element.getScore());
-                        dashBoardTableDTO[0].setId((long) id[0]);
-                        id[0]++;
-                        dashBoardTableDTOS.add(dashBoardTableDTO[0]);
-                    }
+                dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO, dashBoardTableDTO[0]);
+                dashBoardTableDTO[0].setId((long) id[0]);
+                final Float[] score = {0F};
+                final String[] ratingsList = {""};
+                dataSourceCountryForBusinessPartner[0] = new ArrayList<>();
+                dataSourceCountryForBusinessPartner[0] = dataSourceDTOS.stream().filter(eachCountry -> eachCountry.getCountry().equalsIgnoreCase(businessPartnerDTO.getCountry())).collect(Collectors.toList());
+                dataSourceCountryForBusinessPartner[0].forEach(element -> {
+
+                    score[0] = calculateFinalScore(score[0],element);
+                    ratingsList[0] = concatenateRatings(ratingsList[0], element);
+
                 });
+                id[0]++;
+                dashBoardTableDTO[0].setScore(score[0]);
+                dashBoardTableDTO[0].setRating(ratingsList[0]);
+                dashBoardTableDTOS.add(dashBoardTableDTO[0]);
             }
         });
 
@@ -88,7 +103,7 @@ public class DashboardService {
         return dashBoardTableDTOS;
     }
 
-    private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO,DashBoardTableDTO dashBoardTableDTO) {
+    private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO, DashBoardTableDTO dashBoardTableDTO) {
         dashBoardTableDTO = new DashBoardTableDTO();
         dashBoardTableDTO.setBpn(businessPartnerDTO.getBpn());
         dashBoardTableDTO.setCity(businessPartnerDTO.getCity());
@@ -96,6 +111,21 @@ public class DashboardService {
         dashBoardTableDTO.setAddress(businessPartnerDTO.getAddress());
         dashBoardTableDTO.setLegalName(businessPartnerDTO.getLegalName());
         return dashBoardTableDTO;
+    }
+
+    private String concatenateRatings(String ratingsList, DashBoardTableDTO element) {
+        if (ratingsList.isEmpty()) {
+            ratingsList = element.getRating();
+        } else {
+            ratingsList = ratingsList + "," + element.getRating();
+        }
+
+        return ratingsList;
+    }
+
+    private Float calculateFinalScore(Float score, DashBoardTableDTO element) {
+        Float scoreTotal = score + (element.getScore() * element.getWeight());
+        return scoreTotal;
     }
 
     public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUser companyUser) {

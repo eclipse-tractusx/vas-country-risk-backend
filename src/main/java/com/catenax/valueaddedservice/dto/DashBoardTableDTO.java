@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@JsonIgnoreProperties({ "weight" })
 public class DashBoardTableDTO implements Serializable {
 
     private Long id;
@@ -27,6 +29,8 @@ public class DashBoardTableDTO implements Serializable {
     private Float score = 0F;
 
     private String rating = "";
+
+    private Float weight;
 
     public DashBoardTableDTO(Long id, String country, Float score, String rating) {
         this.id = id;

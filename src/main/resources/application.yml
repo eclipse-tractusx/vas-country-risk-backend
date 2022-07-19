@@ -1,5 +1,8 @@
 server:
   port: 8080
+  tomcat:
+    relaxedPathChars: "|,{,},[,]"
+    relaxedQueryChars: "|,{,},[,]"
 
 vas:
   datasource:
