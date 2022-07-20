@@ -124,7 +124,7 @@ public class DashboardService {
     }
 
     private Float calculateFinalScore(Float score, DashBoardTableDTO element) {
-        Float scoreTotal = score + (element.getScore() * element.getWeight());
+        Float scoreTotal = score + (element.getScore() * (element.getWeight() * 0.01F));
         return scoreTotal;
     }
 

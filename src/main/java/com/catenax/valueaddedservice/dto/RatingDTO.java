@@ -16,6 +16,6 @@ public class RatingDTO implements Serializable {
 
     private String rating = "";
 
-    private Float weight = 50F;
+    private Float weight = 0F;
 
 }
