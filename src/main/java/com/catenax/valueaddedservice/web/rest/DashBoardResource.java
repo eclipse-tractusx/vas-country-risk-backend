@@ -1,10 +1,10 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.domain.CompanyUser;
-import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
 import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.catenax.valueaddedservice.service.DashboardService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class DashBoardResource {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if(ratings.get("ratings") != null){
+        if(ratings.get("ratings") != null && !String.valueOf(ratings.get("ratings")).isEmpty() ){
             ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get("ratings")), new TypeReference<>() {});
         }
 

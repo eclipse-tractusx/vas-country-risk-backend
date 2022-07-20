@@ -1,11 +1,9 @@
 package com.catenax.valueaddedservice.dto;
 
-import com.catenax.valueaddedservice.domain.enumeration.Type;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -16,7 +14,7 @@ import java.io.Serializable;
 @ToString
 public class RatingDTO implements Serializable {
 
-    private String dataSourceName = "";
+    private String rating = "";
 
     private Float weight = 50F;
 

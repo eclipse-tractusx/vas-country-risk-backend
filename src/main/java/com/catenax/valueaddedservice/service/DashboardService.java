@@ -42,7 +42,7 @@ public class DashboardService {
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUser companyUser) {
         log.debug("Request to get Table Info");
-        List<String> dataSources = ratingDTOList.stream().map(each -> each.getDataSourceName()).collect(Collectors.toList());
+        List<String> dataSources = ratingDTOList.stream().map(each -> each.getRating()).collect(Collectors.toList());
         List<DashBoardTableDTO> dataSourceDTOS = new ArrayList<>();
         List<BusinessPartnerDTO> businessPartnerDTOS;
         businessPartnerDTOS = getExternalBusinessPartners(companyUser);
@@ -60,7 +60,7 @@ public class DashboardService {
 
         dataSourceDTOS.forEach(each->{
             ratingDTOList.forEach(eachData->{
-                if(each.getRating().equalsIgnoreCase(eachData.getDataSourceName())){
+                if(each.getRating().equalsIgnoreCase(eachData.getRating())){
                     each.setWeight(eachData.getWeight());
                 }
             });
