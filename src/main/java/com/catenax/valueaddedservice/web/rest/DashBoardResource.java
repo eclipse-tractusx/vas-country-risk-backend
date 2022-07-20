@@ -55,16 +55,16 @@ public class DashBoardResource {
     }
 
     //API to get Ratings by Year
-    @GetMapping("/dashboard/allyears")
-    public ResponseEntity getYears () throws IOException {
-        List dataSourceDto;
-        dataSourceDto = dataSourceService.findAllYears();
-        return ResponseEntity.ok().body(dataSourceDto);
+    @GetMapping("/dashboard/allYears")
+    public ResponseEntity<List<Integer>>getYears(){
+        List<Integer> years;
+        years = dataSourceService.findAllYears();
+        return ResponseEntity.ok().body(years);
     }
 
     //API to get All Years
-    @GetMapping("/dashboard/ratingsbyyear")
-    public ResponseEntity<List<DataSourceDTO>> ratingsbyyear (@RequestParam(value = "year",defaultValue = "0",required = false) Integer year)  throws IOException {
+    @GetMapping("/dashboard/ratingsByYear")
+    public ResponseEntity<List<DataSourceDTO>> ratingsByYear (@RequestParam(value = "year",defaultValue = "0",required = false) Integer year)  throws IOException {
         List<DataSourceDTO> dataSourceDto;
         dataSourceDto = dataSourceService.findRatingsByYear(year);
         return ResponseEntity.ok().body(dataSourceDto);

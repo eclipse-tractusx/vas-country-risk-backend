@@ -32,12 +32,12 @@ public interface DataSourceValueRepository extends JpaRepository<DataSourceValue
             "and dsv.score > ?1 ")
     List<DashBoardTableDTO> findByRatingAndCountryAndScoreGreaterThan(Float score, List<String> country,List<String> dataSources);
 
+
     @Query("select new com.catenax.valueaddedservice.dto.DashBoardTableDTO(dsv.id,dsv.country,dsv.score,ds.dataSourceName) " +
             "from DataSource ds INNER JOIN DataSourceValue dsv " +
             "ON dsv.dataSource.id = ds.id " +
             "and ds.dataSourceName in ?1")
     List<DashBoardTableDTO> findByRating(List<String> dataSources);
-
     @Query("select new com.catenax.valueaddedservice.dto.DashBoardTableDTO(dsv.id,dsv.country,dsv.score,ds.dataSourceName) " +
             "from DataSource ds INNER JOIN DataSourceValue dsv " +
             "ON dsv.dataSource.id = ds.id " +
@@ -52,8 +52,5 @@ public interface DataSourceValueRepository extends JpaRepository<DataSourceValue
             "and dsv.country in ?2 " +
             "and dsv.score > ?1 ")
     List<DashBoardTableDTO> findByCountryScoreGreaterThan(Float score, List<String> country);
-
-
-
 
 }
