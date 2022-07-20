@@ -25,7 +25,7 @@ public class DataSourceDTO implements Serializable {
     private Type type;
 
     @NotNull
-    private Integer year;
+    private Integer yearPublished;
 
     private String fileName;
 

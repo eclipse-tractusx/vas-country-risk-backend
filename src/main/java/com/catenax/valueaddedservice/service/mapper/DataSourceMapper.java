@@ -21,4 +21,5 @@ public interface DataSourceMapper extends EntityMapper<DataSourceDTO, DataSource
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     CompanyUserDTO toDtoCompanyUserId(CompanyUser companyUser);
+
 }

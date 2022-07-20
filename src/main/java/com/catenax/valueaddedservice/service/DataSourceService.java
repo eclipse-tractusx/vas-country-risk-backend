@@ -6,11 +6,13 @@ import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.service.mapper.DataSourceMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,33 @@ public class DataSourceService {
     public DataSourceService(DataSourceRepository dataSourceRepository, DataSourceMapper dataSourceMapper) {
         this.dataSourceRepository = dataSourceRepository;
         this.dataSourceMapper = dataSourceMapper;
+    }
+
+    @Autowired
+    DataSourceRepository dataSourceRepositoryAuto;
+
+    //API to get Ratings by Year
+    @Transactional(readOnly = true)
+    public List<DataSourceDTO> findRatingsByYear(Integer year) {
+        return dataSourceMapper.toDto(dataSourceRepositoryAuto.findRatingsByYear(year));
+    }
+
+    //API to get All Years
+    @Transactional(readOnly = true)
+    public List findAllYears() {
+
+        List Years = new ArrayList();
+        int i, year;
+        List<DataSourceDTO> dataSourceDTO;
+
+        dataSourceDTO = dataSourceMapper.toDto(dataSourceRepositoryAuto.findAll());
+        for(i = 0; i < dataSourceDTO.size(); i ++){
+            year = dataSourceDTO.get(i).getYearPublished();
+            if(!Years.contains(year)){
+                Years.add(year);
+            }
+        }
+        return Years;
     }
 
     /**
@@ -88,12 +117,6 @@ public class DataSourceService {
     public Page<DataSourceDTO> findAll(Pageable pageable) {
         log.debug("Request to get all DataSources");
         return dataSourceRepository.findAll(pageable).map(dataSourceMapper::toDto);
-    }
-
-    @Transactional(readOnly = true)
-    public List<DataSourceDTO> findAll() {
-        log.debug("Request to get all DataSources");
-        return dataSourceMapper.toDto(dataSourceRepository.findAll());
     }
 
     /**

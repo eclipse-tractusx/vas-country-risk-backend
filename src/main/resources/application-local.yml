@@ -17,6 +17,7 @@ spring:
   h2:
     console:
       enabled: true
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     database: H2
@@ -24,6 +25,7 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
+
 cors:
   origins: >
     http://localhost:4200/,

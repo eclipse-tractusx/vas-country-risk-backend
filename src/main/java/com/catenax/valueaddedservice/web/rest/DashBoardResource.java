@@ -2,8 +2,10 @@ package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.catenax.valueaddedservice.service.DashboardService;
+import com.catenax.valueaddedservice.service.DataSourceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -32,9 +34,10 @@ public class DashBoardResource {
     DashboardService dashboardService;
 
     @Autowired
+    DataSourceService dataSourceService;
+
+    @Autowired
     ObjectMapper objectMapper;
-
-
 
     @GetMapping("/dashboard/getTableInfo")
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoard(@RequestParam Map<String,Object> ratings,
@@ -51,6 +54,20 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dashBoardTableDTOs);
     }
 
+    //API to get Ratings by Year
+    @GetMapping("/dashboard/allyears")
+    public ResponseEntity getYears () throws IOException {
+        List dataSourceDto;
+        dataSourceDto = dataSourceService.findAllYears();
+        return ResponseEntity.ok().body(dataSourceDto);
+    }
 
+    //API to get All Years
+    @GetMapping("/dashboard/ratingsbyyear")
+    public ResponseEntity<List<DataSourceDTO>> ratingsbyyear (@RequestParam(value = "year",defaultValue = "0",required = false) Integer year)  throws IOException {
+        List<DataSourceDTO> dataSourceDto;
+        dataSourceDto = dataSourceService.findRatingsByYear(year);
+        return ResponseEntity.ok().body(dataSourceDto);
+    }
 
 }

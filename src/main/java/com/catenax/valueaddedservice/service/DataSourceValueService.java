@@ -107,6 +107,7 @@ public class DataSourceValueService {
         log.debug("Request to get all DataSourceValues with score {} in {} in {} ",score,country,dataSources);
         return dataSourceValueRepository.findByRatingAndCountryAndScoreGreaterThan(score,country,dataSources);
     }
+
     /**
      * Get one dataSourceValue by id.
      *
