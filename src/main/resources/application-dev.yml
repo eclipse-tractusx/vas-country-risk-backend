@@ -1,0 +1,20 @@
+# Spring Boot configuration
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    username: vas
+    url: jdbc:postgresql://${vas.datasource.host}:5432/vas
+    driverClassName: org.postgresql.Driver
+    password: ${vas_datasource_pass}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: public
+
+
+application:
+  name: dev
+  host: http://project-value-added-service-vas/api/schedule
