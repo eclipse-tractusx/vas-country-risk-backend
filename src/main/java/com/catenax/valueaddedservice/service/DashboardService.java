@@ -4,6 +4,7 @@ import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
+import com.catenax.valueaddedservice.dto.DataDTO;
 import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,8 +43,8 @@ public class DashboardService {
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUser companyUser) {
         log.debug("Request to get Table Info");
-        List<String> dataSources = ratingDTOList.stream().map(each -> each.getRating()).collect(Collectors.toList());
-        List<DashBoardTableDTO> dataSourceDTOS = new ArrayList<>();
+        List<String> dataSources = ratingDTOList.stream().map(each -> each.getDataSourceName()).collect(Collectors.toList());
+        List<DataDTO> dataDTOS = new ArrayList<>();
         List<BusinessPartnerDTO> businessPartnerDTOS;
         businessPartnerDTOS = getExternalBusinessPartners(companyUser);
         List<String> countryList = new ArrayList<>();
@@ -52,80 +53,82 @@ public class DashboardService {
 
         if (!dataSources.isEmpty()) {
             if (year != null && year > 0) {
-                dataSourceDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
+                dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
             } else {
-                dataSourceDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThan(Float.valueOf(-1), countryList, dataSources);
+                dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThan(Float.valueOf(-1), countryList, dataSources);
             }
         }
 
-        dataSourceDTOS.forEach(each->{
+        dataDTOS.forEach(each->{
             ratingDTOList.forEach(eachData->{
-                if(each.getRating().equalsIgnoreCase(eachData.getRating())){
+                if(each.getDataSourceName().equalsIgnoreCase(eachData.getDataSourceName())){
                     each.setWeight(eachData.getWeight());
                 }
             });
         });
-        return mapBusinessPartnerToDashboard(businessPartnerDTOS, dataSourceDTOS);
+        return mapBusinessPartnerToDashboard(businessPartnerDTOS,dataDTOS,ratingDTOList);
     }
 
-    public List<DashBoardTableDTO> mapBusinessPartnerToDashboard(List<BusinessPartnerDTO> businessPartnerDTOS, List<DashBoardTableDTO> dataSourceDTOS) {
+    public List<DashBoardTableDTO> mapBusinessPartnerToDashboard(List<BusinessPartnerDTO> businessPartnerDTOS,  List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS) {
         List<DashBoardTableDTO> dashBoardTableDTOS = new ArrayList<>();
         final DashBoardTableDTO[] dashBoardTableDTO = {new DashBoardTableDTO()};
         final int[] id = {1};
-        final List<DashBoardTableDTO>[] dataSourceCountryForBusinessPartner = new List[]{new ArrayList<>()};
         businessPartnerDTOS.forEach(businessPartnerDTO -> {
-            if (dataSourceDTOS.isEmpty()) {
-                dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO, dashBoardTableDTO[0]);
-                dashBoardTableDTO[0].setId((long) id[0]);
-                id[0]++;
-                dashBoardTableDTOS.add(dashBoardTableDTO[0]);
-            } else {
-                dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO, dashBoardTableDTO[0]);
-                dashBoardTableDTO[0].setId((long) id[0]);
-                final Float[] score = {0F};
-                final String[] ratingsList = {""};
-                dataSourceCountryForBusinessPartner[0] = new ArrayList<>();
-                dataSourceCountryForBusinessPartner[0] = dataSourceDTOS.stream().filter(eachCountry -> eachCountry.getCountry().equalsIgnoreCase(businessPartnerDTO.getCountry())).collect(Collectors.toList());
-                dataSourceCountryForBusinessPartner[0].forEach(element -> {
-
-                    score[0] = calculateFinalScore(score[0],element);
-                    ratingsList[0] = concatenateRatings(ratingsList[0], element);
-
-                });
-                id[0]++;
-                dashBoardTableDTO[0].setScore(score[0]);
-                dashBoardTableDTO[0].setRating(ratingsList[0]);
-                dashBoardTableDTOS.add(dashBoardTableDTO[0]);
-            }
+            dashBoardTableDTO[0] = setBusinessPartnerProps(businessPartnerDTO,id[0]);
+            id[0]++;
+            dashBoardTableDTOS.add(dashBoardTableDTO[0]);
         });
 
+        for(DashBoardTableDTO d: dashBoardTableDTOS){
+            mapScoreForEachBpn(d,dataDTOS,ratingDTOS);
+        }
 
         return dashBoardTableDTOS;
     }
 
-    private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO, DashBoardTableDTO dashBoardTableDTO) {
-        dashBoardTableDTO = new DashBoardTableDTO();
+    private DashBoardTableDTO mapScoreForEachBpn(DashBoardTableDTO d, List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS){
+        List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getCountry().equalsIgnoreCase(d.getCountry())).collect(Collectors.toList());
+        float total = 100F;
+        float eachWeight = total/dataSourceForCountry.size();
+        final float[] generalFormulaTotal = {0F};
+        final String[] ratingsList = {""};
+        dataSourceForCountry.stream().forEach(eachDataSource -> {
+            if(ratingDTOS.size() == dataSourceForCountry.size()){
+                generalFormulaTotal[0] = generalFormulaTotal[0] + (eachDataSource.getScore() * (eachDataSource.getWeight() * 0.01F));
+            }else{
+                generalFormulaTotal[0] = generalFormulaTotal[0] + (eachDataSource.getScore() * (eachWeight * 0.01F));
+            }
+            ratingsList[0] = concatenateRatings(ratingsList[0], eachDataSource);
+        });
+        d.setScore(generalFormulaTotal[0]);
+        d.setRating(ratingsList[0]);
+        return d;
+    }
+
+    private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO,Integer id) {
+        DashBoardTableDTO dashBoardTableDTO = new DashBoardTableDTO();
         dashBoardTableDTO.setBpn(businessPartnerDTO.getBpn());
         dashBoardTableDTO.setCity(businessPartnerDTO.getCity());
         dashBoardTableDTO.setCountry(businessPartnerDTO.getCountry());
         dashBoardTableDTO.setAddress(businessPartnerDTO.getAddress());
         dashBoardTableDTO.setLegalName(businessPartnerDTO.getLegalName());
+        dashBoardTableDTO.setId(Long.valueOf(id));
         return dashBoardTableDTO;
     }
 
-    private String concatenateRatings(String ratingsList, DashBoardTableDTO element) {
+    private String concatenateRatings(String ratingsList, DataDTO element) {
         if (ratingsList.isEmpty()) {
-            ratingsList = element.getRating();
+            ratingsList = element.getDataSourceName();
         } else {
-            ratingsList = ratingsList + "," + element.getRating();
+            ratingsList = ratingsList + "," + element.getDataSourceName();
         }
 
         return ratingsList;
     }
 
     private Float calculateFinalScore(Float score, DashBoardTableDTO element) {
-        Float scoreTotal = score + (element.getScore() * (element.getWeight() * 0.01F));
-        return scoreTotal;
+
+        return score;
     }
 
     public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUser companyUser) {

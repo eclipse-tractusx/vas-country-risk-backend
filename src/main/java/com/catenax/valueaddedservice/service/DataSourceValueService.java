@@ -1,7 +1,7 @@
 package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSourceValue;
-import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
+import com.catenax.valueaddedservice.dto.DataDTO;
 import com.catenax.valueaddedservice.dto.DataSourceValueDTO;
 import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
@@ -97,13 +97,13 @@ public class DataSourceValueService {
     }
 
     @Transactional(readOnly = true)
-    public List<DashBoardTableDTO> findByRatingAndCountryAndScoreGreaterThanAndYear(Float score, List<String> country,List<String> dataSources,Integer year) {
+    public List<DataDTO> findByRatingAndCountryAndScoreGreaterThanAndYear(Float score, List<String> country, List<String> dataSources, Integer year) {
         log.debug("Request to get all DataSourceValues with score {} in {} in {} and year {}",score,country,dataSources,year);
         return dataSourceValueRepository.findByRatingAndCountryAndScoreGreaterThanAndYear(score,country,dataSources,year);
     }
 
     @Transactional(readOnly = true)
-    public List<DashBoardTableDTO> findByRatingAndCountryAndScoreGreaterThan(Float score, List<String> country,List<String> dataSources) {
+    public List<DataDTO> findByRatingAndCountryAndScoreGreaterThan(Float score, List<String> country,List<String> dataSources) {
         log.debug("Request to get all DataSourceValues with score {} in {} in {} ",score,country,dataSources);
         return dataSourceValueRepository.findByRatingAndCountryAndScoreGreaterThan(score,country,dataSources);
     }

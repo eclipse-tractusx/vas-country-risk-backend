@@ -14,7 +14,7 @@ import java.io.Serializable;
 @ToString
 public class RatingDTO implements Serializable {
 
-    private String rating = "";
+    private String dataSourceName = "";
 
     private Float weight = 0F;
 
