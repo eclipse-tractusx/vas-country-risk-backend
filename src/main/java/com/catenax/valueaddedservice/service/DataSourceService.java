@@ -38,7 +38,7 @@ public class DataSourceService {
     //API to get Ratings by Year
     @Transactional(readOnly = true)
     public List<DataSourceDTO> findRatingsByYear(Integer year) {
-        return dataSourceMapper.toDto(dataSourceRepository.findRatingsByYear(year));
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublished(year));
     }
 
     //API to get All Years

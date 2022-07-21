@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public interface DataSourceRepository extends JpaRepository<DataSource, Long> {
 
-    @Query(value = "SELECT * FROM T_Data_Source ds WHERE ds.year_Published = ?1", nativeQuery = true)
-    List<DataSource> findRatingsByYear(Integer year);
+    List<DataSource> findByYearPublished(Integer year);
 
 }
