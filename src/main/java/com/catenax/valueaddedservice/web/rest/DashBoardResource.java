@@ -2,6 +2,7 @@ package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
+import com.catenax.valueaddedservice.dto.DashBoardWorldMapDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.catenax.valueaddedservice.service.DashboardService;
@@ -40,7 +41,7 @@ public class DashBoardResource {
     ObjectMapper objectMapper;
 
     @GetMapping("/dashboard/getTableInfo")
-    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoard(@RequestParam Map<String,Object> ratings,
+    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam Map<String,Object> ratings,
                                                                    @RequestParam(value = "year",defaultValue = "0",required = false) Integer year ,
                                                                    CompanyUser companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
@@ -52,6 +53,21 @@ public class DashBoardResource {
 
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratingDTOS,companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
+    }
+
+    @GetMapping("/dashboard/getWorldMap")
+    public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String,Object> ratings,
+                                                                        @RequestParam(value = "year",defaultValue = "0",required = false) Integer year ,
+                                                                        CompanyUser companyUser) throws IOException {
+        log.debug("REST request to get a page of Dashboard");
+        List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
+        List<RatingDTO> ratingDTOS = new ArrayList<>();
+        if(ratings.get("ratings") != null && !String.valueOf(ratings.get("ratings")).isEmpty() ){
+            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get("ratings")), new TypeReference<>() {});
+        }
+
+        dashBoardWorldMapDTOS = dashboardService.getWorldMapInfo(year, ratingDTOS,companyUser);
+        return ResponseEntity.ok().body(dashBoardWorldMapDTOS);
     }
 
     //API to get Ratings by Year

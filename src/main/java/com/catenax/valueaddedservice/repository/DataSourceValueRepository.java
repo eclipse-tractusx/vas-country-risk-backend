@@ -36,8 +36,23 @@ public interface DataSourceValueRepository extends JpaRepository<DataSourceValue
     @Query("select new com.catenax.valueaddedservice.dto.DataDTO(dsv.country,dsv.score,ds.dataSourceName) " +
             "from DataSource ds INNER JOIN DataSourceValue dsv " +
             "ON dsv.dataSource.id = ds.id " +
-            "and ds.dataSourceName in ?1")
+            "and ds.dataSourceName in ?1 ")
     List<DataDTO> findByRating(List<String> dataSources);
+
+    @Query("select new com.catenax.valueaddedservice.dto.DataDTO(dsv.country,dsv.score,ds.dataSourceName) " +
+            "from DataSource ds INNER JOIN DataSourceValue dsv " +
+            "ON dsv.dataSource.id = ds.id " +
+            "and ds.dataSourceName in ?1 " +
+            "and ds.yearPublished = ?2 "+
+            "and dsv.score > ?3 ")
+    List<DataDTO> findByRatingAndScoreGreaterThanAndYear(List<String> dataSources,Integer year,Float score);
+
+    @Query("select new com.catenax.valueaddedservice.dto.DataDTO(dsv.country,dsv.score,ds.dataSourceName) " +
+            "from DataSource ds INNER JOIN DataSourceValue dsv " +
+            "ON dsv.dataSource.id = ds.id " +
+            "and ds.dataSourceName in ?1 " +
+            "and dsv.score > ?2")
+    List<DataDTO> findByRatingAndScoreGreaterThan(List<String> dataSources,Float score);
     @Query("select new com.catenax.valueaddedservice.dto.DataDTO(dsv.country,dsv.score,ds.dataSourceName) " +
             "from DataSource ds INNER JOIN DataSourceValue dsv " +
             "ON dsv.dataSource.id = ds.id " +

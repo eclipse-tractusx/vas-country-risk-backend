@@ -108,6 +108,18 @@ public class DataSourceValueService {
         return dataSourceValueRepository.findByRatingAndCountryAndScoreGreaterThan(score,country,dataSources);
     }
 
+    @Transactional(readOnly = true)
+    public List<DataDTO> findByRatingAndScoreGreaterThanAndYear(Float score, List<String> dataSources,Integer year) {
+        log.debug("Request to get all DataSourceValues with score {} in dataSource {} and year {} ",score,dataSources,year);
+        return dataSourceValueRepository.findByRatingAndScoreGreaterThanAndYear(dataSources,year,score);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DataDTO> findByRatingAndScoreGreaterThan(Float score, List<String> dataSources) {
+        log.debug("Request to get all DataSourceValues with score {} in dataSource {}",score,dataSources);
+        return dataSourceValueRepository.findByRatingAndScoreGreaterThan(dataSources,score);
+    }
+
     /**
      * Get one dataSourceValue by id.
      *
