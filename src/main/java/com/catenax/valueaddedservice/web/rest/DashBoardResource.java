@@ -1,10 +1,6 @@
 package com.catenax.valueaddedservice.web.rest;
 
-import com.catenax.valueaddedservice.domain.CompanyUser;
-import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
-import com.catenax.valueaddedservice.dto.DashBoardWorldMapDTO;
-import com.catenax.valueaddedservice.dto.DataSourceDTO;
-import com.catenax.valueaddedservice.dto.RatingDTO;
+import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,6 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +42,7 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getTableInfo")
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam Map<String,Object> ratings,
                                                                    @RequestParam(value = "year",defaultValue = "0",required = false) Integer year ,
-                                                                   CompanyUser companyUser) throws IOException {
+                                                                   CompanyUserDTO companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
@@ -58,7 +57,7 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getWorldMap")
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String,Object> ratings,
                                                                         @RequestParam(value = "year",defaultValue = "0",required = false) Integer year ,
-                                                                        CompanyUser companyUser) throws IOException {
+                                                                        CompanyUserDTO companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
@@ -80,10 +79,24 @@ public class DashBoardResource {
 
     //API to get All Years
     @GetMapping("/dashboard/ratingsByYear")
-    public ResponseEntity<List<DataSourceDTO>> ratingsByYear (@RequestParam(value = "year",defaultValue = "0",required = false) Integer year)  throws IOException {
+    public ResponseEntity<List<DataSourceDTO>> ratingsByYear (@RequestParam(value = "year",defaultValue = "0",required = false) Integer year) {
         List<DataSourceDTO> dataSourceDto;
         dataSourceDto = dataSourceService.findRatingsByYear(year);
         return ResponseEntity.ok().body(dataSourceDto);
+    }
+
+    @GetMapping("/dashboard/getTemplate")
+    public ResponseEntity<byte[]> getTemplate () {
+        FileDTO fileDTO  = dashboardService.getDataSourceTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" + fileDTO.getFileName()+".csv");
+        httpHeaders.set("filename",fileDTO.getFileName()+".csv");
+        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        ByteArrayResource byteArrayResource = new ByteArrayResource(fileDTO.getContent());
+        return ResponseEntity.ok()
+                .headers(httpHeaders)
+                .body(byteArrayResource.getByteArray());
+
     }
 
 }

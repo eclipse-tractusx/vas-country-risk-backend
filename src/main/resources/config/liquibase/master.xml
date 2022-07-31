@@ -22,12 +22,15 @@
     <include file="config/liquibase/changelog/20220712103604_added_entity_Region.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103605_added_entity_RegionValue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103606_added_entity_Country.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220729101052_added_entity_File.xml" relativeToChangelogFile="false"/>
     <!-- -needle-liquibase-add-changelog -  will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220712103601_added_entity_constraints_Range.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103602_added_entity_constraints_DataSource.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103603_added_entity_constraints_DataSourceValue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103604_added_entity_constraints_Region.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103605_added_entity_constraints_RegionValue.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220729101052_added_entity_constraints_File.xml" relativeToChangelogFile="false"/>
+
     <!-- -needle-liquibase-add-constraints-changelog -  will add liquibase constraints changelogs here -->
     <!-- -needle-liquibase-add-incremental-changelog -  will add incremental liquibase changelogs here -->
 </databaseChangeLog>

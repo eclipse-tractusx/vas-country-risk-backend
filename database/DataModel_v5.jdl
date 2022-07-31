@@ -4,6 +4,14 @@ entity CompanyUser (t_company_user) {
     company String required
 }
 
+entity File (t_file){
+	fileName String required,
+    content Blob,
+    createdDate Instant,
+    createdBy String,
+    version Float
+}
+
 entity Range (t_range){
 	range RangeType required,
     value Integer required,
@@ -14,7 +22,8 @@ entity DataSource (t_data_source) {
 	dataSourceName String unique required,
     type Type required,
     yearPublished Integer required,
-    fileName String
+    fileName String,
+    createdDate Instant
 }
 
 entity DataSourceValue (t_data_source_value) {
@@ -48,19 +57,23 @@ entity Country(t_country){
 }
 
 relationship OneToMany {
-    CompanyUser to DataSource, 
+    CompanyUser to DataSource,
 }
 
 relationship OneToMany {
-    DataSource to DataSourceValue, 
+    DataSource to DataSourceValue,
 }
 
 relationship OneToMany {
-    CompanyUser to Range, 
+    CompanyUser to Range,
 }
 
 relationship OneToMany {
-    Region to RegionValue, 
+    Region to RegionValue,
+}
+
+relationship OneToMany {
+    CompanyUser to File,
 }
 
 
