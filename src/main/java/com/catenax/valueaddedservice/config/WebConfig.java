@@ -29,6 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         log.info("user {} pass {} host {} applicationName {}",user,password,host,applicationName);
         registry.addMapping("/**")
+                .exposedHeaders("*")
                 .allowedOrigins("*")
                 .allowedMethods("*")
                 .allowedHeaders("*");
