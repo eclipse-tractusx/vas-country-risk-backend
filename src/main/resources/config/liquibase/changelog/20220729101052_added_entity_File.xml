@@ -15,7 +15,7 @@
             <column name="file_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="content" type="longblob">
+            <column name="content" type="clob">
                 <constraints nullable="true" />
             </column>
             <column name="content_content_type" type="varchar(255)">
@@ -51,7 +51,7 @@
                 usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="file_name" type="string"/>
-            <column name="content" type="blob"/>
+            <column name="content" type="clob"/>
             <column name="content_content_type" type="string"/>
             <column name="version" type="numeric"/>
             <!-- -needle-liquibase-add-loadcolumn -  (and/or extensions) can add load columns here -->

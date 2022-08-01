@@ -92,7 +92,7 @@ public class DashBoardResource {
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" + fileDTO.getFileName()+".csv");
         httpHeaders.set("filename",fileDTO.getFileName()+".csv");
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        ByteArrayResource byteArrayResource = new ByteArrayResource(fileDTO.getContent());
+        ByteArrayResource byteArrayResource = new ByteArrayResource(fileDTO.getContent().getBytes());
         return ResponseEntity.ok()
                 .headers(httpHeaders)
                 .body(byteArrayResource.getByteArray());

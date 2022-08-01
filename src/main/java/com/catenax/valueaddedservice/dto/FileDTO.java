@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -21,8 +20,7 @@ public class FileDTO implements Serializable {
     @NotNull
     private String fileName;
 
-    @Lob
-    private byte[] content;
+    private String content;
 
     private String contentContentType;
 

@@ -35,9 +35,8 @@ public class File implements Serializable {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @Lob
     @Column(name = "content")
-    private byte[] content;
+    private String content;
 
     @Column(name = "content_content_type")
     private String contentContentType;
