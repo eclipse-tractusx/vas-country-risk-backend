@@ -50,5 +50,8 @@ public class DataSourceValue implements Serializable {
     @JsonIgnoreProperties(value = { "dataSourceValues", "companyUser" }, allowSetters = true)
     private DataSource dataSource;
 
-
+    public DataSourceValue(String country, Float score) {
+        this.country = country;
+        this.score = score;
+    }
 }

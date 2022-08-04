@@ -5,6 +5,7 @@ import com.catenax.valueaddedservice.dto.DataDTO;
 import com.catenax.valueaddedservice.dto.DataSourceValueDTO;
 import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
+import com.catenax.valueaddedservice.service.csv.CSVFileReader;
 import com.catenax.valueaddedservice.service.mapper.DataSourceValueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -140,5 +143,18 @@ public class DataSourceValueService {
     public void delete(Long id) {
         log.debug("Request to delete DataSourceValue : {}", id);
         dataSourceValueRepository.deleteById(id);
+    }
+
+    public static void saveCsv(MultipartFile file, String Filename) {
+        try {
+            List<DataSourceValue> csvData = CSVFileReader.getCsvData(file.getInputStream());
+            System.out.println(Filename);
+            for (DataSourceValue csvDatum : csvData) {
+                System.out.println(csvDatum);
+            }
+            //dataSourceValueRepository.saveAll(csvData);
+        } catch (IOException e) {
+            throw new RuntimeException("fail to store csv data: " + e.getMessage());
+        }
     }
 }
