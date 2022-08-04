@@ -2,6 +2,7 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.service.csv.CSVFileReader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +94,28 @@ public class DashboardService {
         Optional<FileDTO> optionalFileDTO = fileService.findUpdatedDataSourceTemplate();
         return optionalFileDTO.orElseGet(optionalFileDTO::orElseThrow);
     }
+
+
+
+    public void saveCsv(MultipartFile file, String Filename) {
+        try {
+            // usar DTO's em vez da entidade é boa pratica DataSourceValue -> DataSourceValueDTO
+            List<DataSourceValueDTO> csvData = CSVFileReader.getCsvData(file.getInputStream());
+
+            for (DataSourceValueDTO csvDatum : csvData) {
+                // TODO para alem de criares o data source value tens de criar um DataSourceDTO que vai ser a entidade Pai na relação csvDatum.setDataSource();
+
+                // em vez de system out podes usar log.info(" valor {}",csvDatum);
+                System.out.println(csvDatum);
+
+                // problema do static fica resolvido se chamareso  serviço apenas q serve para dar save , e nao repository que e o save
+                dataSourceValueService.save(csvDatum);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("fail to store csv data: " + e.getMessage());
+        }
+    }
+
     private List<DashBoardTableDTO> mapBusinessPartnerToDashboard(List<BusinessPartnerDTO> businessPartnerDTOS,  List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS) {
         List<DashBoardTableDTO> dashBoardTableDTOS = new ArrayList<>();
         final DashBoardTableDTO[] dashBoardTableDTO = {new DashBoardTableDTO()};

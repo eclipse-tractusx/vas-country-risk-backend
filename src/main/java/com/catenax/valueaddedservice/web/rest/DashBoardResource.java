@@ -3,9 +3,8 @@ package com.catenax.valueaddedservice.web.rest;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
-import com.catenax.valueaddedservice.service.DataSourceValueService;
-import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.csv.CSVFileReader;
+import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -106,7 +105,9 @@ public class DashBoardResource {
         String message = "";
         if (CSVFileReader.hasCSVFormat(file)) {
             try {
-                DataSourceValueService.saveCsv(file,Filename);
+
+                // em vez de chamar o datasourceservice - adiciona a logica neste dashboardservice para que possa ser utilizado varias vezes
+                dashboardService.saveCsv(file,Filename);
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } catch (Exception e) {
