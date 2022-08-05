@@ -12,7 +12,6 @@ image:
   tag: "main"
 
 appName: vas-country-risk-backend
-environment: dev
 
 
 imagePullSecrets: [ ]
@@ -105,9 +104,6 @@ applicationSecret:
 configmap:
   # Specifies whether a configmap should be created
   create: true
-  data:
-    spring_profiles_active: dev
-    APPLICATION_HOST: http://localhost:8080/api/dashboard
 
 
 
@@ -121,9 +117,7 @@ postgres:
   enabled: true
   auth:
     database: vas
-    postgresPassword: <path:value-added-service/data/dev/postgresql#postgres-password>
     username: vas
-    password: <path:value-added-service/data/dev/postgresql#password>
   ingress:
     className: nginx
     enabled: true
