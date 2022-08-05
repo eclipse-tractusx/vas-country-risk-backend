@@ -28,3 +28,17 @@ postgres:
   auth:
     postgresPassword: <path:value-added-service/data/dev/postgresql#postgres-password>
     password: <path:value-added-service/data/dev/postgresql#password>
+
+pgadmin4:
+  secret:
+    path: value-added-service/data/dev/pgadmin4
+  ingress:
+    hosts:
+      - host: vas-pgadmin4.dev.demo.catena-x.net
+        paths:
+        - path: /
+          pathType: Prefix
+    tls:
+      - hosts:
+        - vas-pgadmin4.dev.demo.catena-x.net
+        secretName: vas-pgadmin4.dev.demo.catena-x.net-tls
