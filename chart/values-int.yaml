@@ -4,6 +4,9 @@ image:
 springProfiles:
   - int
 
+
+
+
 ingress:
   host: catenax-vas-int.demo.catena-x.net
 
