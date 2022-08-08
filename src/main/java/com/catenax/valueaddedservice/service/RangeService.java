@@ -1,6 +1,9 @@
 package com.catenax.valueaddedservice.service;
 
+import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.Range;
+import com.catenax.valueaddedservice.dto.CompanyUserDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
 import com.catenax.valueaddedservice.repository.RangeRepository;
 import com.catenax.valueaddedservice.service.mapper.RangeMapper;
@@ -11,7 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Range}.
@@ -29,6 +35,21 @@ public class RangeService {
     public RangeService(RangeRepository rangeRepository, RangeMapper rangeMapper) {
         this.rangeRepository = rangeRepository;
         this.rangeMapper = rangeMapper;
+    }
+
+    //API to get All Ranges Values by User
+    @Transactional(readOnly = true)
+    public List<Integer> getAllRanges(CompanyUser companyUser) {
+        //return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser));
+        List<Integer> values = new ArrayList<>();
+        values.addAll(rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser)).stream().map(RangeDTO::getValue).collect(Collectors.toSet()));
+        return values;
+    }
+
+    //API to get All Ranges by User [LIST]
+    @Transactional(readOnly = true)
+    public List<RangeDTO> getAllRangesList(CompanyUser companyUser) {
+        return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser));
     }
 
     /**

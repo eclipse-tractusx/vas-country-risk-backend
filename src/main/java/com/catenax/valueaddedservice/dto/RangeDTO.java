@@ -28,5 +28,4 @@ public class RangeDTO implements Serializable {
 
     private CompanyUserDTO companyUser;
 
-
 }

@@ -3,10 +3,14 @@ package com.catenax.valueaddedservice.web.rest;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
+import com.catenax.valueaddedservice.service.DataSourceValueService;
+import com.catenax.valueaddedservice.service.RangeService;
+import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.csv.CSVFileReader;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +42,9 @@ public class DashBoardResource {
 
     @Autowired
     DataSourceService dataSourceService;
+
+    @Autowired
+    RangeService rangeService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -101,13 +110,12 @@ public class DashBoardResource {
     }
 
     @PostMapping("/dashboard/readCSV")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String Filename) {
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String Filename,
+                                                      @RequestParam("ratingname") String DataSourceName) {
         String message = "";
         if (CSVFileReader.hasCSVFormat(file)) {
             try {
-
-                // em vez de chamar o datasourceservice - adiciona a logica neste dashboardservice para que possa ser utilizado varias vezes
-                dashboardService.saveCsv(file,Filename);
+                dashboardService.saveCsv(file,Filename,DataSourceName);
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } catch (Exception e) {
@@ -117,6 +125,32 @@ public class DashBoardResource {
         }
         message = "Please upload a csv file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+    }
+
+    //API to get Current User Ranges
+    @GetMapping("/dashboard/UserRanges")
+    public ResponseEntity<List<Integer>> userRanges () {
+        List<RangeDTO> RangeDto;
+        //RangeDto = rangeService.getAllRanges(null);
+        List<Integer> values;
+        values = rangeService.getAllRanges(null);
+        Collections.sort(values);
+        return ResponseEntity.ok().body(values);
+    }
+
+    @PostMapping("/dashboard/sendRanges")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("rangeHigh") Integer rangeHigh, @RequestParam("rangeMid") Integer rangeMid
+    ,@RequestParam("rangeLow") Integer rangeLow) {
+        String message = "";
+
+        try {
+            dashboardService.saveRanges(rangeHigh,rangeMid,rangeLow);
+            message = "Range successfully saved!";
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not save the ranges values!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
     }
 
 }
