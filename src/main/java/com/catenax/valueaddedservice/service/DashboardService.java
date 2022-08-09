@@ -6,6 +6,7 @@ import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.repository.RangeRepository;
 import com.catenax.valueaddedservice.service.csv.CSVFileReader;
+import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +45,9 @@ public class DashboardService {
 
     @Autowired
     CompanyUserService companyUserService;
+
+    @Autowired
+    CountryService countryService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -109,29 +115,43 @@ public class DashboardService {
 
     public void saveCsv(MultipartFile file, String Filename, String DataSourceName) {
         try {
-            // usar DTO's em vez da entidade é boa pratica DataSourceValue -> DataSourceValueDTO
             List<DataSourceValueDTO> csvData = CSVFileReader.getCsvData(file.getInputStream());
 
             for (DataSourceValueDTO csvDatum : csvData) {
+
+                List<CountryDTO> countryDTOS = new ArrayList<>();
+
+                countryDTOS = countryService.findCountryByName(csvDatum.getCountry());
+                if(countryDTOS.get(0).getIso2() == null || countryDTOS.get(0).getIso3() == null){
+                    //Need to throw error message for incorrect values in CSV!
+                    System.out.println("Valores Incorretos");
+                }else {
+                    csvDatum.setIso2(countryDTOS.get(0).getIso2());
+                    csvDatum.setIso3(countryDTOS.get(0).getIso3());
+                    csvDatum.setContinent(countryDTOS.get(0).getContinent());
+                }
+
                 // TODO para alem de criares o data source value tens de criar um DataSourceDTO que vai ser a entidade Pai na relação csvDatum.setDataSource();
 
-                DataSourceDTO dsDto = new DataSourceDTO();
+                dataSourceService.findRatingByUser(null,DataSourceName);
 
-                dsDto.setDataSourceName(DataSourceName);
-                dsDto.setCompanyUser(null);
-                dsDto.setFileName(null);
-                dsDto.setType(Type.Global);
-                dsDto.setYearPublished(2021);
-                dsDto.setId(18L);
+                if(dataSourceService.findRatingByUser(null,DataSourceName).size() > 0) {
+                    System.out.println("Já existe");
+                }else{
+                    DataSourceDTO dsDto = new DataSourceDTO();
+                    dsDto.setDataSourceName(DataSourceName);
+                    dsDto.setCompanyUser(null);
+                    dsDto.setFileName(null);
+                    dsDto.setType(Type.Global);
+                    dsDto.setYearPublished(2021);
 
-                dataSourceService.save(dsDto);
-                //csvDatum.setDataSource(dsDto);
+                    dataSourceService.save(dsDto);
+                    //csvDatum.setDataSource(dsDto);
+                    dataSourceValueService.save(csvDatum);
+                }
 
-                // em vez de system out podes usar log.info(" valor {}",csvDatum);
                 System.out.println("VALORES:" + csvDatum);
 
-                // problema do static fica resolvido se chamareso  serviço apenas q serve para dar save , e nao repository que e o save
-                dataSourceValueService.save(csvDatum);
             }
         } catch (IOException e) {
             throw new RuntimeException("Fail to store csv data: " + e.getMessage());
@@ -271,16 +291,13 @@ public class DashboardService {
         }
 
         for (RangeDTO rangeDTO : RangeDto) {
-            if (rangeDTO.getCompanyUser() == null) {
+            if (rangeDTO.getCompanyUser() == null) { //Change null for the User Variable
                 if (rangeDTO.getRange().equals(RangeType.Max)) {
 
                     //High Value Range
-                    rangeHighDTO.setRange(RangeType.Max);
-                    rangeHighDTO.setDescription("HighValue");
                     rangeHighDTO.setValue(rangeHigh);
-                    rangeHighDTO.setCompanyUser(null);
 
-                    rangeService.partialUpdate(rangeHighDTO);
+                    rangeService.updateRange(rangeHigh, rangeDTO.getId());
                 }
 
                 else if (rangeDTO.getRange().equals(RangeType.Between)){

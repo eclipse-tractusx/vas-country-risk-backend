@@ -130,8 +130,6 @@ public class DashBoardResource {
     //API to get Current User Ranges
     @GetMapping("/dashboard/UserRanges")
     public ResponseEntity<List<Integer>> userRanges () {
-        List<RangeDTO> RangeDto;
-        //RangeDto = rangeService.getAllRanges(null);
         List<Integer> values;
         values = rangeService.getAllRanges(null);
         Collections.sort(values);
@@ -139,7 +137,7 @@ public class DashBoardResource {
     }
 
     @PostMapping("/dashboard/sendRanges")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("rangeHigh") Integer rangeHigh, @RequestParam("rangeMid") Integer rangeMid
+    public ResponseEntity<ResponseMessage> saveRanges (@RequestParam("rangeHigh") Integer rangeHigh, @RequestParam("rangeMid") Integer rangeMid
     ,@RequestParam("rangeLow") Integer rangeLow) {
         String message = "";
 

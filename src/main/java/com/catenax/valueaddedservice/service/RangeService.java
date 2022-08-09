@@ -52,6 +52,12 @@ public class RangeService {
         return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser));
     }
 
+    //
+    @Transactional(readOnly = true)
+    public void updateRange(Integer Value, Long RangeId) {
+        rangeRepository.setValueForRange(Value,RangeId);
+    }
+
     /**
      * Save a range.
      *

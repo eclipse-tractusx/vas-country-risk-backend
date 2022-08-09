@@ -2,6 +2,7 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.Country;
 import com.catenax.valueaddedservice.dto.CountryDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.repository.CountryRepository;
 import com.catenax.valueaddedservice.service.mapper.CountryMapper;
 import org.slf4j.Logger;
@@ -11,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Country}.
@@ -29,6 +33,12 @@ public class CountryService {
     public CountryService(CountryRepository countryRepository, CountryMapper countryMapper) {
         this.countryRepository = countryRepository;
         this.countryMapper = countryMapper;
+    }
+
+    //API to get Country by name
+    @Transactional(readOnly = true)
+    public List<CountryDTO> findCountryByName(String country) {
+        return countryMapper.toDto(countryRepository.findByCountry(country));
     }
 
     /**
