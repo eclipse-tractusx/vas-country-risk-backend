@@ -257,13 +257,18 @@ public class DashboardService {
     }
 
     //Ranges
-    public void saveRanges(Integer rangeHigh, Integer rangeMid, Integer rangeLow) {
+    public void saveRanges(Integer rangeHigh, Integer rangeMid, Integer rangeLow) throws Exception {
         List<RangeDTO> RangeDto;
         RangeDto = rangeService.getAllRangesList(null);
 
         RangeDTO rangeHighDTO = new RangeDTO();
         RangeDTO rangeMidDTO = new RangeDTO();
         RangeDTO rangeLowDTO = new RangeDTO();
+
+        if(rangeLow >= rangeMid || rangeMid >= rangeHigh){
+            //Needs to return error message!
+            throw new Exception("Ranges Overlap!");
+        }
 
         if(RangeDto.size() == 0){
 
