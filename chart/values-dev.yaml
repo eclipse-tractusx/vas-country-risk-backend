@@ -4,6 +4,41 @@ image:
 springProfiles:
   - dev
 
+
+appName: vas-country-risk-backend
+environment: dev
+
+image:
+  registry: ghcr.io
+  repository: ghcr.io/catenax-ng/product-value-added-service
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "dev"
+
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
 
+configmap:
+  # Specifies whether a configmap should be created
+  data:
+    spring_profiles_active: dev
+    APPLICATION_HOST: http://localhost:8080/api/dashboard
+
+postgres:
+  auth:
+    postgresPassword: <path:value-added-service/data/dev/postgresql#postgres-password>
+    password: <path:value-added-service/data/dev/postgresql#password>
+
+pgadmin4:
+  secret:
+    path: value-added-service/data/dev/pgadmin4
+  ingress:
+    hosts:
+      - host: vas-pgadmin4.dev.demo.catena-x.net
+        paths:
+        - path: /
+          pathType: Prefix
+    tls:
+      - hosts:
+        - vas-pgadmin4.dev.demo.catena-x.net
+        secretName: vas-pgadmin4.dev.demo.catena-x.net-tls

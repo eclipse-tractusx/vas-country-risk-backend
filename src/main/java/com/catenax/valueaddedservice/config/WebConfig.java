@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
-        log.info("user {} pass {} host {} applicationName {}",user,password,host,applicationName);
+        log.info("THIS IS DEV user {} pass {} host {} applicationName {}",user,password,host,applicationName);
         registry.addMapping("/**")
                 .exposedHeaders("*")
                 .allowedOrigins("*")

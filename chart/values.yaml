@@ -12,7 +12,6 @@ image:
   tag: "main"
 
 appName: vas-country-risk-backend
-environment: dev
 
 
 imagePullSecrets: [ ]
@@ -105,9 +104,6 @@ applicationSecret:
 configmap:
   # Specifies whether a configmap should be created
   create: true
-  data:
-    spring_profiles_active: dev
-    APPLICATION_HOST: http://localhost:8080/api/dashboard
 
 
 
@@ -121,9 +117,7 @@ postgres:
   enabled: true
   auth:
     database: vas
-    postgresPassword: <path:value-added-service/data/dev/postgresql#postgres-password>
     username: vas
-    password: <path:value-added-service/data/dev/postgresql#password>
   ingress:
     className: nginx
     enabled: true
@@ -134,7 +128,6 @@ postgres:
     port: 5432
 
 pgadmin4:
-  enabled: true
   secret:
     path: value-added-service/data/dev/pgadmin4
   env:
@@ -144,12 +137,3 @@ pgadmin4:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/ingress.class: nginx
-    hosts:
-      - host: vas-pgadmin4.dev.demo.catena-x.net
-        paths:
-        - path: /
-          pathType: Prefix
-    tls:
-      - hosts:
-        - vas-pgadmin4.dev.demo.catena-x.net
-        secretName: vas-pgadmin4.dev.demo.catena-x.net-tls

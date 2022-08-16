@@ -4,14 +4,45 @@ image:
 springProfiles:
   - int
 
+
+appName: vas-country-risk-backend
+environment: int
+
+image:
+  registry: ghcr.io
+  repository: ghcr.io/catenax-ng/product-value-added-service
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "main"
+  
 ingress:
   host: catenax-vas-int.demo.catena-x.net
 
+configmap:
+  # Specifies whether a configmap should be created
+  data:
+    spring_profiles_active: int
+
+    
 applicationSecret:
   keycloak: <path:vas/int/keycloak#credentials-secret>
   cdq: <path:vas/int/cdq#api-key>
 
 postgres:
   auth:
-    postgresPassword: <path:vas/data/int/postgresql#postgres-password>
-    password: <path:vas/data/int/postgresql#password>
+    postgresPassword: <path:value-added-service/data/int/postgresql#postgres-password>
+    password: <path:value-added-service/data/int/postgresql#password>
+
+pgadmin4:
+  secret:
+    path: value-added-service/data/int/pgadmin4
+  ingress:
+    hosts:
+      - host: vas-pgadmin4.int.demo.catena-x.net
+        paths:
+        - path: /
+          pathType: Prefix
+    tls:
+      - hosts:
+        - vas-pgadmin4.int.demo.catena-x.net
+        secretName: vas-pgadmin4.int.demo.catena-x.net-tls
