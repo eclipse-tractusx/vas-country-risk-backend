@@ -2,22 +2,22 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.Range;
+import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
-import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
 import com.catenax.valueaddedservice.repository.RangeRepository;
+import com.catenax.valueaddedservice.service.mapper.CompanyUserMapper;
 import com.catenax.valueaddedservice.service.mapper.RangeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Range}.
@@ -27,6 +27,9 @@ import java.util.stream.Collectors;
 public class RangeService {
 
     private final Logger log = LoggerFactory.getLogger(RangeService.class);
+
+    @Autowired
+    CompanyUserMapper companyUserMapper;
 
     private final RangeRepository rangeRepository;
 
@@ -39,11 +42,31 @@ public class RangeService {
 
     //API to get All Ranges Values by User
     @Transactional(readOnly = true)
-    public List<Integer> getAllRanges(CompanyUser companyUser) {
-        //return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser));
-        List<Integer> values = new ArrayList<>();
-        values.addAll(rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser)).stream().map(RangeDTO::getValue).collect(Collectors.toSet()));
-        return values;
+    public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUser) {
+
+        List<RangeDTO> ranges = rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUserMapper.toEntity(companyUser)));
+        if(!ranges.isEmpty()){
+            return ranges;
+        }
+        RangeDTO rangeDTOMin = new RangeDTO();
+        rangeDTOMin.setRange(RangeType.Min);
+        rangeDTOMin.setCompanyUser(companyUser);
+        rangeDTOMin.setDescription("Min Range");
+        rangeDTOMin.setValue(25);
+        ranges.add(rangeDTOMin);
+        RangeDTO rangeDTOBetWeen = new RangeDTO();
+        rangeDTOBetWeen.setRange(RangeType.Between);
+        rangeDTOBetWeen.setCompanyUser(companyUser);
+        rangeDTOBetWeen.setDescription("BetWeen Range");
+        rangeDTOBetWeen.setValue(50);
+        ranges.add(rangeDTOBetWeen);
+        RangeDTO rangeDTOMax = new RangeDTO();
+        rangeDTOMax.setRange(RangeType.Max);
+        rangeDTOMax.setCompanyUser(companyUser);
+        rangeDTOMax.setDescription("Max Range");
+        rangeDTOMax.setValue(100);
+        ranges.add(rangeDTOMax);
+        return ranges;
     }
 
     //API to get All Ranges by User [LIST]
@@ -55,7 +78,7 @@ public class RangeService {
     //
     @Transactional(readOnly = true)
     public void updateRange(Integer Value, Long RangeId) {
-        rangeRepository.setValueForRange(Value,RangeId);
+        rangeRepository.setValueForRange(Value, RangeId);
     }
 
     /**
@@ -94,14 +117,14 @@ public class RangeService {
         log.debug("Request to partially update Range : {}", rangeDTO);
 
         return rangeRepository
-            .findById(rangeDTO.getId())
-            .map(existingRange -> {
-                rangeMapper.partialUpdate(existingRange, rangeDTO);
+                .findById(rangeDTO.getId())
+                .map(existingRange -> {
+                    rangeMapper.partialUpdate(existingRange, rangeDTO);
 
-                return existingRange;
-            })
-            .map(rangeRepository::save)
-            .map(rangeMapper::toDto);
+                    return existingRange;
+                })
+                .map(rangeRepository::save)
+                .map(rangeMapper::toDto);
     }
 
     /**

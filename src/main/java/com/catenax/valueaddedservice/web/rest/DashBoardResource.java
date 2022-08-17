@@ -1,17 +1,13 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.dto.*;
-import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
-import com.catenax.valueaddedservice.service.DataSourceValueService;
 import com.catenax.valueaddedservice.service.RangeService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.csv.CSVFileReader;
-import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -129,17 +123,23 @@ public class DashBoardResource {
     }
 
     //API to get Current User Ranges
-    @GetMapping("/dashboard/UserRanges")
-    public ResponseEntity<List<Integer>> userRanges () {
-        List<Integer> values;
-        values = rangeService.getAllRanges(null);
-        Collections.sort(values);
-        return ResponseEntity.ok().body(values);
+    @GetMapping("/dashboard/getUserRanges")
+    public ResponseEntity<List<RangeDTO>> userRanges ( CompanyUserDTO companyUser) {
+
+        // TO DO Remove hardcoded User
+
+        companyUser.setName("test user");
+        companyUser.setCompany("test");
+        companyUser.setEmail("test_user@mail.com");
+        companyUser.setId(1L);
+        List<RangeDTO> rangeDTOS;
+        rangeDTOS = rangeService.getUserRangesOrDefault(companyUser);
+        return ResponseEntity.ok().body(rangeDTOS);
     }
 
-    @PostMapping("/dashboard/sendRanges")
+    @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges (@RequestParam("rangeHigh") Integer rangeHigh, @RequestParam("rangeMid") Integer rangeMid
-    ,@RequestParam("rangeLow") Integer rangeLow) {
+    ,@RequestParam("rangeLow") Integer rangeLow,@RequestParam CompanyUserDTO companyUserDTO) {
         String message = "";
 
         try {
