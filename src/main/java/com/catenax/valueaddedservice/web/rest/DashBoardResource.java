@@ -5,9 +5,9 @@ import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
 import com.catenax.valueaddedservice.service.RangeService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
-import com.catenax.valueaddedservice.service.csv.CSVFileReader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,38 +46,40 @@ public class DashBoardResource {
     ObjectMapper objectMapper;
 
     @GetMapping("/dashboard/getTableInfo")
-    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam Map<String,Object> ratings,
-                                                                   @RequestParam(value = "year",defaultValue = "0",required = false) Integer year ,
-                                                                   CompanyUserDTO companyUser) throws IOException {
+    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam Map<String, Object> ratings,
+                                                                        @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                                        CompanyUserDTO companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if(ratings.get("ratings") != null && !String.valueOf(ratings.get("ratings")).isEmpty() ){
-            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get("ratings")), new TypeReference<>() {});
+        if (ratings.get("ratings") != null && !String.valueOf(ratings.get("ratings")).isEmpty()) {
+            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get("ratings")), new TypeReference<>() {
+            });
         }
 
-        dashBoardTableDTOs = dashboardService.getTableInfo(year, ratingDTOS,companyUser);
+        dashBoardTableDTOs = dashboardService.getTableInfo(year, ratingDTOS, companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
     }
 
     @GetMapping("/dashboard/getWorldMap")
-    public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String,Object> ratings,
-                                                                        @RequestParam(value = "year",defaultValue = "0",required = false) Integer year ,
-                                                                        CompanyUserDTO companyUser) throws IOException {
+    public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String, Object> ratings,
+                                                                           @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                                           CompanyUserDTO companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if(ratings.get("ratings") != null && !String.valueOf(ratings.get("ratings")).isEmpty() ){
-            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get("ratings")), new TypeReference<>() {});
+        if (ratings.get("ratings") != null && !String.valueOf(ratings.get("ratings")).isEmpty()) {
+            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get("ratings")), new TypeReference<>() {
+            });
         }
 
-        dashBoardWorldMapDTOS = dashboardService.getWorldMapInfo(year, ratingDTOS,companyUser);
+        dashBoardWorldMapDTOS = dashboardService.getWorldMapInfo(year, ratingDTOS, companyUser);
         return ResponseEntity.ok().body(dashBoardWorldMapDTOS);
     }
 
     //API to get Ratings by Year
     @GetMapping("/dashboard/allYears")
-    public ResponseEntity<List<Integer>>getYears(){
+    public ResponseEntity<List<Integer>> getYears() {
         List<Integer> years;
         years = dataSourceService.findAllYears();
         return ResponseEntity.ok().body(years);
@@ -84,18 +87,18 @@ public class DashBoardResource {
 
     //API to get All Years
     @GetMapping("/dashboard/ratingsByYear")
-    public ResponseEntity<List<DataSourceDTO>> ratingsByYear (@RequestParam(value = "year",defaultValue = "0",required = false) Integer year) {
+    public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year) {
         List<DataSourceDTO> dataSourceDto;
         dataSourceDto = dataSourceService.findRatingsByYear(year);
         return ResponseEntity.ok().body(dataSourceDto);
     }
 
     @GetMapping("/dashboard/getTemplate")
-    public ResponseEntity<byte[]> getTemplate () {
-        FileDTO fileDTO  = dashboardService.getDataSourceTemplate();
+    public ResponseEntity<byte[]> getTemplate() {
+        FileDTO fileDTO = dashboardService.getDataSourceTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" + fileDTO.getFileName()+".csv");
-        httpHeaders.set("filename",fileDTO.getFileName()+".csv");
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileDTO.getFileName() + ".csv");
+        httpHeaders.set("filename", fileDTO.getFileName() + ".csv");
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         ByteArrayResource byteArrayResource = new ByteArrayResource(fileDTO.getContent().getBytes());
         return ResponseEntity.ok()
@@ -104,27 +107,33 @@ public class DashBoardResource {
 
     }
 
-    @PostMapping("/dashboard/readCSV")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String Filename,
-                                                      @RequestParam("ratingname") String DataSourceName) {
+    @PostMapping("/dashboard/uploadCsv")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
+                                                      @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
         String message = "";
-        if (CSVFileReader.hasCSVFormat(file)) {
-            try {
-                dashboardService.saveCsv(file,Filename,DataSourceName);
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-            } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-            }
+        // TO DO Remove hardcoded User
+
+        companyUser.setName("test user");
+        companyUser.setCompany("test");
+        companyUser.setEmail("test_user@mail.com");
+        companyUser.setId(1L);
+
+        message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        try {
+            dashboardService.saveCsv(file, dataSourceName, companyUser);
+        } catch (IOException e) {
+            log.error("Error {}", e.getMessage());
+            message = "Could not upload the file duplicate name: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         }
-        message = "Please upload a csv file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+
+
     }
 
     //API to get Current User Ranges
     @GetMapping("/dashboard/getUserRanges")
-    public ResponseEntity<List<RangeDTO>> userRanges ( CompanyUserDTO companyUser) {
+    public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
 
         // TO DO Remove hardcoded User
 
@@ -138,12 +147,18 @@ public class DashBoardResource {
     }
 
     @PostMapping("/dashboard/saveUserRanges")
-    public ResponseEntity<ResponseMessage> saveRanges (@RequestParam("rangeHigh") Integer rangeHigh, @RequestParam("rangeMid") Integer rangeMid
-    ,@RequestParam("rangeLow") Integer rangeLow,@RequestParam CompanyUserDTO companyUserDTO) {
+    public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";
 
+        // TO DO Remove hardcoded User
+        companyUserDTO.setName("test user");
+        companyUserDTO.setCompany("test");
+        companyUserDTO.setEmail("test_user@mail.com");
+        companyUserDTO.setId(1L);
+        rangeDTOS.forEach(rangeDTO -> rangeDTO.setCompanyUser(companyUserDTO));
+
         try {
-            dashboardService.saveRanges(rangeHigh,rangeMid,rangeLow);
+            dashboardService.saveRanges(rangeDTOS, companyUserDTO);
             message = "Range successfully saved!";
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {

@@ -1,27 +1,23 @@
 package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSource;
-import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.*;
-import com.catenax.valueaddedservice.repository.RangeRepository;
-import com.catenax.valueaddedservice.service.csv.CSVFileReader;
-import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,49 +109,34 @@ public class DashboardService {
 
 
 
-    public void saveCsv(MultipartFile file, String Filename, String DataSourceName) {
-        try {
-            List<DataSourceValueDTO> csvData = CSVFileReader.getCsvData(file.getInputStream());
+    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
 
-            for (DataSourceValueDTO csvDatum : csvData) {
 
-                List<CountryDTO> countryDTOS = new ArrayList<>();
-
-                countryDTOS = countryService.findCountryByName(csvDatum.getCountry());
-                if(countryDTOS.get(0).getIso2() == null || countryDTOS.get(0).getIso3() == null){
-                    //Need to throw error message for incorrect values in CSV!
-                    System.out.println("Valores Incorretos");
-                }else {
-                    csvDatum.setIso2(countryDTOS.get(0).getIso2());
-                    csvDatum.setIso3(countryDTOS.get(0).getIso3());
-                    csvDatum.setContinent(countryDTOS.get(0).getContinent());
-                }
-
-                // TODO para alem de criares o data source value tens de criar um DataSourceDTO que vai ser a entidade Pai na relação csvDatum.setDataSource();
-
-                dataSourceService.findRatingByUser(null,DataSourceName);
-
-                if(dataSourceService.findRatingByUser(null,DataSourceName).size() > 0) {
-                    System.out.println("Já existe");
-                }else{
-                    DataSourceDTO dsDto = new DataSourceDTO();
-                    dsDto.setDataSourceName(DataSourceName);
-                    dsDto.setCompanyUser(null);
-                    dsDto.setFileName(null);
-                    dsDto.setType(Type.Global);
-                    dsDto.setYearPublished(2021);
-
-                    dataSourceService.save(dsDto);
-                    //csvDatum.setDataSource(dsDto);
-                    dataSourceValueService.save(csvDatum);
-                }
-
-                System.out.println("VALORES:" + csvDatum);
-
+        BufferedReader br = new BufferedReader(new InputStreamReader((file.getResource().getInputStream())));
+        String line = "";
+        DataSourceDTO dataSource = new DataSourceDTO();
+        dataSource.setType(Type.Custom);
+        dataSource.setCompanyUser(companyUserDTO);
+        dataSource.setFileName(dataSourceName);
+        dataSource.setYearPublished(Calendar.getInstance().get(Calendar.YEAR));
+        dataSource.setDataSourceName(dataSourceName);
+        dataSource = dataSourceService.save(dataSource);
+        DataSourceValueDTO dataSourceValueDTO = new DataSourceValueDTO();
+        line = br.readLine();
+        while ((line = br.readLine()) != null) {
+           String[] countryAndValue = line.split(";");
+            dataSourceValueDTO.setCountry(countryAndValue[0]);
+            dataSourceValueDTO.setContinent("World");
+            dataSourceValueDTO.setScore(0F);
+            dataSourceValueDTO.setDataSource(dataSource);
+            if(countryAndValue.length > 1){
+                dataSourceValueDTO.setScore(Float.valueOf(countryAndValue[1]));
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Fail to store csv data: " + e.getMessage());
+            dataSourceValueService.save(dataSourceValueDTO);
+            dataSourceValueDTO = new DataSourceValueDTO();
         }
+
+
     }
 
     private List<DashBoardTableDTO> mapBusinessPartnerToDashboard(List<BusinessPartnerDTO> businessPartnerDTOS,  List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS) {
@@ -257,76 +238,12 @@ public class DashboardService {
     }
 
     //Ranges
-    public void saveRanges(Integer rangeHigh, Integer rangeMid, Integer rangeLow) throws Exception {
-        List<RangeDTO> RangeDto;
-        RangeDto = rangeService.getAllRangesList(null);
-
-        RangeDTO rangeHighDTO = new RangeDTO();
-        RangeDTO rangeMidDTO = new RangeDTO();
-        RangeDTO rangeLowDTO = new RangeDTO();
-
-        if(rangeLow >= rangeMid || rangeMid >= rangeHigh){
-            //Needs to return error message!
-            throw new Exception("Ranges Overlap!");
-        }
-
-        if(RangeDto.size() == 0){
-
-            //High Value Range
-            rangeHighDTO.setRange(RangeType.Max);
-            rangeHighDTO.setDescription("HighValue");
-            rangeHighDTO.setValue(rangeHigh);
-            rangeHighDTO.setCompanyUser(null);
-
-            //Medium Value Range
-            rangeMidDTO.setRange(RangeType.Between);
-            rangeMidDTO.setDescription("BetweenValue");
-            rangeMidDTO.setValue(rangeMid);
-            rangeMidDTO.setCompanyUser(null);
-
-            //Low Value Range
-            rangeLowDTO.setRange(RangeType.Min);
-            rangeLowDTO.setDescription("LowValue");
-            rangeLowDTO.setValue(rangeLow);
-            rangeLowDTO.setCompanyUser(null);
-
-            rangeService.save(rangeHighDTO);
-            rangeService.save(rangeMidDTO);
-            rangeService.save(rangeLowDTO);
-        }
-
-        for (RangeDTO rangeDTO : RangeDto) {
-            if (rangeDTO.getCompanyUser() == null) { //Change null for the User Variable
-                if (rangeDTO.getRange().equals(RangeType.Max)) {
-
-                    //High Value Range
-                    rangeHighDTO.setValue(rangeHigh);
-
-                    rangeService.updateRange(rangeHigh, rangeDTO.getId());
-                }
-
-                else if (rangeDTO.getRange().equals(RangeType.Between)){
-
-                    //Medium Value Range
-                    rangeMidDTO.setRange(RangeType.Between);
-                    rangeMidDTO.setDescription("BetweenValue");
-                    rangeMidDTO.setValue(rangeMid);
-                    rangeMidDTO.setCompanyUser(null);
-
-                    rangeService.partialUpdate(rangeMidDTO);
-                }
-
-                else if (rangeDTO.getRange().equals(RangeType.Min)){
-
-                    //Low Value Range
-                    rangeLowDTO.setRange(RangeType.Min);
-                    rangeLowDTO.setDescription("LowValue");
-                    rangeLowDTO.setValue(rangeLow);
-                    rangeLowDTO.setCompanyUser(null);
-
-                    rangeService.partialUpdate(rangeLowDTO);
-                }
-            }
+    public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO) throws Exception {
+        List<RangeDTO> list = rangeService.getAllRangesList(companyUserDTO);
+        if (list.isEmpty()) {
+            rangeDTOS.forEach(rangeDTO -> rangeService.save(rangeDTO));
+        } else {
+            rangeDTOS.forEach(rangeDTO -> rangeService.updateRanges(rangeDTO));
         }
     }
 

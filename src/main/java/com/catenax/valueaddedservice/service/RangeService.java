@@ -71,15 +71,10 @@ public class RangeService {
 
     //API to get All Ranges by User [LIST]
     @Transactional(readOnly = true)
-    public List<RangeDTO> getAllRangesList(CompanyUser companyUser) {
-        return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUser));
+    public List<RangeDTO> getAllRangesList(CompanyUserDTO companyUser) {
+        return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUserMapper.toEntity(companyUser)));
     }
 
-    //
-    @Transactional(readOnly = true)
-    public void updateRange(Integer Value, Long RangeId) {
-        rangeRepository.setValueForRange(Value, RangeId);
-    }
 
     /**
      * Save a range.
@@ -92,6 +87,18 @@ public class RangeService {
         Range range = rangeMapper.toEntity(rangeDTO);
         range = rangeRepository.save(range);
         return rangeMapper.toDto(range);
+    }
+
+    /**
+     * Save a range.
+     *
+     * @param rangeDTO the entity to save.
+     * @return the persisted entity.
+     */
+    public void updateRanges(RangeDTO rangeDTO) {
+        log.debug("Request to update Range for user : {}", rangeDTO);
+        Range range = rangeMapper.toEntity(rangeDTO);
+        rangeRepository.setValueForRange(range.getValue(),range.getRange(),range.getCompanyUser().getId());
     }
 
     /**
