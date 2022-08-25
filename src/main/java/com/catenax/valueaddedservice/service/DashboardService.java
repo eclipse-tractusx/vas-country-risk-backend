@@ -238,7 +238,7 @@ public class DashboardService {
     }
 
     //Ranges
-    public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO) throws Exception {
+    public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO)  {
         List<RangeDTO> list = rangeService.getAllRangesList(companyUserDTO);
         if (list.isEmpty()) {
             rangeDTOS.forEach(rangeDTO -> rangeService.save(rangeDTO));

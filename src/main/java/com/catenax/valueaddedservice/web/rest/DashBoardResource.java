@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -121,10 +124,14 @@ public class DashBoardResource {
         message = "Uploaded the file successfully: " + file.getOriginalFilename();
         try {
             dashboardService.saveCsv(file, dataSourceName, companyUser);
-        } catch (IOException e) {
+        } catch (DataIntegrityViolationException e) {
+            message = "Could not upload the file duplicate name: " + dataSourceName + "!";
+            log.error(message);
             log.error("Error {}", e.getMessage());
-            message = "Could not upload the file duplicate name: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            log.error("Error {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage( e.getMessage()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 
@@ -160,10 +167,12 @@ public class DashBoardResource {
         try {
             dashboardService.saveRanges(rangeDTOS, companyUserDTO);
             message = "Range successfully saved!";
+            log.info(message);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
+        }catch (Exception e) {
             message = "Could not save the ranges values!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            log.error(message);
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new ResponseMessage(message));
         }
     }
 
