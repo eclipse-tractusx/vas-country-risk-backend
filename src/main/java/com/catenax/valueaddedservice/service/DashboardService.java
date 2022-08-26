@@ -3,6 +3,7 @@ package com.catenax.valueaddedservice.service;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.utils.FormatUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -127,7 +128,7 @@ public class DashboardService {
            String[] countryAndValue = line.split(";");
             dataSourceValueDTO.setCountry(countryAndValue[0]);
             dataSourceValueDTO.setContinent("World");
-            dataSourceValueDTO.setScore(0F);
+            dataSourceValueDTO.setScore(-1F);
             dataSourceValueDTO.setDataSource(dataSource);
             if(countryAndValue.length > 1){
                 dataSourceValueDTO.setScore(Float.valueOf(countryAndValue[1]));
@@ -194,7 +195,7 @@ public class DashboardService {
         d.setRating(ratingsList[0]);
         return d;
     }
-
+   // DashBoardWorldMapDTO(country=Aruba, score=20.6708, businessPartnerDTOList=[])
     private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO,Integer id) {
         DashBoardTableDTO dashBoardTableDTO = new DashBoardTableDTO();
         dashBoardTableDTO.setBpn(businessPartnerDTO.getBpn());
@@ -224,7 +225,7 @@ public class DashboardService {
             generalFormulaTotal = generalFormulaTotal+ (eachDataSource.getScore() * (eachWeight * 0.01F));
         }
 
-        return generalFormulaTotal;
+        return FormatUtils.formatFloatTwoDecimals(generalFormulaTotal);
     }
 
     private List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser) {
