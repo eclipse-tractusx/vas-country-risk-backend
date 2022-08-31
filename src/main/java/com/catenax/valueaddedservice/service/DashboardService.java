@@ -167,10 +167,10 @@ public class DashboardService {
         businessPartnerDTOS = getExternalBusinessPartners(companyUser);
         countryList.forEach(country->{
             final float[] generalFormulaTotal = {0F};
-            float total = 100F;
+            final float[] totalRatedByUser = {0F};
             List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country)).collect(Collectors.toList());
-            float eachWeight = total/dataSources.size();
-            dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,eachWeight));
+            dataSources.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
+            dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,totalRatedByUser[0]));
             dashBoardWorldMapDTO[0] = new DashBoardWorldMapDTO();
             dashBoardWorldMapDTO[0].setCountry(country);
             dashBoardWorldMapDTO[0].setScore(generalFormulaTotal[0]);
@@ -183,19 +183,19 @@ public class DashboardService {
     }
     private DashBoardTableDTO mapScoreForEachBpn(DashBoardTableDTO d, List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS){
         List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getCountry().equalsIgnoreCase(d.getCountry())).collect(Collectors.toList());
-        float total = 100F;
-        float eachWeight = total/dataSourceForCountry.size();
         final float[] generalFormulaTotal = {0F};
         final String[] ratingsList = {""};
+        final float[] totalRatedByUser = {0F};
+        dataSourceForCountry.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
         dataSourceForCountry.stream().forEach(eachDataSource -> {
-            generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSourceForCountry.size(),eachDataSource,eachWeight);
+            generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSourceForCountry.size(),eachDataSource,totalRatedByUser[0]);
             ratingsList[0] = concatenateRatings(ratingsList[0], eachDataSource);
         });
         d.setScore(generalFormulaTotal[0]);
         d.setRating(ratingsList[0]);
         return d;
     }
-   // DashBoardWorldMapDTO(country=Aruba, score=20.6708, businessPartnerDTOList=[])
+
     private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO,Integer id) {
         DashBoardTableDTO dashBoardTableDTO = new DashBoardTableDTO();
         dashBoardTableDTO.setBpn(businessPartnerDTO.getBpn());
@@ -217,11 +217,12 @@ public class DashboardService {
         return ratingsList;
     }
 
-    private Float calculateFinalScore(Integer ratingDTOSize, Integer dataSourceCountrySize,DataDTO eachDataSource,Float eachWeight) {
+    private Float calculateFinalScore(Integer ratingDTOSize, Integer dataSourceCountrySize,DataDTO eachDataSource,Float totalRatedByUser) {
         Float generalFormulaTotal = 0F;
         if(ratingDTOSize == dataSourceCountrySize){
             generalFormulaTotal= generalFormulaTotal + (eachDataSource.getScore() * (eachDataSource.getWeight() * 0.01F));
         }else{
+            Float eachWeight = eachDataSource.getWeight() * 100.00F / totalRatedByUser ;
             generalFormulaTotal = generalFormulaTotal+ (eachDataSource.getScore() * (eachWeight * 0.01F));
         }
 

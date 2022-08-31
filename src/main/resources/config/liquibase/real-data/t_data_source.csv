@@ -1,6 +1,6 @@
 data_source_name;year_published;data_source_type
-CPI Rating;2021;Global
-CPI Rating;2020;Global
+CPI Rating 2021;2021;Global
+CPI Rating 2020;2020;Global
 African Development Bank CPIA;2021;Global
 Bertelsmann Foundation Sustainable Governance Index;2021;Global
 Bertelsmann Foundation Transformation Index;2021;Global
