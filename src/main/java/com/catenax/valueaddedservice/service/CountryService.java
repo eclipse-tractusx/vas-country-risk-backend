@@ -2,7 +2,6 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.Country;
 import com.catenax.valueaddedservice.dto.CountryDTO;
-import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.repository.CountryRepository;
 import com.catenax.valueaddedservice.service.mapper.CountryMapper;
 import org.slf4j.Logger;
@@ -12,10 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Country}.
@@ -97,6 +94,12 @@ public class CountryService {
     public Page<CountryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Countries");
         return countryRepository.findAll(pageable).map(countryMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CountryDTO> findAll() {
+        log.debug("Request to get all Countries");
+        return countryMapper.toDto(countryRepository.findAll());
     }
 
     /**

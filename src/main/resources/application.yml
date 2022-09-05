@@ -4,6 +4,8 @@ server:
     relaxedPathChars: "|,{,},[,]"
     relaxedQueryChars: "|,{,},[,]"
 
+
+
 vas:
   datasource:
     host: localhost
@@ -19,6 +21,9 @@ spring:
 
 #  security:
 #    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
 #      client:
 #        provider:
 #          oidc:
@@ -34,21 +39,23 @@ spring:
 #            client-secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
 #            authorization-grant-type: client_credentials
 #            scope: openid,profile,email
-#      resourceserver:
-#        jwt:
-#          issuer-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
 
 
-#keycloak:
-#  realm: CX-Central
-#  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
-#  resource: sa-cl7-cx-2
-#  bearer-only: true
-#  credentials.secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
-#  public-client: false
-#  use-resource-role-mappings: true
-#  principal-attribute: preferred_username
-#  ssl-required: NONE
+keycloak:
+  realm: CX-Central
+  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
+  resource: Cl16-CX-CRisk
+  bearer-only: true
+  #credentials.secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
+  public-client: false
+  use-resource-role-mappings: true
+  principal-attribute: preferred_username
+  ssl-required: NONE
+
+logging:
+  level:
+    root: INFO
+    com.catenax.valueaddedservice: DEBUG
 
 application:
   name: default

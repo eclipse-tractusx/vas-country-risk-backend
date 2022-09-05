@@ -1,13 +1,13 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.service.CountryService;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
 import com.catenax.valueaddedservice.service.RangeService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +39,9 @@ public class DashBoardResource {
 
     @Autowired
     DataSourceService dataSourceService;
+
+    @Autowired
+    CountryService countryService;
 
     @Autowired
     RangeService rangeService;
@@ -151,6 +152,11 @@ public class DashBoardResource {
         List<RangeDTO> rangeDTOS;
         rangeDTOS = rangeService.getUserRangesOrDefault(companyUser);
         return ResponseEntity.ok().body(rangeDTOS);
+    }
+
+    @GetMapping("/dashboard/getCountrys")
+    public ResponseEntity<List<CountryDTO>> getCountrys() {
+        return ResponseEntity.ok().body(countryService.findAll());
     }
 
     @PostMapping("/dashboard/saveUserRanges")
