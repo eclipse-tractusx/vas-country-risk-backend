@@ -19,38 +19,51 @@ spring:
     change-log: classpath:config/liquibase/master.xml
     enabled: true
 
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
-#      client:
-#        provider:
-#          oidc:
-#            issuer-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
-
-#      client:
-#        provider:
-#          keycloak:
-#            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-#        registration:
-#          keycloak:
-#            client-id: sa-cl7-cx-2
-#            client-secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
-#            authorization-grant-type: client_credentials
-#            scope: openid,profile,email
-
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: Cl16-CX-CRisk
+            client-secret: gtdSaoG51RpjXDyfthpiGjhH3JQWmzIU
+        provider:
+          keycloak:
+            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
 keycloak:
-  realm: CX-Central
-  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
-  resource: Cl16-CX-CRisk
+  enabled: true
+  realm: CX-Central #jhipster #CX-Central
+  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth #http://localhost:9080/auth #https://centralidp.dev.demo.catena-x.net/auth
+  #token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+  #auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+  resource: Cl16-CX-CRisk #spring-boot
+  public-client: true
   bearer-only: true
-  #credentials.secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
-  public-client: false
+  credentials:
+    secret: gtdSaoG51RpjXDyfthpiGjhH3JQWmzIU
   use-resource-role-mappings: true
   principal-attribute: preferred_username
   ssl-required: NONE
+  securityconstraints:
+    - authRoles:
+        - user
+      securityCollections:
+        - patterns:
+            - /api/*
+
+
+
+#  bearer-only: true
+#  credentials.secret: gtdSaoG51RpjXDyfthpiGjhH3JQWmzIU
+#  public-client: false
+#  use-resource-role-mappings: true
+#  principal-attribute: preferred_username
+#  ssl-required: external
+
 
 logging:
   level:
