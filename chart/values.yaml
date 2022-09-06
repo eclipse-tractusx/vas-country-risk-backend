@@ -98,8 +98,8 @@ readinessProbe:
 
 applicationSecret:
   enabled: false
-  keycloak: <path:value-added-service/data/dev/keycloak#credentials-secret>
-  cdq: <path:value-added-service/data/dev/cdq#api-key>
+  keycloak: <path:value-added-service/data/country-risk/dev/keycloak#credentials-secret>
+  cdq: <path:value-added-service/data/country-risk/dev/cdq#api-key>
 
 configmap:
   # Specifies whether a configmap should be created
@@ -129,7 +129,7 @@ postgres:
 
 pgadmin4:
   secret:
-    path: value-added-service/data/dev/pgadmin4
+    path: value-added-service/data/country-risk/dev/pgadmin4
   env:
     email: vas@catena-x.net
   ingress:
