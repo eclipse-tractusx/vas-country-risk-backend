@@ -98,8 +98,8 @@ readinessProbe:
 
 applicationSecret:
   enabled: true
-  client-secret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret>
-  client-id: <path:value-added-service/data/country-risk/dev/keycloak#client-id>
+  clientSecret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret>
+  clientId: <path:value-added-service/data/country-risk/dev/keycloak#client-id>
 
 configmap:
   # Specifies whether a configmap should be created
