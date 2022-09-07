@@ -5,7 +5,6 @@ server:
     relaxedQueryChars: "|,{,},[,]"
 
 
-
 vas:
   datasource:
     host: localhost
@@ -18,7 +17,20 @@ spring:
   liquibase:
     change-log: classpath:config/liquibase/master.xml
     enabled: true
-
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id:
+            client-secret:
+        provider:
+          keycloak:
+            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
 logging:
   level:
