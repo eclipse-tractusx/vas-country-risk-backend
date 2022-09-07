@@ -97,9 +97,9 @@ readinessProbe:
   port: 8080
 
 applicationSecret:
-  enabled: false
-  keycloak: <path:value-added-service/data/country-risk/dev/keycloak#credentials-secret>
-  cdq: <path:value-added-service/data/country-risk/dev/cdq#api-key>
+  enabled: true
+  client-secret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret>
+  client-id: <path:value-added-service/data/country-risk/dev/keycloak#client-id>
 
 configmap:
   # Specifies whether a configmap should be created
