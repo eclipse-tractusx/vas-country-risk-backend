@@ -5,20 +5,6 @@ spring:
   config:
     activate:
       on-profile: local
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            authorization-grant-type: client_credentials
-            client-id: Cl16-CX-CRisk
-            client-secret: gtdSaoG51RpjXDyfthpiGjhH3JQWmzIU
-        provider:
-          keycloak:
-            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      resourceserver:
-        jwt:
-          jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 #  datasource:
 #    username: user
 #    url: jdbc:postgresql://localhost:5432/database
@@ -48,6 +34,9 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
+
+security:
+  enabled: false
 
 cors:
   origins: >

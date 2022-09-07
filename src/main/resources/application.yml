@@ -34,6 +34,9 @@ spring:
         jwt:
           jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
+security:
+  enabled: true
+
 logging:
   level:
     root: INFO
