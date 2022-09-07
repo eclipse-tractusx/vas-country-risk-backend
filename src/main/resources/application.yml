@@ -10,6 +10,8 @@ vas:
     host: localhost
     user: default
     pass: defaultpassword
+    keycloakClientSecret:
+    keycloakClientId:
 
 spring:
   application:
@@ -23,8 +25,8 @@ spring:
         registration:
           keycloak:
             authorization-grant-type: client_credentials
-            client-id:
-            client-secret:
+            client-id: ${vas_datasource_keycloakClientId}
+            client-secret: ${vas_datasource_keycloakClientSecret}
         provider:
           keycloak:
             token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
