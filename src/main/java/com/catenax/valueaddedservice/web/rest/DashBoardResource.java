@@ -84,7 +84,7 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dashBoardTableDTOs);
     }
 
-    @Operation(summary = "Retrieves a score based on selected ratings, year and current user")
+    @Operation(summary = "Retrieves a score based on selected ratings, years and current user")
     @GetMapping("/dashboard/getWorldMap")
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String, Object> ratings,
                                                                            @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
