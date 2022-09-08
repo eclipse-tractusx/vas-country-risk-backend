@@ -3,6 +3,15 @@ spring:
   config:
     activate:
       on-profile: int
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
 application:
   name: int

@@ -5,6 +5,7 @@ spring:
   config:
     activate:
       on-profile: local
+
 #  datasource:
 #    username: user
 #    url: jdbc:postgresql://localhost:5432/database
@@ -36,7 +37,7 @@ spring:
         format_sql: true
 
 security:
-  enabled: true
+  enabled: false
 
 cors:
   origins: >

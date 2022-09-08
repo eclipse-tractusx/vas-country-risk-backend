@@ -5,12 +5,13 @@ server:
     relaxedQueryChars: "|,{,},[,]"
 
 
-
 vas:
   datasource:
     host: localhost
     user: default
     pass: defaultpassword
+    keycloakClientSecret:
+    keycloakClientId:
 
 spring:
   application:
@@ -18,39 +19,23 @@ spring:
   liquibase:
     change-log: classpath:config/liquibase/master.xml
     enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: ${vas_datasource_keycloakClientId}
+            client-secret: ${vas_datasource_keycloakClientSecret}
+        provider:
+          keycloak:
+            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
-#      client:
-#        provider:
-#          oidc:
-#            issuer-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
-
-#      client:
-#        provider:
-#          keycloak:
-#            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-#        registration:
-#          keycloak:
-#            client-id: sa-cl7-cx-2
-#            client-secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
-#            authorization-grant-type: client_credentials
-#            scope: openid,profile,email
-
-
-keycloak:
-  realm: CX-Central
-  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
-  resource: Cl16-CX-CRisk
-  bearer-only: true
-  #credentials.secret: BY79UOdY5LsP8QNK2A29yZYALPgcA2zj
-  public-client: false
-  use-resource-role-mappings: true
-  principal-attribute: preferred_username
-  ssl-required: NONE
+security:
+  enabled: true
 
 logging:
   level:
