@@ -9,7 +9,7 @@
     -->
     <changeSet id="20220729101052-1" author="fabiodmota">
         <createTable tableName="t_file">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint"  autoIncrement="true" incrementBy="1" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="file_name" type="varchar(255)">
@@ -49,7 +49,6 @@
                 separator=";"
                 tableName="t_file"
                 usePreparedStatements="true">
-            <column name="id" type="numeric"/>
             <column name="file_name" type="string"/>
             <column name="content" type="clob"/>
             <column name="content_content_type" type="string"/>

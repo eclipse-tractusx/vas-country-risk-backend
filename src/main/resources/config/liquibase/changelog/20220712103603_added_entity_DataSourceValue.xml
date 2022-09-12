@@ -9,7 +9,7 @@
     -->
     <changeSet id="20220712103603-1" author="fabiodmota">
         <createTable tableName="t_data_source_value">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true" incrementBy="1" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="country" type="varchar(255)">
@@ -50,7 +50,7 @@
                   separator=";"
                   tableName="t_data_source_value"
                   usePreparedStatements="true">
-            <column name="id" type="numeric"/>
+
             <column name="country" type="string"/>
             <column name="iso_3" type="string"/>
             <column name="iso_2" type="string"/>

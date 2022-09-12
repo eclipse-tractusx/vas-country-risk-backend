@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,6 +30,12 @@ public class CountryService {
     public CountryService(CountryRepository countryRepository, CountryMapper countryMapper) {
         this.countryRepository = countryRepository;
         this.countryMapper = countryMapper;
+    }
+
+    //API to get Country by name
+    @Transactional(readOnly = true)
+    public List<CountryDTO> findCountryByName(String country) {
+        return countryMapper.toDto(countryRepository.findByCountry(country));
     }
 
     /**
@@ -87,6 +94,12 @@ public class CountryService {
     public Page<CountryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Countries");
         return countryRepository.findAll(pageable).map(countryMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CountryDTO> findAll() {
+        log.debug("Request to get all Countries");
+        return countryMapper.toDto(countryRepository.findAll());
     }
 
     /**

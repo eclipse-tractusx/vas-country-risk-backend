@@ -13,7 +13,7 @@ image:
   repository: ghcr.io/catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "dev"
+  tag: "swagger"
 
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
@@ -26,12 +26,12 @@ configmap:
 
 postgres:
   auth:
-    postgresPassword: <path:value-added-service/data/dev/postgresql#postgres-password>
-    password: <path:value-added-service/data/dev/postgresql#password>
+    postgresPassword: <path:value-added-service/data/country-risk/dev/postgresql#postgres-password>
+    password: <path:value-added-service/data/country-risk/dev/postgresql#password>
 
 pgadmin4:
   secret:
-    path: value-added-service/data/dev/pgadmin4
+    path: value-added-service/data/country-risk/dev/pgadmin4
   ingress:
     hosts:
       - host: vas-pgadmin4.dev.demo.catena-x.net

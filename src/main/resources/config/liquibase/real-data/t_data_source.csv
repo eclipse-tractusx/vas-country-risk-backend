@@ -1,18 +1,18 @@
-id;data_source_name;year_published;data_source_type
-1;CPI Rating;2021;Global
-2;CPI Rating;2020;Global
-3;African Development Bank CPIA;2021;Global
-4;Bertelsmann Foundation Sustainable Governance Index;2021;Global
-5;Bertelsmann Foundation Transformation Index;2021;Global
-6;Economist Intelligence Unit Country Ratings;2021;Global
-7;Freedom House Nations in Transit;2021;Global
-8;Global Insights Country Risk Ratings;2021;Global
-9;IMD World Competitiveness Yearbook;2021;Global
-10;PERC Asia Risk Guide;2021;Global
-11;PRS International Country Risk Guide;2021;Global
-12;Varieties of Democracy Project;2021;Global
-13;World Bank CPIA;2021;Global
-14;World Economic Forum EOS;2021;Global
-15;World Justice Project Rule of Law Index;2021;Global
-16;Basel Score 2021 (Rechnung Maximal (Maximum Score +1) - (Basel Score * 10));2021;Global
-17;Basel Score 2020 (Rechnung Maximal (Maximum Score +1) - (Basel Score * 10));2020;Global
+data_source_name;year_published;data_source_type
+CPI Rating 2021;2021;Global
+CPI Rating 2020;2020;Global
+African Development Bank CPIA;2021;Global
+Bertelsmann Foundation Sustainable Governance Index;2021;Global
+Bertelsmann Foundation Transformation Index;2021;Global
+Economist Intelligence Unit Country Ratings;2021;Global
+Freedom House Nations in Transit;2021;Global
+Global Insights Country Risk Ratings;2021;Global
+IMD World Competitiveness Yearbook;2021;Global
+PERC Asia Risk Guide;2021;Global
+PRS International Country Risk Guide;2021;Global
+Varieties of Democracy Project;2021;Global
+World Bank CPIA;2021;Global
+World Economic Forum EOS;2021;Global
+World Justice Project Rule of Law Index;2021;Global
+Basel Score 2021 (Rechnung Maximal (Maximum Score +1) - (Basel Score * 10));2021;Global
+Basel Score 2020 (Rechnung Maximal (Maximum Score +1) - (Basel Score * 10));2020;Global

@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.service;
 
+import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.repository.DataSourceRepository;
@@ -39,6 +40,12 @@ public class DataSourceService {
     @Transactional(readOnly = true)
     public List<DataSourceDTO> findRatingsByYear(Integer year) {
         return dataSourceMapper.toDto(dataSourceRepository.findByYearPublished(year));
+    }
+
+    //API to get Rating name by User
+    @Transactional(readOnly = true)
+    public List<DataSourceDTO> findRatingByUser(CompanyUser user, String name) {
+        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserAndDataSourceName(user, name));
     }
 
     //API to get All Years

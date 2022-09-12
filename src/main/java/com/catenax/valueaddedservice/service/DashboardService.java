@@ -1,7 +1,9 @@
 package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSource;
+import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.utils.FormatUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -10,9 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +36,15 @@ public class DashboardService {
 
     @Autowired
     DataSourceValueService dataSourceValueService;
+
+    @Autowired
+    RangeService rangeService;
+
+    @Autowired
+    CompanyUserService companyUserService;
+
+    @Autowired
+    CountryService countryService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -92,6 +107,39 @@ public class DashboardService {
         Optional<FileDTO> optionalFileDTO = fileService.findUpdatedDataSourceTemplate();
         return optionalFileDTO.orElseGet(optionalFileDTO::orElseThrow);
     }
+
+
+
+    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
+
+
+        BufferedReader br = new BufferedReader(new InputStreamReader((file.getResource().getInputStream())));
+        String line = "";
+        DataSourceDTO dataSource = new DataSourceDTO();
+        dataSource.setType(Type.Custom);
+        dataSource.setCompanyUser(companyUserDTO);
+        dataSource.setFileName(dataSourceName);
+        dataSource.setYearPublished(Calendar.getInstance().get(Calendar.YEAR));
+        dataSource.setDataSourceName(dataSourceName);
+        dataSource = dataSourceService.save(dataSource);
+        DataSourceValueDTO dataSourceValueDTO = new DataSourceValueDTO();
+        line = br.readLine();
+        while ((line = br.readLine()) != null) {
+           String[] countryAndValue = line.split(";");
+            dataSourceValueDTO.setCountry(countryAndValue[0]);
+            dataSourceValueDTO.setContinent("World");
+            dataSourceValueDTO.setScore(-1F);
+            dataSourceValueDTO.setDataSource(dataSource);
+            if(countryAndValue.length > 1){
+                dataSourceValueDTO.setScore(Float.valueOf(countryAndValue[1]));
+            }
+            dataSourceValueService.save(dataSourceValueDTO);
+            dataSourceValueDTO = new DataSourceValueDTO();
+        }
+
+
+    }
+
     private List<DashBoardTableDTO> mapBusinessPartnerToDashboard(List<BusinessPartnerDTO> businessPartnerDTOS,  List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS) {
         List<DashBoardTableDTO> dashBoardTableDTOS = new ArrayList<>();
         final DashBoardTableDTO[] dashBoardTableDTO = {new DashBoardTableDTO()};
@@ -119,10 +167,10 @@ public class DashboardService {
         businessPartnerDTOS = getExternalBusinessPartners(companyUser);
         countryList.forEach(country->{
             final float[] generalFormulaTotal = {0F};
-            float total = 100F;
+            final float[] totalRatedByUser = {0F};
             List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country)).collect(Collectors.toList());
-            float eachWeight = total/dataSources.size();
-            dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,eachWeight));
+            dataSources.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
+            dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,totalRatedByUser[0]));
             dashBoardWorldMapDTO[0] = new DashBoardWorldMapDTO();
             dashBoardWorldMapDTO[0].setCountry(country);
             dashBoardWorldMapDTO[0].setScore(generalFormulaTotal[0]);
@@ -135,12 +183,12 @@ public class DashboardService {
     }
     private DashBoardTableDTO mapScoreForEachBpn(DashBoardTableDTO d, List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS){
         List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getCountry().equalsIgnoreCase(d.getCountry())).collect(Collectors.toList());
-        float total = 100F;
-        float eachWeight = total/dataSourceForCountry.size();
         final float[] generalFormulaTotal = {0F};
         final String[] ratingsList = {""};
+        final float[] totalRatedByUser = {0F};
+        dataSourceForCountry.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
         dataSourceForCountry.stream().forEach(eachDataSource -> {
-            generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSourceForCountry.size(),eachDataSource,eachWeight);
+            generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSourceForCountry.size(),eachDataSource,totalRatedByUser[0]);
             ratingsList[0] = concatenateRatings(ratingsList[0], eachDataSource);
         });
         d.setScore(generalFormulaTotal[0]);
@@ -169,15 +217,16 @@ public class DashboardService {
         return ratingsList;
     }
 
-    private Float calculateFinalScore(Integer ratingDTOSize, Integer dataSourceCountrySize,DataDTO eachDataSource,Float eachWeight) {
+    private Float calculateFinalScore(Integer ratingDTOSize, Integer dataSourceCountrySize,DataDTO eachDataSource,Float totalRatedByUser) {
         Float generalFormulaTotal = 0F;
         if(ratingDTOSize == dataSourceCountrySize){
             generalFormulaTotal= generalFormulaTotal + (eachDataSource.getScore() * (eachDataSource.getWeight() * 0.01F));
         }else{
+            Float eachWeight = eachDataSource.getWeight() * 100.00F / totalRatedByUser ;
             generalFormulaTotal = generalFormulaTotal+ (eachDataSource.getScore() * (eachWeight * 0.01F));
         }
 
-        return generalFormulaTotal;
+        return FormatUtils.formatFloatTwoDecimals(generalFormulaTotal);
     }
 
     private List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser) {
@@ -190,6 +239,15 @@ public class DashboardService {
         }
     }
 
+    //Ranges
+    public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO)  {
+        List<RangeDTO> list = rangeService.getAllRangesList(companyUserDTO);
+        if (list.isEmpty()) {
+            rangeDTOS.forEach(rangeDTO -> rangeService.save(rangeDTO));
+        } else {
+            rangeDTOS.forEach(rangeDTO -> rangeService.updateRanges(rangeDTO));
+        }
+    }
 
 
 

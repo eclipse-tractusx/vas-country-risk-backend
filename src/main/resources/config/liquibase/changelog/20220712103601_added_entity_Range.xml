@@ -9,7 +9,7 @@
     -->
     <changeSet id="20220712103601-1" author="fabiodmota" >
         <createTable tableName="t_range">
-            <column name="id" type="BIGINT">
+            <column name="id" type="bigint"  autoIncrement="true" incrementBy="1" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="range_name" type="varchar(255)">

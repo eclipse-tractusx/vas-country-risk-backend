@@ -10,12 +10,8 @@ vas:
     host: localhost
     user: default
     pass: defaultpassword
-  keycloakClientSecret:
-  keycloakClientId:
-  authentication-url:
-    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+    keycloakClientSecret:
+    keycloakClientId:
 
 spring:
   application:
@@ -29,17 +25,17 @@ spring:
         registration:
           keycloak:
             authorization-grant-type: client_credentials
-            client-id: ${vas_keycloakClientId}
-            client-secret: ${vas_keycloakClientSecret}
+            client-id: ${vas_datasource_keycloakClientId}
+            client-secret: ${vas_datasource_keycloakClientSecret}
         provider:
           keycloak:
-            token-uri: ${vas.authentication-url.token-url}
+            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       resourceserver:
         jwt:
-          jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
+          jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
 security:
-  enabled: true
+  enabled: false
 
 logging:
   level:
@@ -68,7 +64,3 @@ management:
     readinessState:
       enabled: true
 
-springdoc:
-  swagger-ui:
-    oauth:
-      client-id: Cl2-CX-Portal

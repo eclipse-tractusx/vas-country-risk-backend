@@ -52,6 +52,16 @@ spec:
                 secretKeyRef:
                   name: product-vas-country-risk-backend-pgadmin4
                   key: password
+            - name: VAS_KEYCLOAKCLIENTID
+              valueFrom:
+                secretKeyRef:
+                  name: product-vas-country-risk-backend-application
+                  key: keycloakClientSecret
+            - name: VAS_KEYCLOAKCLIENTSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: product-vas-country-risk-backend-application
+                  key: keycloakClientId
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;

@@ -36,6 +36,9 @@ spring:
         show_sql: false
         format_sql: true
 
+security:
+  enabled: true
+
 cors:
   origins: >
     http://localhost:4200/,

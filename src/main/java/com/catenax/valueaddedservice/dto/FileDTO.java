@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,7 @@ public class FileDTO implements Serializable {
 
     private Long id;
 
+    @Schema(example = "TestFile")
     @NotNull
     private String fileName;
 
@@ -24,6 +26,7 @@ public class FileDTO implements Serializable {
 
     private String contentContentType;
 
+    @Schema(example = "1.0")
     private Integer version;
 
     private CompanyUserDTO companyUser;
