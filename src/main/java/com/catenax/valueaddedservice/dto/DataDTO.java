@@ -1,6 +1,7 @@
 package com.catenax.valueaddedservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
@@ -14,8 +15,10 @@ import java.io.Serializable;
 @JsonIgnoreProperties({ "weight" })
 public class DataDTO implements Serializable {
 
+    @Schema(example = "Germany")
     private String country;
 
+    @Schema(example = "70")
     private Float score = 0F;
 
     private String dataSourceName = "";

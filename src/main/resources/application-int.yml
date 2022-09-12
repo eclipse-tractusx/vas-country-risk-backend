@@ -8,10 +8,10 @@ spring:
       client:
         provider:
           keycloak:
-            token-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+            token-uri: ${vas.authentication-url.token-url}
       resourceserver:
         jwt:
-          jwk-set-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+          jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
 
 application:
   name: int
