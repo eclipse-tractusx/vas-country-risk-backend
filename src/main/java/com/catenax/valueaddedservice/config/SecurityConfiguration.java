@@ -22,16 +22,6 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private static final String[] WHITELIST  = {
-            "/actuator/health",
-            "/actuator/health/readiness",
-            "/actuator/health/liveness",
-            "/actuator/prometheus",
-            "/api/swagger-ui/**",
-            "/api/api-docs",
-            "/api/api-docs.yaml",
-            "/api/api-docs/swagger-config",
-    };
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     @Bean
@@ -48,8 +38,6 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST)
-                .permitAll()
                 .antMatchers("/api/**")
                 .authenticated()
                 .and().
@@ -72,8 +60,6 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST)
-                .permitAll()
                 .antMatchers("/api/**")
                 .permitAll();
 

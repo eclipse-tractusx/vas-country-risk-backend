@@ -52,12 +52,12 @@ spec:
                 secretKeyRef:
                   name: product-vas-country-risk-backend-pgadmin4
                   key: password
-            - name: VAS_DATASOURCE_KEYCLOAKCLIENTID
+            - name: VAS_KEYCLOAKCLIENTID
               valueFrom:
                 secretKeyRef:
                   name: product-vas-country-risk-backend-application
                   key: keycloakClientSecret
-            - name: VAS_DATASOURCE_KEYCLOAKCLIENTSECRET
+            - name: VAS_KEYCLOAKCLIENTSECRET
               valueFrom:
                 secretKeyRef:
                   name: product-vas-country-risk-backend-application

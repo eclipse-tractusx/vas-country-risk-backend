@@ -1,17 +1,14 @@
 # Spring Boot configuration
+vas:
+  authentication-url:
+    token-url: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+
 spring:
   config:
     activate:
       on-profile: int
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            token-uri: ${vas.authentication-url.token-url}
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
 
 application:
   name: int
