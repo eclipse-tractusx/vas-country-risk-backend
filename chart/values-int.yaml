@@ -35,7 +35,7 @@ postgres:
 
 pgadmin4:
   secret:
-    path: value-added-service/data/country-risk/country-risk/int/pgadmin4
+    path: value-added-service/data/country-risk/int/pgadmin4
   ingress:
     hosts:
       - host: vas-pgadmin4.int.demo.catena-x.net
