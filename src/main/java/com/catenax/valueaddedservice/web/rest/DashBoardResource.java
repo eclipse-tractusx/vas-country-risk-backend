@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -45,7 +47,7 @@ import java.util.Map;
         bearerFormat = "JWT",
         scheme = "bearer"
 )
-@SecurityRequirement(name = "Bearer Authentication")
+@SecurityRequirement(name = "Authentication Required")
 public class DashBoardResource {
 
     private final Logger log = LoggerFactory.getLogger(DashBoardResource.class);
@@ -67,8 +69,9 @@ public class DashBoardResource {
     ObjectMapper objectMapper;
 
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
+            @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/getTableInfo")
-    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Request executed with success")})
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam Map<String, Object> ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                                         CompanyUserDTO companyUser) throws IOException {
@@ -85,6 +88,8 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Retrieves a score based on selected ratings, year and current user")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "World map information requested with success"),
+                        @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/getWorldMap")
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String, Object> ratings,
                                                                            @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
@@ -102,6 +107,8 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Retrieves all years saved on the database")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "All years requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/allYears")
     public ResponseEntity<List<Integer>> getYears() {
         List<Integer> years;
@@ -110,6 +117,8 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Retrieves ratings based on inserted year")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
+                           @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/ratingsByYear")
     public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year) {
         List<DataSourceDTO> dataSourceDto;
@@ -118,6 +127,8 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Retrieves an CSV template")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "CSV file retrieved with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/getTemplate")
     public ResponseEntity<byte[]> getTemplate() {
         FileDTO fileDTO = dashboardService.getDataSourceTemplate();
@@ -133,6 +144,10 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Inserts information from an CSV file into the database, with the associated user")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "CSV file uploaded with success"),
+                           @ApiResponse (responseCode = "400", description = "Bad Request"),
+                           @ApiResponse (responseCode = "500", description = "CSV file is missing"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @PostMapping("/dashboard/uploadCsv")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
@@ -162,6 +177,8 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Retrieves current user ranges")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "User Ranges requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/getUserRanges")
     public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
 
@@ -177,12 +194,17 @@ public class DashBoardResource {
     }
 
     @Operation(summary = "Retrieves all countries in the database")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @GetMapping("/dashboard/getCountrys")
     public ResponseEntity<List<CountryDTO>> getCountrys() {
         return ResponseEntity.ok().body(countryService.findAll());
     }
 
     @Operation(summary = "Saves the current user ranges")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ranges saved with success"),
+                           @ApiResponse (responseCode = "400", description = "Bad Request"),
+                           @ApiResponse (responseCode = "401", description = "Authentication Required")})
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";

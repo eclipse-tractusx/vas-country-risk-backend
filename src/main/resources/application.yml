@@ -64,3 +64,7 @@ management:
     readinessState:
       enabled: true
 
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: Cl2-CX-Portal

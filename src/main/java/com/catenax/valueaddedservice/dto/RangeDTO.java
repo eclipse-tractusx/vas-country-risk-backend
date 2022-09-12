@@ -1,6 +1,7 @@
 package com.catenax.valueaddedservice.dto;
 
 import com.catenax.valueaddedservice.domain.enumeration.RangeType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -18,12 +19,15 @@ public class RangeDTO implements Serializable {
 
     private Long id;
 
+    @Schema(example = "Max")
     @NotNull
     private RangeType range;
 
+    @Schema(example = "80")
     @NotNull
     private Integer value;
 
+    @Schema(example = "Max value")
     private String description;
 
     private CompanyUserDTO companyUser;
