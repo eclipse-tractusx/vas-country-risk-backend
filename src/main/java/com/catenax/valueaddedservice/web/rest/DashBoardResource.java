@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -43,12 +44,12 @@ import java.util.Map;
 @Tag(name = "Dashboard Controller")
 @Configuration
 @SecurityScheme(
-        name = "Bearer Authentication",
+        name = "bearer_token_schema",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"
 )
-@SecurityRequirement(name = "Authentication Required")
+@SecurityRequirements({@SecurityRequirement(name = "bearer_token_schema"), @SecurityRequirement(name = "open_id_scheme")})
 public class DashBoardResource {
 
     private final Logger log = LoggerFactory.getLogger(DashBoardResource.class);
@@ -148,7 +149,7 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "CSV file uploaded with success"),
                            @ApiResponse (responseCode = "400", description = "Bad Request", content = @Content),
                            @ApiResponse (responseCode = "500", description = "CSV file is missing", content = @Content),
-            @ApiResponse (responseCode = "401", description = "Authentication Required")})
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/uploadCsv")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {

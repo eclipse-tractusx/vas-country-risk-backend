@@ -12,6 +12,10 @@ vas:
     pass: defaultpassword
     keycloakClientSecret:
     keycloakClientId:
+  authentication-url:
+    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
 spring:
   application:
@@ -29,10 +33,10 @@ spring:
             client-secret: ${vas_datasource_keycloakClientSecret}
         provider:
           keycloak:
-            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+            token-uri: ${vas.authentication-url.token-url}
       resourceserver:
         jwt:
-          jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+          jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
 
 security:
   enabled: true

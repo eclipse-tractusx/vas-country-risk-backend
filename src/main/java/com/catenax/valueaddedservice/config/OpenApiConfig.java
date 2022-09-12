@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +19,12 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class OpenApiConfig {
+
+    @Value("${vas.authentication-url.auth-url}")
+    private String authUrl;
+
+    @Value("${vas.authentication-url.token-url}")
+    private String tokenUrl;
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -34,8 +41,8 @@ public class OpenApiConfig {
             final Components components = openApi.getComponents();
             components.addSecuritySchemes("open_id_scheme", new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
                     .flows(new OAuthFlows().authorizationCode(
-                            new OAuthFlow().authorizationUrl("https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth")
-                                    .tokenUrl("https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"))));
+                            new OAuthFlow().authorizationUrl(authUrl)
+                                    .tokenUrl(tokenUrl))));
         };
     }
 
