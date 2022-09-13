@@ -54,13 +54,13 @@ public class OpenApiConfig {
         };
     }
 
-//    @Bean
-//    public OpenApiCustomiser bearer_auth() {
-//        final String securitySchemeName = "bearerAuth";
-//        return openApi -> {
-//            final Components components = openApi.getComponents();
-//            components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.HTTP)
-//                    .scheme(BearerSchema).bearerFormat(bearerFormat));
-//        };
-//    }
+    @Bean
+    public OpenApiCustomiser bearer_auth() {
+        final String securitySchemeName = "bearerAuth";
+        return openApi -> {
+            final Components components = openApi.getComponents();
+            components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                    .scheme(BearerSchema).bearerFormat(bearerFormat));
+        };
+    }
 }
