@@ -19,6 +19,10 @@ vas:
   server:
     redirect_uri: https://vas-country-risk-backend.dev.demo.catena-x.net
 
+bearer_token:
+  bearer_format: JWT
+  bearer_schema: bearer
+
 spring:
   application:
     name: value-added-service

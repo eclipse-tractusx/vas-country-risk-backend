@@ -42,14 +42,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
-@Configuration
-@SecurityScheme(
-        name = "bearer_token_schema",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        scheme = "bearer"
-)
-@SecurityRequirements({@SecurityRequirement(name = "bearer_token_schema"), @SecurityRequirement(name = "open_id_scheme")})
+@SecurityRequirements({@SecurityRequirement(name = "bearerAuth"), @SecurityRequirement(name = "open_id_scheme")})
 public class DashBoardResource {
 
     private final Logger log = LoggerFactory.getLogger(DashBoardResource.class);
