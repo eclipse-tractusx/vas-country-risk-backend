@@ -26,8 +26,6 @@ public class OpenApiConfig {
     @Value("${vas.authentication-url.token-url}")
     private String tokenUrl;
 
-    @Value("${vas.server.redirect_uri}")
-    private String redirectUri;
 
     @Value("${bearer_token.bearer_schema}")
     private String BearerSchema;
@@ -37,7 +35,7 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().addServersItem(new Server().url(redirectUri))
+        return new OpenAPI().addServersItem(new Server().url("/"))
                 .addSecurityItem(new SecurityRequirement().addList("open_id_scheme", List.of("read", "write")))
                 .info(new Info().title("VAS API")
                         .version("1.0")

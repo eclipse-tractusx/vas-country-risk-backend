@@ -16,8 +16,7 @@ vas:
     token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
-  server:
-    redirect_uri: https://vas-country-risk-backend.dev.demo.catena-x.net
+
 
 bearer_token:
   bearer_format: JWT
@@ -55,6 +54,8 @@ logging:
 application:
   name: default
   host: project-value-added-service-vas/api/dashboard
+  partnersPoolUrl:
+    legalEntities: 'http://localhost:8080/api/catena/legal-entities'
 
 management:
   endpoints:
