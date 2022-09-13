@@ -16,6 +16,8 @@ vas:
     token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+  server:
+    redirect_uri: https://vas-country-risk-backend.dev.demo.catena-x.net
 
 spring:
   application:
