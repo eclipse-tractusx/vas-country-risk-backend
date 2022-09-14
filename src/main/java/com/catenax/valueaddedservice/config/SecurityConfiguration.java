@@ -38,7 +38,7 @@ public class SecurityConfiguration {
         httpSecurity.formLogin().disable();
         httpSecurity.csrf().disable();
         httpSecurity.logout().disable();
-        httpSecurity.cors();
+        httpSecurity.cors().disable();
         httpSecurity.headers().frameOptions().disable();
 
         httpSecurity
@@ -63,7 +63,7 @@ public class SecurityConfiguration {
         httpSecurity.formLogin().disable();
         httpSecurity.csrf().disable();
         httpSecurity.logout().disable();
-        httpSecurity.cors();
+        httpSecurity.cors().disable();
         httpSecurity.headers().frameOptions().disable();
 
         httpSecurity
