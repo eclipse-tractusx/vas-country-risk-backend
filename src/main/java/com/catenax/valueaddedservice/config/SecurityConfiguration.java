@@ -23,7 +23,7 @@ import java.util.List;
 public class SecurityConfiguration {
 
     private static final String[] WHITELIST  = {
-            "/h2/**",
+            "/h2-console/**",
             "/api/swagger-ui/**",
             "/api/api-docs",
             "/api/api-docs.yaml",
@@ -34,12 +34,6 @@ public class SecurityConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
         public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.httpBasic().disable();
-        httpSecurity.formLogin().disable();
-        httpSecurity.csrf().disable();
-        httpSecurity.logout().disable();
-        httpSecurity.cors().disable();
-        httpSecurity.headers().frameOptions().disable();
 
         httpSecurity
                 .sessionManagement()
