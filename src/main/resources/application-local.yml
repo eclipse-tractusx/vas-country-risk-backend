@@ -47,3 +47,5 @@ cors:
 
 application:
   host: http://localhost:8080/api/dashboard
+  partnersPoolUrl:
+    legalEntities: 'https://partners-pool.dev.demo.catena-x.net/api/catena/legal-entities'
