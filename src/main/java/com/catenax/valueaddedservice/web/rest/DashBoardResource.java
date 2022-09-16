@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
@@ -57,6 +57,7 @@ public class DashBoardResource {
 
     @Autowired
     ObjectMapper objectMapper;
+
 
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
