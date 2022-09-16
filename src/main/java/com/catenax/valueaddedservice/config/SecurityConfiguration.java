@@ -40,8 +40,8 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST)
-                .permitAll()
+                //.antMatchers(WHITELIST)
+                //.permitAll()
                 .antMatchers("/api/**")
                 .authenticated()
                 .and().
