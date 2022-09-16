@@ -40,8 +40,8 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                //.antMatchers(WHITELIST)
-                //.permitAll()
+                .antMatchers(WHITELIST)
+                .permitAll()
                 .antMatchers("/api/**")
                 .authenticated()
                 .and().
@@ -57,7 +57,7 @@ public class SecurityConfiguration {
         httpSecurity.formLogin().disable();
         httpSecurity.csrf().disable();
         httpSecurity.logout().disable();
-        httpSecurity.cors(); //.disable();
+        httpSecurity.cors().disable();
         httpSecurity.headers().frameOptions().disable();
 
         httpSecurity

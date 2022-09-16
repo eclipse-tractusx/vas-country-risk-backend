@@ -58,7 +58,6 @@ public class DashBoardResource {
     @Autowired
     ObjectMapper objectMapper;
 
-
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
