@@ -57,7 +57,7 @@ public class SecurityConfiguration {
         httpSecurity.formLogin().disable();
         httpSecurity.csrf().disable();
         httpSecurity.logout().disable();
-        httpSecurity.cors().disable();
+        httpSecurity.cors(); //.disable();
         httpSecurity.headers().frameOptions().disable();
 
         httpSecurity
