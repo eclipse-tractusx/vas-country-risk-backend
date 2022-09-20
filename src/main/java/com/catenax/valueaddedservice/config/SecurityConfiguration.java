@@ -17,27 +17,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private static final String[] WHITELIST  = {
-            "/h2-console/**",
-            "/api/swagger-ui/**",
-            "/api/api-docs",
-            "/api/api-docs.yaml",
-            "/api/api-docs/swagger-config",
-    };
+
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
+        httpSecurity.httpBasic().disable();
+        httpSecurity.formLogin().disable();
+        httpSecurity.csrf().disable();
+        httpSecurity.logout().disable();
+        httpSecurity.cors().disable();
+        httpSecurity.headers().frameOptions().disable();
 
         httpSecurity
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST)
-                .permitAll()
                 .antMatchers("/api/**")
                 .authenticated()
                 .and().
@@ -62,8 +60,6 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST)
-                .permitAll()
                 .antMatchers("/api/**")
                 .permitAll();
 
