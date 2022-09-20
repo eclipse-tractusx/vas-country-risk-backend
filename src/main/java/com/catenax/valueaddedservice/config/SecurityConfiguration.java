@@ -3,35 +3,27 @@ package com.catenax.valueaddedservice.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Security config bean
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration {
+public class SecurityConfiguration  {
 
 
-
-    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.httpBasic().disable();
-        httpSecurity.formLogin().disable();
-        httpSecurity.csrf().disable();
-        httpSecurity.logout().disable();
-        httpSecurity.cors().disable();
-        httpSecurity.headers().frameOptions().disable();
 
-        httpSecurity
+        httpSecurity.cors().and().csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -45,17 +37,26 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("*");
+            }
+        };
+    }
+
+    @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.httpBasic().disable();
         httpSecurity.formLogin().disable();
-        httpSecurity.csrf().disable();
         httpSecurity.logout().disable();
-        httpSecurity.cors().disable();
         httpSecurity.headers().frameOptions().disable();
 
-        httpSecurity
+        httpSecurity.cors().and().csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
