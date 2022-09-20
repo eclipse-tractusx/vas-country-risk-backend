@@ -8,11 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 /**
  * Security config bean
@@ -33,7 +28,8 @@ public class SecurityConfiguration {
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
-        public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
+
 
         httpSecurity
                 .sessionManagement()
@@ -53,6 +49,7 @@ public class SecurityConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity.httpBasic().disable();
         httpSecurity.formLogin().disable();
         httpSecurity.csrf().disable();
@@ -73,16 +70,5 @@ public class SecurityConfiguration {
         return httpSecurity.build();
     }
 
-    @Bean
-        /* package */ CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(List.of("Access-Control-Allow-Headers", "Access-Control-Allow-Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control", "Content-Type", "Authorization"));
-        configuration.setAllowedMethods(List.of("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS"));
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 
 }

@@ -37,7 +37,7 @@ spring:
         format_sql: true
 
 security:
-  enabled: false
+  enabled: true
 
 cors:
   origins: >
