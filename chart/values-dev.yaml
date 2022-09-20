@@ -22,7 +22,6 @@ configmap:
   # Specifies whether a configmap should be created
   data:
     spring_profiles_active: dev
-    APPLICATION_HOST: http://localhost:8080/api/dashboard
     SECURITY_ENABLED: false
 
 postgres:
