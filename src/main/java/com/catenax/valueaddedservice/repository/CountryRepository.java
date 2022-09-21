@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data SQL repository for the Country entity.
@@ -14,6 +15,5 @@ import java.util.List;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
-    List<Country> findByCountry(String country);
-
+    List<Country> findByCountryIn(List<String> stringList);
 }

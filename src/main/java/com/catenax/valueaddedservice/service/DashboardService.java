@@ -2,6 +2,7 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.service.logic.CountryLogic;
 import com.catenax.valueaddedservice.service.logic.RangeLogicService;
 import com.catenax.valueaddedservice.service.logic.UploadAndDownloadLogicService;
 import com.catenax.valueaddedservice.service.logic.WorldMapAndTableLogicService;
@@ -33,15 +34,14 @@ public class DashboardService {
     @Autowired
     RangeLogicService rangeLogicService;
 
-    @Value(value = "classpath:config/liquibase/fake-data/dashboard.json")
-    private Resource json;
+    @Autowired
+    CountryLogic countryLogic;
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
     }
 
     public List<DashBoardWorldMapDTO> getWorldMapInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
-
         return worldMapAndTableLogicService.getWorldMapInfo(year,ratingDTOList,companyUser);
     }
 
@@ -58,6 +58,9 @@ public class DashboardService {
         rangeLogicService.saveRanges(rangeDTOS,companyUserDTO);
     }
 
+    public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){
+        return countryLogic.getAssociatedCountries(companyUserDTO);
+    }
 
 
 }
