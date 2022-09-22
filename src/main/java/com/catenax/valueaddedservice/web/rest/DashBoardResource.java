@@ -4,8 +4,8 @@ import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.CountryService;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.DataSourceService;
-import com.catenax.valueaddedservice.service.RangeService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
+import com.catenax.valueaddedservice.service.logic.RangeLogicService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,7 +53,7 @@ public class DashBoardResource {
     CountryService countryService;
 
     @Autowired
-    RangeService rangeService;
+    RangeLogicService rangeLogicService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -100,9 +100,9 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "All years requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/allYears")
-    public ResponseEntity<List<Integer>> getYears() {
+    public ResponseEntity<List<Integer>> getYears(CompanyUserDTO companyUser) {
         List<Integer> years;
-        years = dataSourceService.findAllYears();
+        years = dashboardService.getYearsOfUserRatings(companyUser);
         return ResponseEntity.ok().body(years);
     }
 
@@ -110,9 +110,9 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
                            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/ratingsByYear")
-    public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year) {
+    public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year, CompanyUserDTO companyUserDTO) {
         List<DataSourceDTO> dataSourceDto;
-        dataSourceDto = dataSourceService.findRatingsByYear(year);
+        dataSourceDto = dashboardService.findRatingsByYearAndCompanyUser(year,companyUserDTO);
         return ResponseEntity.ok().body(dataSourceDto);
     }
 
@@ -142,12 +142,6 @@ public class DashBoardResource {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
         String message = "";
-        // TO DO Remove hardcoded User
-
-        companyUser.setName("test user");
-        companyUser.setCompany("test");
-        companyUser.setEmail("test_user@mail.com");
-        companyUser.setId(1L);
 
         message = "Uploaded the file successfully: " + file.getOriginalFilename();
         try {
@@ -172,14 +166,8 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getUserRanges")
     public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
 
-        // TO DO Remove hardcoded User
-
-        companyUser.setName("test user");
-        companyUser.setCompany("test");
-        companyUser.setEmail("test_user@mail.com");
-        companyUser.setId(1L);
         List<RangeDTO> rangeDTOS;
-        rangeDTOS = rangeService.getUserRangesOrDefault(companyUser);
+        rangeDTOS = dashboardService.getUserRangesOrDefault(companyUser);
         return ResponseEntity.ok().body(rangeDTOS);
     }
 
@@ -198,13 +186,6 @@ public class DashBoardResource {
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";
-
-        // TO DO Remove hardcoded User
-        companyUserDTO.setName("test user");
-        companyUserDTO.setCompany("test");
-        companyUserDTO.setEmail("test_user@mail.com");
-        companyUserDTO.setId(1L);
-        rangeDTOS.forEach(rangeDTO -> rangeDTO.setCompanyUser(companyUserDTO));
 
         try {
             dashboardService.saveRanges(rangeDTOS, companyUserDTO);

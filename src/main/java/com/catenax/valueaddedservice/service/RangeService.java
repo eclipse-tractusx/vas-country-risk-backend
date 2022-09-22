@@ -1,8 +1,6 @@
 package com.catenax.valueaddedservice.service;
 
-import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.Range;
-import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
 import com.catenax.valueaddedservice.repository.RangeRepository;
@@ -31,9 +29,14 @@ public class RangeService {
     @Autowired
     CompanyUserMapper companyUserMapper;
 
+    @Autowired
+    CompanyUserService companyUserService;
+
     private final RangeRepository rangeRepository;
 
     private final RangeMapper rangeMapper;
+
+
 
     public RangeService(RangeRepository rangeRepository, RangeMapper rangeMapper) {
         this.rangeRepository = rangeRepository;
@@ -42,38 +45,10 @@ public class RangeService {
 
     //API to get All Ranges Values by User
     @Transactional(readOnly = true)
-    public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUser) {
-
-        List<RangeDTO> ranges = rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUserMapper.toEntity(companyUser)));
-        if(!ranges.isEmpty()){
-            return ranges;
-        }
-        RangeDTO rangeDTOMin = new RangeDTO();
-        rangeDTOMin.setRange(RangeType.Min);
-        rangeDTOMin.setCompanyUser(companyUser);
-        rangeDTOMin.setDescription("Min Range");
-        rangeDTOMin.setValue(25);
-        ranges.add(rangeDTOMin);
-        RangeDTO rangeDTOBetWeen = new RangeDTO();
-        rangeDTOBetWeen.setRange(RangeType.Between);
-        rangeDTOBetWeen.setCompanyUser(companyUser);
-        rangeDTOBetWeen.setDescription("BetWeen Range");
-        rangeDTOBetWeen.setValue(50);
-        ranges.add(rangeDTOBetWeen);
-        RangeDTO rangeDTOMax = new RangeDTO();
-        rangeDTOMax.setRange(RangeType.Max);
-        rangeDTOMax.setCompanyUser(companyUser);
-        rangeDTOMax.setDescription("Max Range");
-        rangeDTOMax.setValue(100);
-        ranges.add(rangeDTOMax);
-        return ranges;
+    public List<RangeDTO> getUserRanges(CompanyUserDTO companyUser) {
+        return rangeMapper.toDto(rangeRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(companyUser.getName(), companyUser.getEmail(), companyUser.getCompany()));
     }
 
-    //API to get All Ranges by User [LIST]
-    @Transactional(readOnly = true)
-    public List<RangeDTO> getAllRangesList(CompanyUserDTO companyUser) {
-        return rangeMapper.toDto(rangeRepository.findByCompanyUser(companyUserMapper.toEntity(companyUser)));
-    }
 
 
     /**

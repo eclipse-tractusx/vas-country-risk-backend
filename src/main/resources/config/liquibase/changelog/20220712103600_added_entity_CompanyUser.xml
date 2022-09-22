@@ -9,7 +9,7 @@
     -->
     <changeSet id="20220712103600-1" author="fabiodmota">
         <createTable tableName="t_company_user">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint"  autoIncrement="true" incrementBy="1" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -41,7 +41,7 @@
                   separator=";"
                   tableName="t_company_user"
                   usePreparedStatements="true">
-            <column name="id" type="numeric"/>
+
             <column name="name" type="string"/>
             <column name="email" type="string"/>
             <column name="company" type="string"/>

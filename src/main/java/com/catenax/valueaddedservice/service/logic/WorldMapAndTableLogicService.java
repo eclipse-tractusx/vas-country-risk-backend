@@ -32,6 +32,7 @@ public class WorldMapAndTableLogicService {
         log.debug("Request to get Table Info");
         List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).collect(Collectors.toList());
         List<DataDTO> dataDTOS = new ArrayList<>();
+
         List<BusinessPartnerDTO> businessPartnerDTOS;
         businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
         List<String> countryList = new ArrayList<>();
@@ -40,8 +41,10 @@ public class WorldMapAndTableLogicService {
 
         if (!dataSources.isEmpty()) {
             if (year != null && year > 0) {
+                log.info("year");
                 dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
             } else {
+                log.info("no year");
                 dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThan(Float.valueOf(-1), countryList, dataSources);
             }
         }
