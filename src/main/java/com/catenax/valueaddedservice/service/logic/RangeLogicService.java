@@ -27,7 +27,10 @@ public class RangeLogicService {
                 rangeService.save(rangeDTO);
             });
         } else {
-            rangeDTOS.forEach(rangeDTO -> rangeService.updateRanges(rangeDTO));
+            rangeDTOS.forEach(rangeDTO -> {
+                rangeDTO.setCompanyUser(companyUserDTO);
+                rangeService.updateRanges(rangeDTO);
+            });
         }
     }
     public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUser) {
