@@ -32,10 +32,9 @@ public class CountryService {
         this.countryMapper = countryMapper;
     }
 
-    //API to get Country by name
-    @Transactional(readOnly = true)
-    public List<CountryDTO> findCountryByName(String country) {
-        return countryMapper.toDto(countryRepository.findByCountry(country));
+    @Transactional
+    public List<CountryDTO> findCountryByName(List<String> stringList){
+        return countryMapper.toDto(countryRepository.findByCountryIn(stringList));
     }
 
     /**

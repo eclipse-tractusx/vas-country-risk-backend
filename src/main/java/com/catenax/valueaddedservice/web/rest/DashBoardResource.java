@@ -175,8 +175,18 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCountrys")
-    public ResponseEntity<List<CountryDTO>> getCountrys() {
-        return ResponseEntity.ok().body(countryService.findAll());
+    public ResponseEntity<List<CountryDTO>> getCountrys(CompanyUserDTO companyUserDTO) {
+
+        // TO DO Remove hardcoded User
+        companyUserDTO.setName("test user");
+        companyUserDTO.setCompany("test");
+        companyUserDTO.setEmail("test_user@mail.com");
+        companyUserDTO.setId(1L);
+
+        List<CountryDTO> countryDTOS;
+        countryDTOS = dashboardService.getCountryByAssociatedBPtoUser(companyUserDTO);
+
+        return ResponseEntity.ok().body(countryDTOS);
     }
 
     @Operation(summary = "Saves the current user ranges")

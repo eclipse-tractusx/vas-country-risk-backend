@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -50,5 +52,14 @@ public class ExternalBusinessPartnersLogicService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<String> getExternalPartnersCountry (CompanyUserDTO companyUserDTO) {
+        List<BusinessPartnerDTO> businessPartnerDTOS;
+        businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO);
+        List<String> countryList = new ArrayList<>();
+        countryList.addAll(businessPartnerDTOS.stream().map(BusinessPartnerDTO::getCountry)
+                .collect(Collectors.toSet()));
+        return countryList;
     }
 }

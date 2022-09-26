@@ -3,6 +3,10 @@ package com.catenax.valueaddedservice.service;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.logic.*;
+import com.catenax.valueaddedservice.service.logic.CountryLogic;
+import com.catenax.valueaddedservice.service.logic.RangeLogicService;
+import com.catenax.valueaddedservice.service.logic.UploadAndDownloadLogicService;
+import com.catenax.valueaddedservice.service.logic.WorldMapAndTableLogicService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +41,8 @@ public class DashboardService {
     @Autowired
     DataSourceLogicService dataSourceLogicService;
 
+    @Autowired
+    CountryLogic countryLogic;
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -75,6 +81,9 @@ public class DashboardService {
        return rangeLogicService.getUserRangesOrDefault(companyUser);
     }
 
+    public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){
+        return countryLogic.getAssociatedCountries(companyUserDTO);
+    }
 
 
 }
