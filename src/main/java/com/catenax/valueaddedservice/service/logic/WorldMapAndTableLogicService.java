@@ -35,9 +35,7 @@ public class WorldMapAndTableLogicService {
 
         List<BusinessPartnerDTO> businessPartnerDTOS;
         businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
-        List<String> countryList = new ArrayList<>();
-        countryList.addAll(businessPartnerDTOS.stream().map(BusinessPartnerDTO::getCountry)
-                .collect(Collectors.toSet()));
+        List<String> countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUser);
 
         if (!dataSources.isEmpty()) {
             if (year != null && year > 0) {

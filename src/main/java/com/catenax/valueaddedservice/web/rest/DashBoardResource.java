@@ -1,11 +1,8 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.dto.*;
-import com.catenax.valueaddedservice.service.CountryService;
 import com.catenax.valueaddedservice.service.DashboardService;
-import com.catenax.valueaddedservice.service.DataSourceService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
-import com.catenax.valueaddedservice.service.logic.RangeLogicService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,15 +42,6 @@ public class DashBoardResource {
 
     @Autowired
     DashboardService dashboardService;
-
-    @Autowired
-    DataSourceService dataSourceService;
-
-    @Autowired
-    CountryService countryService;
-
-    @Autowired
-    RangeLogicService rangeLogicService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -174,21 +162,22 @@ public class DashBoardResource {
     @Operation(summary = "Retrieves all countries in the database")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/getCountrys")
-    public ResponseEntity<List<CountryDTO>> getCountrys(CompanyUserDTO companyUserDTO) {
+    @GetMapping("/dashboard/getCountryFilterByISO2")
+    public ResponseEntity<List<CountryDTO>> getCountrys() {
+        return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2());
+    }
 
-        // TO DO Remove hardcoded User
-        companyUserDTO.setName("test user");
-        companyUserDTO.setCompany("test");
-        companyUserDTO.setEmail("test_user@mail.com");
-        companyUserDTO.setId(1L);
+    @Operation(summary = "Retrieves all countries in the database")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getBpnCountrys")
+    public ResponseEntity<List<CountryDTO>> getBpnCountrys(CompanyUserDTO companyUserDTO) {
 
         List<CountryDTO> countryDTOS;
         countryDTOS = dashboardService.getCountryByAssociatedBPtoUser(companyUserDTO);
 
         return ResponseEntity.ok().body(countryDTOS);
     }
-
     @Operation(summary = "Saves the current user ranges")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ranges saved with success"),
                            @ApiResponse (responseCode = "400", description = "Bad Request", content = @Content),

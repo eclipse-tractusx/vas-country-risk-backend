@@ -1,7 +1,5 @@
 package com.catenax.valueaddedservice.service.logic;
 
-import com.catenax.valueaddedservice.domain.Country;
-import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.CountryDTO;
 import com.catenax.valueaddedservice.service.CountryService;
@@ -10,17 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @Slf4j
-public class CountryLogic {
+public class CountryLogicService {
 
     @Autowired
     CountryService countryService;
+
 
     @Autowired
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
@@ -36,4 +38,14 @@ public class CountryLogic {
     }
 
 
+    public List<CountryDTO> getCountryFilterByISO2(){
+
+        List<CountryDTO> countryDTOList = countryService.findAll().stream().filter(distinctByKey(CountryDTO::getIso2)).collect(Collectors.toList());
+        return countryDTOList;
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
 }
