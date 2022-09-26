@@ -3,6 +3,7 @@ package com.catenax.valueaddedservice.service.logic;
 import com.catenax.valueaddedservice.config.ApplicationVariables;
 import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
+import com.catenax.valueaddedservice.dto.CountryDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -61,5 +62,12 @@ public class ExternalBusinessPartnersLogicService {
         countryList.addAll(businessPartnerDTOS.stream().map(BusinessPartnerDTO::getCountry)
                 .collect(Collectors.toSet()));
         return countryList;
+    }
+
+    public Long getTotalBpnByCountry(CountryDTO countryDTO,CompanyUserDTO companyUserDTO){
+        final Long[] total = {0L};
+        List<BusinessPartnerDTO> businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO);
+        Long value = businessPartnerDTOS.stream().filter(businessPartnerDTO -> businessPartnerDTO.getCountry().equalsIgnoreCase(countryDTO.getCountry())).count();
+        return value;
     }
 }

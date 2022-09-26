@@ -78,8 +78,8 @@ public class DashboardService {
        return rangeLogicService.getUserRangesOrDefault(companyUser);
     }
 
-    public List<CountryDTO> getCountryFilterByISO2(){
-        return countryLogicService.getCountryFilterByISO2();
+    public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO){
+        return countryLogicService.getCountryFilterByISO2(companyUserDTO);
     }
 
     public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){

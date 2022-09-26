@@ -38,9 +38,11 @@ public class CountryLogicService {
     }
 
 
-    public List<CountryDTO> getCountryFilterByISO2(){
+    public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO){
 
         List<CountryDTO> countryDTOList = countryService.findAll().stream().filter(distinctByKey(CountryDTO::getIso2)).collect(Collectors.toList());
+        countryDTOList.forEach(countryDTO -> countryDTO.setTotalBpn(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO,companyUserDTO)));
+
         return countryDTOList;
     }
 

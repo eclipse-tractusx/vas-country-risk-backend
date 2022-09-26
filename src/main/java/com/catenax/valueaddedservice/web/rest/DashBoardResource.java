@@ -163,8 +163,8 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCountryFilterByISO2")
-    public ResponseEntity<List<CountryDTO>> getCountrys() {
-        return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2());
+    public ResponseEntity<List<CountryDTO>> getCountrys(CompanyUserDTO companyUserDTO) {
+        return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2(companyUserDTO));
     }
 
     @Operation(summary = "Retrieves all countries in the database")

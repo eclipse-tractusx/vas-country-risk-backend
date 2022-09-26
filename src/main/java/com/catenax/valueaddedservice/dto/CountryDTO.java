@@ -40,5 +40,7 @@ public class CountryDTO implements Serializable {
     @Schema(example = "23.8222636", required = true)
     private String longitude;
 
+    @Schema(example = "11", required = true)
+    private Long totalBpn;
 
 }
