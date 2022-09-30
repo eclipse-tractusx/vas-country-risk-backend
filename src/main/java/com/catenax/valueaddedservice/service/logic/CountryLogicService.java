@@ -5,6 +5,8 @@ import com.catenax.valueaddedservice.dto.CountryDTO;
 import com.catenax.valueaddedservice.service.CountryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +55,10 @@ public class CountryLogicService {
     }
 
     @Transactional
+    @Cacheable(value = "vas", key = "{#root.methodName , #countryName}", unless = "#result == null")
     public CountryDTO findCountryByName(String countryName){
         Optional<CountryDTO> countryDTO = countryService.findCountryByName(countryName);
+        log.info("one time");
         if(countryDTO.isPresent()){
             return countryDTO.get();
         }else{
@@ -62,6 +66,12 @@ public class CountryLogicService {
             return new CountryDTO();
         }
 
+
+    }
+
+    @CacheEvict(value = "vas", allEntries = true)
+    public void invalidateAllCache() {
+        log.info("invalidateAllCache|vas-Country -  invalidated cache - allEntries");
     }
 
 
