@@ -159,7 +159,7 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(rangeDTOS);
     }
 
-    @Operation(summary = "Retrieves all countries in the database")
+    @Operation(summary = "Retrieves all countries in the database filter by ISO CODE 2")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCountryFilterByISO2")
@@ -167,7 +167,16 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2(companyUserDTO));
     }
 
-    @Operation(summary = "Retrieves all countries in the database")
+
+    @Operation(summary = "Retrieves all Business Partners of a Company")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Bpn requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getCompanyBpns")
+    public ResponseEntity<List<BusinessPartnerDTO>> getCompanyBpns(CompanyUserDTO companyUserDTO) {
+        return ResponseEntity.ok().body(dashboardService.getExternalBusinessPartners(companyUserDTO));
+    }
+
+    @Operation(summary = "Retrieves all countries in the database OF THE Bpns")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getBpnCountrys")

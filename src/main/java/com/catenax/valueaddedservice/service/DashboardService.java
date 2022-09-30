@@ -40,6 +40,9 @@ public class DashboardService {
     @Autowired
     CountryLogicService countryLogicService;
 
+    @Autowired
+    ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
+
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -80,6 +83,11 @@ public class DashboardService {
 
     public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO){
         return countryLogicService.getCountryFilterByISO2(companyUserDTO);
+    }
+
+    public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUserDTO){
+        return externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUserDTO);
+
     }
 
     public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){

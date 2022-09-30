@@ -25,6 +25,9 @@ public class WorldMapAndTableLogicService {
     DataSourceValueService dataSourceValueService;
 
     @Autowired
+    CountryLogicService countryLogicService;
+
+    @Autowired
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
 
@@ -39,11 +42,7 @@ public class WorldMapAndTableLogicService {
 
         if (!dataSources.isEmpty()) {
             if (year != null && year > 0) {
-                log.info("year");
                 dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
-            } else {
-                log.info("no year");
-                dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThan(Float.valueOf(-1), countryList, dataSources);
             }
         }
 
@@ -63,8 +62,6 @@ public class WorldMapAndTableLogicService {
         if (!dataSources.isEmpty()) {
             if (year != null && year > 0) {
                 dataDTOS = dataSourceValueService.findByRatingAndScoreGreaterThanAndYear(Float.valueOf(-1), dataSources, year);
-            } else {
-                dataDTOS = dataSourceValueService.findByRatingAndScoreGreaterThan(Float.valueOf(-1), dataSources);
             }
         }
 
@@ -78,23 +75,22 @@ public class WorldMapAndTableLogicService {
 
     private List<DashBoardWorldMapDTO> mapDataSourcesToWorldMap(List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS,CompanyUserDTO companyUser){
         List<String> countryList = new ArrayList<>();
+        final CountryDTO[] countryDTO = {new CountryDTO()};
         countryList.addAll(dataDTOS.stream().map(DataDTO::getCountry)
                 .collect(Collectors.toSet()));
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = new ArrayList<>();
         final DashBoardWorldMapDTO[] dashBoardWorldMapDTO = {new DashBoardWorldMapDTO()};
-        List<BusinessPartnerDTO> businessPartnerDTOS;
-        businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
         countryList.forEach(country->{
+            countryDTO[0] = new CountryDTO();
             final float[] generalFormulaTotal = {0F};
             final float[] totalRatedByUser = {0F};
             List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country)).collect(Collectors.toList());
             dataSources.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
             dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,totalRatedByUser[0]));
             dashBoardWorldMapDTO[0] = new DashBoardWorldMapDTO();
-            dashBoardWorldMapDTO[0].setCountry(country);
+            countryDTO[0] = countryLogicService.findCountryByName(country);
+            dashBoardWorldMapDTO[0].setCountry(countryDTO[0]);
             dashBoardWorldMapDTO[0].setScore(generalFormulaTotal[0]);
-            dashBoardWorldMapDTO[0].setBusinessPartnerDTOList(
-                    businessPartnerDTOS.stream().filter(businessPartnerDTO -> businessPartnerDTO.getCountry().equalsIgnoreCase(country)).collect(Collectors.toList()));
 
             dashBoardWorldMapDTOS.add(dashBoardWorldMapDTO[0]);
         });

@@ -44,7 +44,7 @@ public class DataSourceService {
     //API to get Rating name by User
     @Transactional(readOnly = true)
     public List<DataSourceDTO> findRatingByYearAndUser(Integer year, CompanyUserDTO companyUserDTO) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany()));
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyAndType(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Custom));
     }
 
     @Transactional(readOnly = true)

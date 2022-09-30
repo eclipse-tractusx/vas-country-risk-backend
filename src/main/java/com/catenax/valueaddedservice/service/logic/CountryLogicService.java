@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -32,7 +33,7 @@ public class CountryLogicService {
         countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUserDTO);
 
         List<CountryDTO> countryDTOS;
-        countryDTOS = countryService.findCountryByName(countryList);
+        countryDTOS = countryService.findByCountryIn(countryList);
 
         return countryDTOS;
     }
@@ -50,4 +51,18 @@ public class CountryLogicService {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
     }
+
+    @Transactional
+    public CountryDTO findCountryByName(String countryName){
+        Optional<CountryDTO> countryDTO = countryService.findCountryByName(countryName);
+        if(countryDTO.isPresent()){
+            return countryDTO.get();
+        }else{
+            log.error("Country does not exists on country table {}",countryName);
+            return new CountryDTO();
+        }
+
+    }
+
+
 }

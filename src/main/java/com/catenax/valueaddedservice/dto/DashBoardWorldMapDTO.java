@@ -3,7 +3,6 @@ package com.catenax.valueaddedservice.dto;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 @Setter
@@ -13,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class DashBoardWorldMapDTO implements Serializable {
 
-    private String country;
+    private CountryDTO country;
 
     private Float score = 0F;
 
-    private List<BusinessPartnerDTO> businessPartnerDTOList;
+
 
 }

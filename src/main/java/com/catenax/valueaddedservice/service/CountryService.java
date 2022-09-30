@@ -33,9 +33,16 @@ public class CountryService {
     }
 
     @Transactional
-    public List<CountryDTO> findCountryByName(List<String> stringList){
+    public List<CountryDTO> findByCountryIn(List<String> stringList){
         return countryMapper.toDto(countryRepository.findByCountryIn(stringList));
     }
+
+    @Transactional
+    public Optional<CountryDTO> findCountryByName(String countryName){
+        return countryRepository.findByCountry(countryName).map(countryMapper::toDto);
+    }
+
+
 
     /**
      * Save a country.

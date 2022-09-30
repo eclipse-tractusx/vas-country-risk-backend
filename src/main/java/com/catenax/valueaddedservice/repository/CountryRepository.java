@@ -1,7 +1,6 @@
 package com.catenax.valueaddedservice.repository;
 
 import com.catenax.valueaddedservice.domain.Country;
-import com.catenax.valueaddedservice.domain.DataSource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +15,6 @@ import java.util.Optional;
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
     List<Country> findByCountryIn(List<String> stringList);
+
+    Optional<Country> findByCountry(String countryName);
 }
