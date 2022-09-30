@@ -22,4 +22,8 @@ public class BusinessPartnerDTO implements Serializable {
     private String city;
 
     private String country;
+
+    private String longitude;
+
+    private String latitude;
 }

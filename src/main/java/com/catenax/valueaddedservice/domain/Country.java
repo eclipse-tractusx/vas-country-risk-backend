@@ -38,6 +38,13 @@ public class Country implements Serializable {
     @Column(name = "iso_2", length = 2)
     private String iso2;
 
+    @Column(name = "latitude")
+    private String latitude;
+
+    @Column(name = "longitude")
+    private String longitude;
+
+
     @Column(name = "continent")
     private String continent;
 

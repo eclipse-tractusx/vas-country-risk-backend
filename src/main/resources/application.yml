@@ -17,6 +17,11 @@ vas:
     jwk-set-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     auth-url: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
+
+bearer_token:
+  bearer_format: JWT
+  bearer_schema: bearer
+
 spring:
   application:
     name: value-added-service
@@ -49,6 +54,8 @@ logging:
 application:
   name: default
   host: project-value-added-service-vas/api/dashboard
+  partnersPoolUrl:
+    legalEntities: 'http://localhost:8080/api/catena/legal-entities'
 
 management:
   endpoints:

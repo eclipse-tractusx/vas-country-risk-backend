@@ -1,28 +1,20 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.dto.*;
-import com.catenax.valueaddedservice.service.CountryService;
 import com.catenax.valueaddedservice.service.DashboardService;
-import com.catenax.valueaddedservice.service.DataSourceService;
-import com.catenax.valueaddedservice.service.RangeService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -42,14 +34,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
-@Configuration
-@SecurityScheme(
-        name = "bearer_token_schema",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        scheme = "bearer"
-)
-@SecurityRequirements({@SecurityRequirement(name = "bearer_token_schema"), @SecurityRequirement(name = "open_id_scheme")})
+@SecurityRequirements({@SecurityRequirement(name = "bearerAuth"), @SecurityRequirement(name = "open_id_scheme")})
 public class DashBoardResource {
 
     private final Logger log = LoggerFactory.getLogger(DashBoardResource.class);
@@ -59,22 +44,13 @@ public class DashBoardResource {
     DashboardService dashboardService;
 
     @Autowired
-    DataSourceService dataSourceService;
-
-    @Autowired
-    CountryService countryService;
-
-    @Autowired
-    RangeService rangeService;
-
-    @Autowired
     ObjectMapper objectMapper;
 
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTableInfo")
-    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam Map<String, Object> ratings,
+    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestHeader HttpHeaders headers ,@RequestParam Map<String, Object> ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                                         CompanyUserDTO companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
@@ -112,9 +88,9 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "All years requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/allYears")
-    public ResponseEntity<List<Integer>> getYears() {
+    public ResponseEntity<List<Integer>> getYears(CompanyUserDTO companyUser) {
         List<Integer> years;
-        years = dataSourceService.findAllYears();
+        years = dashboardService.getYearsOfUserRatings(companyUser);
         return ResponseEntity.ok().body(years);
     }
 
@@ -122,9 +98,9 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
                            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/ratingsByYear")
-    public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year) {
+    public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year, CompanyUserDTO companyUserDTO) {
         List<DataSourceDTO> dataSourceDto;
-        dataSourceDto = dataSourceService.findRatingsByYear(year);
+        dataSourceDto = dashboardService.findRatingsByYearAndCompanyUser(year,companyUserDTO);
         return ResponseEntity.ok().body(dataSourceDto);
     }
 
@@ -154,12 +130,6 @@ public class DashBoardResource {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
         String message = "";
-        // TO DO Remove hardcoded User
-
-        companyUser.setName("test user");
-        companyUser.setCompany("test");
-        companyUser.setEmail("test_user@mail.com");
-        companyUser.setId(1L);
 
         message = "Uploaded the file successfully: " + file.getOriginalFilename();
         try {
@@ -184,25 +154,30 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getUserRanges")
     public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
 
-        // TO DO Remove hardcoded User
-
-        companyUser.setName("test user");
-        companyUser.setCompany("test");
-        companyUser.setEmail("test_user@mail.com");
-        companyUser.setId(1L);
         List<RangeDTO> rangeDTOS;
-        rangeDTOS = rangeService.getUserRangesOrDefault(companyUser);
+        rangeDTOS = dashboardService.getUserRangesOrDefault(companyUser);
         return ResponseEntity.ok().body(rangeDTOS);
     }
 
     @Operation(summary = "Retrieves all countries in the database")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/getCountrys")
-    public ResponseEntity<List<CountryDTO>> getCountrys() {
-        return ResponseEntity.ok().body(countryService.findAll());
+    @GetMapping("/dashboard/getCountryFilterByISO2")
+    public ResponseEntity<List<CountryDTO>> getCountrys(CompanyUserDTO companyUserDTO) {
+        return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2(companyUserDTO));
     }
 
+    @Operation(summary = "Retrieves all countries in the database")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Countries requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getBpnCountrys")
+    public ResponseEntity<List<CountryDTO>> getBpnCountrys(CompanyUserDTO companyUserDTO) {
+
+        List<CountryDTO> countryDTOS;
+        countryDTOS = dashboardService.getCountryByAssociatedBPtoUser(companyUserDTO);
+
+        return ResponseEntity.ok().body(countryDTOS);
+    }
     @Operation(summary = "Saves the current user ranges")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ranges saved with success"),
                            @ApiResponse (responseCode = "400", description = "Bad Request", content = @Content),
@@ -210,13 +185,6 @@ public class DashBoardResource {
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";
-
-        // TO DO Remove hardcoded User
-        companyUserDTO.setName("test user");
-        companyUserDTO.setCompany("test");
-        companyUserDTO.setEmail("test_user@mail.com");
-        companyUserDTO.setId(1L);
-        rangeDTOS.forEach(rangeDTO -> rangeDTO.setCompanyUser(companyUserDTO));
 
         try {
             dashboardService.saveRanges(rangeDTOS, companyUserDTO);

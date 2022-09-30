@@ -26,6 +26,13 @@ public class OpenApiConfig {
     @Value("${vas.authentication-url.token-url}")
     private String tokenUrl;
 
+
+    @Value("${bearer_token.bearer_schema}")
+    private String BearerSchema;
+
+    @Value("${bearer_token.bearer_format}")
+    private String bearerFormat;
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI().addServersItem(new Server().url("/"))
@@ -36,14 +43,24 @@ public class OpenApiConfig {
     }
 
     @Bean
-    public OpenApiCustomiser customiser() {
+    public OpenApiCustomiser oauth2_Auth() {
+        final String securitySchemeName = "open_id_scheme";
         return openApi -> {
             final Components components = openApi.getComponents();
-            components.addSecuritySchemes("open_id_scheme", new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
+            components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
                     .flows(new OAuthFlows().authorizationCode(
                             new OAuthFlow().authorizationUrl(authUrl)
                                     .tokenUrl(tokenUrl))));
         };
     }
 
+    @Bean
+    public OpenApiCustomiser bearer_auth() {
+        final String securitySchemeName = "bearerAuth";
+        return openApi -> {
+            final Components components = openApi.getComponents();
+            components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                    .scheme(BearerSchema).bearerFormat(bearerFormat));
+        };
+    }
 }

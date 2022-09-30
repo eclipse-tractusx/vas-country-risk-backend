@@ -1,9 +1,8 @@
 package com.catenax.valueaddedservice.repository;
 
-import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.DataSource;
+import com.catenax.valueaddedservice.domain.enumeration.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,7 +14,10 @@ import java.util.List;
 @Repository
 public interface DataSourceRepository extends JpaRepository<DataSource, Long> {
 
-    List<DataSource> findByYearPublished(Integer year);
+    List<DataSource> findByYearPublishedAndType(Integer year, Type type);
 
-    List<DataSource> findByCompanyUserAndDataSourceName(CompanyUser user, String name);
+    List<DataSource> findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(Integer year,String name,String email,String company);
+
+    List<DataSource> findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(String name,String email,String company,Type type);
+
 }

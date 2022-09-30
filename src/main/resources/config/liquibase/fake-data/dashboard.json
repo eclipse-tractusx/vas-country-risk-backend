@@ -7,7 +7,9 @@
       "city":"Guanzhuang",
       "country":"China",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 72.3110986,
+      "latitude": 31.2633956
    },
    {
      
@@ -17,7 +19,9 @@
       "city":"Białobrzegi",
       "country":"Poland",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 95.6799816,
+      "latitude": 16.2850333
    },
    {
      
@@ -27,7 +31,9 @@
       "city":"Kīsh",
       "country":"Iran",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 2.4725036,
+      "latitude": 48.8066526
    },
    {
      
@@ -37,7 +43,9 @@
       "city":"Ketang",
       "country":"China",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 23.438111,
+      "latitude": 50.384945
    },
    {
      
@@ -47,7 +55,9 @@
       "city":"Agboville",
       "country":"Ivory Coast",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -174.3502613,
+      "latitude": -19.811431
    },
    {
      
@@ -57,7 +67,9 @@
       "city":"Okpo",
       "country":"Nigeria",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 121.6511258,
+      "latitude": -4.0447102
    },
    {
      
@@ -67,7 +79,9 @@
       "city":"Singabarong",
       "country":"Indonesia",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 35.1228303,
+      "latitude": 49.7180346
    },
    {
      
@@ -77,7 +91,9 @@
       "city":"Pokrzywnica",
       "country":"Poland",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -74.213611,
+      "latitude": -13.056944
    },
    {
      
@@ -87,7 +103,9 @@
       "city":"Karangmulyo",
       "country":"Indonesia",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -83.6025205,
+      "latitude": 10.1621712
    },
    {
      
@@ -97,7 +115,9 @@
       "city":"Riangderi",
       "country":"Indonesia",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 16.9953098,
+      "latitude": 49.6354683
    },
    {
      
@@ -107,7 +127,9 @@
       "city":"Sogamoso",
       "country":"Colombia",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 20.3517334,
+      "latitude": 40.2361837
    },
    {
      
@@ -117,7 +139,9 @@
       "city":"Digdig",
       "country":"Philippines",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 21.6132509,
+      "latitude": 51.898029
    },
    {
      
@@ -127,7 +151,9 @@
       "city":"Requena",
       "country":"Peru",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -116.9030256,
+      "latitude": 32.5468611
    },
    {
      
@@ -137,7 +163,9 @@
       "city":"Xiawuqi",
       "country":"China",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 37.671626,
+      "latitude": 55.792891
    },
    {
      
@@ -147,7 +175,9 @@
       "city":"Pupiales",
       "country":"Colombia",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 110.9387418,
+      "latitude": -7.4703872
    },
    {
      
@@ -157,7 +187,9 @@
       "city":"Bacolod",
       "country":"Philippines",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 33.7584959,
+      "latitude": 59.4907385
    },
    {
      
@@ -167,7 +199,9 @@
       "city":"Eskilstuna",
       "country":"Sweden",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -40.2884386,
+      "latitude": -7.740099
    },
    {
      
@@ -177,7 +211,9 @@
       "city":"Pindangan Centro",
       "country":"Philippines",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 121.6432,
+      "latitude": -8.8559
    },
    {
      
@@ -187,7 +223,9 @@
       "city":"Taotang",
       "country":"China",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -8.2103678,
+      "latitude": 41.3532895
    },
    {
      
@@ -197,7 +235,9 @@
       "city":"Ganxi",
       "country":"China",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -7.4495583,
+      "latitude": 41.7737809
    },
    {
      
@@ -207,7 +247,9 @@
       "city":"Tangchi",
       "country":"China",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": -73.063881,
+      "latitude": -13.97797
    },
    {
      
@@ -217,6 +259,8 @@
       "city":"Hartford",
       "country":"United States",
       "score": "",
-      "rating":""
+      "rating":"",
+      "longitude": 44.5841127,
+      "latitude": 40.0179745
    }
 ]

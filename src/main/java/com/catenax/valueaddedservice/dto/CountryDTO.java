@@ -34,5 +34,13 @@ public class CountryDTO implements Serializable {
     @Schema(example = "Europe", required = true)
     private String continent;
 
+    @Schema(example = "-2.9814344", required = true)
+    private String latitude;
+
+    @Schema(example = "23.8222636", required = true)
+    private String longitude;
+
+    @Schema(example = "11", required = true)
+    private Long totalBpn;
 
 }

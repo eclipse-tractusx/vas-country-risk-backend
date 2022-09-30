@@ -24,6 +24,12 @@
             <column name="continent" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="latitude" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="longitude" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- -needle-liquibase-add-column -  will add columns here -->
         </createTable>
     </changeSet>
@@ -49,6 +55,8 @@
             <column name="iso_3" type="string"/>
             <column name="iso_2" type="string"/>
             <column name="continent" type="string"/>
+            <column name="latitude" type="string"/>
+            <column name="longitude" type="string"/>
             <!-- -needle-liquibase-add-loadcolumn -  (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -1,6 +1,5 @@
 package com.catenax.valueaddedservice.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
@@ -28,5 +27,9 @@ public class DashBoardTableDTO implements Serializable {
     private Float score = 0F;
 
     private String rating = "";
+
+    private String longitude;
+
+    private String latitude;
 
 }

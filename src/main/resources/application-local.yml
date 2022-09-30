@@ -7,10 +7,10 @@ spring:
       on-profile: local
 
 #  datasource:
-#    username: user
-#    url: jdbc:postgresql://localhost:5432/database
+#    username: postgres
+#    url: jdbc:postgresql://localhost:5432/postgres
 #    driverClassName: org.postgresql.Driver
-#    password: password
+#    password: root
 #  jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #    properties:
@@ -37,13 +37,10 @@ spring:
         format_sql: true
 
 security:
-  enabled: true
+  enabled: false
 
-cors:
-  origins: >
-    http://localhost:4200/,
-    https://traceability-portal.dev.demo.catena-x.net/,
-    https://traceability-portal.int.demo.catena-x.net/
 
 application:
   host: http://localhost:8080/api/dashboard
+  partnersPoolUrl:
+    legalEntities: 'https://partners-pool.dev.demo.catena-x.net/api/catena/legal-entities'

@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CompanyUserRepository extends JpaRepository<CompanyUser, Long> {}
+public interface CompanyUserRepository extends JpaRepository<CompanyUser, Long> {
+
+     CompanyUser findByNameAndEmailAndCompany(String name, String email, String company);
+}

@@ -1,7 +1,8 @@
 package com.catenax.valueaddedservice.service;
 
-import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.domain.DataSource;
+import com.catenax.valueaddedservice.domain.enumeration.Type;
+import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.service.mapper.DataSourceMapper;
@@ -12,10 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link DataSource}.
@@ -38,23 +37,21 @@ public class DataSourceService {
 
     //API to get Ratings by Year
     @Transactional(readOnly = true)
-    public List<DataSourceDTO> findRatingsByYear(Integer year) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublished(year));
+    public List<DataSourceDTO> findRatingsByYearAndTypeGlobal(Integer year) {
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndType(year, Type.Global));
     }
 
     //API to get Rating name by User
     @Transactional(readOnly = true)
-    public List<DataSourceDTO> findRatingByUser(CompanyUser user, String name) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserAndDataSourceName(user, name));
+    public List<DataSourceDTO> findRatingByYearAndUser(Integer year, CompanyUserDTO companyUserDTO) {
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany()));
     }
 
-    //API to get All Years
     @Transactional(readOnly = true)
-    public List<Integer> findAllYears() {
-        List<Integer> years = new ArrayList<>();
-        years.addAll(dataSourceMapper.toDto(dataSourceRepository.findAll()).stream().map(DataSourceDTO::getYearPublished).collect(Collectors.toSet()));
-        return years;
+    public List<DataSourceDTO> findRatingByUser( CompanyUserDTO companyUserDTO) {
+        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Global));
     }
+
 
     /**
      * Save a dataSource.

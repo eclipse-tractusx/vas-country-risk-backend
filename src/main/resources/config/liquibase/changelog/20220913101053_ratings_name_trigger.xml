@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!-- Script doesnt work on H2 database -->
+
+    <changeSet id="20220913101053-1" author="fabiodmota" dbms="postgresql,!h2">
+        <sqlFile encoding="utf8"
+                 path="classpath:config/liquibase/sql_files/db_ratings_name_trigger.sql"
+                 relativeToChangelogFile="false"
+                 splitStatements="false"
+                 stripComments="false"
+        />
+    </changeSet>
+
+</databaseChangeLog>
