@@ -1,9 +1,7 @@
 package com.catenax.valueaddedservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,6 +13,8 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class CountryDTO implements Serializable {
 
     private Long id;
@@ -43,4 +43,10 @@ public class CountryDTO implements Serializable {
     @Schema(example = "11", required = true)
     private Long totalBpn;
 
+    public CountryDTO(String country, String iso3, String iso2, String continent) {
+        this.country = country;
+        this.iso3 = iso3;
+        this.iso2 = iso2;
+        this.continent = continent;
+    }
 }

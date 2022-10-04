@@ -63,12 +63,14 @@ public class DashboardService {
     public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
         CompanyUserDTO companyUserDTOUse = companyUserLogicService.getOrCreate(companyUserDTO);
         uploadAndDownloadLogicService.saveCsv(file,dataSourceName,companyUserDTOUse);
+        dataSourceLogicService.invalidateAllCache();
     }
 
     //Ranges
     public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO)  {
         CompanyUserDTO companyUserDTO1 = companyUserLogicService.getOrCreate(companyUserDTO);
         rangeLogicService.saveRanges(rangeDTOS,companyUserDTO1);
+        rangeLogicService.invalidateAllCache();
     }
 
     public List<Integer> getYearsOfUserRatings(CompanyUserDTO companyUserDTO){

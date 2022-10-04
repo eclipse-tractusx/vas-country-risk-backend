@@ -3,7 +3,7 @@ package com.catenax.valueaddedservice.service.logic;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.DataSourceValueService;
-import com.catenax.valueaddedservice.utils.FormatUtils;
+import com.catenax.valueaddedservice.utils.MethodUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,21 +74,18 @@ public class WorldMapAndTableLogicService {
     }
 
     private List<DashBoardWorldMapDTO> mapDataSourcesToWorldMap(List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS,CompanyUserDTO companyUser){
-        List<String> countryList = new ArrayList<>();
+        List<DataDTO> countryList = dataDTOS.stream().filter(MethodUtils.distinctByKey(DataDTO::getIso2)).collect(Collectors.toList());
         final CountryDTO[] countryDTO = {new CountryDTO()};
-        countryList.addAll(dataDTOS.stream().map(DataDTO::getCountry)
-                .collect(Collectors.toSet()));
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = new ArrayList<>();
         final DashBoardWorldMapDTO[] dashBoardWorldMapDTO = {new DashBoardWorldMapDTO()};
         countryList.forEach(country->{
-            countryDTO[0] = new CountryDTO();
+            countryDTO[0] = new CountryDTO(country.getCountry(),country.getIso3(),country.getIso2(),country.getContinent());
             final float[] generalFormulaTotal = {0F};
             final float[] totalRatedByUser = {0F};
-            List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country)).collect(Collectors.toList());
+            List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country.getCountry())).collect(Collectors.toList());
             dataSources.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
             dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,totalRatedByUser[0]));
             dashBoardWorldMapDTO[0] = new DashBoardWorldMapDTO();
-            countryDTO[0] = countryLogicService.findCountryByName(country);
             dashBoardWorldMapDTO[0].setCountry(countryDTO[0]);
             dashBoardWorldMapDTO[0].setScore(generalFormulaTotal[0]);
 
@@ -123,7 +120,7 @@ public class WorldMapAndTableLogicService {
             generalFormulaTotal = generalFormulaTotal+ (eachDataSource.getScore() * (eachWeight * 0.01F));
         }
 
-        return FormatUtils.formatFloatTwoDecimals(generalFormulaTotal);
+        return MethodUtils.formatFloatTwoDecimals(generalFormulaTotal);
     }
 
     private DashBoardTableDTO setBusinessPartnerProps(BusinessPartnerDTO businessPartnerDTO,Integer id) {

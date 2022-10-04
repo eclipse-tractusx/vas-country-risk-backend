@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public class UploadAndDownloadLogicService {
     FileService fileService;
 
     public FileDTO getDataSourceTemplate(){
+        log.debug("getDataSourceTemplate get Template");
         Optional<FileDTO> optionalFileDTO = fileService.findUpdatedDataSourceTemplate();
         return optionalFileDTO.orElseGet(optionalFileDTO::orElseThrow);
     }
@@ -47,7 +49,8 @@ public class UploadAndDownloadLogicService {
 
     public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader((file.getResource().getInputStream())));
+        log.debug("save new CSV Rating {} by companyUser {}",dataSourceName,companyUserDTO);
+        BufferedReader br = new BufferedReader(new InputStreamReader(file.getResource().getInputStream(), StandardCharsets.UTF_8));
         String line = "";
         DataSourceDTO dataSource = new DataSourceDTO();
         dataSource.setType(Type.Custom);
@@ -60,12 +63,14 @@ public class UploadAndDownloadLogicService {
         line = br.readLine();
         while ((line = br.readLine()) != null) {
             String[] countryAndValue = line.split(";");
-            dataSourceValueDTO.setCountry(countryAndValue[0]);
-            dataSourceValueDTO.setContinent("World");
+            dataSourceValueDTO.setCountry(countryAndValue[1]);
+            dataSourceValueDTO.setContinent(countryAndValue[0]);
+            dataSourceValueDTO.setIso2(countryAndValue[3]);
+            dataSourceValueDTO.setIso3(countryAndValue[2]);
             dataSourceValueDTO.setScore(-1F);
             dataSourceValueDTO.setDataSource(dataSource);
-            if(countryAndValue.length > 1){
-                dataSourceValueDTO.setScore(Float.valueOf(countryAndValue[1]));
+            if(countryAndValue.length > 4){
+                dataSourceValueDTO.setScore(Float.valueOf(countryAndValue[4]));
             }
             dataSourceValueService.save(dataSourceValueDTO);
             dataSourceValueDTO = new DataSourceValueDTO();

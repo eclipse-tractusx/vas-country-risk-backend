@@ -89,6 +89,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/allYears")
     public ResponseEntity<List<Integer>> getYears(CompanyUserDTO companyUser) {
+        log.debug("REST request to get a allYears");
         List<Integer> years;
         years = dashboardService.getYearsOfUserRatings(companyUser);
         return ResponseEntity.ok().body(years);
@@ -99,6 +100,7 @@ public class DashBoardResource {
                            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/ratingsByYear")
     public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year, CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to get ratingsByYear");
         List<DataSourceDTO> dataSourceDto;
         dataSourceDto = dashboardService.findRatingsByYearAndCompanyUser(year,companyUserDTO);
         return ResponseEntity.ok().body(dataSourceDto);
@@ -109,6 +111,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTemplate")
     public ResponseEntity<byte[]> getTemplate() {
+        log.debug("REST request to get Template");
         FileDTO fileDTO = dashboardService.getDataSourceTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileDTO.getFileName() + ".csv");
@@ -129,8 +132,8 @@ public class DashBoardResource {
     @PostMapping("/dashboard/uploadCsv")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
+        log.debug("REST request to uploadCsv");
         String message = "";
-
         message = "Uploaded the file successfully: " + file.getOriginalFilename();
         try {
             dashboardService.saveCsv(file, dataSourceName, companyUser);
@@ -153,7 +156,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getUserRanges")
     public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
-
+        log.debug("REST request to get User Ranges");
         List<RangeDTO> rangeDTOS;
         rangeDTOS = dashboardService.getUserRangesOrDefault(companyUser);
         return ResponseEntity.ok().body(rangeDTOS);
@@ -164,6 +167,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCountryFilterByISO2")
     public ResponseEntity<List<CountryDTO>> getCountrys(CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to get CountryFilterByISO2");
         return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2(companyUserDTO));
     }
 
@@ -173,6 +177,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCompanyBpns")
     public ResponseEntity<List<BusinessPartnerDTO>> getCompanyBpns(CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to get CompanyBpns");
         return ResponseEntity.ok().body(dashboardService.getExternalBusinessPartners(companyUserDTO));
     }
 
@@ -181,7 +186,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getBpnCountrys")
     public ResponseEntity<List<CountryDTO>> getBpnCountrys(CompanyUserDTO companyUserDTO) {
-
+        log.debug("REST request to get BpnCountrys");
         List<CountryDTO> countryDTOS;
         countryDTOS = dashboardService.getCountryByAssociatedBPtoUser(companyUserDTO);
 
@@ -194,7 +199,7 @@ public class DashBoardResource {
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";
-
+        log.debug("REST request to saveUserRanges");
         try {
             dashboardService.saveRanges(rangeDTOS, companyUserDTO);
             message = "Range successfully saved!";
