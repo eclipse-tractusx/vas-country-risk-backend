@@ -51,19 +51,6 @@ public class CompanyUserService {
     }
 
     /**
-     * Update a companyUser.
-     *
-     * @param companyUserDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public CompanyUserDTO update(CompanyUserDTO companyUserDTO) {
-        log.debug("Request to save CompanyUser : {}", companyUserDTO);
-        CompanyUser companyUser = companyUserMapper.toEntity(companyUserDTO);
-        companyUser = companyUserRepository.save(companyUser);
-        return companyUserMapper.toDto(companyUser);
-    }
-
-    /**
      * Partially update a companyUser.
      *
      * @param companyUserDTO the entity to update partially.
