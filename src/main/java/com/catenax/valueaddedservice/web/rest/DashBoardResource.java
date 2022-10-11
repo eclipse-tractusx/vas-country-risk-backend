@@ -1,6 +1,8 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.repository.ReportRepository;
+import com.catenax.valueaddedservice.repository.ReportValuesRepository;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,6 +47,12 @@ public class DashBoardResource {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    ReportValuesRepository reportValuesRepository;
+
+    @Autowired
+    ReportRepository reportRepository;
 
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
