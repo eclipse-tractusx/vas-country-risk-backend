@@ -9,7 +9,8 @@ public final class VasConstants {
     }
 
     public static final String HEADERS_BEARER_TOKEN = "authorization";
-
     public static final String REMOVE_BEARER_TAG = "Bearer ";
+    public static final String RATINGS_TAG = "ratings";
+
 
 }

@@ -23,6 +23,7 @@
 		<spring-boot.version>2.6.6</spring-boot.version>
 		<org.zalando.problem-spring-web>0.26.2</org.zalando.problem-spring-web>
 		<org.springdoc.springdoc-openapi-ui>1.6.11</org.springdoc.springdoc-openapi-ui>
+		<hibernate-types-55>2.12.1</hibernate-types-55>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -101,7 +102,7 @@
 		<dependency>
 			<groupId>com.vladmihalcea</groupId>
 			<artifactId>hibernate-types-55</artifactId>
-			<version>2.12.1</version>
+			<version>${hibernate-types-55}</version>
 		</dependency>
 	</dependencies>
 
