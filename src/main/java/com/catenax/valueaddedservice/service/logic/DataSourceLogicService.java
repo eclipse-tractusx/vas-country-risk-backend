@@ -25,7 +25,6 @@ public class DataSourceLogicService {
     }
 
     public List<DataSourceDTO> findRatingsByCompanyUser(CompanyUserDTO companyUserDTO){
-        List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingByUser(companyUserDTO);
-        return dataSourceDTOS;
+       return  dataSourceService.findRatingByUser(companyUserDTO);
     }
 }

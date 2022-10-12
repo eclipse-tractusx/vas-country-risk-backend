@@ -73,7 +73,7 @@ public class DashboardService {
 
     public List<Integer> getYearsOfUserRatings(CompanyUserDTO companyUserDTO){
         List<Integer> list = new ArrayList<>();
-        list.addAll(dataSourceLogicService.findRatingsByCompanyUser(companyUserDTO).stream().map(rating -> rating.getYearPublished()).collect(Collectors.toSet()));
+        list.addAll(dataSourceLogicService.findRatingsByCompanyUser(companyUserDTO).stream().map(DataSourceDTO::getYearPublished).collect(Collectors.toSet()));
         return list;
     }
 
