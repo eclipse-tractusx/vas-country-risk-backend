@@ -19,10 +19,10 @@ an database and also from other CatenaX microservices
 
 ## Running environments
 
-| Environment | Link                                                     |
-|-------------|----------------------------------------------------------|
-| Dev         | https://vas-country-risk-frontend.dev.demo.catena-x.net/ |
-| Int         | -- Add Link --                                           |
+| Environment | Link                                                    |
+|-------------|---------------------------------------------------------|
+| Dev         | https://vas-country-risk-backend.dev.demo.catena-x.net/ |
+| Int         | https://vas-country-risk-backend.int.demo.catena-x.net/ |
 
 ## Getting started
 
@@ -49,7 +49,7 @@ For that, change run the project with the following Environment variable: spring
 
 The project can be run with the following command: `mvn clean compile`
 
-##Project Structure
+## Project Structure
 
 The root of this project contains mainly Maven Project Files (pom.xml) and some repository configurations. Also there are
 at root level some folders containing the Helm Charts configurations.
@@ -79,7 +79,6 @@ and follows the mainly used project structure in most Spring Boot projects.
                    └───rest
 ```
 
-
-##API sample endpoints
+## API sample endpoints
 
 * Swagger UI: `http://localhost:8080/swagger-ui/index.html#/`
