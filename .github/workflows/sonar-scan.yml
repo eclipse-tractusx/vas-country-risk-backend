@@ -2,7 +2,8 @@ name: "Sonar Cloud Analyze"
 on:
   push:
     branches:
-      - '**'
+      - 'main'
+      - 'dev'
 
 env:
   JAVA_VERSION: 11
