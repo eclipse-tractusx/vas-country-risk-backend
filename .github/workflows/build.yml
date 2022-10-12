@@ -68,9 +68,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   analyze:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -85,7 +82,7 @@ jobs:
 
       #Use Maven package cache
       - name: Cache Maven packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -93,7 +90,7 @@ jobs:
 
       #Use Sonar cache
       - name: Cache SonarCloud packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
