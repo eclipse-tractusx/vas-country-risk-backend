@@ -5,6 +5,8 @@ on:
     branches:
       - 'main'
       - 'dev'
+  pull_request:
+      types: [opened, synchronize, reopened]
 
 
 env:
@@ -98,6 +100,7 @@ jobs:
 
       #Verify with tests and sonar analysis
       - name: Verify
+        uses: actions/cache@v3
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
