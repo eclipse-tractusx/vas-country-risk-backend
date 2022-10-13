@@ -3,13 +3,14 @@
 Table of content:
 
 - [Description](#description)
-- [Running-environments](#running-environments)
-- [Getting-started](#Getting-started)
+- [Running environments](#running-environments)
+- [Getting started](#Getting-started)
     - [Prerequisites](#Prerequisites)
-    - [Configurations](#Configurations)
-    - [How-to-run](#How-to-run)
-- [Project-Structure](#Project-Structure)
-- [API-sample-endpoints](#API-sample-endpoints)
+    - [Profile Configurations](#Profile-Configurations)
+    - [How to run](#How-to-run)
+    - [Database Connection Configuration](#Database-Connection-Configuration)
+- [Project Structure](#Project-Structure)
+- [API sample endpoints](#API-sample-endpoints)
     
 
 ## Description
@@ -31,7 +32,7 @@ an database and also from other CatenaX microservices
 * JDK 11
 * Maven
 
-### Configurations
+### Profile Configurations
 
 In this project there is a variety of different profiles. They can be accessed in the resources folder of the project. The available 
 profiles are:
@@ -45,9 +46,21 @@ profiles are:
 ### How to run
 
 To run the project locally, it must be changed which profile will be used, in this case the profile will be the local.
-For that, change run the project with the following Environment variable: spring.profiles.active=local
+For that, run the project with the following Environment variable: spring.profiles.active=local
 
-The project can be run with the following command: `mvn clean compile`
+The project can be run locally with the following command: `mvn clean spring-boot:run -Dspring.profiles.active=local`
+
+### Database Connection Configuration
+
+The project is mainly configured to use liquibase as a Database. When you run the project, this database will create
+multiple test data for usage and the data will persist when the project is closed. You can delete all the data and
+re-create the database by simply doing the following command `mvn clean install` and run the program again with the
+earlier presented command `mvn clean spring-boot:run -Dspring.profiles.active=local`. To access the UI for the database,
+use the following URL: http://localhost:8080/h2-console/login.jsp
+
+Also, it is possible to use Postgres as a Database. To do this, the postgres configuration in the application-local.yml
+needs to be uncommented, and the username, URL and password should be changed according the installed postgres DB. Also,
+the liquibase configuration in the same yml should be commented.
 
 ## Project Structure
 
@@ -55,7 +68,7 @@ The root of this project contains mainly Maven Project Files (pom.xml) and some 
 at root level some folders containing the Helm Charts configurations.
 
 Once inside the "main" folder, there are two folders. One for the Java files, and a resources folder, which contains the database
-changelogs and fake data which populates the liquidbase and also the profiles configurations yml's.
+changelogs and fake data which populates the liquibase and also the profiles configurations yml's.
 
 Inside the java folder, there is the source code for the project, which is divided in multiple folders to facilitate the development
 and follows the mainly used project structure in most Spring Boot projects.
