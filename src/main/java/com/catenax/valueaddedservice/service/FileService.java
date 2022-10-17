@@ -44,18 +44,6 @@ public class FileService {
         return fileMapper.toDto(file);
     }
 
-    /**
-     * Update a file.
-     *
-     * @param fileDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public FileDTO update(FileDTO fileDTO) {
-        log.debug("Request to save File : {}", fileDTO);
-        File file = fileMapper.toEntity(fileDTO);
-        file = fileRepository.save(file);
-        return fileMapper.toDto(file);
-    }
 
     /**
      * Partially update a file.

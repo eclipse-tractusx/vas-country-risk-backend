@@ -33,8 +33,8 @@ public class DataSourceLogicService {
     @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByCompanyUser(CompanyUserDTO companyUserDTO){
         log.debug("findRatingsByCompanyUser {}",companyUserDTO);
-        List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingByUser(companyUserDTO);
-        return dataSourceDTOS;
+        return  dataSourceService.findRatingByUser(companyUserDTO);
+
     }
 
     @CacheEvict(value = "vas-datasource", allEntries = true)

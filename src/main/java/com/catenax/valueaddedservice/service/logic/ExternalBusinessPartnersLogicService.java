@@ -76,8 +76,8 @@ public class ExternalBusinessPartnersLogicService {
     public Long getTotalBpnByCountry(CountryDTO countryDTO,CompanyUserDTO companyUserDTO){
         log.debug("getTotalBpnByCountry filtered by country {} and companyUser {}",countryDTO,companyUserDTO);
         List<BusinessPartnerDTO> businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO);
-        Long value = businessPartnerDTOS.stream().filter(businessPartnerDTO -> businessPartnerDTO.getCountry().equalsIgnoreCase(countryDTO.getCountry())).count();
-        return value;
+        return  businessPartnerDTOS.stream().filter(businessPartnerDTO -> businessPartnerDTO.getCountry().equalsIgnoreCase(countryDTO.getCountry())).count();
+
     }
 
     @CacheEvict(value = "vas-bpn", allEntries = true)

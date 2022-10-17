@@ -51,18 +51,7 @@ public class DataSourceValueService {
         return dataSourceValueMapper.toDto(dataSourceValue);
     }
 
-    /**
-     * Update a dataSourceValue.
-     *
-     * @param dataSourceValueDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public DataSourceValueDTO update(DataSourceValueDTO dataSourceValueDTO) {
-        log.debug("Request to save DataSourceValue : {}", dataSourceValueDTO);
-        DataSourceValue dataSourceValue = dataSourceValueMapper.toEntity(dataSourceValueDTO);
-        dataSourceValue = dataSourceValueRepository.save(dataSourceValue);
-        return dataSourceValueMapper.toDto(dataSourceValue);
-    }
+
 
     /**
      * Partially update a dataSourceValue.

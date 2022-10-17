@@ -44,18 +44,7 @@ public class RegionService {
         return regionMapper.toDto(region);
     }
 
-    /**
-     * Update a region.
-     *
-     * @param regionDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public RegionDTO update(RegionDTO regionDTO) {
-        log.debug("Request to save Region : {}", regionDTO);
-        Region region = regionMapper.toEntity(regionDTO);
-        region = regionRepository.save(region);
-        return regionMapper.toDto(region);
-    }
+
 
     /**
      * Partially update a region.

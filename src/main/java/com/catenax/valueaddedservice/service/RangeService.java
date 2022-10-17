@@ -76,18 +76,6 @@ public class RangeService {
         rangeRepository.setValueForRange(range.getValue(),range.getRange(),range.getCompanyUser().getId());
     }
 
-    /**
-     * Update a range.
-     *
-     * @param rangeDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public RangeDTO update(RangeDTO rangeDTO) {
-        log.debug("Request to save Range : {}", rangeDTO);
-        Range range = rangeMapper.toEntity(rangeDTO);
-        range = rangeRepository.save(range);
-        return rangeMapper.toDto(range);
-    }
 
     /**
      * Partially update a range.

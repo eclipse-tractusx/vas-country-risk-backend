@@ -38,7 +38,6 @@ public class CompanyUserService {
      * @return the persisted entity.
      */
     public CompanyUserDTO save(CompanyUserDTO companyUserDTO) {
-        log.debug("Request to save CompanyUser : {}", companyUserDTO);
         CompanyUser companyUser = companyUserMapper.toEntity(companyUserDTO);
         companyUser = companyUserRepository.save(companyUser);
         return companyUserMapper.toDto(companyUser);

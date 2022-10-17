@@ -46,18 +46,7 @@ public class ReportService {
         return reportMapper.toDto(report);
     }
 
-    /**
-     * Update a report.
-     *
-     * @param reportDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public ReportDTO update(ReportDTO reportDTO) {
-        log.debug("Request to save Report : {}", reportDTO);
-        Report report = reportMapper.toEntity(reportDTO);
-        report = reportRepository.save(report);
-        return reportMapper.toDto(report);
-    }
+
 
     /**
      * Partially update a report.

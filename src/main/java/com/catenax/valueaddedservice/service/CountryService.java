@@ -58,19 +58,6 @@ public class CountryService {
     }
 
     /**
-     * Update a country.
-     *
-     * @param countryDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public CountryDTO update(CountryDTO countryDTO) {
-        log.debug("Request to save Country : {}", countryDTO);
-        Country country = countryMapper.toEntity(countryDTO);
-        country = countryRepository.save(country);
-        return countryMapper.toDto(country);
-    }
-
-    /**
      * Partially update a country.
      *
      * @param countryDTO the entity to update partially.

@@ -7,7 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+
 public class MethodUtils {
+
 
     public static Float formatFloatTwoDecimals(Float number) {
         DecimalFormat df = new DecimalFormat("#.##");
