@@ -43,6 +43,9 @@ public class DashboardService {
     @Autowired
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
+    @Autowired
+    ReportLogicService reportLogicService;
+
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -94,6 +97,23 @@ public class DashboardService {
 
     public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){
         return countryLogicService.getAssociatedCountries(companyUserDTO);
+    }
+
+    public List<ReportDTO> getReportsByCompanyUser(CompanyUserDTO companyUserDTO){
+        List<ReportDTO> reportDTOS = reportLogicService.getGlobalReports();
+        reportDTOS.addAll(reportLogicService.getCompanyReports(companyUserDTO));
+        reportDTOS.addAll(reportLogicService.getReportsForCompanyUser(companyUserDTO));
+        return reportDTOS;
+    }
+
+    public void saveReportForUser(CompanyUserDTO companyUserDTO,ReportDTO reportDTO){
+        CompanyUserDTO companyUserDTO1 = companyUserLogicService.getOrCreate(companyUserDTO);
+        reportLogicService.saveReport(reportDTO,companyUserDTO1);
+        reportLogicService.invalidateAllCache();
+    }
+
+    public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO){
+        return reportLogicService.getReportValues(reportDTO);
     }
 
 
