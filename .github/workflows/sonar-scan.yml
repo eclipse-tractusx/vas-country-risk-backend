@@ -1,0 +1,57 @@
+name: "Sonar Cloud Analyze"
+on:
+  push:
+    branches:
+      - 'main'
+      - 'dev'
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+
+env:
+  JAVA_VERSION: 11
+
+jobs:
+  analyse:
+    name: analyse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'adopt'
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+#  Analysis:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Analyze with SonarCloud
+#        # You can pin the exact commit or the version.
+#        # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+#        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
+#        with:
+#          args: >
+#            -Dsonar.organization=catenax-ng
+#            -Dsonar.projectKey=catenax-ng_product-value-added-service
