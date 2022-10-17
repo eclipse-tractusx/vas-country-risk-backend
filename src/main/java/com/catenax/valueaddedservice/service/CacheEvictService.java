@@ -1,9 +1,6 @@
 package com.catenax.valueaddedservice.service;
 
-import com.catenax.valueaddedservice.service.logic.CountryLogicService;
-import com.catenax.valueaddedservice.service.logic.DataSourceLogicService;
-import com.catenax.valueaddedservice.service.logic.ExternalBusinessPartnersLogicService;
-import com.catenax.valueaddedservice.service.logic.RangeLogicService;
+import com.catenax.valueaddedservice.service.logic.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,6 +27,9 @@ public class CacheEvictService {
     @Autowired
     RangeLogicService rangeLogicService;
 
+    @Autowired
+    ReportLogicService reportLogicService;
+
     @Scheduled(fixedRate = ONE_HOUR)
     public void clearCacheCountry() {
         countryLogicService.invalidateAllCache();
@@ -52,5 +52,11 @@ public class CacheEvictService {
     public void clearCacheRange() {
         rangeLogicService.invalidateAllCache();
         log.info("Cache for user range cleared.");
+    }
+
+    @Scheduled(fixedRate = ONE_HOUR)
+    public void clearCacheReports() {
+        reportLogicService.invalidateAllCache();
+        log.info("Cache for Reports cleared.");
     }
 }

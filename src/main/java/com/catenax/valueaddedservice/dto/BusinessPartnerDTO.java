@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
@@ -13,17 +14,25 @@ import java.io.Serializable;
 public class BusinessPartnerDTO implements Serializable {
     private Long id;
 
+    @Schema(example = "BPN-NUMBER")
     private String bpn;
 
+    @Schema(example = "Divape Company")
     private String legalName;
 
+    @Schema(example = "15874 Sutteridge Trail")
     private String address;
 
+    @Schema(example = "Covilhã")
     private String city;
 
+    @Schema(example = "Portugal")
     private String country;
 
+    @Schema(example = "107.6185727")
     private String longitude;
 
+    @Schema(example = "-6.6889038")
     private String latitude;
+
 }

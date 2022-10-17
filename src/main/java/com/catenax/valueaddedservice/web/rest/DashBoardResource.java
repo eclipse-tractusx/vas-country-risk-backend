@@ -222,4 +222,36 @@ public class DashBoardResource {
         }
     }
 
+    @Operation(summary = "Retrieves all Reports that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Reports requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getReportsByCompanyUser")
+    public ResponseEntity<List<ReportDTO>> getReportsByCompanyUser(CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to getReportsByCompanyUser");
+        List<ReportDTO> reportDTOS;
+        reportDTOS = dashboardService.getReportsByCompanyUser(companyUserDTO);
+        return ResponseEntity.ok().body(reportDTOS);
+    }
+
+    @Operation(summary = "Save new Reports that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Reports saved with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @PostMapping("/dashboard/saveReports")
+    public ResponseEntity<List<ReportDTO>> saveReports(@Valid @RequestBody ReportDTO reportDTO,CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to save reports");
+        dashboardService.saveReportForUser(companyUserDTO,reportDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Retrieves all Reports that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Report values requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getReportsValueByReport")
+    public ResponseEntity<List<ReportValuesDTO>> getReportsValueByReport(ReportDTO reportDTO) {
+        log.debug("REST request to getReportsValueByReport");
+        List<ReportValuesDTO> reportValuesDTOList;
+        reportValuesDTOList = dashboardService.getReportValues(reportDTO);
+        return ResponseEntity.ok().body(reportValuesDTOList);
+    }
+
 }

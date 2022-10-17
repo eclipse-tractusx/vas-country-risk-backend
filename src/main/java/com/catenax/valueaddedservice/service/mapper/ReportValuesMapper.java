@@ -14,7 +14,7 @@ import org.mapstruct.Named;
  */
 @Mapper(componentModel = "spring")
 public interface ReportValuesMapper extends EntityMapper<ReportValuesDTO, ReportValues> {
-    @Mapping(target = "report", source = "report", qualifiedByName = "reportId")
+
     ReportValuesDTO toDto(ReportValues s);
 
     @Named("reportId")

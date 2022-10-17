@@ -1,16 +1,21 @@
 package com.catenax.valueaddedservice.service;
 
+import com.catenax.valueaddedservice.domain.Report;
 import com.catenax.valueaddedservice.domain.ReportValues;
+import com.catenax.valueaddedservice.dto.ReportDTO;
 import com.catenax.valueaddedservice.dto.ReportValuesDTO;
 import com.catenax.valueaddedservice.repository.ReportValuesRepository;
+import com.catenax.valueaddedservice.service.mapper.ReportMapper;
 import com.catenax.valueaddedservice.service.mapper.ReportValuesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +31,9 @@ public class ReportValuesService {
 
     private final ReportValuesMapper reportValuesMapper;
 
+    @Autowired
+    ReportMapper reportMapper;
+
     public ReportValuesService(ReportValuesRepository reportValuesRepository, ReportValuesMapper reportValuesMapper) {
         this.reportValuesRepository = reportValuesRepository;
         this.reportValuesMapper = reportValuesMapper;
@@ -37,9 +45,11 @@ public class ReportValuesService {
      * @param reportValuesDTO the entity to save.
      * @return the persisted entity.
      */
-    public ReportValuesDTO save(ReportValuesDTO reportValuesDTO) {
+    public ReportValuesDTO save(ReportValuesDTO reportValuesDTO, ReportDTO reportDTO) {
         log.debug("Request to save ReportValues : {}", reportValuesDTO);
+        Report report = reportMapper.toEntity(reportDTO);
         ReportValues reportValues = reportValuesMapper.toEntity(reportValuesDTO);
+        reportValues.setReport(report);
         reportValues = reportValuesRepository.save(reportValues);
         return reportValuesMapper.toDto(reportValues);
     }
@@ -87,6 +97,13 @@ public class ReportValuesService {
     public Page<ReportValuesDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ReportValues");
         return reportValuesRepository.findAll(pageable).map(reportValuesMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReportValuesDTO> findByReport(ReportDTO reportDTO) {
+        Report report = reportMapper.toEntity(reportDTO);
+        log.debug("Request to get all ReportValues");
+        return reportValuesMapper.toDto(reportValuesRepository.findByReport(report));
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.Report;
+import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.ReportDTO;
 import com.catenax.valueaddedservice.repository.ReportRepository;
 import com.catenax.valueaddedservice.service.mapper.ReportMapper;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -109,5 +111,17 @@ public class ReportService {
     public void delete(Long id) {
         log.debug("Request to delete Report : {}", id);
         reportRepository.deleteById(id);
+    }
+
+    public List<ReportDTO> findByCompanyUserNameAndCompanyAndType(String name,String company, Type type){
+        return reportMapper.toDto(reportRepository.findByCompanyUserNameAndCompanyAndType(name,company,type));
+    }
+
+    public List<ReportDTO> findByGlobalType(Type type){
+        return reportMapper.toDto(reportRepository.findByType(type));
+    }
+
+    public List<ReportDTO> findByCompanyAndType(String company, Type type){
+        return reportMapper.toDto(reportRepository.findByCompanyAndType(company,type));
     }
 }
