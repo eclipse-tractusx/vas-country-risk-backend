@@ -24,7 +24,7 @@
 		<org.zalando.problem-spring-web>0.26.2</org.zalando.problem-spring-web>
 		<org.springdoc.springdoc-openapi-ui>1.6.11</org.springdoc.springdoc-openapi-ui>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.organization>catenax-ng</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.projectKey>catenax-ng_product-value-added-service</sonar.projectKey>
