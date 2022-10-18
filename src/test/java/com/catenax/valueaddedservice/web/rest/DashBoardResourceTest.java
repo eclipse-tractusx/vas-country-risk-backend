@@ -11,10 +11,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,24 +29,119 @@ class DashBoardResourceTest {
     private DashBoardResource dashBoardResource;
 
     @Test
+    @DisplayName(
+            "Should return a list of dashboardtabledto when the year is 0 and the ratings are empty")
+    void getAllDashBoardTableWhenYearIs0AndRatingsAreEmptyThenReturnListOfDashBoardTableDTO() throws IOException {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        List<DashBoardTableDTO> dashBoardTableDTOS = List.of(new DashBoardTableDTO());
+        when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
+                .thenReturn(dashBoardTableDTOS);
+
+        List<DashBoardTableDTO> result =
+                dashBoardResource.getAllDashBoardTable(null, null, 2021,companyUserDTO).getBody();
+
+        assertEquals(dashBoardTableDTOS, result);
+    }
+
+    @Test
+    @DisplayName(
+            "Should return a list of dashboardtabledto when the year is not 0 and the ratings are empty")
+    void getAllDashBoardTableWhenYearIsNot0AndRatingsAreEmptyThenReturnListOfDashBoardTableDTO() throws IOException {
+        Integer year = 2020;
+        List<RatingDTO> ratingDTOList = List.of();
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        List<DashBoardTableDTO> dashBoardTableDTOList = List.of(new DashBoardTableDTO());
+
+        when(dashboardService.getTableInfo(year, ratingDTOList, companyUserDTO))
+                .thenReturn(dashBoardTableDTOList);
+
+        assertEquals(
+                dashBoardTableDTOList,
+                dashBoardResource.getAllDashBoardTable(null, null, year, companyUserDTO).getBody());
+    }
+
+    @Test
+    @DisplayName("Should return a list of dashboardworldmapdto when the year is null")
+    void getDashBoardWorldMapWhenYearIsNullThenReturnListOfDashBoardWorldMapDTO() throws IOException {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = List.of(new DashBoardWorldMapDTO());
+        when(dashboardService.getWorldMapInfo(any(), any(), any()))
+                .thenReturn(dashBoardWorldMapDTOS);
+
+        List<DashBoardWorldMapDTO> result =
+                dashBoardResource.getDashBoardWorldMap(null, null, companyUserDTO).getBody();
+
+        assertEquals(dashBoardWorldMapDTOS, result);
+    }
+
+    @Test
+    @DisplayName("Should return a list of dashboardworldmapdto when the year is not null")
+    void getDashBoardWorldMapWhenYearIsNotNullThenReturnListOfDashBoardWorldMapDTO() throws IOException {
+        Integer year = 2020;
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = List.of(new DashBoardWorldMapDTO());
+        when(dashboardService.getWorldMapInfo(any(), any(), any()))
+                .thenReturn(dashBoardWorldMapDTOS);
+
+        var result = dashBoardResource.getDashBoardWorldMap(null, year, companyUserDTO);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(dashBoardWorldMapDTOS, result.getBody());
+    }
+
+    @Test
+    @DisplayName("Should return a csv file")
+    void getTemplateShouldReturnCSVFile() {
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setFileName("test");
+        fileDTO.setContent("test");
+        when(dashboardService.getDataSourceTemplate()).thenReturn(fileDTO);
+        assertEquals(dashBoardResource.getTemplate().getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    @DisplayName("Should return an empty list when the user is not authenticated")
+    void getBpnCountrysWhenUserIsNotAuthenticatedThenReturnEmptyList() {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        when(dashboardService.getCountryByAssociatedBPtoUser(any())).thenReturn(List.of());
+        List<CountryDTO> countryDTOS = dashBoardResource.getBpnCountrys(companyUserDTO).getBody();
+        assertEquals(0, countryDTOS.size());
+    }
+
+    @Test
+    @DisplayName("Should return a list of countries when the user is authenticated")
+    void getBpnCountrysWhenUserIsAuthenticatedThenReturnListOfCountries() {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        CountryDTO countryDTO = new CountryDTO();
+        countryDTO.setIso2("iso2");
+        countryDTO.setCountry("name");
+        when(dashboardService.getCountryByAssociatedBPtoUser(any(CompanyUserDTO.class)))
+                .thenReturn(List.of(countryDTO));
+
+        List<CountryDTO> countryDTOS = dashBoardResource.getBpnCountrys(companyUserDTO).getBody();
+
+        assertNotNull(countryDTOS);
+        assertEquals(1, countryDTOS.size());
+        assertEquals("iso2", countryDTOS.get(0).getIso2());
+        assertEquals("name", countryDTOS.get(0).getCountry());
+    }
+
+    @Test
     @DisplayName("Should return all business partners of a company")
     void getCompanyBpnsShouldReturnAllBusinessPartnersOfACompany() {
         dashBoardResource.getCompanyBpns(null);
         verify(dashboardService, times(1)).getExternalBusinessPartners(null);
     }
-
-//    @Test
-//    @DisplayName("Should throw an exception when the report is invalid")
-//    void saveReportsWhenReportIsInvalidThenThrowException() {
-//        ReportDTO reportDTO = new ReportDTO();
-//        reportDTO.setType(Type.Company);
-//        reportDTO.setReportName("test");
-//        reportDTO.setCompany("test");
-//        reportDTO.setCompanyUserName("test");
-//        reportDTO.setReportValuesDTOList(List.of(new ReportValuesDTO()));
-//
-//        assertThrows(Exception.class, () -> dashBoardResource.saveReports(reportDTO, null));
-//    }
 
     @Test
     @DisplayName("Should save the report when the report is valid")
@@ -87,39 +183,6 @@ class DashBoardResourceTest {
     }
 
     @Test
-    @DisplayName("Should return an empty list when the user is not authenticated")
-    void getBpnCountrysWhenUserIsNotAuthenticatedThenReturnEmptyList() {
-        ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setType(Type.Company);
-        reportDTO.setCompany("company");
-        reportDTO.setCompanyUserName("user");
-        reportDTO.setReportName("name");
-
-        when(dashboardService.getReportValues(reportDTO)).thenReturn(List.of());
-
-        assertEquals(
-                HttpStatus.OK,
-                dashBoardResource.getReportsValueByReport(reportDTO).getStatusCode());
-        assertTrue(dashBoardResource.getReportsValueByReport(reportDTO).getBody().isEmpty());
-    }
-
-    @Test
-    @DisplayName("Should return a list of countries when the user is authenticated")
-    void getBpnCountrysWhenUserIsAuthenticatedThenReturnListOfCountries() {
-        ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setType(Type.Company);
-        reportDTO.setCompany("company");
-        reportDTO.setCompanyUserName("user");
-        List<ReportValuesDTO> reportValuesDTOList = List.of(new ReportValuesDTO());
-        when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOList);
-
-        var result = dashBoardResource.getReportsValueByReport(reportDTO);
-
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(reportValuesDTOList, result.getBody());
-    }
-
-    @Test
     @DisplayName("Should save the ranges when the ranges are valid")
     void saveRangesWhenRangesAreValid() {
         List<RangeDTO> rangeDTOS = List.of(new RangeDTO());
@@ -129,38 +192,6 @@ class DashBoardResourceTest {
         dashBoardResource.saveRanges(rangeDTOS, companyUserDTO);
 
         verify(dashboardService, times(1)).saveRanges(rangeDTOS, companyUserDTO);
-    }
-
-//    @Test
-//    @DisplayName("Should throw an exception when the ranges are not valid")
-//    void saveRangesWhenRangesAreNotValidThenThrowException() {
-//        List<RangeDTO> rangeDTOS = List.of(new RangeDTO());
-//        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-//        companyUserDTO.setCompany("company");
-//        companyUserDTO.setName("name");
-//        when(dashboardService.saveRanges(rangeDTOS, companyUserDTO))
-//                .thenThrow(new RuntimeException());
-//        assertThrows(
-//                RuntimeException.class,
-//                () -> dashBoardResource.saveRanges(rangeDTOS, companyUserDTO));
-//    }
-
-    @Test
-    @DisplayName("Should return a csv file")
-    void getTemplateShouldReturnCSVFile() {
-        ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setType(Type.Global);
-        reportDTO.setReportName("test");
-        ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
-        reportValuesDTO.setReport(reportDTO);
-        List<ReportValuesDTO> reportValuesDTOList = List.of(reportValuesDTO);
-        when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOList);
-
-        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO).getBody();
-
-        assertEquals(1, result.size());
-        assertEquals(Type.Global, result.get(0).getReport().getType());
-        assertEquals("test", result.get(0).getReport().getReportName());
     }
 
     @Test
@@ -199,12 +230,6 @@ class DashBoardResourceTest {
 
         assertEquals(reportValuesDTOS, result);
     }
-
-//    @Test
-//    @DisplayName("Should return a 401 when the user is not authenticated")
-//    void getCountrysWhenUserIsNotAuthenticatedThenReturn401() {
-//        assertEquals(HttpStatus.UNAUTHORIZED, dashBoardResource.getCountrys(null).getStatusCode());
-//    }
 
     @Test
     @DisplayName("Should return a list of countries when the user is authenticated")

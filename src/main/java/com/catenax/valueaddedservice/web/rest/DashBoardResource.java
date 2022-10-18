@@ -66,7 +66,7 @@ public class DashBoardResource {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if (ratings.get(RATINGS_TAG) != null && !String.valueOf(ratings.get(RATINGS_TAG)).isEmpty()) {
+        if (ratings != null && ratings.get(RATINGS_TAG) != null && !String.valueOf(ratings.get(RATINGS_TAG)).isEmpty()) {
             ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get(RATINGS_TAG)), new TypeReference<>() {
             });
         }
@@ -85,7 +85,7 @@ public class DashBoardResource {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
         List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if (ratings.get(RATINGS_TAG) != null && !String.valueOf(ratings.get(RATINGS_TAG)).isEmpty()) {
+        if (ratings != null && ratings.get(RATINGS_TAG) != null && !String.valueOf(ratings.get(RATINGS_TAG)).isEmpty()) {
             ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get(RATINGS_TAG)), new TypeReference<>() {
             });
         }
