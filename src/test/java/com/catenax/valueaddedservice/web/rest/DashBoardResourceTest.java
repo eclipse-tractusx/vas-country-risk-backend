@@ -1,8 +1,7 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.domain.enumeration.Type;
-import com.catenax.valueaddedservice.dto.ReportDTO;
-import com.catenax.valueaddedservice.dto.ReportValuesDTO;
+import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.DashboardService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,8 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Dashboard Resource Tests")
@@ -26,6 +26,246 @@ class DashBoardResourceTest {
 
     @InjectMocks
     private DashBoardResource dashBoardResource;
+
+    @Test
+    @DisplayName("Should return all business partners of a company")
+    void getCompanyBpnsShouldReturnAllBusinessPartnersOfACompany() {
+        dashBoardResource.getCompanyBpns(null);
+        verify(dashboardService, times(1)).getExternalBusinessPartners(null);
+    }
+
+//    @Test
+//    @DisplayName("Should throw an exception when the report is invalid")
+//    void saveReportsWhenReportIsInvalidThenThrowException() {
+//        ReportDTO reportDTO = new ReportDTO();
+//        reportDTO.setType(Type.Company);
+//        reportDTO.setReportName("test");
+//        reportDTO.setCompany("test");
+//        reportDTO.setCompanyUserName("test");
+//        reportDTO.setReportValuesDTOList(List.of(new ReportValuesDTO()));
+//
+//        assertThrows(Exception.class, () -> dashBoardResource.saveReports(reportDTO, null));
+//    }
+
+    @Test
+    @DisplayName("Should save the report when the report is valid")
+    void saveReportsWhenReportIsValid() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setReportName("test");
+        reportDTO.setType(Type.Company);
+        reportDTO.setCompany("test");
+        reportDTO.setCompanyUserName("test");
+        doNothing().when(dashboardService).saveReportForUser(any(), any());
+        dashBoardResource.saveReports(reportDTO, null);
+        verify(dashboardService, times(1)).saveReportForUser(any(), any());
+    }
+
+    @Test
+    @DisplayName("Should return all reports of a company user")
+    void getReportsByCompanyUserShouldReturnAllReportsOfACompanyUser() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setId(1L);
+        reportDTO.setReportName("Report 1");
+        reportDTO.setType(Type.Global);
+
+        ReportDTO reportDTO2 = new ReportDTO();
+        reportDTO2.setId(2L);
+        reportDTO2.setReportName("Report 2");
+        reportDTO2.setType(Type.Company);
+
+        ReportDTO reportDTO3 = new ReportDTO();
+        reportDTO3.setId(3L);
+        reportDTO3.setReportName("Report 3");
+        reportDTO3.setType(Type.Custom);
+
+        when(dashboardService.getReportsByCompanyUser(any()))
+                .thenReturn(List.of(reportDTO, reportDTO2, reportDTO3));
+
+        List<ReportDTO> reports = dashBoardResource.getReportsByCompanyUser(any()).getBody();
+
+        assertEquals(3, reports.size());
+    }
+
+    @Test
+    @DisplayName("Should return an empty list when the user is not authenticated")
+    void getBpnCountrysWhenUserIsNotAuthenticatedThenReturnEmptyList() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setType(Type.Company);
+        reportDTO.setCompany("company");
+        reportDTO.setCompanyUserName("user");
+        reportDTO.setReportName("name");
+
+        when(dashboardService.getReportValues(reportDTO)).thenReturn(List.of());
+
+        assertEquals(
+                HttpStatus.OK,
+                dashBoardResource.getReportsValueByReport(reportDTO).getStatusCode());
+        assertTrue(dashBoardResource.getReportsValueByReport(reportDTO).getBody().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should return a list of countries when the user is authenticated")
+    void getBpnCountrysWhenUserIsAuthenticatedThenReturnListOfCountries() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setType(Type.Company);
+        reportDTO.setCompany("company");
+        reportDTO.setCompanyUserName("user");
+        List<ReportValuesDTO> reportValuesDTOList = List.of(new ReportValuesDTO());
+        when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOList);
+
+        var result = dashBoardResource.getReportsValueByReport(reportDTO);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(reportValuesDTOList, result.getBody());
+    }
+
+    @Test
+    @DisplayName("Should save the ranges when the ranges are valid")
+    void saveRangesWhenRangesAreValid() {
+        List<RangeDTO> rangeDTOS = List.of(new RangeDTO());
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        doNothing().when(dashboardService).saveRanges(rangeDTOS, companyUserDTO);
+
+        dashBoardResource.saveRanges(rangeDTOS, companyUserDTO);
+
+        verify(dashboardService, times(1)).saveRanges(rangeDTOS, companyUserDTO);
+    }
+
+//    @Test
+//    @DisplayName("Should throw an exception when the ranges are not valid")
+//    void saveRangesWhenRangesAreNotValidThenThrowException() {
+//        List<RangeDTO> rangeDTOS = List.of(new RangeDTO());
+//        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+//        companyUserDTO.setCompany("company");
+//        companyUserDTO.setName("name");
+//        when(dashboardService.saveRanges(rangeDTOS, companyUserDTO))
+//                .thenThrow(new RuntimeException());
+//        assertThrows(
+//                RuntimeException.class,
+//                () -> dashBoardResource.saveRanges(rangeDTOS, companyUserDTO));
+//    }
+
+    @Test
+    @DisplayName("Should return a csv file")
+    void getTemplateShouldReturnCSVFile() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setType(Type.Global);
+        reportDTO.setReportName("test");
+        ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
+        reportValuesDTO.setReport(reportDTO);
+        List<ReportValuesDTO> reportValuesDTOList = List.of(reportValuesDTO);
+        when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOList);
+
+        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO).getBody();
+
+        assertEquals(1, result.size());
+        assertEquals(Type.Global, result.get(0).getReport().getType());
+        assertEquals("test", result.get(0).getReport().getReportName());
+    }
+
+    @Test
+    @DisplayName("Should save the file when the file is not empty")
+    void uploadFileWhenFileIsNotEmpty() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setReportName("test");
+        reportDTO.setType(Type.Company);
+        reportDTO.setCompany("test");
+        reportDTO.setCompanyUserName("test");
+        ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
+        reportValuesDTO.setReport(reportDTO);
+        List<ReportValuesDTO> reportValuesDTOS = List.of(reportValuesDTO);
+
+        when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOS);
+
+        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO).getBody();
+
+        assertEquals(reportValuesDTOS, result);
+    }
+
+    @Test
+    @DisplayName("Should throw an exception when the file is empty")
+    void uploadFileWhenFileIsEmptyThenThrowException() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setType(Type.Company);
+        reportDTO.setReportName("test");
+        reportDTO.setCompany("test");
+        reportDTO.setCompanyUserName("test");
+        ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
+        reportValuesDTO.setReport(reportDTO);
+        List<ReportValuesDTO> reportValuesDTOS = List.of(reportValuesDTO);
+        when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOS);
+
+        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO).getBody();
+
+        assertEquals(reportValuesDTOS, result);
+    }
+
+//    @Test
+//    @DisplayName("Should return a 401 when the user is not authenticated")
+//    void getCountrysWhenUserIsNotAuthenticatedThenReturn401() {
+//        assertEquals(HttpStatus.UNAUTHORIZED, dashBoardResource.getCountrys(null).getStatusCode());
+//    }
+
+    @Test
+    @DisplayName("Should return a list of countries when the user is authenticated")
+    void getCountrysWhenUserIsAuthenticatedThenReturnListOfCountries() {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        companyUserDTO.setEmail("email");
+        companyUserDTO.setId(1L);
+
+        when(dashboardService.getCountryFilterByISO2(companyUserDTO)).thenReturn(List.of());
+
+        var result = dashBoardResource.getCountrys(companyUserDTO);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Should return the ranges of the current user")
+    void userRangesShouldReturnTheRangesOfTheCurrentUser() {
+        dashBoardResource.userRanges(null);
+        verify(dashboardService, times(1)).getUserRangesOrDefault(null);
+    }
+
+    @Test
+    @DisplayName("Should return a list of datasourcedto when the year is not null")
+    void ratingsByYearWhenYearIsNotNullThenReturnListOfDataSourceDTO() {
+        Integer year = 2020;
+        List<DataSourceDTO> dataSourceDTOS = List.of(new DataSourceDTO());
+        when(dashboardService.findRatingsByYearAndCompanyUser(year, null))
+                .thenReturn(dataSourceDTOS);
+        var result = dashBoardResource.ratingsByYear(year, null);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(dataSourceDTOS, result.getBody());
+    }
+
+    @Test
+    @DisplayName("Should return a list of datasourcedto when the year is null")
+    void ratingsByYearWhenYearIsNullThenReturnListOfDataSourceDTO() {
+        Integer year = null;
+        List<DataSourceDTO> dataSourceDTOS = List.of(new DataSourceDTO());
+        when(dashboardService.findRatingsByYearAndCompanyUser(year, null))
+                .thenReturn(dataSourceDTOS);
+        var result = dashBoardResource.ratingsByYear(year, null);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(dataSourceDTOS, result.getBody());
+    }
+
+    @Test
+    @DisplayName("Should return all years of the user ratings")
+    void getYearsShouldReturnAllYearsOfTheUserRatings() {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        List<Integer> years = List.of(2020, 2019);
+        when(dashboardService.getYearsOfUserRatings(companyUserDTO)).thenReturn(years);
+
+        List<Integer> result = dashBoardResource.getYears(companyUserDTO).getBody();
+
+        assertEquals(years, result);
+    }
 
     @Test
     @DisplayName("Should return an empty list when the report is null")
