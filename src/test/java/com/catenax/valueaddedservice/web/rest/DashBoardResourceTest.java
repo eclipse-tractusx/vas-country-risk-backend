@@ -42,7 +42,7 @@ class DashBoardResourceTest {
                 .thenReturn(dashBoardWorldMapDTOS);
 
         List<DashBoardWorldMapDTO> result =
-                dashBoardResource.getDashBoardWorldMap(null, year, companyUserDTO).getBody();
+                dashBoardResource.getDashBoardWorldMap(new ListRatingDTO(), year, companyUserDTO).getBody();
 
         assertEquals(dashBoardWorldMapDTOS, result);
     }

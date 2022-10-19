@@ -25,7 +25,7 @@ public class ListRatingDTO implements Serializable {
 
 
 
-    @Schema(example = "Fake Rating")
+    @Schema(example = "[{\"dataSourceName\":\"teste\",\"weight\":50.0},{\"dataSourceName\":\"teste\",\"weight\":50.0}]")
     private List<RatingDTO> ratingDTOS = new ArrayList<>();
 
     public ListRatingDTO(String params) throws JsonProcessingException {

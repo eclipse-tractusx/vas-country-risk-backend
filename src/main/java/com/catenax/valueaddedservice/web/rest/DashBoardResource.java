@@ -7,7 +7,6 @@ import com.catenax.valueaddedservice.repository.ReportValuesRepository;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.logic.InvokeService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,12 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static com.catenax.valueaddedservice.constants.VasConstants.RATINGS_TAG;
 
 
 @RestController
@@ -70,7 +64,7 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getTableInfo")
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
-                                                                        CompanyUserDTO companyUser) throws IOException {
+                                                                        CompanyUserDTO companyUser)  {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings.getRatingDTOS(), companyUser);
@@ -81,18 +75,13 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "World map information requested with success"),
                         @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getWorldMap")
-    public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam Map<String, Object> ratings,
+    public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                            @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
-                                                                           CompanyUserDTO companyUser) throws IOException {
+                                                                           CompanyUserDTO companyUser)  {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
-        List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if (ratings != null && ratings.get(RATINGS_TAG) != null && !String.valueOf(ratings.get(RATINGS_TAG)).isEmpty()) {
-            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get(RATINGS_TAG)), new TypeReference<>() {
-            });
-        }
 
-        dashBoardWorldMapDTOS = dashboardService.getWorldMapInfo(year, ratingDTOS, companyUser);
+        dashBoardWorldMapDTOS = dashboardService.getWorldMapInfo(year, ratings.getRatingDTOS(), companyUser);
         return ResponseEntity.ok().body(dashBoardWorldMapDTOS);
     }
 
