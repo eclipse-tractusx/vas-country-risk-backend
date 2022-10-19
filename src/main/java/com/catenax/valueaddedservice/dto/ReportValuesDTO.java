@@ -2,9 +2,7 @@ package com.catenax.valueaddedservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -12,6 +10,8 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReportValuesDTO implements Serializable {
 
     private Long id;

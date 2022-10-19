@@ -1,10 +1,12 @@
 package com.catenax.valueaddedservice.web.rest;
 
+import com.catenax.valueaddedservice.config.ApplicationVariables;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.repository.ReportRepository;
 import com.catenax.valueaddedservice.repository.ReportValuesRepository;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
+import com.catenax.valueaddedservice.service.logic.InvokeService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,22 +58,22 @@ public class DashBoardResource {
     @Autowired
     ReportRepository reportRepository;
 
+    @Autowired
+    ApplicationVariables applicationVariables;
+
+    @Autowired
+    InvokeService invokeService;
+
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTableInfo")
-    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestHeader HttpHeaders headers ,@RequestParam Map<String, Object> ratings,
+    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                                         CompanyUserDTO companyUser) throws IOException {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
-        List<RatingDTO> ratingDTOS = new ArrayList<>();
-        if (ratings != null && ratings.get(RATINGS_TAG) != null && !String.valueOf(ratings.get(RATINGS_TAG)).isEmpty()) {
-            ratingDTOS = objectMapper.readValue(String.valueOf(ratings.get(RATINGS_TAG)), new TypeReference<>() {
-            });
-        }
-
-        dashBoardTableDTOs = dashboardService.getTableInfo(year, ratingDTOS, companyUser);
+        dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings.getRatingDTOS(), companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
     }
 

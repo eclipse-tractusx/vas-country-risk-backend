@@ -28,57 +28,7 @@ class DashBoardResourceTest {
     @InjectMocks
     private DashBoardResource dashBoardResource;
 
-    @Test
-    @DisplayName(
-            "Should return a list of dashboardtabledto when the year is 0 and the ratings are empty")
-    void getAllDashBoardTableWhenYearIs0AndRatingsAreEmptyThenReturnListOfDashBoardTableDTO() throws IOException {
-        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
-        companyUserDTO.setName("name");
-        List<DashBoardTableDTO> dashBoardTableDTOS = List.of(new DashBoardTableDTO());
-        when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
-                .thenReturn(dashBoardTableDTOS);
 
-        List<DashBoardTableDTO> result =
-                dashBoardResource.getAllDashBoardTable(null, null, 2021,companyUserDTO).getBody();
-
-        assertEquals(dashBoardTableDTOS, result);
-    }
-
-    @Test
-    @DisplayName(
-            "Should return a list of dashboardtabledto when the year is not 0 and the ratings are empty")
-    void getAllDashBoardTableWhenYearIsNot0AndRatingsAreEmptyThenReturnListOfDashBoardTableDTO() throws IOException {
-        Integer year = 2020;
-        List<RatingDTO> ratingDTOList = List.of();
-        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
-        companyUserDTO.setName("name");
-        List<DashBoardTableDTO> dashBoardTableDTOList = List.of(new DashBoardTableDTO());
-
-        when(dashboardService.getTableInfo(year, ratingDTOList, companyUserDTO))
-                .thenReturn(dashBoardTableDTOList);
-
-        assertEquals(
-                dashBoardTableDTOList,
-                dashBoardResource.getAllDashBoardTable(null, null, year, companyUserDTO).getBody());
-    }
-
-    @Test
-    @DisplayName("Should return a list of dashboardworldmapdto when the year is null")
-    void getDashBoardWorldMapWhenYearIsNullThenReturnListOfDashBoardWorldMapDTO() throws IOException {
-        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
-        companyUserDTO.setName("name");
-        List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = List.of(new DashBoardWorldMapDTO());
-        when(dashboardService.getWorldMapInfo(any(), any(), any()))
-                .thenReturn(dashBoardWorldMapDTOS);
-
-        List<DashBoardWorldMapDTO> result =
-                dashBoardResource.getDashBoardWorldMap(null, null, companyUserDTO).getBody();
-
-        assertEquals(dashBoardWorldMapDTOS, result);
-    }
 
     @Test
     @DisplayName("Should return a list of dashboardworldmapdto when the year is not null")
@@ -88,14 +38,31 @@ class DashBoardResourceTest {
         companyUserDTO.setCompany("company");
         companyUserDTO.setName("name");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = List.of(new DashBoardWorldMapDTO());
-        when(dashboardService.getWorldMapInfo(any(), any(), any()))
+        when(dashboardService.getWorldMapInfo(anyInt(), anyList(), any()))
                 .thenReturn(dashBoardWorldMapDTOS);
 
-        var result = dashBoardResource.getDashBoardWorldMap(null, year, companyUserDTO);
+        List<DashBoardWorldMapDTO> result =
+                dashBoardResource.getDashBoardWorldMap(null, year, companyUserDTO).getBody();
 
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(dashBoardWorldMapDTOS, result.getBody());
+        assertEquals(dashBoardWorldMapDTOS, result);
     }
+
+
+
+    @Test
+    @DisplayName("Should return a list of dashboardtabledto when the year is not null")
+    void getAllDashBoardTableWhenYearIsNotNull() throws IOException {
+        ListRatingDTO listRatingDTO = new ListRatingDTO();
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setCompany("company");
+        companyUserDTO.setName("name");
+        when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
+                .thenReturn(List.of(new DashBoardTableDTO()));
+        var result = dashBoardResource.getAllDashBoardTable(listRatingDTO, 2020, companyUserDTO);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+
 
     @Test
     @DisplayName("Should return a csv file")

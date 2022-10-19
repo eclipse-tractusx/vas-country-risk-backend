@@ -3,7 +3,7 @@ server:
   tomcat:
     relaxedPathChars: "|,{,},[,]"
     relaxedQueryChars: "|,{,},[,]"
-
+  max-http-header-size: 40KB
 
 vas:
   datasource:

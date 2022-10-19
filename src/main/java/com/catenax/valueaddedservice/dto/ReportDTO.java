@@ -2,9 +2,7 @@ package com.catenax.valueaddedservice.dto;
 
 import com.catenax.valueaddedservice.domain.enumeration.Type;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,6 +11,8 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReportDTO implements Serializable {
 
     private Long id;
