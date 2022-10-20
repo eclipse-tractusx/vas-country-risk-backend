@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.UriTemplate;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,21 @@ class DashBoardResourceIntegrationTest {
     @Transactional
     void getTableInfo() throws Exception {
 
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity
+                .get(uri).build();
+        ResponseEntity<Object> responseEntity = testRestTemplate.exchange(request,Object.class);
+        List<DashBoardWorldMapDTO> list = (List<DashBoardWorldMapDTO>) responseEntity.getBody();
 
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertNotEquals(0,list.size());
+
+
+    }
+
+    private Map<String,Object> getMap() throws IOException {
         List<RatingDTO> ratingDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<RatingDTO>>() {
         });
 
@@ -57,19 +72,8 @@ class DashBoardResourceIntegrationTest {
         map.put("company","Test Company");
         map.put("name","John");
         map.put("email","john@testcompany.com");
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
 
-        URI uri = uritemplate.expand(map);
-        RequestEntity<Void> request = RequestEntity
-                .get(uri).build();
-        ResponseEntity<Object> responseEntity = testRestTemplate.exchange(request,Object.class);
-        List<DashBoardWorldMapDTO> list = (List<DashBoardWorldMapDTO>) responseEntity.getBody();
-
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
-        assertNotEquals(list.isEmpty(),list.size());
-
-
-
+        return map;
     }
 
 }
