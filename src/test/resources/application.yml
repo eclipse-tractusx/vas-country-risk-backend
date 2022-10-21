@@ -7,8 +7,6 @@ spring:
     change-log: classpath:config/liquibase/master.xml
     enabled: true
   jpa:
-    hibernate:
-      ddl-auto: none
     properties:
       hibernate:
         show_sql: false
