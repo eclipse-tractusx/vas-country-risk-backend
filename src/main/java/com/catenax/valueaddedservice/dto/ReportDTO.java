@@ -1,6 +1,7 @@
 package com.catenax.valueaddedservice.dto;
 
 import com.catenax.valueaddedservice.domain.enumeration.Type;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class ReportDTO implements Serializable {
     @Schema(example = "Company")
     private Type type;
 
+    @JsonProperty(value = "reportValues")
     private List<ReportValuesDTO> reportValuesDTOList;
 
 }
