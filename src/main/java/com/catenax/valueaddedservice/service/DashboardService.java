@@ -5,6 +5,7 @@ import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.logic.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +47,8 @@ public class DashboardService {
     @Autowired
     ReportLogicService reportLogicService;
 
+    @Autowired
+    CacheManager cacheManager;
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -100,10 +103,14 @@ public class DashboardService {
     }
 
     public List<ReportDTO> getReportsByCompanyUser(CompanyUserDTO companyUserDTO){
+        List<ReportDTO> reportDTOList = new ArrayList<>();
         List<ReportDTO> reportDTOS = reportLogicService.getGlobalReports();
-        reportDTOS.addAll(reportLogicService.getCompanyReports(companyUserDTO));
-        reportDTOS.addAll(reportLogicService.getReportsForCompanyUser(companyUserDTO));
-        return reportDTOS;
+        List<ReportDTO> companyReports = reportLogicService.getCompanyReports(companyUserDTO);
+        List<ReportDTO> reportsForCompanyUser = reportLogicService.getReportsForCompanyUser(companyUserDTO);
+        reportDTOList.addAll(companyReports);
+        reportDTOList.addAll(reportsForCompanyUser);
+        reportDTOList.addAll(reportDTOS);
+        return reportDTOList;
     }
 
     public void saveReportForUser(CompanyUserDTO companyUserDTO,ReportDTO reportDTO){

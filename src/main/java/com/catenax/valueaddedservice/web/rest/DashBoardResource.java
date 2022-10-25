@@ -228,10 +228,22 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Reports saved with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/saveReports")
-    public ResponseEntity<List<ReportDTO>> saveReports(@Valid @RequestBody ReportDTO reportDTO,CompanyUserDTO companyUserDTO) {
+    public ResponseEntity<ResponseMessage> saveReports(@Valid @RequestBody ReportDTO reportDTO,CompanyUserDTO companyUserDTO) {
         log.debug("REST request to save reports");
-        dashboardService.saveReportForUser(companyUserDTO,reportDTO);
-        return ResponseEntity.ok().build();
+        String message = "";
+        try {
+            dashboardService.saveReportForUser(companyUserDTO,reportDTO);
+        } catch (DataIntegrityViolationException e) {
+            message = "Could not upload the report duplicate name: " + reportDTO.getReportName() + "!";
+            log.error(message);
+            log.error("Error {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not upload the report: " + reportDTO.getReportName() + "!";
+            log.error("Error {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Retrieves all Reports that a user can get")
