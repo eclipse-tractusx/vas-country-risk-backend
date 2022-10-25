@@ -315,8 +315,8 @@ class DashBoardResourceIntegrationTest {
     void getReportsValueByReport () throws Exception {
 
         Map<String,Object> map = getMapReports();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getReportsValueByReport?reportName={reportName}&companyUserName={companyUserName}" +
-                "&company={company}&type={type}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getReportsValueByReport?reportName={reportName}&companyUserName={companyUserName}");
+                //&company={company}&type={type}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -371,6 +371,7 @@ class DashBoardResourceIntegrationTest {
 
         List<ReportDTO> list = (List<ReportDTO>) responseEntityGet.getBody();
         assertNotEquals(0,list.size());
+
     }
 
     @Test
