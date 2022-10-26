@@ -68,26 +68,6 @@ public class ReportValuesService {
     }
 
     /**
-     * Partially update a reportValues.
-     *
-     * @param reportValuesDTO the entity to update partially.
-     * @return the persisted entity.
-     */
-    public Optional<ReportValuesDTO> partialUpdate(ReportValuesDTO reportValuesDTO) {
-        log.debug("Request to partially update ReportValues : {}", reportValuesDTO);
-
-        return reportValuesRepository
-            .findById(reportValuesDTO.getId())
-            .map(existingReportValues -> {
-                reportValuesMapper.partialUpdate(existingReportValues, reportValuesDTO);
-
-                return existingReportValues;
-            })
-            .map(reportValuesRepository::save)
-            .map(reportValuesMapper::toDto);
-    }
-
-    /**
      * Get all the reportValues.
      *
      * @param pageable the pagination information.

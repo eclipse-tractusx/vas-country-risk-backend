@@ -46,28 +46,6 @@ public class ReportService {
         return reportMapper.toDto(report);
     }
 
-
-
-    /**
-     * Partially update a report.
-     *
-     * @param reportDTO the entity to update partially.
-     * @return the persisted entity.
-     */
-    public Optional<ReportDTO> partialUpdate(ReportDTO reportDTO) {
-        log.debug("Request to partially update Report : {}", reportDTO);
-
-        return reportRepository
-            .findById(reportDTO.getId())
-            .map(existingReport -> {
-                reportMapper.partialUpdate(existingReport, reportDTO);
-
-                return existingReport;
-            })
-            .map(reportRepository::save)
-            .map(reportMapper::toDto);
-    }
-
     /**
      * Get all the reports.
      *
