@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
@@ -52,6 +53,8 @@ class DashBoardResourceIntegrationTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    Long ReportId;
+
     private Map<String,Object> getMap() throws IOException {
         List<RatingDTO> ratingDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<RatingDTO>>() {
         });
@@ -78,7 +81,7 @@ class DashBoardResourceIntegrationTest {
         return map;
     }
 
-    private ReportDTO GlobalReportDTO() throws IOException {
+    private ReportDTO globalReportDTO() throws IOException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -330,7 +333,7 @@ class DashBoardResourceIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ReportDTO reportDTO = GlobalReportDTO();
+        ReportDTO reportDTO = globalReportDTO();
 
         Map<String,Object> map = getMap();
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&company={company}&email={email}");
@@ -348,13 +351,13 @@ class DashBoardResourceIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<Object> responseEntityGet = testRestTemplate.exchange(requestEntityGet,Object.class);
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<List<ReportDTO>>() {});
 
         assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
 
-        List<ReportDTO> list = (List<ReportDTO>) responseEntityGet.getBody();
+        List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,list.size());
+        assertNotEquals(0,reportDTOSize.size());
 
         //################## Duplicated Name on Report ##############
         RequestEntity requestEntityDupe = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
@@ -362,28 +365,59 @@ class DashBoardResourceIntegrationTest {
         ResponseEntity<String> responseEntityDupe = testRestTemplate.exchange(requestEntityDupe,String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST,responseEntityDupe.getStatusCode());
-
     }
 
-    /*
+
     @Test
     @Transactional
     void getReportsValueByReport () throws Exception {
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ReportDTO reportDTO = globalReportDTO();
+
+        reportDTO.setReportName("OutroReport"); //Changed Name of the Report
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&company={company}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<Object> responseEntity = testRestTemplate.exchange(requestEntity,Object.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        // ############# Get API ##############
+        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&company={company}&email={email}");
+        URI uriGet = uritemplateGet.expand(map);
+
+        RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
+
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+
+        List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
+
+        assertNotEquals(0,reportDTOSize.size());
+
+        reportDTO.setId(reportDTOSize.get(0).getId());
+
+        // ######## ReportsByReport #######
         UriTemplate uritemplateByReport= new UriTemplate("/api/dashboard/getReportsValueByReport?id={id}&reportName={reportName}&companyUserName={companyUserName}" +
                 "&company={company}&type={type}&reportValues={reportValues}");
 
-        ReportDTO reportDTO = GlobalReportDTO();
+        Map<String,Object> mapByReport = new HashMap<>();
+        mapByReport.put("id",reportDTO.getId());
+        mapByReport.put("reportName",reportDTO.getReportName());
+        mapByReport.put("companyUserName",reportDTO.getCompanyUserName());
+        mapByReport .put("company",reportDTO.getCompany());
+        mapByReport.put("type",reportDTO.getType());
+        mapByReport.put("reportValues", reportDTO.getReportValuesDTOList());
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("id",1L);
-        map.put("reportName",reportDTO.getReportName());
-        map.put("companyUserName",reportDTO.getCompanyUserName());
-        map.put("company",reportDTO.getCompany());
-        map.put("type",reportDTO.getType());
-        map.put("reportValues", reportDTO.getReportValuesDTOList());
-
-        URI uriByReport = uritemplateByReport.expand(map);
+        URI uriByReport = uritemplateByReport.expand(mapByReport);
         RequestEntity<Void> requestByReport = RequestEntity
                 .get(uriByReport).build();
         ResponseEntity<Object> responseEntityByReport = testRestTemplate.exchange(requestByReport,Object.class);
@@ -391,7 +425,7 @@ class DashBoardResourceIntegrationTest {
 
         assertEquals(HttpStatus.OK,responseEntityByReport.getStatusCode());
         assertNotEquals(0,listByReport.size());
-    }*/
+    }
 
     @Test
     @Transactional
