@@ -58,7 +58,7 @@ public class UploadAndDownloadLogicService {
         dataSource.setDataSourceName(dataSourceName);
         dataSource = dataSourceService.save(dataSource);
         DataSourceValueDTO dataSourceValueDTO = new DataSourceValueDTO();
-        br.readLine();
+        line = br.readLine();
         while ((line = br.readLine()) != null) {
             String[] countryAndValue = line.split(";");
             dataSourceValueDTO.setCountry(countryAndValue[1]);
