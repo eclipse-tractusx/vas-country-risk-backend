@@ -1,5 +1,9 @@
 package com.catenax.valueaddedservice.service.csv;
 
+import lombok.NoArgsConstructor;
+
+
+@NoArgsConstructor
 public class ResponseMessage {
     private String message;
 

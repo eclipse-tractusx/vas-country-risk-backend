@@ -9,11 +9,9 @@ import com.catenax.valueaddedservice.service.mapper.ReportMapper;
 import com.catenax.valueaddedservice.service.mapper.ReportValuesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +20,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link ReportValues}.
  */
 @Service
-@Transactional
 public class ReportValuesService {
 
     private final Logger log = LoggerFactory.getLogger(ReportValuesService.class);
@@ -31,12 +28,12 @@ public class ReportValuesService {
 
     private final ReportValuesMapper reportValuesMapper;
 
-    @Autowired
-    ReportMapper reportMapper;
+    private final ReportMapper reportMapper;
 
-    public ReportValuesService(ReportValuesRepository reportValuesRepository, ReportValuesMapper reportValuesMapper) {
+    public ReportValuesService(ReportValuesRepository reportValuesRepository, ReportValuesMapper reportValuesMapper,ReportMapper reportMapper) {
         this.reportValuesRepository = reportValuesRepository;
         this.reportValuesMapper = reportValuesMapper;
+        this.reportMapper = reportMapper;
     }
 
     /**
@@ -73,13 +70,13 @@ public class ReportValuesService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
+
     public Page<ReportValuesDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ReportValues");
         return reportValuesRepository.findAll(pageable).map(reportValuesMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
+
     public List<ReportValuesDTO> findByReport(ReportDTO reportDTO) {
         Report report = reportMapper.toEntity(reportDTO);
         log.debug("Request to get all ReportValues");
@@ -92,7 +89,7 @@ public class ReportValuesService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
+
     public Optional<ReportValuesDTO> findOne(Long id) {
         log.debug("Request to get ReportValues : {}", id);
         return reportValuesRepository.findById(id).map(reportValuesMapper::toDto);

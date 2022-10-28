@@ -7,7 +7,6 @@ import com.catenax.valueaddedservice.utils.MethodUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
  * Service Implementation for managing {@link DataSource}.
  */
 @Service
-@Transactional
 @Slf4j
 public class WorldMapAndTableLogicService {
 
@@ -40,10 +38,8 @@ public class WorldMapAndTableLogicService {
         businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
         List<String> countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUser);
 
-        if (!dataSources.isEmpty()) {
-            if (year != null && year > 0) {
-                dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
-            }
+        if (!dataSources.isEmpty() && year != null && year > 0) {
+            dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
         }
 
         dataDTOS.forEach(each-> ratingDTOList.forEach(eachData->{
@@ -59,10 +55,8 @@ public class WorldMapAndTableLogicService {
         List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).collect(Collectors.toList());
         List<DataDTO> dataDTOS = new ArrayList<>();
 
-        if (!dataSources.isEmpty()) {
-            if (year != null && year > 0) {
-                dataDTOS = dataSourceValueService.findByRatingAndScoreGreaterThanAndYear(Float.valueOf(-1), dataSources, year);
-            }
+        if (!dataSources.isEmpty() && year != null && year > 0) {
+            dataDTOS = dataSourceValueService.findByRatingAndScoreGreaterThanAndYear(Float.valueOf(-1), dataSources, year);
         }
 
         dataDTOS.forEach(each-> ratingDTOList.forEach(eachData->{

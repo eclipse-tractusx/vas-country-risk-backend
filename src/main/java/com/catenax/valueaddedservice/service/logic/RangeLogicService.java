@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.service.logic;
 
+import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
@@ -9,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 @Slf4j
 public class RangeLogicService {
 
@@ -36,7 +35,7 @@ public class RangeLogicService {
             });
         }
     }
-    @Transactional
+    
     @Cacheable(value = "vas-range", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
     public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUserDTO) {
         log.debug("getUserRangesOrDefault get ranges for companyUser {}",companyUserDTO);
@@ -48,19 +47,19 @@ public class RangeLogicService {
         rangeDTOMin.setRange(RangeType.Min);
         rangeDTOMin.setCompanyUser(companyUserDTO);
         rangeDTOMin.setDescription("Min Range");
-        rangeDTOMin.setValue(25);
+        rangeDTOMin.setValue(VasConstants.MIN_DEFAULT_USER_RANGE);
         ranges.add(rangeDTOMin);
         RangeDTO rangeDTOBetWeen = new RangeDTO();
         rangeDTOBetWeen.setRange(RangeType.Between);
         rangeDTOBetWeen.setCompanyUser(companyUserDTO);
         rangeDTOBetWeen.setDescription("BetWeen Range");
-        rangeDTOBetWeen.setValue(50);
+        rangeDTOBetWeen.setValue(50); // TODO
         ranges.add(rangeDTOBetWeen);
         RangeDTO rangeDTOMax = new RangeDTO();
         rangeDTOMax.setRange(RangeType.Max);
         rangeDTOMax.setCompanyUser(companyUserDTO);
         rangeDTOMax.setDescription("Max Range");
-        rangeDTOMax.setValue(100);
+        rangeDTOMax.setValue(100); // TODO
         ranges.add(rangeDTOMax);
         return ranges;
     }

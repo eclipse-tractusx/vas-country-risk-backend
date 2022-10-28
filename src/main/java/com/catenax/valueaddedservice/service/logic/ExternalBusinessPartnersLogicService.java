@@ -16,7 +16,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @Slf4j
 public class ExternalBusinessPartnersLogicService {
 
@@ -43,7 +41,7 @@ public class ExternalBusinessPartnersLogicService {
     @Autowired
     InvokeService invokeService;
 
-    @Transactional
+    
     @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUser.name,#companyUser.email,#companyUser.company}}", unless = "#result == null")
     public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser) {
         log.debug("getExternalBusinessPartners for companyUserDTO {}",companyUser);
@@ -59,7 +57,7 @@ public class ExternalBusinessPartnersLogicService {
             throw new RuntimeException(e);
         }
     }
-    @Transactional
+    
     @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
     public List<String> getExternalPartnersCountry (CompanyUserDTO companyUserDTO) {
         log.debug("getExternalPartnersCountry for companyUserDTO {}",companyUserDTO);
@@ -71,7 +69,7 @@ public class ExternalBusinessPartnersLogicService {
         return countryList;
     }
 
-    @Transactional
+    
     @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#countryDTO.iso3, #companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
     public Long getTotalBpnByCountry(CountryDTO countryDTO,CompanyUserDTO companyUserDTO){
         log.debug("getTotalBpnByCountry filtered by country {} and companyUser {}",countryDTO,companyUserDTO);

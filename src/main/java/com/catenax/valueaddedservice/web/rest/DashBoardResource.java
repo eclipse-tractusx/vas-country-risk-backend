@@ -1,13 +1,9 @@
 package com.catenax.valueaddedservice.web.rest;
 
-import com.catenax.valueaddedservice.config.ApplicationVariables;
+import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.dto.*;
-import com.catenax.valueaddedservice.repository.ReportRepository;
-import com.catenax.valueaddedservice.repository.ReportValuesRepository;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
-import com.catenax.valueaddedservice.service.logic.InvokeService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,21 +38,6 @@ public class DashBoardResource {
 
     @Autowired
     DashboardService dashboardService;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Autowired
-    ReportValuesRepository reportValuesRepository;
-
-    @Autowired
-    ReportRepository reportRepository;
-
-    @Autowired
-    ApplicationVariables applicationVariables;
-
-    @Autowired
-    InvokeService invokeService;
 
     @Operation(summary = "Retrieves Business partners based on selected ratings, year and current user")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Business partners request with success based on selected variables "),
@@ -135,16 +116,16 @@ public class DashBoardResource {
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
         log.debug("REST request to uploadCsv");
         String message = "";
-        message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        message = VasConstants.UPLOAD_SUCCESS_MESSAGE + file.getOriginalFilename();
         try {
             dashboardService.saveCsv(file, dataSourceName, companyUser);
         } catch (DataIntegrityViolationException e) {
-            message = "Could not upload the file duplicate name: " + dataSourceName + "!";
+            message = VasConstants.UPLOAD_ERROR_MESSAGE + dataSourceName + "!";
             log.error(message);
-            log.error("Error {}", e.getMessage());
+            log.error(VasConstants.ERROR_LOG, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         } catch (Exception e) {
-            log.error("Error {}", e.getMessage());
+            log.error(VasConstants.ERROR_LOG, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage( e.getMessage()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));

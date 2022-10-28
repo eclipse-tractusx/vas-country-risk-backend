@@ -71,7 +71,7 @@ class DashBoardResourceTest {
         fileDTO.setFileName("test");
         fileDTO.setContent("test");
         when(dashboardService.getDataSourceTemplate()).thenReturn(fileDTO);
-        assertEquals(dashBoardResource.getTemplate().getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK,dashBoardResource.getTemplate().getStatusCode());
     }
 
     @Test

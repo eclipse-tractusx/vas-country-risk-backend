@@ -5,7 +5,6 @@ import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.logic.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,8 +46,6 @@ public class DashboardService {
     @Autowired
     ReportLogicService reportLogicService;
 
-    @Autowired
-    CacheManager cacheManager;
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);

@@ -11,13 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 @Slf4j
 public class ReportLogicService {
 
@@ -27,19 +25,19 @@ public class ReportLogicService {
     @Autowired
     ReportValuesService reportValuesService;
 
-    @Transactional
+
     @Cacheable(value = "vas-reports", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
     public List<ReportDTO> getReportsForCompanyUser(CompanyUserDTO companyUserDTO)  {
         return reportService.findByCompanyUserNameAndCompanyAndType(companyUserDTO.getName(),companyUserDTO.getCompany(), Type.Custom);
     }
 
-    @Transactional
+
     @Cacheable(value = "vas-reports", key = "{#root.methodName, #type}", unless = "#result == null")
     public List<ReportDTO> getGlobalReports()  {
         return reportService.findByGlobalType( Type.Global);
     }
 
-    @Transactional
+
     @Cacheable(value = "vas-reports", key = "{#root.methodName , #companyUserDTO.company}", unless = "#result == null")
     public List<ReportDTO> getCompanyReports(CompanyUserDTO companyUserDTO)  {
         return reportService.findByCompanyAndType(companyUserDTO.getCompany(),Type.Company);
@@ -54,7 +52,7 @@ public class ReportLogicService {
         }
     }
 
-    @Transactional
+
     @Cacheable(value = "vas-reports", key = "{#root.methodName , #reportDTO}", unless = "#result == null")
     public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO){
         if(reportDTO == null || reportDTO.getId() == null){

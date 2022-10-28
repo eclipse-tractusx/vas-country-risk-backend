@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +16,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link RegionValue}.
  */
 @Service
-@Transactional
 public class RegionValueService {
 
     private final Logger log = LoggerFactory.getLogger(RegionValueService.class);
@@ -72,7 +70,6 @@ public class RegionValueService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
     public Page<RegionValueDTO> findAll(Pageable pageable) {
         log.debug("Request to get all RegionValues");
         return regionValueRepository.findAll(pageable).map(regionValueMapper::toDto);
@@ -84,7 +81,6 @@ public class RegionValueService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
     public Optional<RegionValueDTO> findOne(Long id) {
         log.debug("Request to get RegionValue : {}", id);
         return regionValueRepository.findById(id).map(regionValueMapper::toDto);

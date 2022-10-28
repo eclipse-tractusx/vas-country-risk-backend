@@ -1,19 +1,14 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
-import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
-import com.catenax.valueaddedservice.dto.DashBoardWorldMapDTO;
-import com.catenax.valueaddedservice.dto.RatingDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
+import com.catenax.valueaddedservice.dto.CountryDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -31,48 +26,49 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = ValueAddedServiceApplication.class)
-class DashBoardResourceIntegrationTest {
-
-
-    @Value(value = "classpath:config/liquibase/test-data/ListRating.json")
-    private Resource listRatingJson;
+class BPNIntegartionTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
 
     private Map<String,Object> getMap() throws IOException {
-        List<RatingDTO> ratingDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<RatingDTO>>() {
-        });
-
         Map<String,Object> map = new HashMap<>();
-        map.put("year",2021);
-        map.put("ratings",objectMapper.writeValueAsString(ratingDTOS));
         map.put("company","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
 
-        map.put("ratingName", "testRating123");
-
         return map;
     }
 
-
-
     @Test
     @Transactional
-    void getTableInfo() throws Exception {
+    void getCountryByAssociatedBPtoUser() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getBpnCountrys?name={name}&company={company}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
-        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
-        List<DashBoardTableDTO> list = responseEntity.getBody();
+        ResponseEntity<List<CountryDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        });
+        List<CountryDTO> list = responseEntity.getBody();
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertNotEquals(0,list.size());
+    }
+
+    @Test
+    @Transactional
+    void getCompanyBpns() throws Exception {
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCompanyBpns?name={name}&company={company}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity
+                .get(uri).build();
+        ResponseEntity<List<BusinessPartnerDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {
+        });
+        List<BusinessPartnerDTO> list =responseEntity.getBody();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
@@ -80,19 +76,20 @@ class DashBoardResourceIntegrationTest {
 
     @Test
     @Transactional
-    void getWorldMapInfo() throws Exception {
+    void getCountryFilterByISO2() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCountryFilterByISO2?name={name}&company={company}&email={email}");
         URI uri = uritemplate.expand(map);
-        RequestEntity<Void> request = RequestEntity.get(uri).build();
-        ResponseEntity<List<DashBoardWorldMapDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
-        });
-        List<DashBoardWorldMapDTO> list =  responseEntity.getBody();
+        RequestEntity<Void> request = RequestEntity
+                .get(uri).build();
+        ResponseEntity<List<CountryDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
+        List<CountryDTO> list = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
     }
+
 
 }
 

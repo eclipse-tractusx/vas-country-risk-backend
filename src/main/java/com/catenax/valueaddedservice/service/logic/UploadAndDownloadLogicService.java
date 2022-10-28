@@ -12,7 +12,6 @@ import com.catenax.valueaddedservice.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -26,7 +25,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link DataSource}.
  */
 @Service
-@Transactional
 @Slf4j
 public class UploadAndDownloadLogicService {
 
@@ -60,7 +58,7 @@ public class UploadAndDownloadLogicService {
         dataSource.setDataSourceName(dataSourceName);
         dataSource = dataSourceService.save(dataSource);
         DataSourceValueDTO dataSourceValueDTO = new DataSourceValueDTO();
-        line = br.readLine();
+        br.readLine();
         while ((line = br.readLine()) != null) {
             String[] countryAndValue = line.split(";");
             dataSourceValueDTO.setCountry(countryAndValue[1]);

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link Range}.
  */
 @Service
-@Transactional
 public class RangeService {
 
     private final Logger log = LoggerFactory.getLogger(RangeService.class);
@@ -44,7 +42,6 @@ public class RangeService {
     }
 
     //API to get All Ranges Values by User
-    @Transactional(readOnly = true)
     public List<RangeDTO> getUserRanges(CompanyUserDTO companyUser) {
         return rangeMapper.toDto(rangeRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(companyUser.getName(), companyUser.getEmail(), companyUser.getCompany()));
     }
@@ -103,7 +100,6 @@ public class RangeService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
     public Page<RangeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Ranges");
         return rangeRepository.findAll(pageable).map(rangeMapper::toDto);
@@ -115,7 +111,6 @@ public class RangeService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
     public Optional<RangeDTO> findOne(Long id) {
         log.debug("Request to get Range : {}", id);
         return rangeRepository.findById(id).map(rangeMapper::toDto);
