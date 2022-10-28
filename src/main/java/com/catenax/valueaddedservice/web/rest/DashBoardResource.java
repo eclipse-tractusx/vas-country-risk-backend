@@ -11,8 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,9 +30,8 @@ import java.util.List;
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
 @SecurityRequirements({@SecurityRequirement(name = "bearerAuth"), @SecurityRequirement(name = "open_id_scheme")})
+@Slf4j
 public class DashBoardResource {
-
-    private final Logger log = LoggerFactory.getLogger(DashBoardResource.class);
 
 
     @Autowired

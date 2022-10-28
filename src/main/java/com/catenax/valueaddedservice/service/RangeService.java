@@ -6,8 +6,7 @@ import com.catenax.valueaddedservice.dto.RangeDTO;
 import com.catenax.valueaddedservice.repository.RangeRepository;
 import com.catenax.valueaddedservice.service.mapper.CompanyUserMapper;
 import com.catenax.valueaddedservice.service.mapper.RangeMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +19,8 @@ import java.util.Optional;
  * Service Implementation for managing {@link Range}.
  */
 @Service
+@Slf4j
 public class RangeService {
-
-    private final Logger log = LoggerFactory.getLogger(RangeService.class);
 
     @Autowired
     CompanyUserMapper companyUserMapper;
@@ -55,7 +53,7 @@ public class RangeService {
      * @return the persisted entity.
      */
     public RangeDTO save(RangeDTO rangeDTO) {
-        log.debug("Request to save Range : {}", rangeDTO);
+        log.debug("Request to save Range");
         Range range = rangeMapper.toEntity(rangeDTO);
         range = rangeRepository.save(range);
         return rangeMapper.toDto(range);
@@ -68,7 +66,7 @@ public class RangeService {
      * @return the persisted entity.
      */
     public void updateRanges(RangeDTO rangeDTO) {
-        log.debug("Request to update Range for user : {}", rangeDTO);
+        log.debug("Request to update Range for user");
         Range range = rangeMapper.toEntity(rangeDTO);
         rangeRepository.setValueForRange(range.getValue(),range.getRange(),range.getCompanyUser().getId());
     }

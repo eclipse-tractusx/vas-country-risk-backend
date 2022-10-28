@@ -47,7 +47,7 @@ public class UploadAndDownloadLogicService {
 
     public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
 
-        log.debug("save new CSV Rating {} by companyUser {}",dataSourceName,companyUserDTO);
+        log.debug("save new CSV Rating");
         BufferedReader br = new BufferedReader(new InputStreamReader(file.getResource().getInputStream(), StandardCharsets.UTF_8));
         String line = "";
         DataSourceDTO dataSource = new DataSourceDTO();
@@ -73,7 +73,7 @@ public class UploadAndDownloadLogicService {
             dataSourceValueService.save(dataSourceValueDTO);
             dataSourceValueDTO = new DataSourceValueDTO();
         }
-
+        br.close();
 
     }
 
