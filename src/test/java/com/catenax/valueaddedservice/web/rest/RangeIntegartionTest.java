@@ -1,15 +1,21 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
+import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
+import com.catenax.valueaddedservice.dto.ReportDTO;
+import com.catenax.valueaddedservice.repository.RangeRepository;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
+import com.catenax.valueaddedservice.service.logic.RangeLogicService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
@@ -31,6 +37,17 @@ class RangeIntegartionTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    @Autowired
+    private RangeRepository rangeRepository;
+
+    @Autowired
+    private RangeLogicService rangeLogicService;
+
+    @AfterEach
+    public void cleanUploadReports(){
+        rangeRepository.deleteAll();
+        rangeLogicService.invalidateAllCache();
+    }
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
@@ -43,7 +60,6 @@ class RangeIntegartionTest {
     }
 
     @Test
-    @Transactional
     void saveUserRanges() throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
@@ -61,43 +77,43 @@ class RangeIntegartionTest {
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
+        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
+        URI uriGet = uritemplateGet.expand(map);
+        RequestEntity<Void> requestGet = RequestEntity
+                .get(uriGet).build();
+        ResponseEntity<List<RangeDTO>> responseEntityGet = testRestTemplate.exchange(requestGet, new ParameterizedTypeReference<>() {});
+        List<RangeDTO> list = responseEntityGet.getBody();
 
-       // TODO update nao deves fazer no mesmo teste , deve ser feito noutro test unitario aqui deveria ser feito um get para validar os Ranges que acabamos de criar
-//        //Update Ranges
-//        rangeDTO.setValue(70); //Changed Value for Max Range
-//
-//        RequestEntity requestEntityUpdate = new RequestEntity(rangeDTOList, headers, HttpMethod.POST, uri);
-//
-//        ResponseEntity<Object> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate,Object.class);
-//
-//        assertEquals(HttpStatus.OK,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertNotEquals(0,list.size());
 
-        // TODO make Get request
+        assertEquals(rangeDTOList.get(0).getValue(), list.get(0).getValue());
+        assertEquals(rangeDTOList.get(1).getValue(), list.get(1).getValue());
+        assertEquals(rangeDTOList.get(1).getValue(), list.get(1).getValue());
     }
 
     @Test
-    @Transactional
     void getUserRanges() throws Exception {
 
-        // TODO make get Request para obter valores default
-//        Map<String,Object> map = getMap();
-//        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
-//        URI uri = uritemplate.expand(map);
-//        RequestEntity<Void> request = RequestEntity
-//                .get(uri).build();
-//        ResponseEntity<Object> responseEntity = testRestTemplate.exchange(request,Object.class);
-//        List<RangeDTO> list = (List<RangeDTO>) responseEntity.getBody();
-//
-//        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
-//        assertNotEquals(0,list.size());
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity
+                .get(uri).build();
+        ResponseEntity<List<RangeDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        List<RangeDTO> list = responseEntity.getBody();
 
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertNotEquals(0,list.size());
 
-        assertNotEquals(0,1);
+        assertEquals(VasConstants.MIN_DEFAULT_USER_RANGE, list.get(0).getValue());
+        assertEquals(VasConstants.BETWEEN_DEFAULT_USER_RANGE, list.get(1).getValue());
+        assertEquals(VasConstants.MAX_DEFAULT_USER_RANGE, list.get(2).getValue());
+
     }
 
 
     @Test
-    @Transactional
     void updateRanges() throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
@@ -123,10 +139,16 @@ class RangeIntegartionTest {
         responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
-        // TODO make Get request e comparar que o newValue vem nos Ranges
+        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
+        URI uriGet = uritemplateGet.expand(map);
+        RequestEntity<Void> requestGet = RequestEntity
+                .get(uriGet).build();
+        ResponseEntity<List<RangeDTO>> responseEntityGet = testRestTemplate.exchange(requestGet, new ParameterizedTypeReference<>() {});
+        List<RangeDTO> list = responseEntityGet.getBody();
 
-
-
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertNotEquals(0,list.size());
+        assertEquals(list.get(0).getValue(),rangeDTOList.get(0).getValue());
     }
 
     private RangeDTO createRangeDTO(RangeType rangeType,Integer value,String description){

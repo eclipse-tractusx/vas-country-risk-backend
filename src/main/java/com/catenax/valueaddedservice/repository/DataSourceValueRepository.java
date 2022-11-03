@@ -1,7 +1,9 @@
 package com.catenax.valueaddedservice.repository;
 
+import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.domain.DataSourceValue;
 import com.catenax.valueaddedservice.dto.DataDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -38,6 +40,9 @@ public interface DataSourceValueRepository extends JpaRepository<DataSourceValue
             "ON dsv.dataSource.id = ds.id " +
             "and ds.dataSourceName in ?1 ")
     List<DataDTO> findByRating(List<String> dataSources);
+
+
+    List<DataSourceValue> findByDataSource(DataSource dataSource);
 
     @Query("select new com.catenax.valueaddedservice.dto.DataDTO(dsv.country,dsv.score,ds.dataSourceName,dsv.iso3,dsv.iso2,dsv.continent) " +
             "from DataSource ds INNER JOIN DataSourceValue dsv " +

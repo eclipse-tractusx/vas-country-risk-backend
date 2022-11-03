@@ -1,13 +1,27 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
+import com.catenax.valueaddedservice.constants.VasConstants;
+import com.catenax.valueaddedservice.domain.DataSource;
+import com.catenax.valueaddedservice.domain.DataSourceValue;
+import com.catenax.valueaddedservice.dto.DataDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
+import com.catenax.valueaddedservice.dto.DataSourceValueDTO;
+import com.catenax.valueaddedservice.dto.RatingDTO;
+import com.catenax.valueaddedservice.repository.DataSourceRepository;
+import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
+import com.catenax.valueaddedservice.service.mapper.DataSourceMapper;
+import com.catenax.valueaddedservice.service.mapper.FileMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -17,8 +31,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -29,6 +43,15 @@ class UploadAndDownloadApiIntegrationTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @Autowired
+    private DataSourceRepository dataSourceRepository;
+
+    @Autowired
+    private DataSourceValueRepository dataSourceValueRepository;
+
+    @Autowired
+    private DataSourceMapper dataSourceMapper;
 
 
     private Map<String,Object> getMap() throws IOException {
@@ -42,7 +65,6 @@ class UploadAndDownloadApiIntegrationTest {
 
 
     @Test
-    @Transactional
     void uploadCsv() throws Exception {
 
         Map<String,Object> map = getMap();
@@ -51,20 +73,20 @@ class UploadAndDownloadApiIntegrationTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("ratingName", "testeRating");
+        headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
-                .builder("form-data")
-                .name("file")
-                .filename("testeFile.csv")
+                .builder(VasConstants.CSV_TYPE)
+                .name(VasConstants.CSV_NAME)
+                .filename(VasConstants.CSV_FILENAME)
                 .build();
 
         fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
         HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get("src/test/resources/config/liquibase/test-data/file_test_upload.csv")), fileMap);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", fileEntity);
+        body.add(VasConstants.CSV_NAME, fileEntity);
 
         RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
 
@@ -72,10 +94,24 @@ class UploadAndDownloadApiIntegrationTest {
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
+        //Get Current Year
+        map.put("year", Calendar.getInstance().get(Calendar.YEAR));
 
-        // TODO test de erro no nome duplicado nao deve ser feito no mesmo teste unitario
-        // TODO AQUI deves fazer um pedido ratyngs by year e validar que tem o rating que acabaste de inserir
+        //Gets Ratings By Year
+        UriTemplate uritemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&company={company}&email={email}");
+        URI uriRatings = uritemplateRatings.expand(map);
+        RequestEntity<Void> requestRatings = RequestEntity
+                .get(uriRatings).build();
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
 
+        assertNotEquals(0,dataSourceDTOList.size());
+
+        DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
+        assertEquals(VasConstants.HEADER_CSV_NAME, dataSourceDTO.getFileName());
+
+
+        cleanDataSources(dataSourceDTO);
     }
 
     @Test
@@ -87,18 +123,84 @@ class UploadAndDownloadApiIntegrationTest {
         RequestEntity<Void> request = RequestEntity
                 .get(uri).accept(MediaType.APPLICATION_OCTET_STREAM).build();
         ResponseEntity<String> responseEntity = testRestTemplate.exchange(request,String.class);
-        String Data =  responseEntity.getBody();
+        String data =  responseEntity.getBody();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
-        assertNotEquals(0,Data.length());
+        assertNotEquals(0,data.length());
+
     }
 
     @Test
-    @Transactional
-    void errorOnUpload(){
+    void errorOnUpload() throws Exception {
 
-        // TODO fazer um upload duas vezes e obter erro em vez de sucesso
-        assertNotEquals(0,1);
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&company={company}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("ratingName", VasConstants.HEADER_CSV_NAME_ERROR);
+
+        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder(VasConstants.CSV_TYPE)
+                .name(VasConstants.CSV_NAME)
+                .filename(VasConstants.CSV_FILENAME)
+                .build();
+
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH)), fileMap);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add(VasConstants.CSV_NAME, fileEntity);
+
+        RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        //Insert CSV Again with same values
+
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        HttpEntity<byte[]> fileEntitySecond = new HttpEntity<>(Files.readAllBytes(Paths.get("src/test/resources/config/liquibase/test-data/file_test_upload.csv")), fileMap);
+
+        MultiValueMap<String, Object> bodySecond = new LinkedMultiValueMap<>();
+        body.add("file", fileEntitySecond);
+
+        RequestEntity requestEntitySecond = new RequestEntity(bodySecond, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntitySecond = testRestTemplate.exchange(requestEntitySecond,ResponseMessage.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST,responseEntitySecond.getStatusCode());
+
+        //Get Current Year
+        map.put("year", Calendar.getInstance().get(Calendar.YEAR));
+
+        //Gets Ratings By Year
+        UriTemplate uritemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&company={company}&email={email}");
+        URI uriRatings = uritemplateRatings.expand(map);
+        RequestEntity<Void> requestRatings = RequestEntity
+                .get(uriRatings).build();
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
+
+        assertNotEquals(0,dataSourceDTOList.size());
+        DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
+
+        cleanDataSources(dataSourceDTO);
+    }
+
+    private void cleanDataSources(DataSourceDTO dataSourceDTO) {
+
+
+        List<DataSourceValue> deleteList = dataSourceValueRepository.findByDataSource(dataSourceMapper.toEntity(dataSourceDTO));
+
+        assertNotEquals(0,deleteList.size());
+
+        dataSourceValueRepository.deleteAll(deleteList);
+
+        dataSourceRepository.deleteById(dataSourceDTO.getId());
     }
 
 

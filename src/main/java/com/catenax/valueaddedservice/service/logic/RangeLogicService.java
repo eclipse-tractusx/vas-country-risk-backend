@@ -53,13 +53,12 @@ public class RangeLogicService {
         rangeDTOBetWeen.setRange(RangeType.Between);
         rangeDTOBetWeen.setCompanyUser(companyUserDTO);
         rangeDTOBetWeen.setDescription("BetWeen Range");
-        rangeDTOBetWeen.setValue(50); // TODO
+        rangeDTOBetWeen.setValue(VasConstants.BETWEEN_DEFAULT_USER_RANGE);
         ranges.add(rangeDTOBetWeen);
         RangeDTO rangeDTOMax = new RangeDTO();
         rangeDTOMax.setRange(RangeType.Max);
         rangeDTOMax.setCompanyUser(companyUserDTO);
-        rangeDTOMax.setDescription("Max Range");
-        rangeDTOMax.setValue(100); // TODO
+        rangeDTOMax.setValue(VasConstants.MAX_DEFAULT_USER_RANGE);
         ranges.add(rangeDTOMax);
         return ranges;
     }
