@@ -28,7 +28,7 @@ public class OpenApiConfig {
 
 
     @Value("${bearer_token.bearer_schema}")
-    private String BearerSchema;
+    private String bearerSchema;
 
     @Value("${bearer_token.bearer_format}")
     private String bearerFormat;
@@ -43,7 +43,7 @@ public class OpenApiConfig {
     }
 
     @Bean
-    public OpenApiCustomiser oauth2_Auth() {
+    public OpenApiCustomiser oauth2Auth() {
         final String securitySchemeName = "open_id_scheme";
         return openApi -> {
             final Components components = openApi.getComponents();
@@ -55,12 +55,12 @@ public class OpenApiConfig {
     }
 
     @Bean
-    public OpenApiCustomiser bearer_auth() {
+    public OpenApiCustomiser bearerAuth() {
         final String securitySchemeName = "bearerAuth";
         return openApi -> {
             final Components components = openApi.getComponents();
             components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.HTTP)
-                    .scheme(BearerSchema).bearerFormat(bearerFormat));
+                    .scheme(bearerSchema).bearerFormat(bearerFormat));
         };
     }
 }

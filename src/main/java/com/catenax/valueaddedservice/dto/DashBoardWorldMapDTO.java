@@ -1,9 +1,9 @@
 package com.catenax.valueaddedservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 @Setter
@@ -13,10 +13,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class DashBoardWorldMapDTO implements Serializable {
 
-    private String country;
+    private CountryDTO country;
 
+    @Schema(example = "90")
     private Float score = 0F;
 
-    private List<BusinessPartnerDTO> businessPartnerDTOList;
+
 
 }

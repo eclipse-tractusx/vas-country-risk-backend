@@ -3,7 +3,7 @@ server:
   tomcat:
     relaxedPathChars: "|,{,},[,]"
     relaxedQueryChars: "|,{,},[,]"
-
+  max-http-header-size: 40KB
 
 vas:
   datasource:
@@ -42,7 +42,16 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
-
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+        types:
+          print:
+            banner: false
 security:
   enabled: true
 

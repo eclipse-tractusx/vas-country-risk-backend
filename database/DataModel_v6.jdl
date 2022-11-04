@@ -4,6 +4,7 @@ entity CompanyUser (t_company_user) {
     company String required
 }
 
+
 entity File (t_file){
 	fileName String required,
     content Blob,
@@ -11,6 +12,7 @@ entity File (t_file){
     createdBy String,
     version Float
 }
+
 
 entity Range (t_range){
 	range RangeType required,
@@ -56,6 +58,26 @@ entity Country(t_country){
     continent String,
 }
 
+entity Report(t_reports) {
+	reportName String,
+	companyUserName String,
+    company String,
+    type Type,
+    createdDate Instant,
+    createdBy String,
+}
+
+entity ReportValues(t_report_value) {
+	name String,
+    value String
+}
+
+
+relationship OneToMany {
+    Report to ReportValues,
+}
+
+
 relationship OneToMany {
     CompanyUser to DataSource,
 }
@@ -78,13 +100,13 @@ relationship OneToMany {
 
 
 relationship OneToMany {
-    CompanyUser to Region, 
+    CompanyUser to Region,
 }
 
 
 
 enum Type {
-    Global, Custom
+    Global, Company, Custom
 }
 
 enum RangeType {

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link DataSource}.
  */
 @Service
-@Transactional
 public class DataSourceService {
 
     private final Logger log = LoggerFactory.getLogger(DataSourceService.class);
@@ -36,18 +34,15 @@ public class DataSourceService {
 
 
     //API to get Ratings by Year
-    @Transactional(readOnly = true)
     public List<DataSourceDTO> findRatingsByYearAndTypeGlobal(Integer year) {
         return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndType(year, Type.Global));
     }
 
     //API to get Rating name by User
-    @Transactional(readOnly = true)
     public List<DataSourceDTO> findRatingByYearAndUser(Integer year, CompanyUserDTO companyUserDTO) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany()));
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyAndType(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Custom));
     }
 
-    @Transactional(readOnly = true)
     public List<DataSourceDTO> findRatingByUser( CompanyUserDTO companyUserDTO) {
         return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Global));
     }
@@ -66,18 +61,6 @@ public class DataSourceService {
         return dataSourceMapper.toDto(dataSource);
     }
 
-    /**
-     * Update a dataSource.
-     *
-     * @param dataSourceDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public DataSourceDTO update(DataSourceDTO dataSourceDTO) {
-        log.debug("Request to save DataSource : {}", dataSourceDTO);
-        DataSource dataSource = dataSourceMapper.toEntity(dataSourceDTO);
-        dataSource = dataSourceRepository.save(dataSource);
-        return dataSourceMapper.toDto(dataSource);
-    }
 
     /**
      * Partially update a dataSource.
@@ -105,13 +88,13 @@ public class DataSourceService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
+
     public Page<DataSourceDTO> findAll(Pageable pageable) {
         log.debug("Request to get all DataSources");
         return dataSourceRepository.findAll(pageable).map(dataSourceMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
+
     public List<DataSourceDTO> findAll() {
         log.debug("Request to get all DataSources");
         return dataSourceMapper.toDto(dataSourceRepository.findAll());
@@ -123,7 +106,7 @@ public class DataSourceService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
+
     public Optional<DataSourceDTO> findOne(Long id) {
         log.debug("Request to get DataSource : {}", id);
         return dataSourceRepository.findById(id).map(dataSourceMapper::toDto);

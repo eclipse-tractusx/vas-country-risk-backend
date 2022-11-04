@@ -40,6 +40,12 @@ public class DashboardService {
     @Autowired
     CountryLogicService countryLogicService;
 
+    @Autowired
+    ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
+
+    @Autowired
+    ReportLogicService reportLogicService;
+
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -60,17 +66,19 @@ public class DashboardService {
     public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
         CompanyUserDTO companyUserDTOUse = companyUserLogicService.getOrCreate(companyUserDTO);
         uploadAndDownloadLogicService.saveCsv(file,dataSourceName,companyUserDTOUse);
+        dataSourceLogicService.invalidateAllCache();
     }
 
     //Ranges
     public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO)  {
         CompanyUserDTO companyUserDTO1 = companyUserLogicService.getOrCreate(companyUserDTO);
         rangeLogicService.saveRanges(rangeDTOS,companyUserDTO1);
+        rangeLogicService.invalidateAllCache();
     }
 
     public List<Integer> getYearsOfUserRatings(CompanyUserDTO companyUserDTO){
         List<Integer> list = new ArrayList<>();
-        list.addAll(dataSourceLogicService.findRatingsByCompanyUser(companyUserDTO).stream().map(rating -> rating.getYearPublished()).collect(Collectors.toSet()));
+        list.addAll(dataSourceLogicService.findRatingsByCompanyUser(companyUserDTO).stream().map(DataSourceDTO::getYearPublished).collect(Collectors.toSet()));
         return list;
     }
 
@@ -82,8 +90,34 @@ public class DashboardService {
         return countryLogicService.getCountryFilterByISO2(companyUserDTO);
     }
 
+    public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUserDTO){
+        return externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUserDTO);
+
+    }
+
     public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){
         return countryLogicService.getAssociatedCountries(companyUserDTO);
+    }
+
+    public List<ReportDTO> getReportsByCompanyUser(CompanyUserDTO companyUserDTO){
+        List<ReportDTO> reportDTOList = new ArrayList<>();
+        List<ReportDTO> reportDTOS = reportLogicService.getGlobalReports();
+        List<ReportDTO> companyReports = reportLogicService.getCompanyReports(companyUserDTO);
+        List<ReportDTO> reportsForCompanyUser = reportLogicService.getReportsForCompanyUser(companyUserDTO);
+        reportDTOList.addAll(companyReports);
+        reportDTOList.addAll(reportsForCompanyUser);
+        reportDTOList.addAll(reportDTOS);
+        return reportDTOList;
+    }
+
+    public void saveReportForUser(CompanyUserDTO companyUserDTO,ReportDTO reportDTO){
+        CompanyUserDTO companyUserDTO1 = companyUserLogicService.getOrCreate(companyUserDTO);
+        reportLogicService.saveReport(reportDTO,companyUserDTO1);
+        reportLogicService.invalidateAllCache();
+    }
+
+    public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO){
+        return reportLogicService.getReportValues(reportDTO);
     }
 
 

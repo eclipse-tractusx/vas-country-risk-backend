@@ -7,10 +7,10 @@ spring:
       on-profile: local
 
 #  datasource:
-#    username: postgres
-#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: user
+#    url: jdbc:postgresql://localhost:5432/database
 #    driverClassName: org.postgresql.Driver
-#    password: root
+#    password: password
 #  jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #    properties:

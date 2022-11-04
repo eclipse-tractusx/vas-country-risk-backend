@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!--
+        Added the entity Report.
+    -->
+    <changeSet id="20221007154554-1" author="fabiodmota">
+        <createTable tableName="t_report">
+            <column name="id" type="bigint" autoIncrement="true" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="report_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="company_user_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="company" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+        </createTable>
+        <dropDefaultValue tableName="t_report" columnName="created_date" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- constraint for pair fields -->
+    <changeSet id="20221007154554-2" author="fabiodmota">
+        <addUniqueConstraint
+                columnNames="report_name,company_user_name,company"
+                constraintName="report_name_company_user_name_company_uniqueConstraint"
+                tableName="t_report"
+        />
+    </changeSet>
+
+
+
+</databaseChangeLog>

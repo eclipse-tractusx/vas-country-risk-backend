@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +16,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link File}.
  */
 @Service
-@Transactional
 public class FileService {
 
     private final Logger log = LoggerFactory.getLogger(FileService.class);
@@ -44,18 +42,6 @@ public class FileService {
         return fileMapper.toDto(file);
     }
 
-    /**
-     * Update a file.
-     *
-     * @param fileDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public FileDTO update(FileDTO fileDTO) {
-        log.debug("Request to save File : {}", fileDTO);
-        File file = fileMapper.toEntity(fileDTO);
-        file = fileRepository.save(file);
-        return fileMapper.toDto(file);
-    }
 
     /**
      * Partially update a file.
@@ -83,7 +69,7 @@ public class FileService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
+
     public Page<FileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Files");
         return fileRepository.findAll(pageable).map(fileMapper::toDto);
@@ -95,13 +81,13 @@ public class FileService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
+
     public Optional<FileDTO> findOne(Long id) {
         log.debug("Request to get File : {}", id);
         return fileRepository.findById(id).map(fileMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
+
     public Optional<FileDTO> findUpdatedDataSourceTemplate() {
         log.debug("Request to get File by UpdatedDataSourceTemplate");
         return fileRepository.findTopByOrderByVersionDesc().map(fileMapper::toDto);

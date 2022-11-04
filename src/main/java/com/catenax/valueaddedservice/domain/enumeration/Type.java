@@ -6,4 +6,5 @@ package com.catenax.valueaddedservice.domain.enumeration;
 public enum Type {
     Global,
     Custom,
+    Company
 }

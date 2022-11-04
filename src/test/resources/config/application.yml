@@ -1,0 +1,65 @@
+# Spring Boot configuration
+spring:
+  config:
+    activate:
+      on-profile: test
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
+    enabled: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:vas;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    name:
+    username:
+    password:
+    hikari:
+      auto-commit: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+        types:
+          print:
+            banner: false
+server:
+  port: 8080
+  tomcat:
+    relaxedPathChars: "|,{,},[,]"
+    relaxedQueryChars: "|,{,},[,]"
+  max-http-header-size: 40KB
+
+vas:
+  datasource:
+    host: localhost
+    user: default
+    pass: defaultpassword
+  keycloakClientSecret:
+  keycloakClientId:
+  authentication-url:
+    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+
+
+bearer_token:
+  bearer_format: JWT
+  bearer_schema: bearer
+
+security:
+  enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.catenax.valueaddedservice: DEBUG
+
+application:
+  name: default
+  host: project-value-added-service-vas/api/dashboard
+  partnersPoolUrl:
+    legalEntities: 'http://localhost:8080/api/catena/legal-entities'

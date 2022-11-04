@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +16,6 @@ import java.util.Optional;
  * Service Implementation for managing {@link CompanyUser}.
  */
 @Service
-@Transactional
 public class CompanyUserService {
 
     private final Logger log = LoggerFactory.getLogger(CompanyUserService.class);
@@ -38,7 +36,6 @@ public class CompanyUserService {
      * @return the persisted entity.
      */
     public CompanyUserDTO save(CompanyUserDTO companyUserDTO) {
-        log.debug("Request to save CompanyUser : {}", companyUserDTO);
         CompanyUser companyUser = companyUserMapper.toEntity(companyUserDTO);
         companyUser = companyUserRepository.save(companyUser);
         return companyUserMapper.toDto(companyUser);
@@ -47,19 +44,6 @@ public class CompanyUserService {
     public CompanyUserDTO findBYNameEmailAndCompany(CompanyUserDTO companyUserDTO){
         CompanyUser companyUser = companyUserRepository.findByNameAndEmailAndCompany(companyUserDTO.getName(), companyUserDTO.getEmail(), companyUserDTO.getCompany());
 
-        return companyUserMapper.toDto(companyUser);
-    }
-
-    /**
-     * Update a companyUser.
-     *
-     * @param companyUserDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public CompanyUserDTO update(CompanyUserDTO companyUserDTO) {
-        log.debug("Request to save CompanyUser : {}", companyUserDTO);
-        CompanyUser companyUser = companyUserMapper.toEntity(companyUserDTO);
-        companyUser = companyUserRepository.save(companyUser);
         return companyUserMapper.toDto(companyUser);
     }
 
@@ -89,7 +73,7 @@ public class CompanyUserService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
+
     public Page<CompanyUserDTO> findAll(Pageable pageable) {
         log.debug("Request to get all CompanyUsers");
         return companyUserRepository.findAll(pageable).map(companyUserMapper::toDto);
@@ -101,7 +85,7 @@ public class CompanyUserService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
+
     public Optional<CompanyUserDTO> findOne(Long id) {
         log.debug("Request to get CompanyUser : {}", id);
         return companyUserRepository.findById(id).map(companyUserMapper::toDto);

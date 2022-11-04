@@ -32,10 +32,17 @@ public class CountryService {
         this.countryMapper = countryMapper;
     }
 
-    @Transactional
-    public List<CountryDTO> findCountryByName(List<String> stringList){
+    @Transactional(readOnly = true)
+    public List<CountryDTO> findByCountryIn(List<String> stringList){
         return countryMapper.toDto(countryRepository.findByCountryIn(stringList));
     }
+
+    @Transactional(readOnly = true)
+    public Optional<CountryDTO> findCountryByName(String countryName){
+        return countryRepository.findByCountry(countryName).map(countryMapper::toDto);
+    }
+
+
 
     /**
      * Save a country.
@@ -44,19 +51,6 @@ public class CountryService {
      * @return the persisted entity.
      */
     public CountryDTO save(CountryDTO countryDTO) {
-        log.debug("Request to save Country : {}", countryDTO);
-        Country country = countryMapper.toEntity(countryDTO);
-        country = countryRepository.save(country);
-        return countryMapper.toDto(country);
-    }
-
-    /**
-     * Update a country.
-     *
-     * @param countryDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public CountryDTO update(CountryDTO countryDTO) {
         log.debug("Request to save Country : {}", countryDTO);
         Country country = countryMapper.toEntity(countryDTO);
         country = countryRepository.save(country);
@@ -89,13 +83,13 @@ public class CountryService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
+
     public Page<CountryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Countries");
         return countryRepository.findAll(pageable).map(countryMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
+
     public List<CountryDTO> findAll() {
         log.debug("Request to get all Countries");
         return countryMapper.toDto(countryRepository.findAll());
@@ -107,7 +101,7 @@ public class CountryService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
+
     public Optional<CountryDTO> findOne(Long id) {
         log.debug("Request to get Country : {}", id);
         return countryRepository.findById(id).map(countryMapper::toDto);
