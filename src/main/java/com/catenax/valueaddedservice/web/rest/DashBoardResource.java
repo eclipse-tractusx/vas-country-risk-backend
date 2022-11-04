@@ -180,16 +180,12 @@ public class DashBoardResource {
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";
         log.debug("REST request to saveUserRanges");
-        try {
-            dashboardService.saveRanges(rangeDTOS, companyUserDTO);
-            message = "Range successfully saved!";
-            log.info(message);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        }catch (Exception e) {
-            message = "Could not save the ranges values!";
-            log.error(message);
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new ResponseMessage(message));
-        }
+
+        dashboardService.saveRanges(rangeDTOS, companyUserDTO);
+        message = "Range successfully saved!";
+        log.info(message);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+
     }
 
     @Operation(summary = "Retrieves all Reports that a user can get")

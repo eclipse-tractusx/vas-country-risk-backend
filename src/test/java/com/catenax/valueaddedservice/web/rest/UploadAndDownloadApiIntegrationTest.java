@@ -2,26 +2,19 @@ package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
 import com.catenax.valueaddedservice.constants.VasConstants;
-import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.domain.DataSourceValue;
-import com.catenax.valueaddedservice.dto.DataDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
-import com.catenax.valueaddedservice.dto.DataSourceValueDTO;
-import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.mapper.DataSourceMapper;
-import com.catenax.valueaddedservice.service.mapper.FileMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -31,8 +24,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -83,7 +78,7 @@ class UploadAndDownloadApiIntegrationTest {
                 .build();
 
         fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
-        HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get("src/test/resources/config/liquibase/test-data/file_test_upload.csv")), fileMap);
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH)), fileMap);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add(VasConstants.CSV_NAME, fileEntity);
@@ -160,20 +155,6 @@ class UploadAndDownloadApiIntegrationTest {
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
-        //Insert CSV Again with same values
-
-        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
-        HttpEntity<byte[]> fileEntitySecond = new HttpEntity<>(Files.readAllBytes(Paths.get("src/test/resources/config/liquibase/test-data/file_test_upload.csv")), fileMap);
-
-        MultiValueMap<String, Object> bodySecond = new LinkedMultiValueMap<>();
-        body.add("file", fileEntitySecond);
-
-        RequestEntity requestEntitySecond = new RequestEntity(bodySecond, headers, HttpMethod.POST, uri);
-
-        ResponseEntity<ResponseMessage> responseEntitySecond = testRestTemplate.exchange(requestEntitySecond,ResponseMessage.class);
-
-        assertEquals(HttpStatus.BAD_REQUEST,responseEntitySecond.getStatusCode());
-
         //Get Current Year
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
 
@@ -186,7 +167,14 @@ class UploadAndDownloadApiIntegrationTest {
         List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
 
         assertNotEquals(0,dataSourceDTOList.size());
+
         DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
+        assertEquals(VasConstants.HEADER_CSV_NAME_ERROR, dataSourceDTO.getFileName());
+
+
+        responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST,responseEntity.getStatusCode());
 
         cleanDataSources(dataSourceDTO);
     }

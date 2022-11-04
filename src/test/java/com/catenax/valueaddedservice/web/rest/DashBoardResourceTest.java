@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.web.rest;
 
+import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.*;
 import com.catenax.valueaddedservice.service.DashboardService;
@@ -10,8 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -159,6 +164,35 @@ class DashBoardResourceTest {
         dashBoardResource.saveRanges(rangeDTOS, companyUserDTO);
 
         verify(dashboardService, times(1)).saveRanges(rangeDTOS, companyUserDTO);
+    }
+
+    @Test
+    @DisplayName("Should receive exception when save report")
+    void saveReportsAndGetException() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setReportName("test");
+        reportDTO.setType(Type.Company);
+        reportDTO.setCompany("test");
+        reportDTO.setCompanyUserName("test");
+        ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
+        reportValuesDTO.setReport(reportDTO);
+        List<ReportValuesDTO> reportValuesDTOS = List.of(reportValuesDTO);
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+
+        doThrow(new RuntimeException())
+                .when(this.dashboardService).saveReportForUser( companyUserDTO,reportDTO);
+        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.saveReports(reportDTO,companyUserDTO).getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Should receive exception when save csv")
+    void saveCsvAndGetException() throws IOException {
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        byte[] bytes = Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH));
+        MultipartFile file = new MockMultipartFile(VasConstants.CSV_NAME,bytes);
+        doThrow(new RuntimeException())
+                .when(this.dashboardService).saveCsv( file,VasConstants.CSV_NAME,companyUserDTO);
+        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.uploadFile(file, VasConstants.CSV_NAME,companyUserDTO).getStatusCode());
     }
 
     @Test
