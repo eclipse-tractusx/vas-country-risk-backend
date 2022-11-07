@@ -13,9 +13,9 @@ vas:
   keycloakClientSecret:
   keycloakClientId:
   authentication-url:
-    token-url: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
 
 bearer_token:
