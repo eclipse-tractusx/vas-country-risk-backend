@@ -28,6 +28,7 @@
 		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.organization>catenax-ng</sonar.organization>
 		<sonar.projectKey>catenax-ng_product-value-added-service</sonar.projectKey>
+		<sonar.coverage.exclusions>src/main/java/com/catenax/valueaddedservice/dto/**/*.*,src/main/java/com/catenax/valueaddedservice/domain/**/*.*¨</sonar.coverage.exclusions>
 		<jacoco.version>0.8.7</jacoco.version>
 		<hibernate-types-55>2.20.0</hibernate-types-55>
 		<org.owasp.esapi>2.5.0.0</org.owasp.esapi>

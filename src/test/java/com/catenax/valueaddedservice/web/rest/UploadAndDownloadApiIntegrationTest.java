@@ -135,6 +135,7 @@ class UploadAndDownloadApiIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME_ERROR);
+        headers.setBearerAuth(VasConstants.HEADER_TOKEN);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition

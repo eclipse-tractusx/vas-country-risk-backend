@@ -6,8 +6,6 @@ import com.catenax.valueaddedservice.repository.FileRepository;
 import com.catenax.valueaddedservice.service.mapper.FileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,63 +41,9 @@ public class FileService {
     }
 
 
-    /**
-     * Partially update a file.
-     *
-     * @param fileDTO the entity to update partially.
-     * @return the persisted entity.
-     */
-    public Optional<FileDTO> partialUpdate(FileDTO fileDTO) {
-        log.debug("Request to partially update File : {}", fileDTO);
-
-        return fileRepository
-            .findById(fileDTO.getId())
-            .map(existingFile -> {
-                fileMapper.partialUpdate(existingFile, fileDTO);
-
-                return existingFile;
-            })
-            .map(fileRepository::save)
-            .map(fileMapper::toDto);
-    }
-
-    /**
-     * Get all the files.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-
-    public Page<FileDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Files");
-        return fileRepository.findAll(pageable).map(fileMapper::toDto);
-    }
-
-    /**
-     * Get one file by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
-
-    public Optional<FileDTO> findOne(Long id) {
-        log.debug("Request to get File : {}", id);
-        return fileRepository.findById(id).map(fileMapper::toDto);
-    }
-
-
     public Optional<FileDTO> findUpdatedDataSourceTemplate() {
         log.debug("Request to get File by UpdatedDataSourceTemplate");
         return fileRepository.findTopByOrderByVersionDesc().map(fileMapper::toDto);
     }
 
-    /**
-     * Delete the file by id.
-     *
-     * @param id the id of the entity.
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete File : {}", id);
-        fileRepository.deleteById(id);
-    }
 }

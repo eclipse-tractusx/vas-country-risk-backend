@@ -11,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
 import java.util.List;
@@ -117,6 +120,28 @@ class DataSourceServiceTest {
         Long id = 1L;
         dataSourceService.delete(id);
         verify(dataSourceRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    @DisplayName("Should return all DataSourcesValues")
+    void findAllDataSources() {
+        DataSource dataSource = new DataSource();
+        dataSource.setId(1L);
+        dataSource.setDataSourceName("TEST");
+
+
+        DataSourceDTO dataSourceDTO = new DataSourceDTO();
+        dataSourceDTO.setId(1L);
+        dataSourceDTO.setDataSourceName("TEST");
+
+        Page<DataSource> dataSourceValueDTOS = new PageImpl<>(List.of(dataSource));
+
+        when(dataSourceRepository.findAll(any(Pageable.class))).thenReturn(dataSourceValueDTOS);
+        when(dataSourceMapper.toDto(any(DataSource.class))).thenReturn(dataSourceDTO);
+
+        Page<DataSourceDTO> result = dataSourceService.findAll(Pageable.unpaged());
+
+        assertEquals(1, result.getTotalElements());
     }
 
 
