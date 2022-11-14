@@ -21,7 +21,7 @@ public final class VasConstants {
 
     public static final String HEADER_CSV_NAME = "testeRatingINTtest";
     public static final String HEADER_CSV_NAME_ERROR = "testeRatingError";
-    public static final String HEADER_TOKEN = "adb4a97ffb9a12fb29094267852f06b3d3d1f93076425d7c61cf1bac3b557648cb4119aff5a57b810e0ae32";
+    public static final String HEADER_TOKEN = "fakeTOKEN";
 
     public static final String CSV_TYPE = "form-data";
     public static final String CSV_NAME = "file";
