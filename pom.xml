@@ -17,7 +17,7 @@
 		<java.version>11</java.version>
 		<validation-api.version>2.0.1.Final</validation-api.version>
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
-		<org.projectlombok.version>1.18.20</org.projectlombok.version>
+		<org.projectlombok.version>1.18.24</org.projectlombok.version>
 		<liquibase.version>4.17.1</liquibase.version>
 		<liquibase-hibernate5.version>4.6.1</liquibase-hibernate5.version>
 		<spring-boot.version>2.6.6</spring-boot.version>
@@ -30,6 +30,7 @@
 		<sonar.projectKey>catenax-ng_product-value-added-service</sonar.projectKey>
 		<jacoco.version>0.8.7</jacoco.version>
 		<hibernate-types-55>2.20.0</hibernate-types-55>
+		<org.owasp.esapi>2.5.0.0</org.owasp.esapi>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -50,6 +51,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+			<version>${org.projectlombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -114,6 +116,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 			<version>${org.springframework.cloud}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.owasp.esapi</groupId>
+			<artifactId>esapi</artifactId>
+			<version>${org.owasp.esapi}</version>
 		</dependency>
 	</dependencies>
 

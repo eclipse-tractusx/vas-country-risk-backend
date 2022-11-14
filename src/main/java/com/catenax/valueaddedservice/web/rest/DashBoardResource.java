@@ -11,7 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,10 +31,9 @@ import java.util.List;
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
 @SecurityRequirements({@SecurityRequirement(name = "bearerAuth"), @SecurityRequirement(name = "open_id_scheme")})
-@Slf4j
 public class DashBoardResource {
 
-
+    private static final Logger log = ESAPI.getLogger(DashBoardResource.class);
     @Autowired
     DashboardService dashboardService;
 
@@ -44,7 +44,7 @@ public class DashBoardResource {
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                                         CompanyUserDTO companyUser)  {
-        log.debug("REST request to get a page of Dashboard");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings.getRatingDTOS(), companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
@@ -57,7 +57,7 @@ public class DashBoardResource {
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                            @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                                            CompanyUserDTO companyUser)  {
-        log.debug("REST request to get a page of Dashboard");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
 
         dashBoardWorldMapDTOS = dashboardService.getWorldMapInfo(year, ratings.getRatingDTOS(), companyUser);
@@ -69,7 +69,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/allYears")
     public ResponseEntity<List<Integer>> getYears(CompanyUserDTO companyUser) {
-        log.debug("REST request to get a allYears");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get a allYears");
         List<Integer> years;
         years = dashboardService.getYearsOfUserRatings(companyUser);
         return ResponseEntity.ok().body(years);
@@ -80,7 +80,7 @@ public class DashBoardResource {
                            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/ratingsByYear")
     public ResponseEntity<List<DataSourceDTO>> ratingsByYear(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year, CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to get ratingsByYear");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get ratingsByYear");
         List<DataSourceDTO> dataSourceDto;
         dataSourceDto = dashboardService.findRatingsByYearAndCompanyUser(year,companyUserDTO);
         return ResponseEntity.ok().body(dataSourceDto);
@@ -91,7 +91,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTemplate")
     public ResponseEntity<byte[]> getTemplate() {
-        log.debug("REST request to get Template");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get Template");
         FileDTO fileDTO = dashboardService.getDataSourceTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileDTO.getFileName() + ".csv");
@@ -112,18 +112,18 @@ public class DashBoardResource {
     @PostMapping("/dashboard/uploadCsv")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
-        log.debug("REST request to uploadCsv");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to uploadCsv");
         String message = "";
         message = VasConstants.UPLOAD_SUCCESS_MESSAGE + file.getOriginalFilename();
         try {
             dashboardService.saveCsv(file, dataSourceName, companyUser);
         } catch (DataIntegrityViolationException e) {
             message = VasConstants.UPLOAD_ERROR_MESSAGE + dataSourceName + "!";
-            log.error(message);
-            log.error(VasConstants.ERROR_LOG, e.getMessage());
+            log.error(Logger.EVENT_FAILURE ,message);
+            log.error(Logger.EVENT_FAILURE,VasConstants.ERROR_LOG +  e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         } catch (Exception e) {
-            log.error(VasConstants.ERROR_LOG, e.getMessage());
+            log.error(Logger.EVENT_FAILURE,VasConstants.ERROR_LOG + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage( e.getMessage()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -136,7 +136,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getUserRanges")
     public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
-        log.debug("REST request to get User Ranges");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get User Ranges");
         List<RangeDTO> rangeDTOS;
         rangeDTOS = dashboardService.getUserRangesOrDefault(companyUser);
         return ResponseEntity.ok().body(rangeDTOS);
@@ -147,7 +147,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCountryFilterByISO2")
     public ResponseEntity<List<CountryDTO>> getCountrys(CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to get CountryFilterByISO2");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get CountryFilterByISO2");
         return ResponseEntity.ok().body(dashboardService.getCountryFilterByISO2(companyUserDTO));
     }
 
@@ -157,7 +157,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getCompanyBpns")
     public ResponseEntity<List<BusinessPartnerDTO>> getCompanyBpns(CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to get CompanyBpns");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get CompanyBpns");
         return ResponseEntity.ok().body(dashboardService.getExternalBusinessPartners(companyUserDTO));
     }
 
@@ -166,7 +166,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getBpnCountrys")
     public ResponseEntity<List<CountryDTO>> getBpnCountrys(CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to get BpnCountrys");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get BpnCountrys");
         List<CountryDTO> countryDTOS;
         countryDTOS = dashboardService.getCountryByAssociatedBPtoUser(companyUserDTO);
 
@@ -179,11 +179,11 @@ public class DashBoardResource {
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         String message = "";
-        log.debug("REST request to saveUserRanges");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to saveUserRanges");
 
         dashboardService.saveRanges(rangeDTOS, companyUserDTO);
         message = "Range successfully saved!";
-        log.info(message);
+        log.info(Logger.EVENT_SUCCESS,message);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 
     }
@@ -193,7 +193,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getReportsByCompanyUser")
     public ResponseEntity<List<ReportDTO>> getReportsByCompanyUser(CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to getReportsByCompanyUser");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to getReportsByCompanyUser");
         List<ReportDTO> reportDTOS;
         reportDTOS = dashboardService.getReportsByCompanyUser(companyUserDTO);
         return ResponseEntity.ok().body(reportDTOS);
@@ -204,18 +204,18 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/saveReports")
     public ResponseEntity<ResponseMessage> saveReports(@Valid @RequestBody ReportDTO reportDTO,CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to save reports");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to save reports");
         String message = "";
         try {
             dashboardService.saveReportForUser(companyUserDTO,reportDTO);
         } catch (DataIntegrityViolationException e) {
             message = "Could not upload the report duplicate name: " + reportDTO.getReportName() + "!";
-            log.error(message);
-            log.error("Error {}", e.getMessage());
+            log.error(Logger.EVENT_FAILURE,message);
+            log.error(Logger.EVENT_FAILURE,"Error "+ e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the report: " + reportDTO.getReportName() + "!";
-            log.error("Error {}", e.getMessage());
+            log.error(Logger.EVENT_FAILURE,"Error "+ e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -226,7 +226,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getReportsValueByReport")
     public ResponseEntity<List<ReportValuesDTO>> getReportsValueByReport(ReportDTO reportDTO) {
-        log.debug("REST request to getReportsValueByReport");
+        log.debug(Logger.EVENT_SUCCESS,"REST request to getReportsValueByReport");
         List<ReportValuesDTO> reportValuesDTOList;
         reportValuesDTOList = dashboardService.getReportValues(reportDTO);
         return ResponseEntity.ok().body(reportValuesDTOList);

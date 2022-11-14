@@ -88,3 +88,6 @@ springdoc:
   swagger-ui:
     oauth:
       client-id: Cl2-CX-Portal
+
+ESAPI:
+  Logger: org.owasp.esapi.reference.Log4JLogFactory
