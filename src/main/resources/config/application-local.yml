@@ -7,7 +7,7 @@ spring:
       on-profile: local
 
 #  datasource:
-#    username:
+#    username: postgresql
 #    url: jdbc:postgresql://localhost:5432/database
 #    driverClassName: org.postgresql.Driver
 #    password:
