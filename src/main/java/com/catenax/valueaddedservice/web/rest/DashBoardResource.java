@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -230,6 +231,16 @@ public class DashBoardResource {
         List<ReportValuesDTO> reportValuesDTOList;
         reportValuesDTOList = dashboardService.getReportValues(reportDTO);
         return ResponseEntity.ok().body(reportValuesDTOList);
+    }
+
+    @Operation(summary = "Retrieves all Gate values that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Gate values requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getAllUserBPDMGates")
+    public ResponseEntity<List<String>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to getBPDMGates");
+        List<String> gates = Arrays.asList("BMW", "Audi", "Mercedes");
+        return ResponseEntity.ok().body(gates);
     }
 
 }
