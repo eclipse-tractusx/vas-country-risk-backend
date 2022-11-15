@@ -6,33 +6,31 @@ spring:
     activate:
       on-profile: local
 
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/database
-#    driverClassName: org.postgresql.Driver
-#    username: ${vas_datasource_user}
-#    password: ${vas_datasource_pass}
-#  jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#    properties:
-#      hibernate:
-#        default_schema: public
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/vas;DB_CLOSE_DELAY=-1
-    username: ${vas_datasource_user}
-    password: ${vas_datasource_pass}
-    hikari:
-      poolName: Hikari
-      auto-commit: false
-
-
+    url: jdbc:postgresql://localhost:5432/database
+    driverClassName: org.postgresql.Driver
+    username: default
+    password: defaultpassword
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    database: H2
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
-        show_sql: false
-        format_sql: true
+        default_schema: public
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:h2:file:./target/h2db/db/vas;DB_CLOSE_DELAY=-1
+#    username: ${vas_datasource_user}
+#    password: ${vas_datasource_pass}
+#    hikari:
+#      poolName: Hikari
+#      auto-commit: false
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    database: H2
+#    properties:
+#      hibernate:
+#        show_sql: false
+#        format_sql: true
 
 security:
   enabled: false
