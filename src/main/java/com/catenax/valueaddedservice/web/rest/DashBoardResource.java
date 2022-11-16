@@ -32,7 +32,6 @@ import java.util.List;
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
 @SecurityRequirements({@SecurityRequirement(name = "bearerAuth"), @SecurityRequirement(name = "open_id_scheme")})
-@Slf4j
 public class DashBoardResource {
 
     private static final Logger log = ESAPI.getLogger(DashBoardResource.class);
@@ -48,7 +47,6 @@ public class DashBoardResource {
                                                                         @RequestParam(value = "gate", defaultValue = "", required = false) String gate,
                                                                         CompanyUserDTO companyUser)  {
         log.debug(Logger.EVENT_SUCCESS,"REST request to get a page of Dashboard");
-        log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings.getRatingDTOS(), companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
@@ -242,7 +240,7 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getAllUserBPDMGates")
     public ResponseEntity<List<String>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
-        log.debug("REST request to getBPDMGates");
+        log.debug(Logger.EVENT_SUCCESS, "REST request to getBPDMGates");
         List<String> gates = Arrays.asList("Audi 01", "Audi 02", "Audi 03");
         return ResponseEntity.ok().body(gates);
     }
