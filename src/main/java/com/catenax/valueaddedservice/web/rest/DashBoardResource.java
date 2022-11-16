@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -31,6 +32,7 @@ import java.util.List;
 @RequestMapping("/api")
 @Tag(name = "Dashboard Controller")
 @SecurityRequirements({@SecurityRequirement(name = "bearerAuth"), @SecurityRequirement(name = "open_id_scheme")})
+@Slf4j
 public class DashBoardResource {
 
     private static final Logger log = ESAPI.getLogger(DashBoardResource.class);
@@ -43,8 +45,10 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getTableInfo")
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                                        @RequestParam(value = "gate", defaultValue = "", required = false) String gate,
                                                                         CompanyUserDTO companyUser)  {
         log.debug(Logger.EVENT_SUCCESS,"REST request to get a page of Dashboard");
+        log.debug("REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings.getRatingDTOS(), companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
@@ -56,6 +60,7 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getWorldMap")
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                            @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                                           @RequestParam(value = "gate", defaultValue = "", required = false) String gate,
                                                                            CompanyUserDTO companyUser)  {
         log.debug(Logger.EVENT_SUCCESS,"REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
@@ -230,6 +235,16 @@ public class DashBoardResource {
         List<ReportValuesDTO> reportValuesDTOList;
         reportValuesDTOList = dashboardService.getReportValues(reportDTO);
         return ResponseEntity.ok().body(reportValuesDTOList);
+    }
+
+    @Operation(summary = "Retrieves all Gate values that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Gate values requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getAllUserBPDMGates")
+    public ResponseEntity<List<String>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
+        log.debug("REST request to getBPDMGates");
+        List<String> gates = Arrays.asList("Audi 01", "Audi 02", "Audi 03");
+        return ResponseEntity.ok().body(gates);
     }
 
 }
