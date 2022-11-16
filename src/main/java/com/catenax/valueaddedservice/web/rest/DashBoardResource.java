@@ -44,8 +44,10 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getTableInfo")
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                         @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                                        @RequestParam(value = "gate", defaultValue = "", required = false) String gate,
                                                                         CompanyUserDTO companyUser)  {
         log.debug("REST request to get a page of Dashboard");
+        System.out.println("GATE: " + gate );
         List<DashBoardTableDTO> dashBoardTableDTOs;
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings.getRatingDTOS(), companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
@@ -57,6 +59,7 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getWorldMap")
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(@RequestParam(value="ratings") ListRatingDTO ratings,
                                                                            @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                                           @RequestParam(value = "gate", defaultValue = "", required = false) String gate,
                                                                            CompanyUserDTO companyUser)  {
         log.debug("REST request to get a page of Dashboard");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS;
@@ -239,7 +242,7 @@ public class DashBoardResource {
     @GetMapping("/dashboard/getAllUserBPDMGates")
     public ResponseEntity<List<String>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
         log.debug("REST request to getBPDMGates");
-        List<String> gates = Arrays.asList("BMW", "Audi", "Mercedes");
+        List<String> gates = Arrays.asList("Audi 01", "Audi 02", "Audi 03");
         return ResponseEntity.ok().body(gates);
     }
 
