@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!--
+        Added the entity Company.
+    -->
+    <changeSet id="20221115160706-1" author="fabiodmota">
+        <createTable tableName="t_company">
+            <column name="id" type="bigint"  autoIncrement="true" incrementBy="1" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_name" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_t_company__company_name" />
+            </column>
+            <column name="company_group" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="20221115160706-1-data" author="fabiodmota" context="faker">
+        <loadData
+                file="config/liquibase/fake-data/t_company.csv"
+                separator=";"
+                tableName="t_company"
+                usePreparedStatements="true">
+
+            <column name="company_name" type="string"/>
+            <column name="company_group" type="string"/>
+
+            <!-- -needle-liquibase-add-loadcolumn -  (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

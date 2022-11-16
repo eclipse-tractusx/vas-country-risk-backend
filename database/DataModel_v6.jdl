@@ -1,7 +1,17 @@
 entity CompanyUser (t_company_user) {
 	name String required,
-    email String unique required,
-    company String required
+    email String unique required
+}
+
+
+entity Company (t_company) {
+	companyName String unique required,
+	companyGroup String
+}
+
+entity CompanyGates (t_company_gates) {
+	gateName String required,
+    companyGroup String unique required
 }
 
 
@@ -80,19 +90,19 @@ relationship OneToMany {
 
 relationship OneToMany {
     CompanyUser to DataSource,
+    DataSource to DataSourceValue,
 }
 
 relationship OneToMany {
-    DataSource to DataSourceValue,
+    Company to CompanyUser,
+    Company to CompanyGates,
 }
+
 
 relationship OneToMany {
     CompanyUser to Range,
 }
 
-relationship OneToMany {
-    Region to RegionValue,
-}
 
 relationship OneToMany {
     CompanyUser to File,
@@ -101,6 +111,7 @@ relationship OneToMany {
 
 relationship OneToMany {
     CompanyUser to Region,
+    Region to RegionValue,
 }
 
 

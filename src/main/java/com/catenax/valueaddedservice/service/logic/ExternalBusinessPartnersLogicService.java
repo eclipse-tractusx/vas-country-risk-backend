@@ -42,7 +42,7 @@ public class ExternalBusinessPartnersLogicService {
     InvokeService invokeService;
 
     
-    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUser.name,#companyUser.email,#companyUser.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUser.name,#companyUser.email,#companyUser.companyName}}", unless = "#result == null")
     public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser) {
         log.debug("getExternalBusinessPartners for companyUserDTO {}",companyUser);
         try {
@@ -58,7 +58,7 @@ public class ExternalBusinessPartnersLogicService {
         }
     }
     
-    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<String> getExternalPartnersCountry (CompanyUserDTO companyUserDTO) {
         log.debug("getExternalPartnersCountry for companyUserDTO {}",companyUserDTO);
         List<BusinessPartnerDTO> businessPartnerDTOS;

@@ -37,8 +37,8 @@ public class CompanyUser implements Serializable {
     private String email;
 
     @NotNull
-    @Column(name = "company", nullable = false)
-    private String company;
+    @Column(name = "companyName", nullable = false)
+    private String companyName;
 
     @OneToMany(mappedBy = "companyUser")
     @JsonIgnoreProperties(value = { "dataSourceValues", "companyUser" }, allowSetters = true)
@@ -52,5 +52,7 @@ public class CompanyUser implements Serializable {
     @JsonIgnoreProperties(value = { "regionValues", "companyUser" }, allowSetters = true)
     private Set<Region> regions = new HashSet<>();
 
-
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "companyUsers", "companyGates" }, allowSetters = true)
+    private Company company;
 }

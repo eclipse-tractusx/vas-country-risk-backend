@@ -5,7 +5,6 @@ import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
-import com.catenax.valueaddedservice.dto.ReportDTO;
 import com.catenax.valueaddedservice.repository.RangeRepository;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.logic.RangeLogicService;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
@@ -165,7 +163,7 @@ class RangeIntegartionTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         return companyUserDTO;
     }
 

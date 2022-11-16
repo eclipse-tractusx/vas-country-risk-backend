@@ -93,13 +93,13 @@ class CompanyUserServiceTest {
         companyUserDTO.setId(Long.MAX_VALUE);
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
 
         CompanyUser companyUser = new CompanyUser();
         companyUser.setId(Long.MAX_VALUE);
         companyUser.setName("John");
         companyUser.setEmail("John@email.com");
-        companyUser.setCompany("TestCompany");
+        companyUser.setCompanyName("TestCompany");
 
         when(companyUserRepository.findById(Long.MAX_VALUE)).thenReturn(Optional.of(companyUser));
 

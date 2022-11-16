@@ -28,7 +28,7 @@ class CompanyUserLogicServiceTest {
         companyUserDTO.setId(1L);
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
 
         when(companyUserService.findBYNameEmailAndCompany(companyUserDTO))
                 .thenReturn(companyUserDTO);
@@ -44,7 +44,7 @@ class CompanyUserLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
 
         when(companyUserService.findBYNameEmailAndCompany(companyUserDTO)).thenReturn(null);
         when(companyUserService.save(companyUserDTO)).thenReturn(companyUserDTO);

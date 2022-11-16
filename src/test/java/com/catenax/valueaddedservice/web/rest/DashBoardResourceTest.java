@@ -40,7 +40,7 @@ class DashBoardResourceTest {
     void getDashBoardWorldMapWhenYearIsNotNullThenReturnListOfDashBoardWorldMapDTO() throws IOException {
         Integer year = 2020;
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
+        companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = List.of(new DashBoardWorldMapDTO());
         when(dashboardService.getWorldMapInfo(anyInt(), anyList(), any()))
@@ -59,7 +59,7 @@ class DashBoardResourceTest {
     void getAllDashBoardTableWhenYearIsNotNull() throws IOException {
         ListRatingDTO listRatingDTO = new ListRatingDTO();
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
+        companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
         when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
                 .thenReturn(List.of(new DashBoardTableDTO()));
@@ -92,7 +92,7 @@ class DashBoardResourceTest {
     @DisplayName("Should return a list of countries when the user is authenticated")
     void getBpnCountrysWhenUserIsAuthenticatedThenReturnListOfCountries() {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
+        companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
         CountryDTO countryDTO = new CountryDTO();
         countryDTO.setIso2("iso2");
@@ -236,7 +236,7 @@ class DashBoardResourceTest {
     @DisplayName("Should return a list of countries when the user is authenticated")
     void getCountrysWhenUserIsAuthenticatedThenReturnListOfCountries() {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
+        companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
         companyUserDTO.setEmail("email");
         companyUserDTO.setId(1L);
@@ -283,7 +283,7 @@ class DashBoardResourceTest {
     @DisplayName("Should return all years of the user ratings")
     void getYearsShouldReturnAllYearsOfTheUserRatings() {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("company");
+        companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
         List<Integer> years = List.of(2020, 2019);
         when(dashboardService.getYearsOfUserRatings(companyUserDTO)).thenReturn(years);
