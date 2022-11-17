@@ -1,2 +1,2 @@
-id;company_name;company_group
-1;CX-Test-Access;BMW GROUP
+company_name;company_group_id
+CX-Test-Access;1

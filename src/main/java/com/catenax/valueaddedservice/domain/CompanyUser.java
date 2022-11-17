@@ -53,6 +53,6 @@ public class CompanyUser implements Serializable {
     private Set<Region> regions = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "companyUsers", "companyGates" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "companyUsers", "companyGroup" }, allowSetters = true)
     private Company company;
 }

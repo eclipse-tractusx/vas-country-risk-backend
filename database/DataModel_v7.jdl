@@ -1,17 +1,20 @@
 entity CompanyUser (t_company_user) {
 	name String required,
-    email String unique required
+    email String unique required,
+    companyName String required,
 }
 
-
-entity Company (t_company) {
-	companyName String unique required,
-	companyGroup String
+entity Company (t_company){
+	companyName String required,
 }
 
-entity CompanyGates (t_company_gates) {
+entity CompanyGroup (t_company_group) {
+	companyGroup String unique required,
+}
+
+entity CompanyGates (t_company_group_gates) {
 	gateName String required,
-    companyGroup String unique required
+    value String,
 }
 
 
@@ -87,34 +90,17 @@ relationship OneToMany {
     Report to ReportValues,
 }
 
-
 relationship OneToMany {
+    CompanyGroup to Company,
+    CompanyGroup to CompanyGates,
+    Company to CompanyUser,
+    CompanyUser to Range,
+    CompanyUser to File,
+    CompanyUser to Region,
+    Region to RegionValue,
     CompanyUser to DataSource,
     DataSource to DataSourceValue,
 }
-
-relationship OneToMany {
-    Company to CompanyUser,
-    Company to CompanyGates,
-}
-
-
-relationship OneToMany {
-    CompanyUser to Range,
-}
-
-
-relationship OneToMany {
-    CompanyUser to File,
-}
-
-
-relationship OneToMany {
-    CompanyUser to Region,
-    Region to RegionValue,
-}
-
-
 
 enum Type {
     Global, Company, Custom

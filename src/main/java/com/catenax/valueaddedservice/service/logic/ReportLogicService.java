@@ -26,7 +26,7 @@ public class ReportLogicService {
     ReportValuesService reportValuesService;
 
 
-    @Cacheable(value = "vas-reports", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-reports", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<ReportDTO> getReportsForCompanyUser(CompanyUserDTO companyUserDTO)  {
         return reportService.findByCompanyUserNameAndCompanyAndType(companyUserDTO.getName(),companyUserDTO.getCompanyName(), Type.Custom);
     }
@@ -38,7 +38,7 @@ public class ReportLogicService {
     }
 
 
-    @Cacheable(value = "vas-reports", key = "{#root.methodName , #companyUserDTO.company}", unless = "#result == null")
+    @Cacheable(value = "vas-reports", key = "{#root.methodName , #companyUserDTO.companyName}", unless = "#result == null")
     public List<ReportDTO> getCompanyReports(CompanyUserDTO companyUserDTO)  {
         return reportService.findByCompanyAndType(companyUserDTO.getCompanyName(),Type.Company);
     }

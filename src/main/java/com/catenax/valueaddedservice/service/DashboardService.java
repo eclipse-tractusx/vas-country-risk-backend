@@ -46,6 +46,9 @@ public class DashboardService {
     @Autowired
     ReportLogicService reportLogicService;
 
+    @Autowired
+    CompanyGatesLogicService companyGatesLogicService;
+
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -118,6 +121,10 @@ public class DashboardService {
 
     public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO){
         return reportLogicService.getReportValues(reportDTO);
+    }
+
+    public List<CompanyGatesDTO> getGatesForCompanyUser(CompanyUserDTO companyUserDTO){
+        return companyGatesLogicService.getGatesForCompanyUser(companyUserDTO);
     }
 
 

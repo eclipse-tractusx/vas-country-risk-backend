@@ -29,19 +29,16 @@ public class Company implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "company_name", nullable = false, unique = true)
+    @Column(name = "company_name", nullable = false)
     private String companyName;
 
-    @Column(name = "company_group")
-    private String companyGroup;
-
     @OneToMany(mappedBy = "company")
-    @JsonIgnoreProperties(value = { "company" }, allowSetters = true)
-    private Set<CompanyGates> companyGates = new HashSet<>();
-
-    @OneToMany(mappedBy = "company")
-    @JsonIgnoreProperties(value = { "company" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ranges", "files", "regions", "dataSources", "company" }, allowSetters = true)
     private Set<CompanyUser> companyUsers = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "companies", "companyGates" }, allowSetters = true)
+    private CompanyGroup companyGroup;
 
 
 }

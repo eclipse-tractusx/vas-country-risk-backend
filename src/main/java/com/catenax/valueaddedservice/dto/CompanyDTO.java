@@ -1,11 +1,10 @@
 package com.catenax.valueaddedservice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +13,8 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CompanyDTO implements Serializable {
 
     private Long id;
@@ -21,10 +22,8 @@ public class CompanyDTO implements Serializable {
     @NotNull
     private String companyName;
 
-    private String companyGroup;
+    private CompanyGroupDTO companyGroup;
 
-    private List<CompanyUserDTO> companyUsers;
-
-    private List<CompanyGatesDTO> companyGates;
+    private List<CompanyUserDTO> companyUserDTOS = new ArrayList<>();
 
 }

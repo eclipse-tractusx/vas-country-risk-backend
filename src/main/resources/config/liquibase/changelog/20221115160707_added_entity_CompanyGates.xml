@@ -8,22 +8,33 @@
         Added the entity CompanyGates.
     -->
     <changeSet id="20221115160707-1" author="fabiodmota">
-        <createTable tableName="t_company_gates">
-            <column name="id" type="bigint"  autoIncrement="true" incrementBy="1" >
+        <createTable tableName="t_company_group_gates">
+            <column name="id" type="bigint" autoIncrement="true" incrementBy="1">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="gate_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="company_group" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_t_company_gates__company_group" />
-            </column>
-            <column name="company_id" type="bigint">
+            <column name="value" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <!-- fabiodmota-needle-liquibase-add-column - fabiodmota will add columns here -->
+            <column name="company_group_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
         </createTable>
     </changeSet>
 
 
+    <changeSet id="20221115160707-1-data" author="fabiodmota" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/t_company_group_gates.csv"
+                  separator=";"
+                  tableName="t_company_group_gates"
+                  usePreparedStatements="true">
+            <column name="gate_name" type="string"/>
+            <column name="value" type="string"/>
+
+        </loadData>
+    </changeSet>
 </databaseChangeLog>

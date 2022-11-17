@@ -13,7 +13,7 @@ import java.io.Serializable;
  * A CompanyGates.
  */
 @Entity
-@Table(name = "t_company_gates")
+@Table(name = "t_company_group_gates")
 @Setter
 @Getter
 @ToString
@@ -31,12 +31,12 @@ public class CompanyGates implements Serializable {
     private String gateName;
 
     @NotNull
-    @Column(name = "company_group", nullable = false, unique = true)
-    private String companyGroup;
+    @Column(name = "value")
+    private String value;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "companyUsers", "companyGates" }, allowSetters = true)
-    private Company company;
+    @JsonIgnoreProperties(value = { "companies", "companyGates" }, allowSetters = true)
+    private CompanyGroup companyGroup;
 
 
 }
