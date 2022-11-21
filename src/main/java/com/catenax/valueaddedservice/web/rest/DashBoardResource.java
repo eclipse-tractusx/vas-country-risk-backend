@@ -180,7 +180,7 @@ public class DashBoardResource {
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
 
         log.debug(Logger.EVENT_SUCCESS,"REST request to saveUserRanges");
-        String message;
+        String message="";
         dashboardService.saveRanges(rangeDTOS, companyUserDTO);
         message = "Range successfully saved!";
         log.info(Logger.EVENT_SUCCESS,message);
