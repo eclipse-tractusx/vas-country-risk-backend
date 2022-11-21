@@ -178,9 +178,9 @@ public class DashBoardResource {
                            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
-        String message = "";
-        log.debug(Logger.EVENT_SUCCESS,"REST request to saveUserRanges");
 
+        log.debug(Logger.EVENT_SUCCESS,"REST request to saveUserRanges");
+        String message;
         dashboardService.saveRanges(rangeDTOS, companyUserDTO);
         message = "Range successfully saved!";
         log.info(Logger.EVENT_SUCCESS,message);
