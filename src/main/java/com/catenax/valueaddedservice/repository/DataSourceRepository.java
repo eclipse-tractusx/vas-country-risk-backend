@@ -20,4 +20,6 @@ public interface DataSourceRepository extends JpaRepository<DataSource, Long> {
 
     List<DataSource> findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(String name,String email,String company,Type type);
 
+    List<DataSource> findByYearPublishedAndCompanyUserCompany(Integer year,String company);
+
 }

@@ -232,4 +232,29 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(reportValuesDTOList);
     }
 
+    @Operation(summary = "Retrieves ratings based on inserted year and Company User")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/shareRatings")
+    public ResponseEntity<List<DataSourceDTO>> shareRatings(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                             CompanyUserDTO companyUserDTO) {
+        List<DataSourceDTO> dataSourceDTOList;
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get ratings based on inserted year and Company User");
+        dataSourceDTOList = dashboardService.findRatingsByYearAndCompanyUserShare(year, companyUserDTO);
+        return ResponseEntity.ok().body(dataSourceDTOList);
+    }
+
+    /*@Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/shareMappedRatings")
+    public ResponseEntity<List<ShareDTO>> shareMappedRatings(@RequestParam(value = "ratings") DataSourceDTO datasourceDTO,
+                                                             @RequestParam(value = "bpns") BusinessPartnerDTO businessPartnerDTO,
+                                                                CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS,"REST request to retrieve Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN");
+        List<ShareDTO> shareDTOS;
+        shareDTOS = dashboardService.findMappedRatings(year, ratings.getRatingDTOS() ,companyUserDTO);
+        return ResponseEntity.ok().body(shareDTOS);
+    }*/
+
 }

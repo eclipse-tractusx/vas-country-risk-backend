@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.service.logic;
 
+import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.service.DataSourceService;
@@ -9,7 +10,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -37,5 +40,11 @@ public class DataSourceLogicService {
     @CacheEvict(value = "vas-datasource", allEntries = true)
     public void invalidateAllCache() {
         log.debug("invalidateAllCache|vas-Datasource -  invalidated cache - allEntries");
+    }
+
+    public List<DataSourceDTO> findRatingsCompanyShare(Integer year, CompanyUserDTO companyUserDTO){
+        log.debug("findRatingsCompanyShare");
+        List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByCompanyAndYear(year, companyUserDTO);
+        return dataSourceDTOS;
     }
 }

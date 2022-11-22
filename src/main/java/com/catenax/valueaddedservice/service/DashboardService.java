@@ -46,6 +46,8 @@ public class DashboardService {
     @Autowired
     ReportLogicService reportLogicService;
 
+    @Autowired
+    ShareLogicService shareLogicService;
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
@@ -120,5 +122,13 @@ public class DashboardService {
         return reportLogicService.getReportValues(reportDTO);
     }
 
+    public List<DataSourceDTO> findRatingsByYearAndCompanyUserShare(Integer year,CompanyUserDTO companyUserDTO){
+        List<DataSourceDTO> companyRatings = dataSourceLogicService.findRatingsCompanyShare(year,companyUserDTO);
+        return companyRatings;
+    }
+
+    /*public List<ShareDTO> findMappedRatings(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
+        return shareLogicService.getMappedRatings(year,ratingDTOList,companyUser);
+    }*/
 
 }

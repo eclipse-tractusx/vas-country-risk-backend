@@ -32,7 +32,6 @@ public class DataSourceService {
         this.dataSourceMapper = dataSourceMapper;
     }
 
-
     //API to get Ratings by Year
     public List<DataSourceDTO> findRatingsByYearAndTypeGlobal(Integer year) {
         return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndType(year, Type.Global));
@@ -45,6 +44,10 @@ public class DataSourceService {
 
     public List<DataSourceDTO> findRatingByUser( CompanyUserDTO companyUserDTO) {
         return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Global));
+    }
+
+    public List<DataSourceDTO> findRatingsByCompanyAndYear(Integer year, CompanyUserDTO companyUserDTO) {
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserCompany(year, companyUserDTO.getCompany()));
     }
 
 
