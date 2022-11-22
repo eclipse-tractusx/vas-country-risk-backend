@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,6 +15,7 @@ import org.zalando.problem.violations.ConstraintViolationProblemModule;
 public class ObjectMapperConfig {
 
     @Bean
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public ObjectMapper objectMapper() {
         var objectMapper = new ObjectMapper()
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)

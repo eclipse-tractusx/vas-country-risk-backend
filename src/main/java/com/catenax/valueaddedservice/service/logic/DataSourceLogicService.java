@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.service.logic;
 
+import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
@@ -42,9 +43,13 @@ public class DataSourceLogicService {
         log.debug("invalidateAllCache|vas-Datasource -  invalidated cache - allEntries");
     }
 
-    public List<DataSourceDTO> findRatingsCompanyShare(Integer year, CompanyUserDTO companyUserDTO){
+    public List<DataSourceDTO> findRatingsByCompanyCustom(Integer year, CompanyUserDTO companyUserDTO){
         log.debug("findRatingsCompanyShare");
-        List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByCompanyAndYear(year, companyUserDTO);
-        return dataSourceDTOS;
+        return dataSourceService.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO, Type.Custom);
+    }
+
+    public List<DataSourceDTO> findRatingsByYearAndType(Integer year){
+        log.debug("findRatingsCompanyShare");
+        return dataSourceService.findRatingsByYearAndTypeGlobal(year);
     }
 }

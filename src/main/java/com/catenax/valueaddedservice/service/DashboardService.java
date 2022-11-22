@@ -123,8 +123,12 @@ public class DashboardService {
     }
 
     public List<DataSourceDTO> findRatingsByYearAndCompanyUserShare(Integer year,CompanyUserDTO companyUserDTO){
-        List<DataSourceDTO> companyRatings = dataSourceLogicService.findRatingsCompanyShare(year,companyUserDTO);
-        return companyRatings;
+        List<DataSourceDTO> reportDTOList = new ArrayList<>();
+        List<DataSourceDTO> globalRatings = dataSourceLogicService.findRatingsByYearAndType(year);
+        List<DataSourceDTO> companyRatings = dataSourceLogicService.findRatingsByCompanyCustom(year,companyUserDTO);
+        reportDTOList.addAll(companyRatings);
+        reportDTOList.addAll(globalRatings);
+        return reportDTOList;
     }
 
     /*public List<ShareDTO> findMappedRatings(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
