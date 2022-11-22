@@ -45,7 +45,7 @@ public class DataSourceLogicService {
 
     public List<DataSourceDTO> findRatingsByCompanyCustom(Integer year, CompanyUserDTO companyUserDTO){
         log.debug("findRatingsCompanyShare");
-        return dataSourceService.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO, Type.Custom);
+        return dataSourceService.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO, Type.Company);
     }
 
     public List<DataSourceDTO> findRatingsByYearAndType(Integer year){
