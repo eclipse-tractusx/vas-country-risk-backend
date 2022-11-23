@@ -122,13 +122,9 @@ public class DashboardService {
         return reportLogicService.getReportValues(reportDTO);
     }
 
-    public List<DataSourceDTO> findRatingsByYearAndCompanyUserShare(Integer year,CompanyUserDTO companyUserDTO){
-        List<DataSourceDTO> reportDTOList = new ArrayList<>();
-        List<DataSourceDTO> globalRatings = dataSourceLogicService.findRatingsByYearAndType(year);
-        List<DataSourceDTO> companyRatings = dataSourceLogicService.findRatingsByCompanyCustom(year,companyUserDTO);
-        reportDTOList.addAll(companyRatings);
-        reportDTOList.addAll(globalRatings);
-        return reportDTOList;
+    public List<DataSourceDTO> findRatingsByYearAndCompanyUserCompany(Integer year, CompanyUserDTO companyUserDTO){
+        List<DataSourceDTO> dataSourceDTOList = dataSourceLogicService.findRatingsByYearAndCompanyUserCompany(year,companyUserDTO);
+        return dataSourceDTOList;
     }
 
     /*public List<ShareDTO> findMappedRatings(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {

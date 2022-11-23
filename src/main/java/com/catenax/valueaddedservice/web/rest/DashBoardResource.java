@@ -240,7 +240,7 @@ public class DashBoardResource {
                                                              CompanyUserDTO companyUserDTO) {
         List<DataSourceDTO> dataSourceDTOList;
         log.debug(Logger.EVENT_SUCCESS,"REST request to get ratings based on inserted year and Company User");
-        dataSourceDTOList = dashboardService.findRatingsByYearAndCompanyUserShare(year, companyUserDTO);
+        dataSourceDTOList = dashboardService.findRatingsByYearAndCompanyUserCompany(year, companyUserDTO);
         return ResponseEntity.ok().body(dataSourceDTOList);
     }
 

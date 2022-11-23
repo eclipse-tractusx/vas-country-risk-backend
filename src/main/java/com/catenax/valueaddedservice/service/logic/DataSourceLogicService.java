@@ -1,7 +1,6 @@
 package com.catenax.valueaddedservice.service.logic;
 
 import com.catenax.valueaddedservice.domain.enumeration.Type;
-import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.service.DataSourceService;
@@ -11,9 +10,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,7 +23,8 @@ public class DataSourceLogicService {
     public List<DataSourceDTO> findRatingsByYearAndCompanyUser(Integer year, CompanyUserDTO companyUserDTO){
         log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);
         List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByYearAndTypeGlobal(year);
-        dataSourceDTOS.addAll(dataSourceService.findRatingByYearAndUser(year,companyUserDTO));
+        List<DataSourceDTO> dataSourceDTOByYearAndUser = dataSourceService.findRatingByYearAndUser(year,companyUserDTO);
+        dataSourceDTOS.addAll(dataSourceDTOByYearAndUser);
         return dataSourceDTOS;
     }
 
@@ -43,13 +41,14 @@ public class DataSourceLogicService {
         log.debug("invalidateAllCache|vas-Datasource -  invalidated cache - allEntries");
     }
 
-    public List<DataSourceDTO> findRatingsByCompanyCustom(Integer year, CompanyUserDTO companyUserDTO){
-        log.debug("findRatingsCompanyShare");
-        return dataSourceService.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO, Type.Company);
-    }
 
-    public List<DataSourceDTO> findRatingsByYearAndType(Integer year){
-        log.debug("findRatingsCompanyShare");
-        return dataSourceService.findRatingsByYearAndTypeGlobal(year);
+
+    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.company}}", unless = "#result == null")
+    public List<DataSourceDTO> findRatingsByYearAndCompanyUserCompany(Integer year, CompanyUserDTO companyUserDTO){
+        log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);
+        List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByYearAndTypeGlobal(year);
+        List<DataSourceDTO> companyRatings = dataSourceService.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO, Type.Company);
+        dataSourceDTOS.addAll(companyRatings);
+        return dataSourceDTOS;
     }
 }
