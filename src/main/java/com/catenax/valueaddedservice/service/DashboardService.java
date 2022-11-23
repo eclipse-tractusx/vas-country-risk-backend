@@ -2,6 +2,7 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import com.catenax.valueaddedservice.service.logic.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,8 +128,8 @@ public class DashboardService {
         return dataSourceDTOList;
     }
 
-    /*public List<ShareDTO> findMappedRatings(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
-        return shareLogicService.getMappedRatings(year,ratingDTOList,companyUser);
-    }*/
+    public List<ShareDTO> findMappedRatings(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartner, CompanyUserDTO companyUser) {
+        return shareLogicService.getMappedRatings(datasource, businessPartner ,companyUser);
+    }
 
 }

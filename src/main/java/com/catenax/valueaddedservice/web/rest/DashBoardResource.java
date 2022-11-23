@@ -2,6 +2,9 @@ package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareBusinessPartnerDTO;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDataSourceDTO;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -244,17 +247,17 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dataSourceDTOList);
     }
 
-    /*@Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
+    @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/shareMappedRatings")
-    public ResponseEntity<List<ShareDTO>> shareMappedRatings(@RequestParam(value = "ratings") DataSourceDTO datasourceDTO,
-                                                             @RequestParam(value = "bpns") BusinessPartnerDTO businessPartnerDTO,
-                                                                CompanyUserDTO companyUserDTO) {
+    public ResponseEntity<List<ShareDTO>> shareMappedRatings(@RequestParam(value = "ratings") ShareDataSourceDTO datasource,
+                                                             @RequestParam(value = "bpns") ShareBusinessPartnerDTO businessPartner,
+                                                             CompanyUserDTO companyUserDTO) {
         log.debug(Logger.EVENT_SUCCESS,"REST request to retrieve Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN");
         List<ShareDTO> shareDTOS;
-        shareDTOS = dashboardService.findMappedRatings(year, ratings.getRatingDTOS() ,companyUserDTO);
+        shareDTOS = dashboardService.findMappedRatings(datasource.getDataSourceDTOS(), businessPartner.getBusinessPartnerDTOS() ,companyUserDTO);
         return ResponseEntity.ok().body(shareDTOS);
-    }*/
+    }
 
 }

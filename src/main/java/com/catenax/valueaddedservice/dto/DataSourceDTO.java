@@ -10,6 +10,7 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
 /**
  * A DTO for the {@link com.catenax.valueaddedservice.domain.DataSource} entity.
  */
@@ -37,6 +38,8 @@ public class DataSourceDTO implements Serializable {
     private String fileName;
 
     private CompanyUserDTO companyUser;
+
+
 
 
 }

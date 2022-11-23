@@ -41,8 +41,6 @@ public class DataSourceLogicService {
         log.debug("invalidateAllCache|vas-Datasource -  invalidated cache - allEntries");
     }
 
-
-
     @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.company}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByYearAndCompanyUserCompany(Integer year, CompanyUserDTO companyUserDTO){
         log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);

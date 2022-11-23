@@ -1,4 +1,4 @@
-package com.catenax.valueaddedservice.dto;
+package com.catenax.valueaddedservice.dto.ShareDTOs;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -25,6 +25,6 @@ public class ShareDTO implements Serializable {
     @Schema(example = "PT")
     private String iso2;
 
-    private List<DataSourceDTO> rating;
+    private List<ShareRatingDTO> rating;
 
 }
