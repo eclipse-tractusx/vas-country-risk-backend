@@ -64,7 +64,7 @@ public class ShareLogicService {
     }
 
     private ShareDTO setShareDTO(BusinessPartnerDTO bp, List<DataDTO> dataDTOS, Integer id ) {
-        List<ShareRatingDTO> shareRatingDTOList = new ArrayList<>();;
+        List<ShareRatingDTO> shareRatingDTOList = new ArrayList<>();
         ShareDTO shareDTO = new ShareDTO();
         shareDTO.setId(Long.valueOf(id));
         shareDTO.setBpn(bp.getBpn());

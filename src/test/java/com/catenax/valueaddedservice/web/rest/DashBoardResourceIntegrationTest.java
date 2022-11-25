@@ -3,6 +3,7 @@ package com.catenax.valueaddedservice.web.rest;
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
 import com.catenax.valueaddedservice.dto.DashBoardWorldMapDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,12 +46,12 @@ class DashBoardResourceIntegrationTest {
 
 
     private Map<String,Object> getMap() throws IOException {
-        List<RatingDTO> ratingDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<RatingDTO>>() {
+        List<DataSourceDTO> dataSourceDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<DataSourceDTO>>() {
         });
 
         Map<String,Object> map = new HashMap<>();
         map.put("year",2021);
-        map.put("ratings",objectMapper.writeValueAsString(ratingDTOS));
+        map.put("ratings",objectMapper.writeValueAsString(dataSourceDTOS));
         map.put("company","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
