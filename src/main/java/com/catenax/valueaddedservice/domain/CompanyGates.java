@@ -30,7 +30,7 @@ public class CompanyGates implements Serializable {
     @Column(name = "gate_name", nullable = false)
     private String gateName;
 
-    @Column(name = "companyGateValue")
+    @Column(name = "company_gate_value")
     private String companyGateValue;
 
     @ManyToOne

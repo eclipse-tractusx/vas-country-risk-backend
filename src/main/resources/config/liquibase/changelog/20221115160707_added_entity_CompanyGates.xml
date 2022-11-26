@@ -15,7 +15,7 @@
             <column name="gate_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="companyGateValue" type="varchar(255)">
+            <column name="company_gate_value" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="company_group_id" type="bigint">
@@ -32,7 +32,7 @@
                   tableName="t_company_group_gates"
                   usePreparedStatements="true">
             <column name="gate_name" type="string"/>
-            <column name="companyGateValue" type="string"/>
+            <column name="company_gate_value" type="string"/>
 
         </loadData>
     </changeSet>
