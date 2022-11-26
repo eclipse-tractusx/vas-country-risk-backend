@@ -29,9 +29,9 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     alias: postgres
     condition: postgres.enabled
-#  - condition: pgadmin4.enabled
-#    name: pgadmin4
-#    repository: https://helm.runix.net
-#    version: 1.x.x
+  - condition: pgadmin4.enabled
+    name: pgadmin4
+    repository: https://helm.runix.net
+    version: 1.x.x
 
 
