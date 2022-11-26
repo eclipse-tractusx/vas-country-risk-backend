@@ -42,7 +42,7 @@ public class CompanyUserService {
     }
 
     public CompanyUserDTO findBYNameEmailAndCompany(CompanyUserDTO companyUserDTO){
-        CompanyUser companyUser = companyUserRepository.findByNameAndEmailAndCompany(companyUserDTO.getName(), companyUserDTO.getEmail(), companyUserDTO.getCompany());
+        CompanyUser companyUser = companyUserRepository.findByNameAndEmailAndCompanyName(companyUserDTO.getName(), companyUserDTO.getEmail(), companyUserDTO.getCompanyName());
 
         return companyUserMapper.toDto(companyUser);
     }

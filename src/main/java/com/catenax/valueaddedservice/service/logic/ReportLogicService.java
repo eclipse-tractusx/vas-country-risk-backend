@@ -26,9 +26,9 @@ public class ReportLogicService {
     ReportValuesService reportValuesService;
 
 
-    @Cacheable(value = "vas-reports", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-reports", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<ReportDTO> getReportsForCompanyUser(CompanyUserDTO companyUserDTO)  {
-        return reportService.findByCompanyUserNameAndCompanyAndType(companyUserDTO.getName(),companyUserDTO.getCompany(), Type.Custom);
+        return reportService.findByCompanyUserNameAndCompanyAndType(companyUserDTO.getName(),companyUserDTO.getCompanyName(), Type.Custom);
     }
 
 
@@ -38,13 +38,13 @@ public class ReportLogicService {
     }
 
 
-    @Cacheable(value = "vas-reports", key = "{#root.methodName , #companyUserDTO.company}", unless = "#result == null")
+    @Cacheable(value = "vas-reports", key = "{#root.methodName , #companyUserDTO.companyName}", unless = "#result == null")
     public List<ReportDTO> getCompanyReports(CompanyUserDTO companyUserDTO)  {
-        return reportService.findByCompanyAndType(companyUserDTO.getCompany(),Type.Company);
+        return reportService.findByCompanyAndType(companyUserDTO.getCompanyName(),Type.Company);
     }
 
     public void saveReport(ReportDTO reportDTO,CompanyUserDTO companyUserDTO)  {
-        reportDTO.setCompany(companyUserDTO.getCompany());
+        reportDTO.setCompany(companyUserDTO.getCompanyName());
         reportDTO.setCompanyUserName(companyUserDTO.getName());
         ReportDTO reportCreated = reportService.save(reportDTO);
         if(reportDTO.getReportValuesDTOList() != null && !reportDTO.getReportValuesDTOList().isEmpty()){

@@ -16,8 +16,8 @@ public interface DataSourceRepository extends JpaRepository<DataSource, Long> {
 
     List<DataSource> findByYearPublishedAndType(Integer year, Type type);
 
-    List<DataSource> findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyAndType(Integer year,String name,String email,String company,Type type);
+    List<DataSource> findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyNameAndType(Integer year,String name,String email,String company,Type type);
 
-    List<DataSource> findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(String name,String email,String company,Type type);
+    List<DataSource> findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyNameOrType(String name,String email,String company,Type type);
 
 }

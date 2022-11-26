@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!--
+        Added the entity CompanyGates.
+    -->
+    <changeSet id="20221115160707-1" author="fabiodmota">
+        <createTable tableName="t_company_group_gates">
+            <column name="id" type="bigint" autoIncrement="true" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="gate_name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="company_group_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="20221115160707-1-data" author="fabiodmota" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/t_company_group_gates.csv"
+                  separator=";"
+                  tableName="t_company_group_gates"
+                  usePreparedStatements="true">
+            <column name="gate_name" type="string"/>
+            <column name="value" type="string"/>
+
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

@@ -41,7 +41,7 @@ public class RangeService {
 
     //API to get All Ranges Values by User
     public List<RangeDTO> getUserRanges(CompanyUserDTO companyUser) {
-        return rangeMapper.toDto(rangeRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(companyUser.getName(), companyUser.getEmail(), companyUser.getCompany()));
+        return rangeMapper.toDto(rangeRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyName(companyUser.getName(), companyUser.getEmail(), companyUser.getCompanyName()));
     }
 
 

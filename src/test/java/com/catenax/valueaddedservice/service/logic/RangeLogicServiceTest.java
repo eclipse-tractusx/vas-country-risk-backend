@@ -35,7 +35,7 @@ class RangeLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         RangeDTO rangeDTOMin = new RangeDTO();
         rangeDTOMin.setRange(RangeType.Min);
         rangeDTOMin.setCompanyUser(companyUserDTO);
@@ -68,7 +68,7 @@ class RangeLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         RangeDTO rangeDTOMin = new RangeDTO();
         rangeDTOMin.setRange(RangeType.Min);
         rangeDTOMin.setCompanyUser(companyUserDTO);
@@ -102,7 +102,7 @@ class RangeLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         RangeDTO rangeDTOMin = new RangeDTO();
         rangeDTOMin.setRange(RangeType.Min);
         rangeDTOMin.setCompanyUser(companyUserDTO);

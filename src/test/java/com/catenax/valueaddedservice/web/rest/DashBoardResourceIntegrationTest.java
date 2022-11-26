@@ -51,7 +51,7 @@ class DashBoardResourceIntegrationTest {
         Map<String,Object> map = new HashMap<>();
         map.put("year",2021);
         map.put("ratings",objectMapper.writeValueAsString(ratingDTOS));
-        map.put("company","TestCompany");
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
 
@@ -67,7 +67,7 @@ class DashBoardResourceIntegrationTest {
     void getTableInfo() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings={ratings}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -83,7 +83,7 @@ class DashBoardResourceIntegrationTest {
     void getWorldMapInfo() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity.get(uri).build();
         ResponseEntity<List<DashBoardWorldMapDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
