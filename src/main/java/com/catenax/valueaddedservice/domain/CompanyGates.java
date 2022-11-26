@@ -30,9 +30,8 @@ public class CompanyGates implements Serializable {
     @Column(name = "gate_name", nullable = false)
     private String gateName;
 
-    @NotNull
-    @Column(name = "value")
-    private String value;
+    @Column(name = "companyGateValue")
+    private String companyGateValue;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "companies", "companyGates" }, allowSetters = true)

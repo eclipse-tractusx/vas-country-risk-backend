@@ -21,7 +21,8 @@ public class CompanyGatesDTO implements Serializable {
     private String gateName;
 
     @NotNull
-    private String value;
+    private String companyGateValue;
+
 
 
 }
