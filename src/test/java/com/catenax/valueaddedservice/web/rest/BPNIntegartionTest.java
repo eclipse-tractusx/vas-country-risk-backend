@@ -34,7 +34,7 @@ class BPNIntegartionTest {
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
-        map.put("company","TestCompany");
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
 
@@ -46,7 +46,7 @@ class BPNIntegartionTest {
     void getCountryByAssociatedBPtoUser() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getBpnCountrys?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getBpnCountrys?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -62,7 +62,7 @@ class BPNIntegartionTest {
     void getCompanyBpns() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCompanyBpns?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCompanyBpns?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -79,7 +79,7 @@ class BPNIntegartionTest {
     void getCountryFilterByISO2() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCountryFilterByISO2?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCountryFilterByISO2?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();

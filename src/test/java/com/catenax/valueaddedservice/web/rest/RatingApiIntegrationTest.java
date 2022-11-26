@@ -32,7 +32,7 @@ class RatingApiIntegrationTest {
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
-        map.put("company","TestCompany");
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
         return map;
@@ -43,7 +43,7 @@ class RatingApiIntegrationTest {
     void allYears() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/allYears?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/allYears?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -59,7 +59,7 @@ class RatingApiIntegrationTest {
     void ratingsByYear() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/allYears?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/allYears?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -69,7 +69,7 @@ class RatingApiIntegrationTest {
         assertNotEquals(0,list.size());
 
         map.put("year",list.get(0));
-        uritemplate= new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&company={company}&email={email}");
+        uritemplate= new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&companyName={companyName}&email={email}");
         uri = uritemplate.expand(map);
         request = RequestEntity
                 .get(uri).build();

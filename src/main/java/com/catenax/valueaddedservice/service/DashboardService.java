@@ -51,58 +51,58 @@ public class DashboardService {
 
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
-        return worldMapAndTableLogicService.getTableInfo(year,ratingDTOList,companyUser);
+        return worldMapAndTableLogicService.getTableInfo(year, ratingDTOList, companyUser);
     }
 
     public List<DashBoardWorldMapDTO> getWorldMapInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
-        return worldMapAndTableLogicService.getWorldMapInfo(year,ratingDTOList,companyUser);
+        return worldMapAndTableLogicService.getWorldMapInfo(year, ratingDTOList, companyUser);
     }
 
-    public List<DataSourceDTO> findRatingsByYearAndCompanyUser(Integer year,CompanyUserDTO companyUserDTO){
-       return dataSourceLogicService.findRatingsByYearAndCompanyUser(year,companyUserDTO);
+    public List<DataSourceDTO> findRatingsByYearAndCompanyUser(Integer year, CompanyUserDTO companyUserDTO) {
+        return dataSourceLogicService.findRatingsByYearAndCompanyUser(year, companyUserDTO);
     }
 
-    public FileDTO getDataSourceTemplate(){
+    public FileDTO getDataSourceTemplate() {
         return uploadAndDownloadLogicService.getDataSourceTemplate();
     }
 
-    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
+    public void saveCsv(MultipartFile file, String dataSourceName, CompanyUserDTO companyUserDTO) throws IOException {
         CompanyUserDTO companyUserDTOUse = companyUserLogicService.getOrCreate(companyUserDTO);
-        uploadAndDownloadLogicService.saveCsv(file,dataSourceName,companyUserDTOUse);
+        uploadAndDownloadLogicService.saveCsv(file, dataSourceName, companyUserDTOUse);
         dataSourceLogicService.invalidateAllCache();
     }
 
     //Ranges
-    public void saveRanges(List<RangeDTO> rangeDTOS,CompanyUserDTO companyUserDTO)  {
+    public void saveRanges(List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
         CompanyUserDTO companyUserDTO1 = companyUserLogicService.getOrCreate(companyUserDTO);
-        rangeLogicService.saveRanges(rangeDTOS,companyUserDTO1);
+        rangeLogicService.saveRanges(rangeDTOS, companyUserDTO1);
         rangeLogicService.invalidateAllCache();
     }
 
-    public List<Integer> getYearsOfUserRatings(CompanyUserDTO companyUserDTO){
+    public List<Integer> getYearsOfUserRatings(CompanyUserDTO companyUserDTO) {
         List<Integer> list = new ArrayList<>();
         list.addAll(dataSourceLogicService.findRatingsByCompanyUser(companyUserDTO).stream().map(DataSourceDTO::getYearPublished).collect(Collectors.toSet()));
         return list;
     }
 
     public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUser) {
-       return rangeLogicService.getUserRangesOrDefault(companyUser);
+        return rangeLogicService.getUserRangesOrDefault(companyUser);
     }
 
-    public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO){
+    public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO) {
         return countryLogicService.getCountryFilterByISO2(companyUserDTO);
     }
 
-    public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUserDTO){
+    public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUserDTO) {
         return externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUserDTO);
 
     }
 
-    public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO){
+    public List<CountryDTO> getCountryByAssociatedBPtoUser(CompanyUserDTO companyUserDTO) {
         return countryLogicService.getAssociatedCountries(companyUserDTO);
     }
 
-    public List<ReportDTO> getReportsByCompanyUser(CompanyUserDTO companyUserDTO){
+    public List<ReportDTO> getReportsByCompanyUser(CompanyUserDTO companyUserDTO) {
         List<ReportDTO> reportDTOList = new ArrayList<>();
         List<ReportDTO> reportDTOS = reportLogicService.getGlobalReports();
         List<ReportDTO> companyReports = reportLogicService.getCompanyReports(companyUserDTO);
@@ -113,17 +113,17 @@ public class DashboardService {
         return reportDTOList;
     }
 
-    public void saveReportForUser(CompanyUserDTO companyUserDTO,ReportDTO reportDTO){
+    public void saveReportForUser(CompanyUserDTO companyUserDTO, ReportDTO reportDTO) {
         CompanyUserDTO companyUserDTO1 = companyUserLogicService.getOrCreate(companyUserDTO);
-        reportLogicService.saveReport(reportDTO,companyUserDTO1);
+        reportLogicService.saveReport(reportDTO, companyUserDTO1);
         reportLogicService.invalidateAllCache();
     }
 
-    public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO){
+    public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO) {
         return reportLogicService.getReportValues(reportDTO);
     }
 
-    public List<CompanyGatesDTO> getGatesForCompanyUser(CompanyUserDTO companyUserDTO){
+    public List<CompanyGatesDTO> getGatesForCompanyUser(CompanyUserDTO companyUserDTO) {
         return companyGatesLogicService.getGatesForCompanyUser(companyUserDTO);
     }
 

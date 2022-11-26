@@ -47,7 +47,7 @@ class DashBoardResourceTest {
                 .thenReturn(dashBoardWorldMapDTOS);
 
         List<DashBoardWorldMapDTO> result =
-                dashBoardResource.getDashBoardWorldMap(new ListRatingDTO(), year, "" ,companyUserDTO).getBody();
+                dashBoardResource.getDashBoardWorldMap(new ListRatingDTO(), year ,companyUserDTO).getBody();
 
         assertEquals(dashBoardWorldMapDTOS, result);
     }
@@ -63,7 +63,7 @@ class DashBoardResourceTest {
         companyUserDTO.setName("name");
         when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
                 .thenReturn(List.of(new DashBoardTableDTO()));
-        var result = dashBoardResource.getAllDashBoardTable(listRatingDTO, 2020, "",companyUserDTO);
+        var result = dashBoardResource.getAllDashBoardTable(listRatingDTO, 2020,companyUserDTO);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
