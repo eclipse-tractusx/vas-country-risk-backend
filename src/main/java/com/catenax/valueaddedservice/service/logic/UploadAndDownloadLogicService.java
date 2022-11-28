@@ -45,7 +45,7 @@ public class UploadAndDownloadLogicService {
 
 
 
-    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
+    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO, Integer year) throws IOException {
 
         log.debug("save new CSV Rating");
         BufferedReader br = new BufferedReader(new InputStreamReader(file.getResource().getInputStream(), StandardCharsets.UTF_8));
@@ -54,7 +54,7 @@ public class UploadAndDownloadLogicService {
         dataSource.setType(Type.Custom);
         dataSource.setCompanyUser(companyUserDTO);
         dataSource.setFileName(dataSourceName);
-        dataSource.setYearPublished(Calendar.getInstance().get(Calendar.YEAR));
+        dataSource.setYearPublished(year);
         dataSource.setDataSourceName(dataSourceName);
         dataSource = dataSourceService.save(dataSource);
         DataSourceValueDTO dataSourceValueDTO = new DataSourceValueDTO();

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -190,9 +191,10 @@ class DashBoardResourceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         byte[] bytes = Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH));
         MultipartFile file = new MockMultipartFile(VasConstants.CSV_NAME,bytes);
+        Integer year = Calendar.getInstance().get(Calendar.YEAR);
         doThrow(new RuntimeException())
-                .when(this.dashboardService).saveCsv( file,VasConstants.CSV_NAME,companyUserDTO);
-        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.uploadFile(file, VasConstants.CSV_NAME,companyUserDTO).getStatusCode());
+                .when(this.dashboardService).saveCsv( file,VasConstants.CSV_NAME,companyUserDTO, year);
+        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.uploadFile(file, VasConstants.CSV_NAME,year,companyUserDTO).getStatusCode());
     }
 
     @Test
