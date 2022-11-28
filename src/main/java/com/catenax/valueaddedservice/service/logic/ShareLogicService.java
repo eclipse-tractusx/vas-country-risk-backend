@@ -1,6 +1,9 @@
 package com.catenax.valueaddedservice.service.logic;
 
-import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
+import com.catenax.valueaddedservice.dto.CompanyUserDTO;
+import com.catenax.valueaddedservice.dto.DataDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import com.catenax.valueaddedservice.dto.ShareDTOs.ShareRatingDTO;
 import com.catenax.valueaddedservice.service.DataSourceValueService;
@@ -23,16 +26,16 @@ public class ShareLogicService {
     @Autowired
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
-    public List<ShareDTO> getMappedRatings(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartner, CompanyUserDTO companyUser) {
+    public List<ShareDTO> findRatingsScoresForEachBpn(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartnerToMap, CompanyUserDTO companyUser) {
 
         List<ShareDTO> shareDTOSList = new ArrayList<>();
         
-        List<BusinessPartnerDTO> businessPartnerDTOS;
-        businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
+        List<BusinessPartnerDTO> companyBusinessPartnerDTOS;
+        companyBusinessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
 
-        businessPartner.forEach(bp -> {
+        businessPartnerToMap.forEach(bp -> {
             if(bp.getCountry() == null){
-                businessPartnerDTOS.forEach(bpDTO -> {
+                companyBusinessPartnerDTOS.forEach(bpDTO -> {
                    if(bp.getBpn().equals(bpDTO.getBpn())){
                        bp.setCountry(bpDTO.getCountry());
                    }
@@ -41,7 +44,7 @@ public class ShareLogicService {
         });
 
         List<String> countryList = new ArrayList<>();;
-        countryList.addAll(businessPartner.stream().map(BusinessPartnerDTO::getCountry).collect(Collectors.toSet()));
+        countryList.addAll(businessPartnerToMap.stream().map(BusinessPartnerDTO::getCountry).collect(Collectors.toSet()));
 
         List<String> dataSources = datasource.stream().map(DataSourceDTO::getDataSourceName).collect(Collectors.toList());
         List<DataDTO> dataDTOS = new ArrayList<>();
@@ -54,7 +57,7 @@ public class ShareLogicService {
 
         final ShareDTO[] shareDTOS = {new ShareDTO()};
         final int[] id = {1};
-        businessPartner.forEach(bp -> {
+        businessPartnerToMap.forEach(bp -> {
             shareDTOS[0] = setShareDTO(bp,dataDTOS,id[0]);
             id[0]++;
             shareDTOSList.add(shareDTOS[0]);

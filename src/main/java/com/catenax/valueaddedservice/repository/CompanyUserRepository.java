@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompanyUserRepository extends JpaRepository<CompanyUser, Long> {
 
-     CompanyUser findByNameAndEmailAndCompany(String name, String email, String company);
+     CompanyUser findByNameAndEmailAndCompanyName(String name, String email, String company);
 }

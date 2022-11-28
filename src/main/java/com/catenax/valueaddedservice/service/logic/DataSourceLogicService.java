@@ -19,7 +19,7 @@ public class DataSourceLogicService {
     @Autowired
     DataSourceService dataSourceService;
 
-    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByYearAndCompanyUser(Integer year, CompanyUserDTO companyUserDTO){
         log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);
         List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByYearAndTypeGlobal(year);
@@ -29,7 +29,7 @@ public class DataSourceLogicService {
     }
 
     
-    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByCompanyUser(CompanyUserDTO companyUserDTO){
         log.debug("findRatingsByCompanyUser {}",companyUserDTO);
         return  dataSourceService.findRatingByUser(companyUserDTO);
@@ -41,11 +41,11 @@ public class DataSourceLogicService {
         log.debug("invalidateAllCache|vas-Datasource -  invalidated cache - allEntries");
     }
 
-    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByYearAndCompanyUserCompany(Integer year, CompanyUserDTO companyUserDTO){
         log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);
         List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByYearAndTypeGlobal(year);
-        List<DataSourceDTO> companyRatings = dataSourceService.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO, Type.Company);
+        List<DataSourceDTO> companyRatings = dataSourceService.findByYearPublishedAndCompanyUserCompanyNameAndType(year, companyUserDTO, Type.Company);
         dataSourceDTOS.addAll(companyRatings);
         return dataSourceDTOS;
     }

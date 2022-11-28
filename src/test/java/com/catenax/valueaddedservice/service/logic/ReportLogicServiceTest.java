@@ -88,10 +88,10 @@ class ReportLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
 
         when(reportService.findByCompanyUserNameAndCompanyAndType(
-                companyUserDTO.getName(), companyUserDTO.getCompany(), Type.Custom))
+                companyUserDTO.getName(), companyUserDTO.getCompanyName(), Type.Custom))
                 .thenReturn(Collections.emptyList());
 
         List<ReportDTO> reports = reportLogicService.getReportsForCompanyUser(companyUserDTO);
@@ -106,7 +106,7 @@ class ReportLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
 
         ReportDTO reportDTO = new ReportDTO();
         reportDTO.setId(1L);
@@ -126,7 +126,7 @@ class ReportLogicServiceTest {
         List<ReportDTO> reports = Collections.singletonList(reportDTO);
 
         when(reportService.findByCompanyUserNameAndCompanyAndType(
-                companyUserDTO.getName(), companyUserDTO.getCompany(), Type.Custom))
+                companyUserDTO.getName(), companyUserDTO.getCompanyName(), Type.Custom))
                 .thenReturn(reports);
 
         List<ReportDTO> result = reportLogicService.getReportsForCompanyUser(companyUserDTO);
@@ -138,11 +138,11 @@ class ReportLogicServiceTest {
     @DisplayName("Should return the reports for the company")
     void getCompanyReportsShouldReturnTheReportsForTheCompany() {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setCompany("Test Company");
+        companyUserDTO.setCompanyName("Test Company");
         ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setCompany(companyUserDTO.getCompany());
+        reportDTO.setCompany(companyUserDTO.getCompanyName());
         List<ReportDTO> reportDTOList = Arrays.asList(reportDTO);
-        when(reportService.findByCompanyAndType(companyUserDTO.getCompany(), Type.Company))
+        when(reportService.findByCompanyAndType(companyUserDTO.getCompanyName(), Type.Company))
                 .thenReturn(reportDTOList);
 
         List<ReportDTO> result = reportLogicService.getCompanyReports(companyUserDTO);

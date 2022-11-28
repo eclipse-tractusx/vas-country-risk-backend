@@ -112,7 +112,7 @@ class CountryLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("john@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
 
         List<String> countryList = new ArrayList<>();
         countryList.add("Germany");

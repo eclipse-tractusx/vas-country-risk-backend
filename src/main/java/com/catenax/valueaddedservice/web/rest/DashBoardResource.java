@@ -234,12 +234,20 @@ public class DashBoardResource {
         reportValuesDTOList = dashboardService.getReportValues(reportDTO);
         return ResponseEntity.ok().body(reportValuesDTOList);
     }
+    @Operation(summary = "Retrieves all Gate values that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Gate values requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getAllUserBPDMGates")
+    public ResponseEntity<List<CompanyGatesDTO>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS,"REST request to getBPDMGates");
+        return ResponseEntity.ok().body(dashboardService.getGatesForCompanyUser(companyUserDTO));
+    }
 
     @Operation(summary = "Retrieves ratings based on inserted year and Company User")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/shareRatings")
-    public ResponseEntity<List<DataSourceDTO>> shareRatings(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+    @GetMapping("/dashboard/getAllRatingsForCompany")
+    public ResponseEntity<List<DataSourceDTO>> getAllRatingsForCompany(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                              CompanyUserDTO companyUserDTO) {
         List<DataSourceDTO> dataSourceDTOList;
         log.debug(Logger.EVENT_SUCCESS,"REST request to get ratings based on inserted year and Company User");
@@ -250,13 +258,13 @@ public class DashBoardResource {
     @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/shareMappedRatings")
-    public ResponseEntity<List<ShareDTO>> shareMappedRatings(@RequestParam(value = "ratings") ShareDataSourceDTO datasource,
+    @GetMapping("/dashboard/getAllRatingsScoresForEachBpn")
+    public ResponseEntity<List<ShareDTO>> getAllRatingsScoresForEachBpn(@RequestParam(value = "ratings") ShareDataSourceDTO datasource,
                                                              @RequestParam(value = "bpns") ShareBusinessPartnerDTO businessPartner,
                                                              CompanyUserDTO companyUserDTO) {
         log.debug(Logger.EVENT_SUCCESS,"REST request to retrieve Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN");
         List<ShareDTO> shareDTOS;
-        shareDTOS = dashboardService.findMappedRatings(datasource.getDataSourceDTOS(), businessPartner.getBusinessPartnerDTOS() ,companyUserDTO);
+        shareDTOS = dashboardService.findRatingsScoresForEachBpn(datasource.getDataSourceDTOS(), businessPartner.getBusinessPartnerDTOS() ,companyUserDTO);
         return ResponseEntity.ok().body(shareDTOS);
     }
 

@@ -51,7 +51,7 @@ class UploadAndDownloadApiIntegrationTest {
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
-        map.put("company","TestCompany");
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
 
@@ -63,7 +63,7 @@ class UploadAndDownloadApiIntegrationTest {
     void uploadCsv() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -93,7 +93,7 @@ class UploadAndDownloadApiIntegrationTest {
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
 
         //Gets Ratings By Year
-        UriTemplate uritemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&companyName={companyName}&email={email}");
         URI uriRatings = uritemplateRatings.expand(map);
         RequestEntity<Void> requestRatings = RequestEntity
                 .get(uriRatings).build();
@@ -129,7 +129,7 @@ class UploadAndDownloadApiIntegrationTest {
     void errorOnUpload() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -160,7 +160,7 @@ class UploadAndDownloadApiIntegrationTest {
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
 
         //Gets Ratings By Year
-        UriTemplate uritemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&companyName={companyName}&email={email}");
         URI uriRatings = uritemplateRatings.expand(map);
         RequestEntity<Void> requestRatings = RequestEntity
                 .get(uriRatings).build();

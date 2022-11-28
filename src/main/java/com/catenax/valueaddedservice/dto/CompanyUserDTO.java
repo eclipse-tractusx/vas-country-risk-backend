@@ -33,8 +33,8 @@ public class CompanyUserDTO implements Serializable {
 
     @Schema(example = "TestCompany", required = true)
     @NotNull
-    @JsonProperty("company")
-    private String company;
+    @JsonProperty("companyName")
+    private String companyName;
 
 
 }

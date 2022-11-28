@@ -27,7 +27,7 @@ public class CountryLogicService {
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
 
-    @Cacheable(value = "vas-country", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-country", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<CountryDTO> getAssociatedCountries (CompanyUserDTO companyUserDTO) {
         log.debug(Logger.SECURITY_SUCCESS,"getAssociatedCountries filtered by companyUserDTO " + companyUserDTO);
         List<String> countryList;
@@ -41,7 +41,7 @@ public class CountryLogicService {
 
 
     
-    @Cacheable(value = "vas-country", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-country", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO){
         log.debug(Logger.SECURITY_SUCCESS,"getCountryFilterByISO2 filtered by companyUserDTO "+ companyUserDTO);
         List<CountryDTO> countryDTOList = countryService.findAll().stream().filter(MethodUtils.distinctByKey(CountryDTO::getIso2)).collect(Collectors.toList());

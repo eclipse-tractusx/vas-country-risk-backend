@@ -32,6 +32,7 @@ public class DataSourceService {
         this.dataSourceMapper = dataSourceMapper;
     }
 
+
     //API to get Ratings by Year
     public List<DataSourceDTO> findRatingsByYearAndTypeGlobal(Integer year) {
         return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndType(year, Type.Global));
@@ -39,15 +40,15 @@ public class DataSourceService {
 
     //API to get Rating name by User
     public List<DataSourceDTO> findRatingByYearAndUser(Integer year, CompanyUserDTO companyUserDTO) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyAndType(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Custom));
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyNameAndType(year,companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompanyName(),Type.Custom));
     }
 
     public List<DataSourceDTO> findRatingByUser( CompanyUserDTO companyUserDTO) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyOrType(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompany(),Type.Global));
+        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyNameOrType(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompanyName(),Type.Global));
     }
 
-    public List<DataSourceDTO> findByYearPublishedAndCompanyUserCompanyAndType(Integer year, CompanyUserDTO companyUserDTO, Type type) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserCompanyAndType(year, companyUserDTO.getCompany(), type));
+    public List<DataSourceDTO> findByYearPublishedAndCompanyUserCompanyNameAndType(Integer year, CompanyUserDTO companyUserDTO, Type type) {
+        return dataSourceMapper.toDto(dataSourceRepository.findByYearPublishedAndCompanyUserCompanyNameAndType(year, companyUserDTO.getCompanyName(), type));
     }
 
 

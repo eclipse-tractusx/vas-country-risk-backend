@@ -3,7 +3,6 @@ package com.catenax.valueaddedservice.web.rest;
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
 import com.catenax.valueaddedservice.dto.DashBoardTableDTO;
 import com.catenax.valueaddedservice.dto.DashBoardWorldMapDTO;
-import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.RatingDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,13 +45,13 @@ class DashBoardResourceIntegrationTest {
 
 
     private Map<String,Object> getMap() throws IOException {
-        List<DataSourceDTO> dataSourceDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<DataSourceDTO>>() {
+        List<RatingDTO> ratingDTOS = objectMapper.readValue(listRatingJson.getInputStream(), new TypeReference<List<RatingDTO>>() {
         });
 
         Map<String,Object> map = new HashMap<>();
         map.put("year",2021);
-        map.put("ratings",objectMapper.writeValueAsString(dataSourceDTOS));
-        map.put("company","TestCompany");
+        map.put("ratings",objectMapper.writeValueAsString(ratingDTOS));
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
 
@@ -68,7 +67,7 @@ class DashBoardResourceIntegrationTest {
     void getTableInfo() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings={ratings}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -84,7 +83,7 @@ class DashBoardResourceIntegrationTest {
     void getWorldMapInfo() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings={ratings}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity.get(uri).build();
         ResponseEntity<List<DashBoardWorldMapDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
