@@ -34,7 +34,7 @@
 		<org.owasp.esapi>2.5.0.0</org.owasp.esapi>
 		<spring-boot-starter-oauth2-resource-server>2.7.5</spring-boot-starter-oauth2-resource-server>
 		<h2-version>2.1.214</h2-version>
-		<spring-security-web-version>5.7.5</spring-security-web-version>
+		<spring-security-web-version>6.0.0</spring-security-web-version>
 
 	</properties>
 
