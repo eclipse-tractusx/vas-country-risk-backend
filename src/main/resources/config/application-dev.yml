@@ -6,21 +6,6 @@ vas:
     auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
 
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    username: vas
-    url: jdbc:postgresql://${vas.datasource.host}:5432/vas
-    driverClassName: org.postgresql.Driver
-    password: ${vas_datasource_pass}
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        default_schema: public
-
 
 application:
   name: dev
