@@ -37,6 +37,7 @@
 		<spring-security-web-version>5.7.5</spring-security-web-version>
 		<postgresql-version>42.4.1</postgresql-version>
 		<jackson-databind>2.14.1</jackson-databind>
+		<snake-yaml-version>1.31</snake-yaml-version>
 	</properties>
 
 	<pluginRepositories>
@@ -60,6 +61,11 @@
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
 				<version>${jackson-databind}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.yaml</groupId>
+				<artifactId>snakeyaml</artifactId>
+				<version>${snake-yaml-version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -211,7 +217,7 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
 				<executions>
-					<execution>z
+					<execution>
 						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
@@ -268,12 +274,6 @@
 							<groupId>org.liquibase</groupId>
 							<artifactId>liquibase-core</artifactId>
 							<version>${liquibase.version}</version>
-							<exclusions>
-								<exclusion>
-									<groupId>org.yaml</groupId>
-									<artifactId>snakeyaml</artifactId>
-								</exclusion>
-							</exclusions>
 						</dependency>
 						<dependency>
 							<groupId>org.liquibase.ext</groupId>
