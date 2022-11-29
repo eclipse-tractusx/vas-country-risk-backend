@@ -36,7 +36,7 @@ public class RangeLogicService {
         }
     }
     
-    @Cacheable(value = "vas-range", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.company}}", unless = "#result == null")
+    @Cacheable(value = "vas-range", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUserDTO) {
         log.debug("getUserRangesOrDefault get ranges for companyUser {}",companyUserDTO);
         List<RangeDTO> ranges = rangeService.getUserRanges(companyUserDTO);

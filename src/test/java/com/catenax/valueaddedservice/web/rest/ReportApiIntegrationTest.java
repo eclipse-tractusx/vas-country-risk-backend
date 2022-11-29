@@ -42,7 +42,7 @@ class ReportApiIntegrationTest {
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
-        map.put("company","TestCompany");
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
         map.put("ratingName", "testRating123");
@@ -63,7 +63,7 @@ class ReportApiIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
@@ -73,7 +73,7 @@ class ReportApiIntegrationTest {
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
         // ############# Get API ##############
-        UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&company={company}&email={email}");
+        UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
         URI uriGet = uriTemplateGet.expand(map);
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
@@ -95,7 +95,7 @@ class ReportApiIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
@@ -120,7 +120,7 @@ class ReportApiIntegrationTest {
         ReportDTO reportDTO = createReport();
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
@@ -130,7 +130,7 @@ class ReportApiIntegrationTest {
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
         // ############# Get API ##############
-        UriTemplate uriTemplate = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&company={company}&email={email}");
+        UriTemplate uriTemplate = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
         URI uriGet = uriTemplate.expand(map);
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
@@ -147,13 +147,13 @@ class ReportApiIntegrationTest {
 
         // ######## ReportsByReport #######
         UriTemplate uriTemplateByReport= new UriTemplate("/api/dashboard/getReportsValueByReport?id={id}&reportName={reportName}&companyUserName={companyUserName}" +
-                "&company={company}&type={type}");
+                "&companyName={companyName}&type={type}");
 
         Map<String,Object> mapByReport = new HashMap<>();
         mapByReport.put("id",reportDTO.getId());
         mapByReport.put("reportName",reportDTO.getReportName());
         mapByReport.put("companyUserName",reportDTO.getCompanyUserName());
-        mapByReport .put("company",reportDTO.getCompany());
+        mapByReport .put("companyName",reportDTO.getCompany());
         mapByReport.put("type",reportDTO.getType());
 
         URI uriByReport = uriTemplateByReport.expand(mapByReport);

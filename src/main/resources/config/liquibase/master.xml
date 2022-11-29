@@ -23,6 +23,11 @@
     <include file="config/liquibase/changelog/20220712103605_added_entity_RegionValue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103606_added_entity_Country.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220729101052_added_entity_File.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221007154554_added_entity_Report.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221007154555_added_entity_ReportValues.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221115160706_added_entity_Company.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221116164443_added_entity_CompanyGroup.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221115160707_added_entity_CompanyGates.xml" relativeToChangelogFile="false"/>
     <!-- -needle-liquibase-add-changelog -  will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220712103601_added_entity_constraints_Range.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103602_added_entity_constraints_DataSource.xml" relativeToChangelogFile="false"/>
@@ -30,10 +35,12 @@
     <include file="config/liquibase/changelog/20220712103604_added_entity_constraints_Region.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220712103605_added_entity_constraints_RegionValue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220729101052_added_entity_constraints_File.xml" relativeToChangelogFile="false"/>
-
-    <include file="config/liquibase/changelog/20221007154554_added_entity_Report.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20221007154555_added_entity_ReportValues.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20221007154555_added_entity_constraints_ReportValues.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221115160706_added_entity_constraints_Company.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221115160707_added_entity_constraints_CompanyGates.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220712103600_added_entity_constraints_CompanyUser.xml" relativeToChangelogFile="false"/>
+
+
     <!-- Bottom script doesnt work on H2 database -->
     <include file="config/liquibase/changelog/20220913101053_ratings_name_trigger.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913101053_report_name_trigger.xml" relativeToChangelogFile="false"/>

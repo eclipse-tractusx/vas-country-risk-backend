@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity CompanyGates.
+    -->
+    <changeSet id="20221115160707-2" author="fabiodmota">
+
+        <addForeignKeyConstraint baseColumnNames="company_group_id"
+                                 baseTableName="t_company_group_gates"
+                                 constraintName="fk_t_company_group_gates__company_group_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="t_company_group"/>
+    </changeSet>
+</databaseChangeLog>

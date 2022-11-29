@@ -178,9 +178,9 @@ public class DashBoardResource {
                            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/saveUserRanges")
     public ResponseEntity<ResponseMessage> saveRanges(@Valid @RequestBody List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO) {
-        String message = "";
-        log.debug(Logger.EVENT_SUCCESS,"REST request to saveUserRanges");
 
+        log.debug(Logger.EVENT_SUCCESS,"REST request to saveUserRanges");
+        String message="";
         dashboardService.saveRanges(rangeDTOS, companyUserDTO);
         message = "Range successfully saved!";
         log.info(Logger.EVENT_SUCCESS,message);
@@ -232,4 +232,12 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(reportValuesDTOList);
     }
 
+    @Operation(summary = "Retrieves all Gate values that a user can get")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Gate values requested with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getAllUserBPDMGates")
+    public ResponseEntity<List<CompanyGatesDTO>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS,"REST request to getBPDMGates");
+        return ResponseEntity.ok().body(dashboardService.getGatesForCompanyUser(companyUserDTO));
+    }
 }

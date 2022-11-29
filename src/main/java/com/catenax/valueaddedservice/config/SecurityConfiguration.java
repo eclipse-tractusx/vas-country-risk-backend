@@ -56,7 +56,7 @@ public class SecurityConfiguration  {
         httpSecurity.logout().disable();
         httpSecurity.headers().frameOptions().disable();
 
-        httpSecurity.cors().and().csrf().disable()
+        httpSecurity.cors().and().csrf().ignoringAntMatchers("/api/dashboard/**").and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

@@ -16,7 +16,7 @@ spring:
       auto-commit: false
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
     database: H2
     properties:

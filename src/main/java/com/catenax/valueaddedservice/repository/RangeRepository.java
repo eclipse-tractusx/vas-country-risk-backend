@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface RangeRepository extends JpaRepository<Range, Long> {
 
-    List<Range> findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompany(String name, String email,String company);
+    List<Range> findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyName(String name, String email,String company);
 
     @Modifying
     @Query("update Range u set u.value = :value where u.range = :range and u.companyUser.id = :companyUserId")

@@ -5,7 +5,6 @@ import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.domain.enumeration.RangeType;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.RangeDTO;
-import com.catenax.valueaddedservice.dto.ReportDTO;
 import com.catenax.valueaddedservice.repository.RangeRepository;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.logic.RangeLogicService;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
@@ -51,7 +49,7 @@ class RangeIntegartionTest {
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
-        map.put("company","TestCompany");
+        map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
         map.put("ratingName", "testRating123");
@@ -68,7 +66,7 @@ class RangeIntegartionTest {
         List<RangeDTO> rangeDTOList = createRanges();
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveUserRanges?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveUserRanges?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(rangeDTOList, headers, HttpMethod.POST, uri);
@@ -77,7 +75,7 @@ class RangeIntegartionTest {
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
-        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
+        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getUserRanges?name={name}&companyName={companyName}&email={email}");
         URI uriGet = uritemplateGet.expand(map);
         RequestEntity<Void> requestGet = RequestEntity
                 .get(uriGet).build();
@@ -96,7 +94,7 @@ class RangeIntegartionTest {
     void getUserRanges() throws Exception {
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getUserRanges?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
@@ -122,7 +120,7 @@ class RangeIntegartionTest {
         List<RangeDTO> rangeDTOList = createRanges();
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveUserRanges?name={name}&company={company}&email={email}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveUserRanges?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(rangeDTOList, headers, HttpMethod.POST, uri);
@@ -139,7 +137,7 @@ class RangeIntegartionTest {
         responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
 
-        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getUserRanges?name={name}&company={company}&email={email}");
+        UriTemplate uritemplateGet = new UriTemplate("/api/dashboard/getUserRanges?name={name}&companyName={companyName}&email={email}");
         URI uriGet = uritemplateGet.expand(map);
         RequestEntity<Void> requestGet = RequestEntity
                 .get(uriGet).build();
@@ -165,7 +163,7 @@ class RangeIntegartionTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         return companyUserDTO;
     }
 

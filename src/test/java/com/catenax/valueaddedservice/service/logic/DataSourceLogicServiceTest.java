@@ -42,7 +42,7 @@ class DataSourceLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         List<DataSourceDTO> dataSourceDTOS = new ArrayList<>();
         DataSourceDTO dataSourceDTO = new DataSourceDTO();
         dataSourceDTO.setId(1L);
@@ -69,7 +69,7 @@ class DataSourceLogicServiceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setName("John");
         companyUserDTO.setEmail("John@email.com");
-        companyUserDTO.setCompany("TestCompany");
+        companyUserDTO.setCompanyName("TestCompany");
         List<DataSourceDTO> dataSourceDTOS = new ArrayList<>();
         DataSourceDTO dataSourceDTO = new DataSourceDTO();
         dataSourceDTO.setId(1L);
