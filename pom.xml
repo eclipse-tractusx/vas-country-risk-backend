@@ -34,8 +34,8 @@
 		<org.owasp.esapi>2.5.0.0</org.owasp.esapi>
 		<spring-boot-starter-oauth2-resource-server>3.0.0</spring-boot-starter-oauth2-resource-server>
 		<h2-version>2.1.214</h2-version>
-		<spring-security-web-version>5.8.0</spring-security-web-version>
-
+		<spring-security-web-version>5.7.5</spring-security-web-version>
+		<postgresql-version>42.5.1</postgresql-version>
 	</properties>
 
 	<pluginRepositories>
@@ -73,6 +73,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<version>${postgresql-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
