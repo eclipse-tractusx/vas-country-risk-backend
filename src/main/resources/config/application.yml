@@ -42,10 +42,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
-spring:
-  config:
-    activate:
-      on-profile: dev
+
   datasource:
     username: vas
     url: jdbc:postgresql://${vas.datasource.host}:5432/vas
