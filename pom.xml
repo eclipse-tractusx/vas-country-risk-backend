@@ -22,7 +22,7 @@
 		<liquibase-hibernate5.version>4.6.1</liquibase-hibernate5.version>
 		<spring-boot.version>2.6.6</spring-boot.version>
 		<org.zalando.problem-spring-web>0.27.0</org.zalando.problem-spring-web>
-		<org.springdoc.springdoc-openapi-ui>1.6.12</org.springdoc.springdoc-openapi-ui>
+		<org.springdoc.springdoc-openapi-ui>1.6.13</org.springdoc.springdoc-openapi-ui>
 		<org.springframework.cloud>3.1.5</org.springframework.cloud>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
@@ -32,7 +32,7 @@
 		<jacoco.version>0.8.7</jacoco.version>
 		<hibernate-types-55>2.20.0</hibernate-types-55>
 		<org.owasp.esapi>2.5.0.0</org.owasp.esapi>
-		<spring-boot-starter-oauth2-resource-server>2.7.5</spring-boot-starter-oauth2-resource-server>
+		<spring-boot-starter-oauth2-resource-server>3.0.0</spring-boot-starter-oauth2-resource-server>
 		<h2-version>2.1.214</h2-version>
 		<spring-security-web-version>5.8.0</spring-security-web-version>
 
@@ -47,6 +47,17 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring-security-web-version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -117,6 +128,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 			<version>${spring-boot-starter-oauth2-resource-server}</version>
+
 		</dependency>
 
 		<dependency>
@@ -249,6 +261,12 @@
 							<groupId>org.liquibase</groupId>
 							<artifactId>liquibase-core</artifactId>
 							<version>${liquibase.version}</version>
+							<exclusions>
+								<exclusion>
+									<groupId>org.yaml</groupId>
+									<artifactId>snakeyaml</artifactId>
+								</exclusion>
+							</exclusions>
 						</dependency>
 						<dependency>
 							<groupId>org.liquibase.ext</groupId>
