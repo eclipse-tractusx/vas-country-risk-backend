@@ -66,9 +66,9 @@ public class DashboardService {
         return uploadAndDownloadLogicService.getDataSourceTemplate();
     }
 
-    public void saveCsv(MultipartFile file, String dataSourceName, CompanyUserDTO companyUserDTO, Integer year) throws IOException {
+    public void saveCsv(MultipartFile file, String dataSourceName, CompanyUserDTO companyUserDTO, Integer year, String type) throws IOException {
         CompanyUserDTO companyUserDTOUse = companyUserLogicService.getOrCreate(companyUserDTO);
-        uploadAndDownloadLogicService.saveCsv(file, dataSourceName, companyUserDTOUse, year);
+        uploadAndDownloadLogicService.saveCsv(file, dataSourceName, companyUserDTOUse, year, type);
         dataSourceLogicService.invalidateAllCache();
     }
 

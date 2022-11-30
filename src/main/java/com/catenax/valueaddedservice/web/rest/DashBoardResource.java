@@ -112,13 +112,14 @@ public class DashBoardResource {
     @PostMapping("/dashboard/uploadCsv")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestHeader("ratingName") String dataSourceName,
-                                                      @RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                      @RequestHeader(value = "year") Integer year,
+                                                      @RequestHeader(value = "type") String type,
                                                       CompanyUserDTO companyUser) {
         log.debug(Logger.EVENT_SUCCESS,"REST request to uploadCsv");
         String message = "";
         message = VasConstants.UPLOAD_SUCCESS_MESSAGE + file.getOriginalFilename();
         try {
-            dashboardService.saveCsv(file, dataSourceName, companyUser, year);
+            dashboardService.saveCsv(file, dataSourceName, companyUser, year, type);
         } catch (DataIntegrityViolationException e) {
             message = VasConstants.UPLOAD_ERROR_MESSAGE + dataSourceName + "!";
             log.error(Logger.EVENT_FAILURE ,message);

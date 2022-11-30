@@ -21,11 +21,13 @@ public final class VasConstants {
 
     public static final String HEADER_CSV_NAME = "testeRatingINTtest";
     public static final String HEADER_CSV_NAME_ERROR = "testeRatingError";
+    public static final String HEADER_CSV_YEAR = "2022";
     public static final String HEADER_TOKEN = "fakeTOKEN";
 
     public static final String CSV_TYPE = "form-data";
     public static final String CSV_NAME = "file";
     public static final String CSV_FILENAME = "testeFile.csv";
+    public static final String CSV_ROLE_TYPE = "Global";
 
     public static final String CSV_FILEPATH = "src/test/resources/config/liquibase/test-data/file_test_upload.csv";
 

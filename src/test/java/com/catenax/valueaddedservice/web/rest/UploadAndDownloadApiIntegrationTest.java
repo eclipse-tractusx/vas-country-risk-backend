@@ -8,6 +8,7 @@ import com.catenax.valueaddedservice.repository.DataSourceRepository;
 import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import com.catenax.valueaddedservice.service.mapper.DataSourceMapper;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,8 @@ class UploadAndDownloadApiIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
+        headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        headers.set("type", VasConstants.CSV_ROLE_TYPE);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -136,6 +139,8 @@ class UploadAndDownloadApiIntegrationTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME_ERROR);
         headers.setBearerAuth(VasConstants.HEADER_TOKEN);
+        headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        headers.set("type", VasConstants.CSV_ROLE_TYPE);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition

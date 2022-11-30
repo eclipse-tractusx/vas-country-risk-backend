@@ -193,8 +193,8 @@ class DashBoardResourceTest {
         MultipartFile file = new MockMultipartFile(VasConstants.CSV_NAME,bytes);
         Integer year = Calendar.getInstance().get(Calendar.YEAR);
         doThrow(new RuntimeException())
-                .when(this.dashboardService).saveCsv( file,VasConstants.CSV_NAME,companyUserDTO, year);
-        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.uploadFile(file, VasConstants.CSV_NAME,year,companyUserDTO).getStatusCode());
+                .when(this.dashboardService).saveCsv( file,VasConstants.CSV_NAME,companyUserDTO, year, "Global");
+        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.uploadFile(file, VasConstants.CSV_NAME,year,"Global",companyUserDTO).getStatusCode());
     }
 
     @Test
