@@ -258,6 +258,7 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dataSourceDTOList);
     }
 
+
     @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
@@ -271,12 +272,5 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(shareDTOS);
     }
 
-    @Operation(summary = "Retrieves all Gate values that a user can get")
-    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Gate values requested with success"),
-            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/getAllUserBPDMGates")
-    public ResponseEntity<List<CompanyGatesDTO>> getAllUserBPDMGates(CompanyUserDTO companyUserDTO) {
-        log.debug(Logger.EVENT_SUCCESS,"REST request to getBPDMGates");
-        return ResponseEntity.ok().body(dashboardService.getGatesForCompanyUser(companyUserDTO));
-    }
+
 }
