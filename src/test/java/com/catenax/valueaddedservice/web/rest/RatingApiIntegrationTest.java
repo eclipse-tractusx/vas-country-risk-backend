@@ -1,16 +1,20 @@
 package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.ValueAddedServiceApplication;
+import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
 
@@ -30,11 +34,21 @@ class RatingApiIntegrationTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Value(value = "classpath:config/liquibase/test-data/sharedatasource.json")
+    private Resource listDataSource;
+
+    @Value(value = "classpath:config/liquibase/test-data/bpns.json")
+    private Resource listBpn;
+
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
         map.put("companyName","TestCompany");
         map.put("name","John");
         map.put("email","John@email.com");
+        map.put("year",2021);
         return map;
     }
 
@@ -79,6 +93,62 @@ class RatingApiIntegrationTest {
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertNotEquals(0,dataSourceDTOList.size());
     }
+
+    @Test
+    void getAllRatingsForCompany () throws Exception {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllRatingsForCompany?companyName={companyName}&year={year}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(headers, HttpMethod.GET, uri);
+
+        ResponseEntity<List<DataSourceDTO>> response = testRestTemplate.exchange(requestEntity, new ParameterizedTypeReference<>() {});
+        List<DataSourceDTO> dataSourceDTOList = response.getBody();
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertNotEquals(0,dataSourceDTOList.size());
+
+    }
+
+    @Test
+    void getAllRatingsScoresForEachBpn () throws Exception {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String,Object> map = getMapLists();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllRatingsScoresForEachBpn?companyName={companyName}&ratings={ratings}&bpns={bpns}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(headers, HttpMethod.GET, uri);
+
+        ResponseEntity<List<ShareDTO>> response = testRestTemplate.exchange(requestEntity, new ParameterizedTypeReference<>() {});
+        List<ShareDTO> shareDTOSList = response.getBody();
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertNotEquals(0,shareDTOSList.size());
+
+    }
+
+    private Map<String,Object> getMapLists() throws IOException {
+        Map<String,Object> map = new HashMap<>();
+
+        List<DataSourceDTO> dataSourceDTOS = objectMapper.readValue(listDataSource.getInputStream(), new TypeReference<List<DataSourceDTO>>() { });
+
+        List<BusinessPartnerDTO> businessPartnerDTOS = objectMapper.readValue(listBpn.getInputStream(), new TypeReference<List<BusinessPartnerDTO>>() { });
+
+        map.put("ratings",objectMapper.writeValueAsString(dataSourceDTOS));
+        map.put("bpns",objectMapper.writeValueAsString(businessPartnerDTOS));
+        map.put("companyName", "test");
+
+        return map;
+    }
+
+
 }
 
 

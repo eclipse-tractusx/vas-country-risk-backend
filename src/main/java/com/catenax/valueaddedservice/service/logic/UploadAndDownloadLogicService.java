@@ -45,16 +45,16 @@ public class UploadAndDownloadLogicService {
 
 
 
-    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO) throws IOException {
-
+    public void saveCsv(MultipartFile file, String dataSourceName,CompanyUserDTO companyUserDTO, Integer year, String type) throws IOException {
+        Type typePermission = getStringType(type);
         log.debug("save new CSV Rating");
         BufferedReader br = new BufferedReader(new InputStreamReader(file.getResource().getInputStream(), StandardCharsets.UTF_8));
         String line = "";
         DataSourceDTO dataSource = new DataSourceDTO();
-        dataSource.setType(Type.Custom);
+        dataSource.setType(typePermission);
         dataSource.setCompanyUser(companyUserDTO);
         dataSource.setFileName(dataSourceName);
-        dataSource.setYearPublished(Calendar.getInstance().get(Calendar.YEAR));
+        dataSource.setYearPublished(year);
         dataSource.setDataSourceName(dataSourceName);
         dataSource = dataSourceService.save(dataSource);
         DataSourceValueDTO dataSourceValueDTO = new DataSourceValueDTO();
@@ -75,6 +75,18 @@ public class UploadAndDownloadLogicService {
         }
         br.close();
 
+    }
+
+    public Type getStringType(String type){
+        if(type.equals("Company")){
+            return Type.Company;
+        }
+        else if(type.equals("Custom")){
+            return Type.Custom;
+        }
+        else {
+            return Type.Global;
+        }
     }
 
 

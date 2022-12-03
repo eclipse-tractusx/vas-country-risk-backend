@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties("id")
 public class CompanyUserDTO implements Serializable {
 
     private Long id;
