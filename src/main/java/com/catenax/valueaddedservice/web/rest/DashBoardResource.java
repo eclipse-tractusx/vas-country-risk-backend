@@ -2,6 +2,9 @@ package com.catenax.valueaddedservice.web.rest;
 
 import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareBusinessPartnerDTO;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDataSourceDTO;
 import com.catenax.valueaddedservice.service.DashboardService;
 import com.catenax.valueaddedservice.service.csv.ResponseMessage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -111,12 +114,15 @@ public class DashBoardResource {
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/uploadCsv")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
-                                                      @RequestHeader("ratingName") String dataSourceName, CompanyUserDTO companyUser) {
+                                                      @RequestHeader("ratingName") String dataSourceName,
+                                                      @RequestHeader(value = "year") Integer year,
+                                                      @RequestHeader(value = "type") String type,
+                                                      CompanyUserDTO companyUser) {
         log.debug(Logger.EVENT_SUCCESS,"REST request to uploadCsv");
         String message = "";
         message = VasConstants.UPLOAD_SUCCESS_MESSAGE + file.getOriginalFilename();
         try {
-            dashboardService.saveCsv(file, dataSourceName, companyUser);
+            dashboardService.saveCsv(file, dataSourceName, companyUser, year, type);
         } catch (DataIntegrityViolationException e) {
             message = VasConstants.UPLOAD_ERROR_MESSAGE + dataSourceName + "!";
             log.error(Logger.EVENT_FAILURE ,message);
@@ -231,7 +237,6 @@ public class DashBoardResource {
         reportValuesDTOList = dashboardService.getReportValues(reportDTO);
         return ResponseEntity.ok().body(reportValuesDTOList);
     }
-
     @Operation(summary = "Retrieves all Gate values that a user can get")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Gate values requested with success"),
             @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
@@ -240,4 +245,32 @@ public class DashBoardResource {
         log.debug(Logger.EVENT_SUCCESS,"REST request to getBPDMGates");
         return ResponseEntity.ok().body(dashboardService.getGatesForCompanyUser(companyUserDTO));
     }
+
+    @Operation(summary = "Retrieves ratings based on inserted year and Company User")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getAllRatingsForCompany")
+    public ResponseEntity<List<DataSourceDTO>> getAllRatingsForCompany(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
+                                                             CompanyUserDTO companyUserDTO) {
+        List<DataSourceDTO> dataSourceDTOList;
+        log.debug(Logger.EVENT_SUCCESS,"REST request to get ratings based on inserted year and Company User");
+        dataSourceDTOList = dashboardService.findRatingsByYearAndCompanyUserCompany(year, companyUserDTO);
+        return ResponseEntity.ok().body(dataSourceDTOList);
+    }
+
+
+    @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getAllRatingsScoresForEachBpn")
+    public ResponseEntity<List<ShareDTO>> getAllRatingsScoresForEachBpn(@RequestParam(value = "ratings") ShareDataSourceDTO datasource,
+                                                             @RequestParam(value = "bpns") ShareBusinessPartnerDTO businessPartner,
+                                                             CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS,"REST request to retrieve Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN");
+        List<ShareDTO> shareDTOS;
+        shareDTOS = dashboardService.findRatingsScoresForEachBpn(datasource.getDataSourceDTOS(), businessPartner.getBusinessPartnerDTOS() ,companyUserDTO);
+        return ResponseEntity.ok().body(shareDTOS);
+    }
+
+
 }

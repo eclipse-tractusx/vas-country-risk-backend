@@ -1,4 +1,4 @@
-﻿Continent;Country;Iso3;Iso2;Score
+﻿Continent;Country;Iso3;Iso2;Score ( Must be between 0-100 )
 WORLD;Afghanistan;AFG;AF;
 WORLD;Åland;ALA;AX;
 WORLD;Albania;ALB;AL;

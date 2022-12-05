@@ -2,6 +2,7 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.dto.*;
+import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import com.catenax.valueaddedservice.service.logic.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class DashboardService {
     @Autowired
     CompanyGatesLogicService companyGatesLogicService;
 
+    @Autowired
+    ShareLogicService shareLogicService;
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year, ratingDTOList, companyUser);
@@ -66,9 +69,9 @@ public class DashboardService {
         return uploadAndDownloadLogicService.getDataSourceTemplate();
     }
 
-    public void saveCsv(MultipartFile file, String dataSourceName, CompanyUserDTO companyUserDTO) throws IOException {
+    public void saveCsv(MultipartFile file, String dataSourceName, CompanyUserDTO companyUserDTO, Integer year, String type) throws IOException {
         CompanyUserDTO companyUserDTOUse = companyUserLogicService.getOrCreate(companyUserDTO);
-        uploadAndDownloadLogicService.saveCsv(file, dataSourceName, companyUserDTOUse);
+        uploadAndDownloadLogicService.saveCsv(file, dataSourceName, companyUserDTOUse, year, type);
         dataSourceLogicService.invalidateAllCache();
     }
 
@@ -122,10 +125,17 @@ public class DashboardService {
     public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO) {
         return reportLogicService.getReportValues(reportDTO);
     }
-
     public List<CompanyGatesDTO> getGatesForCompanyUser(CompanyUserDTO companyUserDTO) {
         return companyGatesLogicService.getGatesForCompanyUser(companyUserDTO);
     }
 
+    public List<DataSourceDTO> findRatingsByYearAndCompanyUserCompany(Integer year, CompanyUserDTO companyUserDTO){
+        List<DataSourceDTO> dataSourceDTOList = dataSourceLogicService.findRatingsByYearAndCompanyUserCompany(year,companyUserDTO);
+        return dataSourceDTOList;
+    }
+
+    public List<ShareDTO> findRatingsScoresForEachBpn(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartner, CompanyUserDTO companyUser) {
+        return shareLogicService.findRatingsScoresForEachBpn(datasource, businessPartner ,companyUser);
+    }
 
 }
