@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -76,16 +75,19 @@ public class TokenAspect {
 
     }
     @Before("restController()")
-    @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
     public void validateUserAndTokenAreTheSame(){
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-        companyUserDTO.setName( request.getParameter(VasConstants.REQUEST_USER_NAME) != null ? request.getParameter(VasConstants.REQUEST_USER_NAME) : "");
-        companyUserDTO.setCompanyName( request.getParameter(VasConstants.REQUEST_COMPANY_NAME) != null ? request.getParameter(VasConstants.REQUEST_COMPANY_NAME) : "");
-        companyUserDTO.setEmail( request.getParameter(VasConstants.REQUEST_USER_EMAIL) != null ? request.getParameter(VasConstants.REQUEST_USER_EMAIL) : "");
-        if(!companyUserLogicService.validateUserAndTokenAreTheSame(companyUserDTO) && !companyUserLogicService.isAdmin()){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        if(env.getProperty("security.enabled") != null && Boolean.valueOf(env.getProperty("security.enabled"))){
+
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+            companyUserDTO.setName( request.getParameter(VasConstants.REQUEST_USER_NAME) != null ? request.getParameter(VasConstants.REQUEST_USER_NAME) : "");
+            companyUserDTO.setCompanyName( request.getParameter(VasConstants.REQUEST_COMPANY_NAME) != null ? request.getParameter(VasConstants.REQUEST_COMPANY_NAME) : "");
+            companyUserDTO.setEmail( request.getParameter(VasConstants.REQUEST_USER_EMAIL) != null ? request.getParameter(VasConstants.REQUEST_USER_EMAIL) : "");
+            if(!companyUserLogicService.validateUserAndTokenAreTheSame(companyUserDTO) && !companyUserLogicService.isAdmin()){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
         }
+
     }
 
 }

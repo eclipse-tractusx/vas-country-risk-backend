@@ -49,7 +49,7 @@ public class AuthPropertiesDTO implements Serializable {
     @Schema(example = "true")
     @NotNull
     @JsonProperty("isAdmin")
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     public List<String> getRoles(String clientId){
         LinkedHashMap list =  (LinkedHashMap) resourceAccess;
