@@ -2,11 +2,14 @@ package com.catenax.valueaddedservice.service;
 
 import com.catenax.valueaddedservice.domain.DataSourceValue;
 import com.catenax.valueaddedservice.dto.DataDTO;
+import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.DataSourceValueDTO;
 import com.catenax.valueaddedservice.repository.DataSourceValueRepository;
+import com.catenax.valueaddedservice.service.mapper.DataSourceMapper;
 import com.catenax.valueaddedservice.service.mapper.DataSourceValueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,9 @@ public class DataSourceValueService {
     private final DataSourceValueRepository dataSourceValueRepository;
 
     private final DataSourceValueMapper dataSourceValueMapper;
+
+    @Autowired
+    DataSourceMapper dataSourceMapper;
 
     public DataSourceValueService(DataSourceValueRepository dataSourceValueRepository, DataSourceValueMapper dataSourceValueMapper) {
         this.dataSourceValueRepository = dataSourceValueRepository;
@@ -99,6 +105,11 @@ public class DataSourceValueService {
     public List<DataDTO> findByRatingAndScoreGreaterThan(Float score, List<String> dataSources) {
         log.debug("Request to get all DataSourceValues with score {} in dataSource {}",score,dataSources);
         return dataSourceValueRepository.findByRatingAndScoreGreaterThan(dataSources,score);
+    }
+
+    public List<DataSourceValueDTO> findByDataSource(DataSourceDTO dataSourceDTO) {
+        log.debug("Request to get all DataSourceValues in dataSource {}",dataSourceDTO.getDataSourceName());
+        return dataSourceValueMapper.toDto(dataSourceValueRepository.findByDataSource(dataSourceMapper.toEntity(dataSourceDTO)));
     }
 
     /**

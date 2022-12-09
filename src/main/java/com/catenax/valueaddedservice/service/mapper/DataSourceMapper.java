@@ -14,7 +14,7 @@ import org.mapstruct.Named;
  */
 @Mapper(componentModel = "spring")
 public interface DataSourceMapper extends EntityMapper<DataSourceDTO, DataSource> {
-    @Mapping(target = "companyUser", source = "companyUser", qualifiedByName = "companyUserId")
+
     DataSourceDTO toDto(DataSource s);
 
     @Named("companyUserId")

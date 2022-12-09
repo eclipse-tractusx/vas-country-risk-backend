@@ -138,4 +138,17 @@ public class DashboardService {
         return shareLogicService.findRatingsScoresForEachBpn(datasource, businessPartner ,companyUser);
     }
 
+    public void deleteReportFromUserById(Long reportId,CompanyUserDTO companyUserDTO)  {
+        reportLogicService.deleteReportById(reportId,companyUserDTO);
+        reportLogicService.invalidateAllCache();
+
+    }
+
+    public void deleteRatingFromUserById(Long ratingId,CompanyUserDTO companyUserDTO)  {
+        dataSourceLogicService.deleteDataSourceById(ratingId,companyUserDTO);
+        dataSourceLogicService.invalidateAllCache();
+    }
+
+
+
 }

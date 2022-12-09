@@ -29,6 +29,12 @@ public final class VasConstants {
     public static final String CSV_FILENAME = "testeFile.csv";
     public static final String CSV_ROLE_TYPE = "Global";
 
+    public static final String REQUEST_COMPANY_NAME = "companyName";
+
+    public static final String REQUEST_USER_EMAIL = "email";
+
+    public static final String REQUEST_USER_NAME = "name";
+
     public static final String CSV_FILEPATH = "src/test/resources/config/liquibase/test-data/file_test_upload.csv";
 
 }

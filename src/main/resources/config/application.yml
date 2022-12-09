@@ -65,6 +65,7 @@ application:
   host: project-value-added-service-vas/api/dashboard
   partnersPoolUrl:
     legalEntities: 'http://localhost:8080/api/catena/legal-entities'
+  clientId: 'Cl16-CX-CRisk'
 
 management:
   endpoints:

@@ -122,7 +122,10 @@ public class WorldMapAndTableLogicService {
         dashBoardTableDTO.setBpn(businessPartnerDTO.getBpn());
         dashBoardTableDTO.setCity(businessPartnerDTO.getCity());
         dashBoardTableDTO.setCountry(businessPartnerDTO.getCountry());
-        dashBoardTableDTO.setAddress(businessPartnerDTO.getAddress());
+
+        dashBoardTableDTO.setStreet(businessPartnerDTO.getStreet());
+        dashBoardTableDTO.setHouseNumber(businessPartnerDTO.getHouseNumber());
+        dashBoardTableDTO.setZipCode(businessPartnerDTO.getZipCode());
         dashBoardTableDTO.setLegalName(businessPartnerDTO.getLegalName());
         dashBoardTableDTO.setId(Long.valueOf(id));
         dashBoardTableDTO.setLatitude(businessPartnerDTO.getLatitude());

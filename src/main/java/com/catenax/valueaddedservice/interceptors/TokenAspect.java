@@ -3,13 +3,19 @@ package com.catenax.valueaddedservice.interceptors;
 
 import com.catenax.valueaddedservice.config.ApplicationVariables;
 import com.catenax.valueaddedservice.constants.VasConstants;
+import com.catenax.valueaddedservice.dto.CompanyUserDTO;
+import com.catenax.valueaddedservice.service.logic.CompanyUserLogicService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -24,6 +30,9 @@ public class TokenAspect {
 
     @Autowired
     ApplicationVariables applicationVariables;
+
+    @Autowired
+    CompanyUserLogicService companyUserLogicService;
 
     /**
      * Constant <code>X_ENVIRONMENT="x-environment"</code>
@@ -51,7 +60,7 @@ public class TokenAspect {
 
 
     @Before("restController()")
-    public void validateToken() {
+    public void validateToken() throws JsonProcessingException {
 
         // Get the specific header attribute
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -61,6 +70,22 @@ public class TokenAspect {
         if (headerValues.hasMoreElements()) {
             String token = headerValues.nextElement();
             applicationVariables.setToken(token);
+
+        }
+
+
+    }
+    @Before("restController()")
+    @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
+    public void validateUserAndTokenAreTheSame(){
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setName( request.getParameter(VasConstants.REQUEST_USER_NAME) != null ? request.getParameter(VasConstants.REQUEST_USER_NAME) : "");
+        companyUserDTO.setCompanyName( request.getParameter(VasConstants.REQUEST_COMPANY_NAME) != null ? request.getParameter(VasConstants.REQUEST_COMPANY_NAME) : "");
+        companyUserDTO.setEmail( request.getParameter(VasConstants.REQUEST_USER_EMAIL) != null ? request.getParameter(VasConstants.REQUEST_USER_EMAIL) : "");
+        if(!companyUserLogicService.validateUserAndTokenAreTheSame(companyUserDTO) && !companyUserLogicService.isAdmin()){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
+
 }
