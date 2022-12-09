@@ -272,5 +272,32 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(shareDTOS);
     }
 
+    @Operation(summary = "Deletes Report" )
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Deleted reported with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @DeleteMapping("/dashboard/deleteReport/{id}")
+    public ResponseEntity<Void> deleteReport(@PathVariable Long id,
+                                                                        CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS,"REST request to delete a report by id");
+        dashboardService.deleteReportFromUserById(id,companyUserDTO);
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+
+    @Operation(summary = "Deletes Rating")
+    @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Deleted rating with success"),
+            @ApiResponse (responseCode = "401", description = "Authentication Required", content = @Content)})
+    @DeleteMapping("/dashboard/deleteRating/{id}")
+    public ResponseEntity<Void> deleteRating(@PathVariable Long id,
+                                             CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS,"REST request to delete a report by id");
+        dashboardService.deleteRatingFromUserById(id,companyUserDTO);
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 
 }

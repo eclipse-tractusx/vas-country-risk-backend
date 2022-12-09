@@ -24,17 +24,17 @@ public class CompanyUserDTO implements Serializable {
     @Schema(example = "John", required = true)
     @NotNull
     @JsonProperty("name")
-    private String name;
+    private String name = "";
 
     @Schema(example = "John@email.com", required = true)
     @NotNull
     @JsonProperty("email")
-    private String email;
+    private String email = "";
 
     @Schema(example = "TestCompany", required = true)
     @NotNull
     @JsonProperty("companyName")
-    private String companyName;
+    private String companyName = "";
 
 
 }

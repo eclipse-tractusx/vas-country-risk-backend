@@ -44,7 +44,7 @@ public class DataSourceService {
     }
 
     public List<DataSourceDTO> findRatingByUser( CompanyUserDTO companyUserDTO) {
-        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyNameOrType(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompanyName(),Type.Global));
+        return dataSourceMapper.toDto(dataSourceRepository.findByCompanyUserNameAndCompanyUserEmailAndCompanyUserCompanyNameOrTypeOrTypeAndCompanyUserCompanyName(companyUserDTO.getName(),companyUserDTO.getEmail(), companyUserDTO.getCompanyName(),Type.Global,Type.Company,companyUserDTO.getCompanyName()));
     }
 
     public List<DataSourceDTO> findByYearPublishedAndCompanyUserCompanyNameAndType(Integer year, CompanyUserDTO companyUserDTO, Type type) {

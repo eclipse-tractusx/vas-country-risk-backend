@@ -21,8 +21,14 @@ public class DashBoardTableDTO implements Serializable {
     @Schema(example = "Divape Company")
     private String legalName;
 
-    @Schema(example = "15874 Sutteridge Trail")
-    private String address;
+    @Schema(example = "1st")
+    private String street;
+
+    @Schema(example = "Sutteridge")
+    private String houseNumber;
+
+    @Schema(example = "633104")
+    private String zipCode;
 
     @Schema(example = "Covilhã")
     private String city;

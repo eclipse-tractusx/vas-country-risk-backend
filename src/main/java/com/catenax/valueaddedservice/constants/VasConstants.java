@@ -22,12 +22,18 @@ public final class VasConstants {
     public static final String HEADER_CSV_NAME = "testeRatingINTtest";
     public static final String HEADER_CSV_NAME_ERROR = "testeRatingError";
     public static final String HEADER_CSV_YEAR = "2022";
-    public static final String HEADER_TOKEN = "fakeTOKEN";
+    public static final String HEADER_FAKE_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV9hY2Nlc3MiOnsiZmFrZUNsaWVudCI6eyJyb2xlcyI6WyJmYWtlUm9sZSJdfX0sIm5hbWUiOiJmYWtlVXNlciIsIm9yZ2FuaXNhdGlvbiI6ImZha2VDb21wYW55IiwiZW1haWwiOiJmYWtlZW1haWwifQ.FxFjhpnRMZbHF-f-zOs-cXDIx_rQasUgU96X0KxqVZA";
 
     public static final String CSV_TYPE = "form-data";
     public static final String CSV_NAME = "file";
     public static final String CSV_FILENAME = "testeFile.csv";
     public static final String CSV_ROLE_TYPE = "Global";
+
+    public static final String REQUEST_COMPANY_NAME = "companyName";
+
+    public static final String REQUEST_USER_EMAIL = "email";
+
+    public static final String REQUEST_USER_NAME = "name";
 
     public static final String CSV_FILEPATH = "src/test/resources/config/liquibase/test-data/file_test_upload.csv";
 
