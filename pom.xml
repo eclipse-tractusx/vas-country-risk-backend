@@ -38,6 +38,7 @@
 		<postgresql-version>42.4.1</postgresql-version>
 		<jackson-databind>2.13.4.1</jackson-databind>
 		<snake-yaml-version>1.31</snake-yaml-version>
+		<openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
 	</properties>
 
 	<pluginRepositories>
@@ -111,6 +112,10 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>${validation-api.version}</version>
@@ -169,6 +174,11 @@
 			<groupId>org.owasp.esapi</groupId>
 			<artifactId>esapi</artifactId>
 			<version>${org.owasp.esapi}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.2</version>
 		</dependency>
 	</dependencies>
 
@@ -249,6 +259,39 @@
 					</execution>
 				</executions>
 			</plugin>
+<!--			<plugin>-->
+<!--				&lt;!&ndash;-->
+<!--                    Plugin that provides API-first development using openapi-generator to-->
+<!--                    generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file-->
+<!--                &ndash;&gt;-->
+<!--				<groupId>org.openapitools</groupId>-->
+<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
+<!--				<version>${openapi-generator-maven-plugin.version}</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>generate</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
+<!--							</inputSpec>-->
+<!--							<generatorName>spring</generatorName>-->
+<!--							<invokerPackage>com.catenax.valueaddedservice.web.rest</invokerPackage>-->
+<!--							<apiPackage>com.catenax.valueaddedservice.web.rest</apiPackage>-->
+<!--							<modelPackage>com.catenax.valueaddedservice.web.rest</modelPackage>-->
+<!--							<modelNameSuffix>Model</modelNameSuffix>-->
+<!--							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
+<!--							<validateSpec>true</validateSpec>-->
+<!--							<generateApiTests>true</generateApiTests>-->
+<!--							<generateApiDocumentation>true</generateApiDocumentation>-->
+<!--							<configOptions>-->
+<!--								<delegatePattern>true</delegatePattern>-->
+<!--								<serializableModel>true</serializableModel>-->
+<!--							</configOptions>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -297,6 +340,7 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>

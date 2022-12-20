@@ -74,18 +74,22 @@ public class TokenAspect {
 
 
     }
-    @Before("restController()")
-    public void validateUserAndTokenAreTheSame(){
-        if(env.getProperty("security.enabled") != null && Boolean.valueOf(env.getProperty("security.enabled"))){
 
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            CompanyUserDTO companyUserDTO = new CompanyUserDTO();
-            companyUserDTO.setName( request.getParameter(VasConstants.REQUEST_USER_NAME) != null ? request.getParameter(VasConstants.REQUEST_USER_NAME) : "");
-            companyUserDTO.setCompanyName( request.getParameter(VasConstants.REQUEST_COMPANY_NAME) != null ? request.getParameter(VasConstants.REQUEST_COMPANY_NAME) : "");
-            companyUserDTO.setEmail( request.getParameter(VasConstants.REQUEST_USER_EMAIL) != null ? request.getParameter(VasConstants.REQUEST_USER_EMAIL) : "");
-            if(!companyUserLogicService.validateUserAndTokenAreTheSame(companyUserDTO) && !companyUserLogicService.isAdmin()){
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-            }
+    @Before("restController()")
+    public void validateUserAndTokenAreTheSame() {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+        companyUserDTO.setName(request.getParameter(VasConstants.REQUEST_USER_NAME) != null ? request.getParameter(VasConstants.REQUEST_USER_NAME) : "");
+        companyUserDTO.setCompanyName(request.getParameter(VasConstants.REQUEST_COMPANY_NAME) != null ? request.getParameter(VasConstants.REQUEST_COMPANY_NAME) : "");
+        companyUserDTO.setEmail(request.getParameter(VasConstants.REQUEST_USER_EMAIL) != null ? request.getParameter(VasConstants.REQUEST_USER_EMAIL) : "");
+        if (companyUserDTO.getName() == null || companyUserDTO.getName().isEmpty()
+                || companyUserDTO.getEmail() == null || companyUserDTO.getEmail().isEmpty()
+                || companyUserDTO.getCompanyName() == null || companyUserDTO.getCompanyName().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,VasConstants.VALIDATE_COMPANY_USER);
+        }
+        if (env.getProperty("security.enabled") != null && Boolean.valueOf(env.getProperty("security.enabled"))
+                && !companyUserLogicService.validateUserAndTokenAreTheSame(companyUserDTO) && !companyUserLogicService.isAdmin()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
     }

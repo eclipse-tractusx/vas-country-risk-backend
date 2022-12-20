@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -21,20 +23,23 @@ public class CompanyUserDTO implements Serializable {
 
     private Long id;
 
-    @Schema(example = "John", required = true)
-    @NotNull
+    @Schema(example = "John")
     @JsonProperty("name")
-    private String name = "";
+    @NotNull
+    @NotEmpty
+    private String name ;
 
-    @Schema(example = "John@email.com", required = true)
+    @Schema(example = "John@email.com")
+    @Email
     @NotNull
     @JsonProperty("email")
-    private String email = "";
+    private String email ;
 
-    @Schema(example = "TestCompany", required = true)
+    @Schema(example = "TestCompany")
     @NotNull
     @JsonProperty("companyName")
-    private String companyName = "";
+    private String companyName ;
+
 
 
 }

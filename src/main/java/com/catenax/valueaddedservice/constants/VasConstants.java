@@ -14,7 +14,9 @@ public final class VasConstants {
     public static final String ERROR_LOG = "Error ";
     public static final String UPLOAD_SUCCESS_MESSAGE= "Uploaded the file successfully: ";
     public static final String UPLOAD_ERROR_MESSAGE= "Rating name already exists. Please chose a different name ";
+    public static final String UPLOAD_ERROR_MESSAGE_ON_SCORES = "Invalid scoring for ";
 
+    public static final String VALIDATE_COMPANY_USER= "Request parameter companyUser not valid";
     public static final Integer MIN_DEFAULT_USER_RANGE = 25;
     public static final Integer BETWEEN_DEFAULT_USER_RANGE = 50;
     public static final Integer MAX_DEFAULT_USER_RANGE = 100;

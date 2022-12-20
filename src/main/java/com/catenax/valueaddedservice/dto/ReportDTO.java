@@ -14,11 +14,12 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ReportDTO implements Serializable {
 
     private Long id;
 
-    @Schema(example = "Fake Rating")
+    @Schema(example = "Fake Report")
     private String reportName;
 
     @Schema(example = "John")

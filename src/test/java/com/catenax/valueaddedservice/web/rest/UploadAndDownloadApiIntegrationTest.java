@@ -115,8 +115,9 @@ class UploadAndDownloadApiIntegrationTest {
     @Transactional
     void getDataSourceTemplate() throws Exception {
 
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTemplate?");
-        URI uri = uritemplate.expand();
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTemplate?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).accept(MediaType.APPLICATION_OCTET_STREAM).build();
         ResponseEntity<String> responseEntity = testRestTemplate.exchange(request,String.class);

@@ -146,20 +146,27 @@ class ReportApiIntegrationTest {
         reportDTO.setId(reportDTOSize.get(0).getId());
 
         // ######## ReportsByReport #######
-        UriTemplate uriTemplateByReport= new UriTemplate("/api/dashboard/getReportsValueByReport?id={id}&reportName={reportName}&companyUserName={companyUserName}" +
-                "&companyName={companyName}&type={type}");
+        UriTemplate uriTemplateByReport=
+                new UriTemplate("/api/dashboard/getReportsValueByReport?id={id}&" +
+                        "reportName={reportName}&" +
+                        "companyUserName={companyUserName}&" +
+                        "name={name}&" +
+                        "companyName={companyName}&" +
+                        "email={email}" +
+                        "&type={type}");
 
         Map<String,Object> mapByReport = new HashMap<>();
         mapByReport.put("id",reportDTO.getId());
         mapByReport.put("reportName",reportDTO.getReportName());
         mapByReport.put("companyUserName",reportDTO.getCompanyUserName());
-        mapByReport .put("companyName",reportDTO.getCompany());
+        mapByReport.put("companyName",reportDTO.getCompany());
         mapByReport.put("type",reportDTO.getType());
+        mapByReport.putAll(map);
 
         URI uriByReport = uriTemplateByReport.expand(mapByReport);
         RequestEntity<Void> requestByReport = RequestEntity
                 .get(uriByReport).build();
-        ResponseEntity< List<ReportValuesDTO>> responseEntityByReport = testRestTemplate.exchange(requestByReport, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportValuesDTO>> responseEntityByReport = testRestTemplate.exchange(requestByReport, new ParameterizedTypeReference<>() {});
         List<ReportValuesDTO> listByReport =  responseEntityByReport.getBody();
 
         assertEquals(HttpStatus.OK,responseEntityByReport.getStatusCode());
