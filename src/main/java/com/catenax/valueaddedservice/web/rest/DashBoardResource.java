@@ -45,7 +45,7 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Business partners request with success based on selected variables "),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTableInfo")
-    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@NotNull @Parameter(name = "ratings[]", description = "", required = true) @Valid @RequestParam(value = "ratings[]", required = true) List<RatingDTO> ratings,
+    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@NotNull @Parameter(name = "ratings[]", description = "") @Valid @RequestParam(value = "ratings[]", required = false,defaultValue = "") List<RatingDTO> ratings,
                                                                         @Parameter(name = "year", description = "") @Valid @RequestParam(value = "year", required = false, defaultValue = "0") Integer year,
                                                                         CompanyUserDTO companyUser) {
         log.debug(Logger.EVENT_SUCCESS, "REST request to get a page of Dashboard");
@@ -59,7 +59,7 @@ public class DashBoardResource {
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getWorldMap")
     public ResponseEntity<List<DashBoardWorldMapDTO>> getDashBoardWorldMap(
-            @NotNull @Parameter(name = "ratings[]", description = "", required = true) @Valid @RequestParam(value = "ratings[]", required = true) List<RatingDTO> ratings,
+            @NotNull @Parameter(name = "ratings[]", description = "") @Valid @RequestParam(value = "ratings[]", required = false,defaultValue = "") List<RatingDTO> ratings,
             CompanyUserDTO companyUser,
             @Parameter(name = "year", description = "") @Valid @RequestParam(value = "year", required = false, defaultValue = "0") Integer year
     ) {
