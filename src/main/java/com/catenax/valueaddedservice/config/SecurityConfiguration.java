@@ -51,11 +51,6 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.httpBasic().disable();
-        httpSecurity.formLogin().disable();
-        httpSecurity.logout().disable();
-        httpSecurity.headers().frameOptions().disable();
-
         httpSecurity.cors().and().csrf().ignoringAntMatchers("/api/dashboard/**").and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
