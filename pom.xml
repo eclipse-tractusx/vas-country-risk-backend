@@ -39,7 +39,7 @@
 		<jackson-databind>2.13.4.1</jackson-databind>
 		<jackson-databind-nullable>0.2.2</jackson-databind-nullable>
 		<wiremock-standalone-version>2.27.2</wiremock-standalone-version>
-		<snake-yaml-version>1.31</snake-yaml-version>
+		<snake-yaml-version>1.33</snake-yaml-version>
 		<openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
 	</properties>
 
