@@ -29,11 +29,11 @@ public final class VasConstants {
     public static final String CSV_TYPE = "form-data";
     public static final String CSV_NAME = "file";
     public static final String CSV_FILENAME = "testFile.csv";
-    public static final String CSV_ROLE_TYPE_Global = "Global";
+    public static final String CSV_ROLE_TYPE_GLOBAL = "Global";
 
-    public static final String CSV_ROLE_TYPE_Custom = "Custom";
+    public static final String CSV_ROLE_TYPE_CUSTOM = "Custom";
 
-    public static final String CSV_ROLE_TYPE_Company = "Company";
+    public static final String CSV_ROLE_TYPE_COMPANY = "Company";
 
     public static final String REQUEST_COMPANY_NAME = "companyName";
 

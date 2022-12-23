@@ -70,7 +70,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE_Global);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_GLOBAL);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -140,7 +140,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME_ERROR);
         headers.setBearerAuth(VasConstants.HEADER_FAKE_TOKEN);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE_Company);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_COMPANY);
 
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
@@ -197,7 +197,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE_Global);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_GLOBAL);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -257,7 +257,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE_Custom);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_CUSTOM);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -334,7 +334,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE_Global);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_GLOBAL);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
