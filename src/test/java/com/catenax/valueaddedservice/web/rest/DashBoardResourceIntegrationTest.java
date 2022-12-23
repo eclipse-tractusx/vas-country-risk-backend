@@ -92,6 +92,44 @@ class DashBoardResourceIntegrationTest {
         assertNotEquals(0,list.size());
     }
 
+    @Test
+    @Transactional
+    void getWorldMapInfoWithRatingNonExist() throws Exception {
+        RatingDTO ratingDTO = new RatingDTO();
+        ratingDTO.setDataSourceName("NonExist");
+        ratingDTO.setWeight(100F);
+        Map<String,Object> map = getMap();
+        map.put("nonExistRating",objectMapper.writeValueAsString(ratingDTO));
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getWorldMap?year={year}&ratings[]={ratings}&ratings[]={nonExistRating}&name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity.get(uri).build();
+        ResponseEntity<List<DashBoardWorldMapDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        });
+        List<DashBoardWorldMapDTO> list =  responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertNotEquals(0,list.size());
+    }
+
+    @Test
+    @Transactional
+    void getTableInfoInfoWithRatingTwoExistRating() throws Exception {
+        RatingDTO ratingDTO = new RatingDTO();
+        ratingDTO.setDataSourceName("Economist Intelligence Unit Country Ratings");
+        ratingDTO.setWeight(50F);
+        Map<String,Object> map = getMap();
+        map.put("secondExistRating",objectMapper.writeValueAsString(ratingDTO));
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings[]={ratings}&ratings[]={secondExistRating}&name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity.get(uri).build();
+        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        });
+        List<DashBoardTableDTO> list =  responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertNotEquals(0,list.size());
+    }
+
 }
 
 

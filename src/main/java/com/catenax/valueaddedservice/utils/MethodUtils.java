@@ -1,8 +1,5 @@
 package com.catenax.valueaddedservice.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
@@ -44,14 +41,4 @@ public class MethodUtils {
         return t -> seen.add(keyExtractor.apply(t));
     }
 
-    public static Object mapJsonToObject(String json, Object obj){
-        try {
-            obj = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readValue(json,new TypeReference<>() {
-            });
-            return obj;
-        } catch (JsonProcessingException e) {
-            log.error(Logger.EVENT_FAILURE,"Error converting " + e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
 }

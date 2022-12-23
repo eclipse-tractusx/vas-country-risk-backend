@@ -70,7 +70,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_Global);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -140,7 +140,7 @@ class UploadAndDownloadApiIntegrationTest {
         headers.set("ratingName", VasConstants.HEADER_CSV_NAME_ERROR);
         headers.setBearerAuth(VasConstants.HEADER_FAKE_TOKEN);
         headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        headers.set("type", VasConstants.CSV_ROLE_TYPE);
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_Company);
 
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
@@ -184,6 +184,178 @@ class UploadAndDownloadApiIntegrationTest {
         assertEquals(HttpStatus.BAD_REQUEST,responseEntity.getStatusCode());
 
         cleanDataSources(dataSourceDTO);
+    }
+
+    @Test
+    void uploadCsvAndDeleteCSV() throws Exception {
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
+        headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_Global);
+
+        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder(VasConstants.CSV_TYPE)
+                .name(VasConstants.CSV_NAME)
+                .filename(VasConstants.CSV_FILENAME)
+                .build();
+
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH)), fileMap);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add(VasConstants.CSV_NAME, fileEntity);
+
+        RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        //Get Current Year
+        map.put("year", Calendar.getInstance().get(Calendar.YEAR));
+
+        //Gets Ratings By Year
+        UriTemplate uriTemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&companyName={companyName}&email={email}");
+        URI uriRatings = uriTemplateRatings.expand(map);
+        RequestEntity<Void> requestRatings = RequestEntity
+                .get(uriRatings).build();
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
+
+        assertNotEquals(0,dataSourceDTOList.size());
+
+        DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
+        assertEquals(VasConstants.HEADER_CSV_NAME, dataSourceDTO.getFileName());
+
+        uriTemplateRatings = new UriTemplate("/api/dashboard/deleteRating/{id}?name={name}&companyName={companyName}&email={email}");
+        map.put("id",dataSourceDTO.getId());
+        uriRatings = uriTemplateRatings.expand(map);
+        requestRatings = RequestEntity
+                .delete(uriRatings).build();
+
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCodeValue();
+        assertEquals(HttpStatus.NO_CONTENT.value(),status);
+
+
+    }
+
+    @Test
+    void uploadCsvAndDeleteCSVFromOtherUserError() throws Exception {
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
+        headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_Custom);
+
+        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder(VasConstants.CSV_TYPE)
+                .name(VasConstants.CSV_NAME)
+                .filename(VasConstants.CSV_FILENAME)
+                .build();
+
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH)), fileMap);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add(VasConstants.CSV_NAME, fileEntity);
+
+        RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        //Get Current Year
+        map.put("year", Calendar.getInstance().get(Calendar.YEAR));
+
+        //Gets Ratings By Year
+        UriTemplate uriTemplateRatings = new UriTemplate("/api/dashboard/ratingsByYear?year={year}&name={name}&companyName={companyName}&email={email}");
+        URI uriRatings = uriTemplateRatings.expand(map);
+        RequestEntity<Void> requestRatings = RequestEntity
+                .get(uriRatings).build();
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
+
+        assertNotEquals(0,dataSourceDTOList.size());
+
+        DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
+        assertEquals(VasConstants.HEADER_CSV_NAME, dataSourceDTO.getFileName());
+
+        uriTemplateRatings = new UriTemplate("/api/dashboard/deleteRating/{id}?name={name}&companyName={companyName}&email={email}");
+        map.put("id",dataSourceDTO.getId());
+        map.put("name","Not john");
+        uriRatings = uriTemplateRatings.expand(map);
+        requestRatings = RequestEntity
+                .delete(uriRatings).build();
+
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCodeValue();
+        assertEquals(HttpStatus.UNAUTHORIZED.value(),status);
+
+        cleanDataSources(dataSourceDTO);
+    }
+
+    @Test
+    void uploadCsvAndDeleteCSVNotFoundError() throws Exception {
+
+        Map<String,Object> map = getMap();
+        UriTemplate uriTemplateRatings = new UriTemplate("/api/dashboard/deleteRating/{id}?name={name}&companyName={companyName}&email={email}");
+        map.put("id",Integer.MAX_VALUE);
+
+        URI uriRatings = uriTemplateRatings.expand(map);
+        RequestEntity requestRatings = RequestEntity
+                .delete(uriRatings).build();
+
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCodeValue();
+        assertEquals(HttpStatus.NOT_FOUND.value(),status);
+
+    }
+
+    @Test
+    void uploadCsvWithErrorOnScore() throws Exception {
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("ratingName", VasConstants.HEADER_CSV_NAME);
+        headers.set("year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        headers.set("type", VasConstants.CSV_ROLE_TYPE_Global);
+
+        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder(VasConstants.CSV_TYPE)
+                .name(VasConstants.CSV_NAME)
+                .filename(VasConstants.CSV_FILENAME)
+                .build();
+
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(Files.readAllBytes(Paths.get(VasConstants.CSV_FILEPATH_ERROR)), fileMap);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add(VasConstants.CSV_NAME, fileEntity);
+
+        RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+
+        assertEquals(HttpStatus.NOT_ACCEPTABLE,responseEntity.getStatusCode());
+
+
     }
 
     private void cleanDataSources(DataSourceDTO dataSourceDTO) {

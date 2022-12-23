@@ -191,6 +191,122 @@ class ReportApiIntegrationTest {
         reportDTO.setReportValuesDTOList(reportValuesDTOList1);
         return reportDTO;
     }
+
+    @Test
+    void saveReportsAndDelete () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ReportDTO reportDTO = createReport();
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        // ############# Get API ##############
+        UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
+        URI uriGet = uriTemplateGet.expand(map);
+
+        RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
+
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+
+        List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
+
+        assertNotEquals(0,reportDTOSize.size());
+
+
+        // ############# Delete API ##############
+        UriTemplate uriTemplateDelete = new UriTemplate("/api/dashboard/deleteReport/{id}?name={name}&companyName={companyName}&email={email}");
+        map.put("id",reportDTOSize.get(0).getId());
+        URI uriDelete = uriTemplateDelete.expand(map);
+
+
+        RequestEntity request = new RequestEntity(HttpMethod.DELETE, uriDelete);
+
+        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.NO_CONTENT,responseEntityDelete.getStatusCode());
+
+
+
+    }
+
+    @Test
+    void saveReportsAndDeleteOtherUserError () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ReportDTO reportDTO = createReport();
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        // ############# Get API ##############
+        UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
+        URI uriGet = uriTemplateGet.expand(map);
+
+        RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
+
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+
+        List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
+
+        assertNotEquals(0,reportDTOSize.size());
+
+
+        // ############# Delete API ##############
+        UriTemplate uriTemplateDelete = new UriTemplate("/api/dashboard/deleteReport/{id}?name={name}&companyName={companyName}&email={email}");
+        map.put("id",reportDTOSize.get(0).getId());
+        map.put("name","Not John");
+        URI uriDelete = uriTemplateDelete.expand(map);
+
+
+        RequestEntity request = new RequestEntity(HttpMethod.DELETE, uriDelete);
+
+        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.UNAUTHORIZED,responseEntityDelete.getStatusCode());
+
+
+
+    }
+
+    @Test
+    void deleteNonExistReportError () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ReportDTO reportDTO = createReport();
+        Map<String,Object> map = getMap();
+
+        // ############# Delete API ##############
+        UriTemplate uriTemplateDelete = new UriTemplate("/api/dashboard/deleteReport/{id}?name={name}&companyName={companyName}&email={email}");
+        map.put("id",Integer.MAX_VALUE);
+        URI uriDelete = uriTemplateDelete.expand(map);
+
+
+        RequestEntity request = new RequestEntity(HttpMethod.DELETE, uriDelete);
+
+        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.NOT_FOUND,responseEntityDelete.getStatusCode());
+
+
+
+    }
 }
 
 
