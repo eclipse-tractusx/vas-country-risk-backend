@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.service.logic;
 
+import com.catenax.valueaddedservice.constants.VasConstants;
 import com.catenax.valueaddedservice.domain.DataSource;
 import com.catenax.valueaddedservice.domain.enumeration.Type;
 import com.catenax.valueaddedservice.dto.CompanyUserDTO;
@@ -11,14 +12,15 @@ import com.catenax.valueaddedservice.service.DataSourceValueService;
 import com.catenax.valueaddedservice.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Calendar;
 import java.util.Optional;
 
 /**
@@ -68,6 +70,9 @@ public class UploadAndDownloadLogicService {
             dataSourceValueDTO.setScore(-1F);
             dataSourceValueDTO.setDataSource(dataSource);
             if(countryAndValue.length > 4){
+                if(Float.valueOf(countryAndValue[4]) < 0 || Float.valueOf(countryAndValue[4]) > 100){
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, VasConstants.UPLOAD_ERROR_MESSAGE_ON_SCORES + countryAndValue[1]);
+                }
                 dataSourceValueDTO.setScore(Float.valueOf(countryAndValue[4]));
             }
             dataSourceValueService.save(dataSourceValueDTO);

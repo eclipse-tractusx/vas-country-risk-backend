@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class ShareLogicService {
+public class  ShareLogicService {
 
     @Autowired
     DataSourceValueService dataSourceValueService;

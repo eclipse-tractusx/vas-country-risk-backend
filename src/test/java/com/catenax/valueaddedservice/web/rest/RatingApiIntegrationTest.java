@@ -4,7 +4,6 @@ import com.catenax.valueaddedservice.ValueAddedServiceApplication;
 import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.DataSourceDTO;
 import com.catenax.valueaddedservice.dto.ShareDTOs.ShareDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -101,7 +100,7 @@ class RatingApiIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllRatingsForCompany?companyName={companyName}&year={year}");
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllRatingsForCompany?companyName={companyName}&year={year}&name={name}&companyName={companyName}&email={email}\"");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(headers, HttpMethod.GET, uri);
@@ -121,7 +120,8 @@ class RatingApiIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         Map<String,Object> map = getMapLists();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllRatingsScoresForEachBpn?companyName={companyName}&ratings={ratings}&bpns={bpns}");
+        map.putAll(getMap());
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllRatingsScoresForEachBpn?companyName={companyName}&datasource[]={datasource}&bpns[]={bpns}&name={name}&companyName={companyName}&email={email}\"");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(headers, HttpMethod.GET, uri);
@@ -137,11 +137,11 @@ class RatingApiIntegrationTest {
     private Map<String,Object> getMapLists() throws IOException {
         Map<String,Object> map = new HashMap<>();
 
-        List<DataSourceDTO> dataSourceDTOS = objectMapper.readValue(listDataSource.getInputStream(), new TypeReference<List<DataSourceDTO>>() { });
+        DataSourceDTO dataSourceDTOS = objectMapper.readValue(listDataSource.getInputStream(), DataSourceDTO.class);
 
-        List<BusinessPartnerDTO> businessPartnerDTOS = objectMapper.readValue(listBpn.getInputStream(), new TypeReference<List<BusinessPartnerDTO>>() { });
+       BusinessPartnerDTO businessPartnerDTOS = objectMapper.readValue(listBpn.getInputStream(), BusinessPartnerDTO.class);
 
-        map.put("ratings",objectMapper.writeValueAsString(dataSourceDTOS));
+        map.put("datasource",objectMapper.writeValueAsString(dataSourceDTOS));
         map.put("bpns",objectMapper.writeValueAsString(businessPartnerDTOS));
         map.put("companyName", "test");
 

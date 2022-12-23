@@ -150,5 +150,19 @@ class CountryLogicServiceTest {
         assertEquals(countryDTO, result);
     }
 
+    @Test
+    @DisplayName("Should return a non country when the country non exists")
+    void findCountryByNameWhenCountryNonExistsThenReturnCountry() {
+        String countryName = "Germany";
+        CountryDTO countryDTO =
+                new CountryDTO(1L, "NonExist", "DEU", "DE", "Europe", null, null, null);
+        when(countryService.findCountryByName(countryName)).thenReturn(Optional.empty());
+
+        CountryDTO result = countryLogicService.findCountryByName(countryName);
+
+        assertNotNull(result);
+        assertNotEquals(countryDTO, result);
+    }
+
 
 }

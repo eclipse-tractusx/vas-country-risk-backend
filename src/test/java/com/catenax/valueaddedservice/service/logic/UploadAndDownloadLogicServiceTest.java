@@ -1,8 +1,6 @@
 package com.catenax.valueaddedservice.service.logic;
 
 import com.catenax.valueaddedservice.dto.FileDTO;
-import com.catenax.valueaddedservice.service.DataSourceService;
-import com.catenax.valueaddedservice.service.DataSourceValueService;
 import com.catenax.valueaddedservice.service.FileService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,11 +18,6 @@ import static org.mockito.Mockito.when;
 @DisplayName("UploadAndDownloadLogicService")
 class UploadAndDownloadLogicServiceTest {
 
-    @Mock
-    DataSourceService dataSourceService;
-
-    @Mock
-    DataSourceValueService dataSourceValueService;
 
     @Mock
     FileService fileService;

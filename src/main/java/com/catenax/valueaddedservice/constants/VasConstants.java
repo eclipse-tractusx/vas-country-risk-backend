@@ -14,7 +14,9 @@ public final class VasConstants {
     public static final String ERROR_LOG = "Error ";
     public static final String UPLOAD_SUCCESS_MESSAGE= "Uploaded the file successfully: ";
     public static final String UPLOAD_ERROR_MESSAGE= "Rating name already exists. Please chose a different name ";
+    public static final String UPLOAD_ERROR_MESSAGE_ON_SCORES = "Invalid scoring for ";
 
+    public static final String VALIDATE_COMPANY_USER= "Request parameter companyUser not valid";
     public static final Integer MIN_DEFAULT_USER_RANGE = 25;
     public static final Integer BETWEEN_DEFAULT_USER_RANGE = 50;
     public static final Integer MAX_DEFAULT_USER_RANGE = 100;
@@ -26,8 +28,12 @@ public final class VasConstants {
 
     public static final String CSV_TYPE = "form-data";
     public static final String CSV_NAME = "file";
-    public static final String CSV_FILENAME = "testeFile.csv";
-    public static final String CSV_ROLE_TYPE = "Global";
+    public static final String CSV_FILENAME = "testFile.csv";
+    public static final String CSV_ROLE_TYPE_Global = "Global";
+
+    public static final String CSV_ROLE_TYPE_Custom = "Custom";
+
+    public static final String CSV_ROLE_TYPE_Company = "Company";
 
     public static final String REQUEST_COMPANY_NAME = "companyName";
 
@@ -36,5 +42,6 @@ public final class VasConstants {
     public static final String REQUEST_USER_NAME = "name";
 
     public static final String CSV_FILEPATH = "src/test/resources/config/liquibase/test-data/file_test_upload.csv";
+    public static final String CSV_FILEPATH_ERROR = "src/test/resources/config/liquibase/test-data/file_test_upload_with_error.csv";
 
 }

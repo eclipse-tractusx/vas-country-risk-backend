@@ -1,6 +1,7 @@
 package com.catenax.valueaddedservice.dto;
 
 import com.catenax.valueaddedservice.domain.enumeration.RangeType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -15,7 +16,9 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties("id")
 public class RangeDTO implements Serializable {
+
 
     private Long id;
 

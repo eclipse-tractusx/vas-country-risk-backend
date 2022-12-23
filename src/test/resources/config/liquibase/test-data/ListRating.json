@@ -1,4 +1,4 @@
-[
-  {"dataSourceName":"CPI Rating 2021","weight":50.0},
-  {"dataSourceName":"African Development Bank CPIA","weight":50.0}
-]
+{
+  "dataSourceName": "CPI Rating 2021",
+  "weight": 100.0
+}

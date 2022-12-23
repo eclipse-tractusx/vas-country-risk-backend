@@ -1,6 +1,7 @@
 package com.catenax.valueaddedservice.service.logic;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,11 @@ import java.util.ArrayList;
 @Slf4j
 public class InvokeService {
 
-    RestTemplate defaultRestTemplate = new RestTemplate();
+    @Autowired
+    RestTemplate restTemplate;
     public Object executeRequest(String url, HttpMethod httpMethod, HttpEntity httpEntity,Object object){
         try{
-            return defaultRestTemplate.exchange(url,httpMethod,httpEntity,object.getClass());
+            return restTemplate.exchange(url,httpMethod,httpEntity,object.getClass());
         }catch(HttpClientErrorException e){
             log.error("error url {} message {}",url,e.getMessage() );
         }

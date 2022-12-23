@@ -1,5 +1,8 @@
 package com.catenax.valueaddedservice.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -40,5 +43,18 @@ public class BusinessPartnerDTO implements Serializable {
 
     @Schema(example = "-6.6889038")
     private String latitude;
+
+    public BusinessPartnerDTO(String json) {
+
+        try {
+            BusinessPartnerDTO businessPartnerDTO = new ObjectMapper()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readValue(json, BusinessPartnerDTO.class);
+            this.bpn = businessPartnerDTO.getBpn();
+            this.country = businessPartnerDTO.getCountry();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 }

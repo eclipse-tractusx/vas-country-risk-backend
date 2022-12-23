@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -48,7 +49,7 @@ class DashBoardResourceTest {
                 .thenReturn(dashBoardWorldMapDTOS);
 
         List<DashBoardWorldMapDTO> result =
-                dashBoardResource.getDashBoardWorldMap(new ListRatingDTO(), year ,companyUserDTO).getBody();
+                dashBoardResource.getDashBoardWorldMap(new ArrayList<>(),companyUserDTO,year).getBody();
 
         assertEquals(dashBoardWorldMapDTOS, result);
     }
@@ -58,13 +59,13 @@ class DashBoardResourceTest {
     @Test
     @DisplayName("Should return a list of dashboardtabledto when the year is not null")
     void getAllDashBoardTableWhenYearIsNotNull() throws IOException {
-        ListRatingDTO listRatingDTO = new ListRatingDTO();
+        List<RatingDTO> ratingDTOS= new ArrayList<>();
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
         when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
                 .thenReturn(List.of(new DashBoardTableDTO()));
-        var result = dashBoardResource.getAllDashBoardTable(listRatingDTO, 2020,companyUserDTO);
+        var result = dashBoardResource.getAllDashBoardTable(ratingDTOS, 2020,companyUserDTO);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
@@ -77,7 +78,7 @@ class DashBoardResourceTest {
         fileDTO.setFileName("test");
         fileDTO.setContent("test");
         when(dashboardService.getDataSourceTemplate()).thenReturn(fileDTO);
-        assertEquals(HttpStatus.OK,dashBoardResource.getTemplate().getStatusCode());
+        assertEquals(HttpStatus.OK,dashBoardResource.getTemplate(new CompanyUserDTO()).getStatusCode());
     }
 
     @Test
@@ -162,7 +163,7 @@ class DashBoardResourceTest {
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         doNothing().when(dashboardService).saveRanges(rangeDTOS, companyUserDTO);
 
-        dashBoardResource.saveRanges(rangeDTOS, companyUserDTO);
+        dashBoardResource.saveRanges(companyUserDTO,rangeDTOS);
 
         verify(dashboardService, times(1)).saveRanges(rangeDTOS, companyUserDTO);
     }
@@ -194,7 +195,7 @@ class DashBoardResourceTest {
         Integer year = Calendar.getInstance().get(Calendar.YEAR);
         doThrow(new RuntimeException())
                 .when(this.dashboardService).saveCsv( file,VasConstants.CSV_NAME,companyUserDTO, year, "Global");
-        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.uploadFile(file, VasConstants.CSV_NAME,year,"Global",companyUserDTO).getStatusCode());
+        assertEquals(HttpStatus.NOT_ACCEPTABLE,this.dashBoardResource.uploadFile( VasConstants.CSV_NAME,year,"Global",companyUserDTO,file).getStatusCode());
     }
 
     @Test
@@ -211,7 +212,7 @@ class DashBoardResourceTest {
 
         when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOS);
 
-        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO).getBody();
+        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO,new CompanyUserDTO()).getBody();
 
         assertEquals(reportValuesDTOS, result);
     }
@@ -229,7 +230,7 @@ class DashBoardResourceTest {
         List<ReportValuesDTO> reportValuesDTOS = List.of(reportValuesDTO);
         when(dashboardService.getReportValues(reportDTO)).thenReturn(reportValuesDTOS);
 
-        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO).getBody();
+        List<ReportValuesDTO> result = dashBoardResource.getReportsValueByReport(reportDTO,new CompanyUserDTO()).getBody();
 
         assertEquals(reportValuesDTOS, result);
     }
@@ -300,7 +301,7 @@ class DashBoardResourceTest {
     void getReportsValueByReportWhenReportIsNull() {
         ReportDTO reportDTO = null;
 
-        var result = dashBoardResource.getReportsValueByReport(reportDTO);
+        var result = dashBoardResource.getReportsValueByReport(reportDTO,new CompanyUserDTO());
 
         assertNotNull(result);
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -323,7 +324,7 @@ class DashBoardResourceTest {
 
         when(dashboardService.getReportValues(reportDTO)).thenReturn(List.of(reportValuesDTO));
 
-        var result = dashBoardResource.getReportsValueByReport(reportDTO);
+        var result = dashBoardResource.getReportsValueByReport(reportDTO,new CompanyUserDTO());
 
         assertEquals(1, result.getBody().size());
     }

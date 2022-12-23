@@ -121,7 +121,6 @@ class BPNIntegartionTest {
     }
 
     @Test
-
     void getGatesForUser() throws Exception {
 
         createGateForUser();
@@ -135,6 +134,21 @@ class BPNIntegartionTest {
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
+    }
+
+    @Test
+    void getGatesForNonUser() throws Exception {
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getAllUserBPDMGates?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity
+                .get(uri).build();
+        ResponseEntity<List<CompanyGatesDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
+        List<CompanyGatesDTO> list = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(0,list.size());
     }
 
 
