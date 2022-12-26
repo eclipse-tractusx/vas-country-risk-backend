@@ -50,12 +50,31 @@ public class ReportLogicService {
     }
 
     public void saveReport(ReportDTO reportDTO,CompanyUserDTO companyUserDTO)  {
-        reportDTO.setCompany(companyUserDTO.getCompanyName());
-        reportDTO.setCompanyUserName(companyUserDTO.getName());
-        ReportDTO reportCreated = reportService.save(reportDTO);
-        if(reportDTO.getReportValuesDTOList() != null && !reportDTO.getReportValuesDTOList().isEmpty()){
-            reportDTO.getReportValuesDTOList().forEach(reportValuesDTO -> reportValuesService.save(reportValuesDTO,reportCreated));
+        if(reportDTO.getId() != null){
+            updateReport(reportDTO,companyUserDTO);
+        }else{
+            reportDTO.setCompany(companyUserDTO.getCompanyName());
+            reportDTO.setCompanyUserName(companyUserDTO.getName());
+            ReportDTO reportCreated = reportService.save(reportDTO);
+            if(reportDTO.getReportValuesDTOList() != null && !reportDTO.getReportValuesDTOList().isEmpty()){
+                reportDTO.getReportValuesDTOList().forEach(reportValuesDTO -> reportValuesService.save(reportValuesDTO,reportCreated));
+            }
         }
+    }
+
+    public void updateReport(ReportDTO updatedReportDTO,CompanyUserDTO companyUserDTO){
+        Optional<ReportDTO> optionalReportDTO = reportService.findOne(updatedReportDTO.getId());
+        ReportDTO reportDTO = optionalReportDTO.orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        });
+        if( validatePermissionToChangeReport(reportDTO,companyUserDTO)){
+            List<ReportValuesDTO> reportValuesDTOList = reportValuesService.findByReport(reportDTO);
+            reportValuesDTOList.forEach(reportValuesDTO -> reportValuesService.delete(reportValuesDTO.getId()));
+            updatedReportDTO.getReportValuesDTOList().forEach(reportValuesDTO -> reportValuesService.save(reportValuesDTO,updatedReportDTO));
+        }else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     public void deleteReportById(Long reportId,CompanyUserDTO companyUserDTO){
@@ -63,8 +82,7 @@ public class ReportLogicService {
         ReportDTO reportDTO = optionalReportDTO.orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         });
-        if( (reportDTO.getCompany().equalsIgnoreCase(companyUserDTO.getCompanyName())
-                && reportDTO.getCompanyUserName().equalsIgnoreCase(companyUserDTO.getName())) || companyUserLogicService.isAdmin()){
+        if(validatePermissionToChangeReport(reportDTO,companyUserDTO)){
             List<ReportValuesDTO> reportValuesDTOList = reportValuesService.findByReport(reportDTO);
             reportValuesDTOList.forEach(reportValuesDTO -> reportValuesService.delete(reportValuesDTO.getId()));
             reportService.delete(reportDTO.getId());
@@ -85,5 +103,15 @@ public class ReportLogicService {
     @CacheEvict(value = "vas-reports", allEntries = true)
     public void invalidateAllCache() {
         log.debug("invalidateAllCache|vas-Reports -  invalidated cache - allEntries");
+    }
+
+
+
+    public boolean validatePermissionToChangeReport(ReportDTO reportDTO,CompanyUserDTO companyUserDTO){
+        if((reportDTO.getCompany().equalsIgnoreCase(companyUserDTO.getCompanyName())
+                && reportDTO.getCompanyUserName().equalsIgnoreCase(companyUserDTO.getName())) || companyUserLogicService.isAdmin()){
+           return true;
+        }
+        return false;
     }
 }

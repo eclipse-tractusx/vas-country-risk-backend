@@ -48,6 +48,7 @@ public class DashBoardResource {
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@NotNull @Parameter(name = "ratings[]", description = "") @Valid @RequestParam(value = "ratings[]", required = false,defaultValue = "") List<RatingDTO> ratings,
                                                                         @Parameter(name = "year", description = "") @Valid @RequestParam(value = "year", required = false, defaultValue = "0") Integer year,
                                                                         CompanyUserDTO companyUser) {
+
         log.debug(Logger.EVENT_SUCCESS, "REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;
         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings, companyUser);
@@ -218,6 +219,8 @@ public class DashBoardResource {
 
     }
 
+
+
     @Operation(summary = "Retrieves all Reports that a user can get")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Reports requested with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
@@ -229,7 +232,7 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(reportDTOS);
     }
 
-    @Operation(summary = "Save new Reports that a user can get")
+    @Operation(summary = "Save new Reports")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Reports saved with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/saveReports")
@@ -251,6 +254,15 @@ public class DashBoardResource {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Operation(summary = "Update Reports that")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Reports updated with success"),
+            @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
+    @PutMapping("/dashboard/updateReports")
+    public ResponseEntity<ResponseMessage> updateReports(@Valid @RequestBody ReportDTO reportDTO, CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS, "REST request to save reports");
+        dashboardService.saveReportForUser(companyUserDTO, reportDTO);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
     @Operation(summary = "Retrieves all Reports that a user can get")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Report values requested with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
