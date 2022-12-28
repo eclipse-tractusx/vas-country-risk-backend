@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,10 +42,14 @@ public class CompanyUserService {
         return companyUserMapper.toDto(companyUser);
     }
 
-    public CompanyUserDTO findBYNameEmailAndCompany(CompanyUserDTO companyUserDTO){
-        CompanyUser companyUser = companyUserRepository.findByNameAndEmailAndCompanyName(companyUserDTO.getName(), companyUserDTO.getEmail(), companyUserDTO.getCompanyName());
+    public CompanyUserDTO findByNameEmailAndCompany(String companyUserName, String email, String companyName) {
+        CompanyUser companyUser = companyUserRepository.findByNameAndEmailAndCompanyName(companyUserName, email, companyName);
 
         return companyUserMapper.toDto(companyUser);
+    }
+
+    public List<CompanyUserDTO> findAllUserFromCompany(String company) {
+        return companyUserMapper.toDto(companyUserRepository.findByCompanyName(company));
     }
 
     /**
@@ -57,14 +62,14 @@ public class CompanyUserService {
         log.debug("Request to partially update CompanyUser : {}", companyUserDTO);
 
         return companyUserRepository
-            .findById(companyUserDTO.getId())
-            .map(existingCompanyUser -> {
-                companyUserMapper.partialUpdate(existingCompanyUser, companyUserDTO);
+                .findById(companyUserDTO.getId())
+                .map(existingCompanyUser -> {
+                    companyUserMapper.partialUpdate(existingCompanyUser, companyUserDTO);
 
-                return existingCompanyUser;
-            })
-            .map(companyUserRepository::save)
-            .map(companyUserMapper::toDto);
+                    return existingCompanyUser;
+                })
+                .map(companyUserRepository::save)
+                .map(companyUserMapper::toDto);
     }
 
     /**

@@ -254,6 +254,28 @@ public class DashBoardResource {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Operation(summary = "Share Reports")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Reports shared with success"),
+            @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
+    @PostMapping("/dashboard/shareReport")
+    public ResponseEntity<ResponseMessage> shareReport(@Valid @RequestBody ReportDTO reportDTO, CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS, "REST request to share reports");
+        String message;
+        try {
+            dashboardService.shareReportForUser(reportDTO);
+        } catch (DataIntegrityViolationException e) {
+            message = "Could not upload the report duplicate name: " + reportDTO.getReportName() + "!";
+            log.error(Logger.EVENT_FAILURE, message);
+            log.error(Logger.EVENT_FAILURE, "Error " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not upload the report: " + reportDTO.getReportName() + "!";
+            log.error(Logger.EVENT_FAILURE, "Error " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @Operation(summary = "Update Reports that")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Reports updated with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
@@ -334,6 +356,17 @@ public class DashBoardResource {
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    @Operation(summary = "Retrieves Company User of a Company")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Users get with success"),
+            @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
+    @GetMapping("/dashboard/getUserFromCompany")
+    public ResponseEntity<List<CompanyUserDTO>> getUserFromCompany(CompanyUserDTO companyUserDTO) {
+        log.debug(Logger.EVENT_SUCCESS, "Retrieves Company User of a Company");
+        List<CompanyUserDTO> companyUserDTOList;
+        companyUserDTOList = dashboardService.getUsersFromCompany( companyUserDTO);
+        return ResponseEntity.ok().body(companyUserDTOList);
     }
 
 

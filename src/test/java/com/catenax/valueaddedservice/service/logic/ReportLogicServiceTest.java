@@ -51,9 +51,9 @@ class ReportLogicServiceTest {
     @Test
     @DisplayName("Should save the report when the report is not null")
     void saveReportWhenReportIsNotNull() {
-        ReportDTO reportDTO = new ReportDTO(1L, "Fake Rating", "John", "Test Company", Type.Custom,new ArrayList<>());
+        ReportDTO reportDTO = new ReportDTO(null, "Fake Rating", "John", "Test Company","John@email.com", Type.Custom,new ArrayList<>());
         reportDTO.setReportValuesDTOList(
-                Arrays.asList(new ReportValuesDTO(1L, "Range", "Test Range", null)));
+                Arrays.asList(new ReportValuesDTO(null, "Range", "Test Range", null)));
         when(reportService.save(reportDTO)).thenReturn(reportDTO);
         reportLogicService.saveReport(reportDTO, companyUserDTO);
         verify(reportService, times(1)).save(reportDTO);
