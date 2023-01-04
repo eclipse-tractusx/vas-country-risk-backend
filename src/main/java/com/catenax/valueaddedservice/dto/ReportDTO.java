@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.List;
@@ -15,11 +16,11 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class ReportDTO implements Serializable {
 
     private Long id;
 
+    @NotEmpty
     @Schema(example = "Fake Report")
     private String reportName;
 
