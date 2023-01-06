@@ -7,11 +7,13 @@ import com.catenax.valueaddedservice.domain.CompanyGroup;
 import com.catenax.valueaddedservice.domain.CompanyUser;
 import com.catenax.valueaddedservice.dto.BusinessPartnerDTO;
 import com.catenax.valueaddedservice.dto.CompanyGatesDTO;
+import com.catenax.valueaddedservice.dto.CompanyUserDTO;
 import com.catenax.valueaddedservice.dto.CountryDTO;
 import com.catenax.valueaddedservice.repository.CompanyGatesRepository;
 import com.catenax.valueaddedservice.repository.CompanyGroupRepository;
 import com.catenax.valueaddedservice.repository.CompanyRepository;
 import com.catenax.valueaddedservice.repository.CompanyUserRepository;
+import com.catenax.valueaddedservice.service.mapper.CompanyUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +62,6 @@ class BPNIntegartionTest {
         companyGroupRepository.deleteAll();
 
     }
-
 
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
@@ -173,7 +174,27 @@ class BPNIntegartionTest {
         companyUserRepository.save(companyUser);
     }
 
+    @Test
+    void getUserFromCompany() throws Exception {
 
+        CompanyUser companyUser = new CompanyUser();
+        companyUser.setName("NewUser");
+        companyUser.setCompanyName("TestCompany");
+        companyUser.setEmail("NewUser@email.com");
+
+        companyUserRepository.save(companyUser);
+
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getUserFromCompany?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+        RequestEntity<Void> request = RequestEntity
+                .get(uri).build();
+        ResponseEntity<List<CompanyUserDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
+        List<CompanyUserDTO> list = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertNotEquals(0,list.size());
+    }
 
 
 }
