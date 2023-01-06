@@ -24,11 +24,7 @@ version: 2.0.0
 appVersion: "1.0.0"
 
 dependencies:
-  - name: postgresql
-    version:  11.*.*
-    repository: https://charts.bitnami.com/bitnami
-    alias: postgres
-    condition: postgres.enabled
+
   - condition: pgadmin4.enabled
     name: pgadmin4
     repository: https://helm.runix.net
