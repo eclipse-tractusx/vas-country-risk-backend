@@ -460,7 +460,7 @@ class ReportApiIntegrationTest {
 
         ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT,responseEntityUpdate.getStatusCode());
 
         //Duplicate Report error
         UriTemplate uriTemplateShareDuplicate = new UriTemplate("/api/dashboard/shareReport?name={name}&companyName={companyName}&email={email}");
