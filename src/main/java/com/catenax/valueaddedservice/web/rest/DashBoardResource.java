@@ -273,7 +273,7 @@ public class DashBoardResource {
             log.error(Logger.EVENT_FAILURE, "Error " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Operation(summary = "Update Reports that")
