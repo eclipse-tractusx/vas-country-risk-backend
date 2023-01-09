@@ -166,7 +166,7 @@ public class DashBoardResource {
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getUserRanges")
     public ResponseEntity<List<RangeDTO>> userRanges(CompanyUserDTO companyUser) {
-        log.debug(Logger.EVENT_SUCCESS, "REST request to get User Ranges");
+        log.debug(Logger.EVENT_SUCCESS, "REST request to get User Ranges ");
         List<RangeDTO> rangeDTOS;
         rangeDTOS = dashboardService.getUserRangesOrDefault(companyUser);
         return ResponseEntity.ok().body(rangeDTOS);
