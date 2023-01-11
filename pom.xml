@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.0</version>
+		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.catenax</groupId>
@@ -19,7 +19,7 @@
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
 		<org.projectlombok.version>1.18.24</org.projectlombok.version>
 		<liquibase.version>4.18.0</liquibase.version>
-		<liquibase-hibernate5.version>4.6.1</liquibase-hibernate5.version>
+		<liquibase-hibernate5.version>4.18.0</liquibase-hibernate5.version>
 		<spring-boot.version>2.6.6</spring-boot.version>
 		<org.zalando.problem-spring-web>0.27.0</org.zalando.problem-spring-web>
 		<org.springdoc.springdoc-openapi-ui>1.6.14</org.springdoc.springdoc-openapi-ui>
@@ -30,17 +30,19 @@
 		<sonar.projectKey>catenax-ng_product-value-added-service</sonar.projectKey>
 		<sonar.coverage.exclusions>src/main/java/com/catenax/valueaddedservice/dto/**/*.*,src/main/java/com/catenax/valueaddedservice/domain/**/*.*¨</sonar.coverage.exclusions>
 		<jacoco.version>0.8.7</jacoco.version>
-		<hibernate-types-55>2.21.1</hibernate-types-55>
 		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
 		<spring-boot-starter-oauth2-resource-server>3.0.1</spring-boot-starter-oauth2-resource-server>
 		<h2-version>2.1.214</h2-version>
-		<spring-security-web-version>5.7.5</spring-security-web-version>
+		<spring-security-web-version>6.0.1</spring-security-web-version>
 		<postgresql-version>42.5.1</postgresql-version>
 		<jackson-databind>2.13.4.1</jackson-databind>
 		<jackson-databind-nullable>0.2.4</jackson-databind-nullable>
 		<wiremock-standalone-version>2.27.2</wiremock-standalone-version>
 		<snake-yaml-version>1.31</snake-yaml-version>
 		<openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
+		<spring-boot-starter-web-version>3.0.1</spring-boot-starter-web-version>
+		<spring-web-jar-version>6.0.3</spring-web-jar-version>
+		<hibernate-core-version>6.1.6.Final</hibernate-core-version>
 	</properties>
 
 	<pluginRepositories>
@@ -70,10 +72,18 @@
 				<artifactId>snakeyaml</artifactId>
 				<version>${snake-yaml-version}</version>
 			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>4.0.1</version>
+			</dependency>
+
+
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -118,11 +128,6 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>${validation-api.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
@@ -163,11 +168,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.vladmihalcea</groupId>
-			<artifactId>hibernate-types-55</artifactId>
-			<version>${hibernate-types-55}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 			<version>${org.springframework.cloud}</version>
@@ -189,6 +189,13 @@
 			<version>${wiremock-standalone-version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate-core-version}</version>
+		</dependency>
+
 	</dependencies>
 
 

@@ -26,9 +26,8 @@ public class SecurityConfiguration  {
         httpSecurity.cors().and().csrf().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/**")
+                .and().authorizeHttpRequests()
+                .requestMatchers("/api/**")
                 .authenticated()
                 .and().
                 oauth2ResourceServer().jwt();
@@ -56,12 +55,12 @@ public class SecurityConfiguration  {
         httpSecurity.logout().disable();
         httpSecurity.headers().frameOptions().disable();
 
-        httpSecurity.cors().and().csrf().ignoringAntMatchers("/api/dashboard/**").and()
+        httpSecurity.cors().and().csrf().ignoringRequestMatchers("/api/dashboard/**").and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/api/**")
+                .authorizeHttpRequests()
+                .requestMatchers("/api/**")
                 .permitAll();
 
         return httpSecurity.build();
