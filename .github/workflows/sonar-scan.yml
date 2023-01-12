@@ -12,7 +12,7 @@ on:
         required: true
 
 env:
-  JAVA_VERSION: 11
+  JAVA_VERSION: 17
 
 jobs:
   Analysis:
