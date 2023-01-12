@@ -1,4 +1,4 @@
-FROM maven:3-openjdk-17 AS maven
+FROM maven:3.8-openjdk-18 as maven
 COPY ./pom.xml /pom.xml
 COPY ./src ./src
 
@@ -14,7 +14,7 @@ EXPOSE 433
 
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 # Copy the jar and build image
-FROM eclipse-temurin:18-jre AS value-added-service
+FROM eclipse-temurin:19_36-jre AS value-added-service
 
 ARG UID=1000
 ARG GID=1000

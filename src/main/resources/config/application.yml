@@ -42,11 +42,19 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${vas.authentication-url.jwk-set-uri}
+
+  datasource:
+    username: vas
+    url: jdbc:postgresql://${vas.datasource.host}:5432/vas
+    driverClassName: org.postgresql.Driver
+    password: ${vas_datasource_pass}
   jpa:
     hibernate:
       ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
+        default_schema: public
         show_sql: false
         format_sql: true
         types:
