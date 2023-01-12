@@ -1,14 +1,15 @@
 package com.catenax.valueaddedservice.domain;
 
-import com.catenax.valueaddedservice.utils.DataBaseJsonConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import java.io.Serializable;
-import java.util.HashMap;
+
 
 /**
  * A ReportValues.
@@ -30,9 +31,15 @@ public class ReportValues implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Convert(converter = DataBaseJsonConverter.class)
+
+//    @Column(name="object_value", columnDefinition = "jsonb")
+//    @Convert(converter = DataBaseJsonConverter.class)
+//    @JdbcTypeCode(SqlTypes.JSON)
+//    private Object objectValue;
+
+    @Type(JsonType.class)
     @Column(name="object_value", columnDefinition = "jsonb")
-    private HashMap<String,Object> objectValue;
+    private Object objectValue ;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "reportValues" }, allowSetters = true)

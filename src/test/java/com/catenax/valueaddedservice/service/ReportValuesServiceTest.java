@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +44,12 @@ class ReportValuesServiceTest {
         ReportValues reportValues = new ReportValues();
         reportValues.setId(1L);
         reportValues.setName("Range");
-        reportValues.setObjectValue("{\"min\":\"1\",\"max\":\"10\"}");
+        reportValues.setObjectValue(Collections.singletonList("{\"min\":\"1\",\"max\":\"10\"}"));
 
         ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
         reportValuesDTO.setId(1L);
         reportValuesDTO.setName("Range");
-        reportValuesDTO.setObjectValue("{\"min\":\"1\",\"max\":\"10\"}");
+        reportValuesDTO.setObjectValue(Collections.singletonList("{\"min\":\"1\",\"max\":\"10\"}"));
 
         Page<ReportValues> reportValuesPage = new PageImpl<>(List.of(reportValues));
 

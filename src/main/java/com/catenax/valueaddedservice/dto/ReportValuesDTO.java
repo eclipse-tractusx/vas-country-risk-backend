@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Map;
 
 
 @Setter
@@ -22,9 +21,12 @@ public class ReportValuesDTO implements Serializable {
     @Schema(example = "Range")
     private String name;
 
-    private Map<String, Object> objectValue;
+    private Object objectValue;
 
     @JsonIgnore
     private ReportDTO report;
+
+
+
 
 }

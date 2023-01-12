@@ -27,7 +27,7 @@ public class SecurityConfiguration  {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
-                .requestMatchers("/api/**")
+                .requestMatchers("/error","/api/**")
                 .authenticated()
                 .and().
                 oauth2ResourceServer().jwt();
@@ -60,7 +60,7 @@ public class SecurityConfiguration  {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/**")
+                .requestMatchers("/error","/api/**")
                 .permitAll();
 
         return httpSecurity.build();

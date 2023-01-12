@@ -59,6 +59,7 @@ class ReportApiIntegrationTest {
     public void cleanReports(){
         reportValuesRepository.deleteAll();
         reportRepository.deleteAll();
+        companyUserRepository.deleteAll();
 
     }
 
@@ -180,7 +181,7 @@ class ReportApiIntegrationTest {
 
     private ReportDTO createReport(){
 
-        List<String> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         list.add("value");
         List<ReportValuesDTO> reportValuesDTOList1 = new ArrayList<>();
         ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
@@ -202,7 +203,7 @@ class ReportApiIntegrationTest {
     //Update Report Object
     private ReportDTO createReportUpdate(){
 
-        List<String> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         list.add("valueUpdate");
         List<ReportValuesDTO> reportValuesDTOList1 = new ArrayList<>();
         ReportValuesDTO reportValuesDTO = new ReportValuesDTO();
@@ -462,17 +463,169 @@ class ReportApiIntegrationTest {
 
         assertEquals(HttpStatus.NO_CONTENT,responseEntityUpdate.getStatusCode());
 
-        //Duplicate Report error
-        UriTemplate uriTemplateShareDuplicate = new UriTemplate("/api/dashboard/shareReport?name={name}&companyName={companyName}&email={email}");
-        URI uriShareDuplicate = uriTemplateShareDuplicate.expand(map);
+    }
 
-        RequestEntity requestEntityDuplicate = new RequestEntity(reportDTOShare, headers, HttpMethod.POST, uriShareDuplicate);
 
-        ResponseEntity<ResponseMessage> responseEntityDuplicate = testRestTemplate.exchange(requestEntityDuplicate, ResponseMessage.class);
+    @Test
+    void saveReportsAndShareDuplicatedError () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ReportDTO reportDTO = createReport();
 
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntityDuplicate.getStatusCode());
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        // ############# Get API ##############
+        UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
+        URI uriGet = uriTemplateGet.expand(map);
+
+        RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
+
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+
+        List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
+
+        assertNotEquals(0,reportDTOSize.size());
+
+        // ############# Share the Created Report ##############
+
+        CompanyUser companyUser = new CompanyUser();
+        companyUser.setName("Terry");
+        companyUser.setCompanyName("TestCompany");
+        companyUser.setEmail("Terry@email.com");
+
+        companyUserRepository.save(companyUser);
+
+        ReportDTO reportDTOShare = createReport();
+
+        reportDTOShare.setCompanyUserName("Terry");
+        reportDTOShare.setCompany("TestCompany");
+        reportDTOShare.setEmail("Terry@email.com");
+
+        UriTemplate uriTemplateShare = new UriTemplate("/api/dashboard/shareReport?name={name}&companyName={companyName}&email={email}");
+        URI uriUpdate = uriTemplateShare.expand(map);
+
+        RequestEntity requestEntityUpdate = new RequestEntity(reportDTOShare, headers, HttpMethod.POST, uriUpdate);
+
+        ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
+
+        assertEquals(HttpStatus.NO_CONTENT,responseEntityUpdate.getStatusCode());
+
+        ResponseEntity<ResponseMessage> responseError = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST,responseError.getStatusCode());
 
     }
+
+    @Test
+    void UpdateNonExistReportError () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String,Object> map = getMap();
+
+        // ############# Update API ##############
+        //reportValuesDTO name changed from ReportValues to ReportValuesUpdated
+        UriTemplate uriTemplateUpdate = new UriTemplate("/api/dashboard/updateReports?name={name}&companyName={companyName}&email={email}");
+        URI uriUpdate = uriTemplateUpdate.expand(map);
+
+        ReportDTO reportDTOUpdate = createReportUpdate();
+
+        reportDTOUpdate.setId(1L);
+
+        RequestEntity requestEntityUpdate = new RequestEntity(reportDTOUpdate, headers, HttpMethod.PUT, uriUpdate);
+
+        ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
+
+        assertEquals(HttpStatus.NOT_FOUND,responseEntityUpdate.getStatusCode());
+
+    }
+
+    @Test
+    //Share a Report when the user is not in the DB
+    void ShareReportNoUserFoundError () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Map<String,Object> map = getMap();
+
+        ReportDTO reportDTOShare = createReport();
+
+        reportDTOShare.setCompanyUserName("TerryNot");
+        reportDTOShare.setCompany("TestCompanyNot");
+        reportDTOShare.setEmail("TerryNot@email.com");
+
+        UriTemplate uriTemplateShare = new UriTemplate("/api/dashboard/shareReport?name={name}&companyName={companyName}&email={email}");
+        URI uriUpdate = uriTemplateShare.expand(map);
+
+        RequestEntity requestEntityUpdate = new RequestEntity(reportDTOShare, headers, HttpMethod.POST, uriUpdate);
+
+        ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST,responseEntityUpdate.getStatusCode());
+
+    }
+
+    @Test
+    void saveReportsAndUpdateUnautorized () throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ReportDTO reportDTO = createReport();
+        Map<String,Object> map = getMap();
+        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        URI uri = uritemplate.expand(map);
+
+        RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
+
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
+
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+
+        // ############# Get API ##############
+        UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
+        URI uriGet = uriTemplateGet.expand(map);
+
+        RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
+
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+
+        List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
+
+        assertNotEquals(0,reportDTOSize.size());
+
+
+        // ############# Delete API ##############
+
+        CompanyUser companyUser = new CompanyUser();
+        companyUser.setName("Not John");
+        companyUser.setCompanyName("TestCompany");
+        companyUser.setEmail("Terry@email.com");
+
+        companyUserRepository.save(companyUser);
+
+        UriTemplate uriTemplateUpdate = new UriTemplate("/api/dashboard/updateReports?name={name}&companyName={companyName}&email={email}");
+        map.put("name","Not John");
+        map.put("email","Terry@email.com");
+        URI uriUpdate = uriTemplateUpdate.expand(map);
+
+        RequestEntity request = new RequestEntity(reportDTOSize.get(0),headers,HttpMethod.PUT,uriUpdate);
+
+        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.UNAUTHORIZED,responseEntityDelete.getStatusCode());
+
+    }
+
 }
 
 

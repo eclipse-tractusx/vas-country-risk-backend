@@ -14,10 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -52,8 +49,10 @@ class ReportLogicServiceTest {
     @DisplayName("Should save the report when the report is not null")
     void saveReportWhenReportIsNotNull() {
         ReportDTO reportDTO = new ReportDTO(null, "Fake Rating", "John", "Test Company","John@email.com", Type.Custom,new ArrayList<>());
+        Map<String,Object> map = new HashMap<>();
+        map.put("teste","teste");
         reportDTO.setReportValuesDTOList(
-                Arrays.asList(new ReportValuesDTO(null, "Range", "Test Range", null)));
+                Arrays.asList(new ReportValuesDTO(null, "Range", map, null)));
         when(reportService.save(reportDTO)).thenReturn(reportDTO);
         reportLogicService.saveReport(reportDTO, companyUserDTO);
         verify(reportService, times(1)).save(reportDTO);
