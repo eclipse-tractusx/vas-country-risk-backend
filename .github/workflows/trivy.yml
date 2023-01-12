@@ -67,7 +67,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           # Path to Docker image
-          image-ref: "ghcr.io/catenax-ng/product-value-added-service:main"
+          image-ref: "ghcr.io/catenax-ng/product-value-added-service:${{ github.ref }}"
           format: "sarif"
           output: "trivy-results2.sarif"
           exit-code: "1"
