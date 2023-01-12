@@ -1,4 +1,4 @@
-FROM maven:3.8-jdk-17 as maven
+FROM maven:3.8-openjdk-18 as maven
 COPY ./pom.xml /pom.xml
 COPY ./src ./src
 
