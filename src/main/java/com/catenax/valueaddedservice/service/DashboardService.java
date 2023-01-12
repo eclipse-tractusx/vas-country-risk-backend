@@ -122,6 +122,14 @@ public class DashboardService {
         reportLogicService.invalidateAllCache();
     }
 
+    public void shareReportForUser(ReportDTO reportDTO) {
+        CompanyUserDTO companyUserDTOUse = companyUserLogicService.findByNameEmailAndCompany(reportDTO.getCompanyUserName()
+        , reportDTO.getEmail(), reportDTO.getCompany());
+
+        reportLogicService.saveReport(reportDTO, companyUserDTOUse);
+        reportLogicService.invalidateAllCache();
+    }
+
     public List<ReportValuesDTO> getReportValues(ReportDTO reportDTO) {
         return reportLogicService.getReportValues(reportDTO);
     }
@@ -147,6 +155,10 @@ public class DashboardService {
     public void deleteRatingFromUserById(Long ratingId,CompanyUserDTO companyUserDTO)  {
         dataSourceLogicService.deleteDataSourceById(ratingId,companyUserDTO);
         dataSourceLogicService.invalidateAllCache();
+    }
+
+    public List<CompanyUserDTO> getUsersFromCompany(CompanyUserDTO companyUserDTO) {
+        return companyUserLogicService.getUsersFromCompany(companyUserDTO);
     }
 
 

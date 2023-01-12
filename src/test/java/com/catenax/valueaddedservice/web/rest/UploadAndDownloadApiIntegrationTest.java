@@ -240,7 +240,7 @@ class UploadAndDownloadApiIntegrationTest {
         requestRatings = RequestEntity
                 .delete(uriRatings).build();
 
-        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCodeValue();
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCode().value();
         assertEquals(HttpStatus.NO_CONTENT.value(),status);
 
 
@@ -301,7 +301,7 @@ class UploadAndDownloadApiIntegrationTest {
         requestRatings = RequestEntity
                 .delete(uriRatings).build();
 
-        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCodeValue();
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCode().value();
         assertEquals(HttpStatus.UNAUTHORIZED.value(),status);
 
         cleanDataSources(dataSourceDTO);
@@ -318,7 +318,7 @@ class UploadAndDownloadApiIntegrationTest {
         RequestEntity requestRatings = RequestEntity
                 .delete(uriRatings).build();
 
-        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCodeValue();
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCode().value();
         assertEquals(HttpStatus.NOT_FOUND.value(),status);
 
     }

@@ -30,7 +30,7 @@ class CompanyGroupUserLogicServiceTest {
         companyUserDTO.setEmail("John@email.com");
         companyUserDTO.setCompanyName("TestCompany");
 
-        when(companyUserService.findBYNameEmailAndCompany(companyUserDTO))
+        when(companyUserService.findByNameEmailAndCompany(companyUserDTO.getName(), companyUserDTO.getEmail(), companyUserDTO.getCompanyName()))
                 .thenReturn(companyUserDTO);
 
         CompanyUserDTO companyUserDTOResult = companyUserLogicService.getOrCreate(companyUserDTO);
@@ -46,7 +46,7 @@ class CompanyGroupUserLogicServiceTest {
         companyUserDTO.setEmail("John@email.com");
         companyUserDTO.setCompanyName("TestCompany");
 
-        when(companyUserService.findBYNameEmailAndCompany(companyUserDTO)).thenReturn(null);
+        when(companyUserService.findByNameEmailAndCompany(companyUserDTO.getName(), companyUserDTO.getEmail(), companyUserDTO.getCompanyName())).thenReturn(null);
         when(companyUserService.save(companyUserDTO)).thenReturn(companyUserDTO);
 
         CompanyUserDTO result = companyUserLogicService.getOrCreate(companyUserDTO);

@@ -1,15 +1,15 @@
 package com.catenax.valueaddedservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.vladmihalcea.hibernate.type.json.JsonType;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
 
 /**
  * A ReportValues.
@@ -19,7 +19,6 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class ReportValues implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +31,13 @@ public class ReportValues implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Type(type = "json")
+
+//    @Column(name="object_value", columnDefinition = "jsonb")
+//    @Convert(converter = DataBaseJsonConverter.class)
+//    @JdbcTypeCode(SqlTypes.JSON)
+//    private Object objectValue;
+
+    @Type(JsonType.class)
     @Column(name="object_value", columnDefinition = "jsonb")
     private Object objectValue ;
 

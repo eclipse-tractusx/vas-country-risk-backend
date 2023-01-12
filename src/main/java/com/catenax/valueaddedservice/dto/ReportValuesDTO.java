@@ -26,4 +26,7 @@ public class ReportValuesDTO implements Serializable {
     @JsonIgnore
     private ReportDTO report;
 
+
+
+
 }

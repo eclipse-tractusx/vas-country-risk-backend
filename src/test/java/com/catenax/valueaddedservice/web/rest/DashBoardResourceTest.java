@@ -328,4 +328,20 @@ class DashBoardResourceTest {
 
         assertEquals(1, result.getBody().size());
     }
+
+    @Test
+    @DisplayName("Should receive exception when share report")
+    void shareReportsAndGetException() {
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setReportName("test");
+        reportDTO.setType(Type.Company);
+        reportDTO.setCompany("test");
+        reportDTO.setCompanyUserName("test");
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
+
+        doThrow(new RuntimeException())
+                .when(this.dashboardService).shareReportForUser(reportDTO);
+        assertEquals(HttpStatus.BAD_REQUEST,this.dashBoardResource.shareReport(reportDTO,companyUserDTO).getStatusCode());
+    }
+
 }

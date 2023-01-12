@@ -1,5 +1,6 @@
 package com.catenax.valueaddedservice.dto;
 
+import com.catenax.valueaddedservice.constants.VasConstants;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -55,7 +56,7 @@ public class AuthPropertiesDTO implements Serializable {
         LinkedHashMap list =  (LinkedHashMap) resourceAccess;
         LinkedHashMap clientResources = list.get(clientId) != null ? (LinkedHashMap) list.get(clientId):new LinkedHashMap();
         List<String> rolesList = clientResources.get("roles")  != null ? (List<String>) clientResources.get("roles"):new ArrayList<>();
-        this.isAdmin = rolesList.contains("Admin");
+        this.isAdmin = rolesList.contains(VasConstants.CSV_ROLE_COMPANY_ADMIN);
         return rolesList;
     }
 

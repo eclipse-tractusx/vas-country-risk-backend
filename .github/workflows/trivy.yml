@@ -2,7 +2,9 @@ name: "Trivy"
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
   # pull_request:
   # The branches below must be a subset of the branches above
   # branches: [ main ]
@@ -14,6 +16,8 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch:
   # Trigger manually
+env:
+  BRANCH_NAME: ${{ github.ref }}
 
 jobs:
   analyze-config:
