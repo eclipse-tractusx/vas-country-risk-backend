@@ -70,7 +70,7 @@ jobs:
           output: "trivy-results3.sarif"
           exit-code: "1"
           severity: "CRITICAL,HIGH"
-          timeout: "10m"
+          timeout: "60m"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()

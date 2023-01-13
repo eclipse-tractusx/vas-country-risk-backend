@@ -26,11 +26,14 @@ public class SecurityConfiguration  {
         httpSecurity.cors().and().csrf().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeHttpRequests()
+                .and()
+                .authorizeHttpRequests()
                 .requestMatchers("/error","/api/**")
                 .authenticated()
-                .and().
-                oauth2ResourceServer().jwt();
+                .requestMatchers("/management/**")
+                .permitAll()
+                .and()
+                .oauth2ResourceServer().jwt();
 
         return httpSecurity.build();
     }
@@ -61,6 +64,8 @@ public class SecurityConfiguration  {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/error","/api/**")
+                .permitAll()
+                .requestMatchers("/management/**")
                 .permitAll();
 
         return httpSecurity.build();
