@@ -37,7 +37,6 @@ jobs:
           format: "sarif"
           output: "trivy-results1.sarif"
           severity: "CRITICAL,HIGH"
-          timeout: "10m"
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
@@ -68,12 +67,13 @@ jobs:
           # Path to Docker image
           image-ref: "ghcr.io/catenax-ng/product-value-added-service:main"
           format: "sarif"
-          output: "trivy-results2.sarif"
+          output: "trivy-results3.sarif"
           exit-code: "1"
           severity: "CRITICAL,HIGH"
+          timeout: "10m"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: "trivy-results2.sarif"
+          sarif_file: "trivy-results3.sarif"

@@ -47,7 +47,7 @@ jobs:
 
       #Copy the jar to directory which gets uploaded to Veracode
       - name: Copy Pool JAR
-        run: cp target/value-added-service-0.0.1-SNAPSHOT.jar target/veracode/value-added-service-0.0.1-SNAPSHOT.jar
+        run: cp target/value-added-service-1.0.0-SNAPSHOT.jar target/veracode/value-added-service-1.0.0-SNAPSHOT.jar
 
       - name: Run Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.1
