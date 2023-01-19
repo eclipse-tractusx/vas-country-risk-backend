@@ -56,7 +56,7 @@ security:
 logging:
   level:
     root: INFO
-    com.catenax.valueaddedservice: DEBUG
+    org.eclipse.tractusx.valueaddedservice: DEBUG
 
 application:
   name: default

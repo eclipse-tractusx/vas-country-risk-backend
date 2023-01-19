@@ -8,7 +8,7 @@
 		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.catenax</groupId>
+	<groupId>org.eclipse.tractusx</groupId>
 	<artifactId>value-added-service</artifactId>
 	<version>1.0.0</version>
 	<name>value-added-service</name>
@@ -28,7 +28,7 @@
 		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.organization>catenax-ng</sonar.organization>
 		<sonar.projectKey>catenax-ng_product-value-added-service</sonar.projectKey>
-		<sonar.coverage.exclusions>src/main/java/com/catenax/valueaddedservice/dto/**/*.*,src/main/java/com/catenax/valueaddedservice/domain/**/*.*¨</sonar.coverage.exclusions>
+		<sonar.coverage.exclusions>src/main/java/org/eclipse/tractusx/valueaddedservice/dto/**/*.*,src/main/java/org/eclipse/tractusx/valueaddedservice/domain/**/*.*¨</sonar.coverage.exclusions>
 		<jacoco.version>0.8.7</jacoco.version>
 		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
 		<spring-boot-starter-oauth2-resource-server>3.0.1</spring-boot-starter-oauth2-resource-server>
@@ -298,9 +298,9 @@
 <!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
 <!--							</inputSpec>-->
 <!--							<generatorName>spring</generatorName>-->
-<!--							<invokerPackage>com.catenax.valueaddedservice.web.rest</invokerPackage>-->
-<!--							<apiPackage>com.catenax.valueaddedservice.web.rest</apiPackage>-->
-<!--							<modelPackage>com.catenax.valueaddedservice.web.rest</modelPackage>-->
+<!--							<invokerPackage>org.eclipse.tractusx.valueaddedservice.web.rest</invokerPackage>-->
+<!--							<apiPackage>org.eclipse.tractusx.valueaddedservice.web.rest</apiPackage>-->
+<!--							<modelPackage>org.eclipse.tractusx.valueaddedservice.web.rest</modelPackage>-->
 <!--							<modelNameSuffix>Model</modelNameSuffix>-->
 <!--							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
 <!--							<validateSpec>true</validateSpec>-->
@@ -329,7 +329,7 @@
 						<defaultSchemaName></defaultSchemaName>
 						<username>vas</username>
 						<password></password>
-						<referenceUrl>hibernate:spring:com.catenax.valueaddedservice.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+						<referenceUrl>hibernate:spring:org.eclipse.tractusx.valueaddedservice.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
 						<verbose>true</verbose>
 						<logging>debug</logging>
 						<contexts>!test</contexts>
