@@ -47,9 +47,9 @@ public class SecurityConfiguration  {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/error","/api/**")
+                .requestMatchers("/error","/api/dashboard/**","/management/**")
                 .authenticated()
-                .requestMatchers("/management/**")
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
                 .permitAll()
                 .and()
                 .oauth2ResourceServer().jwt();
@@ -77,14 +77,14 @@ public class SecurityConfiguration  {
         httpSecurity.logout().disable();
         httpSecurity.headers().frameOptions().disable();
 
-        httpSecurity.cors().and().csrf().ignoringRequestMatchers("/api/dashboard/**").and()
+        httpSecurity.cors().and().csrf().ignoringRequestMatchers("/api/**").and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/error","/api/**")
+                .requestMatchers("/error","/api/**","/management/**")
                 .permitAll()
-                .requestMatchers("/management/**")
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
                 .permitAll();
 
         return httpSecurity.build();

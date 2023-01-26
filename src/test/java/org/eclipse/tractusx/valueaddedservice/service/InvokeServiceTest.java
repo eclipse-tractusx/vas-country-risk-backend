@@ -62,7 +62,7 @@ class InvokeServiceTest {
     @Test
     @DisplayName("Should return the response when the request is success")
     void executeRequestWhenRequestIsSuccessThenReturnResponse() throws JsonProcessingException {
-        String url = "http://localhost:8585/api/v1/users";
+        String url = "http://localhost:8585/api/dashboard/v1/users";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);
@@ -78,7 +78,7 @@ class InvokeServiceTest {
     @Test
     @DisplayName("Should return empty list when the request is failed")
     void executeRequestWhenRequestIsFailedThenReturnEmptyList() throws JsonProcessingException {
-        String url = "http://localhost:8585/api/v1/usersError";
+        String url = "http://localhost:8585/api/dashboard/v1/usersError";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);

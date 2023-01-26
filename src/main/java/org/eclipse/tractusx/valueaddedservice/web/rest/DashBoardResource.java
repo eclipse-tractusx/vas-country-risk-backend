@@ -324,10 +324,10 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dashboardService.getGatesForCompanyUser(companyUserDTO));
     }
 
-    @Operation(summary = "Retrieves ratings based on inserted year and Company User")
+    @Operation(summary = "Retrieves ratings based on inserted year and Company User",hidden = true)
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/getAllRatingsForCompany")
+    @GetMapping("/getAllRatingsForCompany")
     public ResponseEntity<List<DataSourceDTO>> getAllRatingsForCompany(@RequestParam(value = "year", defaultValue = "0", required = false) Integer year,
                                                                        CompanyUserDTO companyUserDTO) {
         List<DataSourceDTO> dataSourceDTOList;
@@ -337,10 +337,10 @@ public class DashBoardResource {
     }
 
 
-    @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
+    @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN",hidden = true)
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
-    @GetMapping("/dashboard/getAllRatingsScoresForEachBpn")
+    @GetMapping("/getAllRatingsScoresForEachBpn")
     public ResponseEntity<List<ShareDTO>> getAllRatingsScoresForEachBpn(@NotNull @Parameter(name = "datasource[]", description = "", required = true) @Valid @RequestParam(value = "datasource[]", required = true) List<DataSourceDTO> datasource,
                                                                         @NotNull @Parameter(name = "bpns[]", description = "", required = true) @Valid @RequestParam(value = "bpns[]", required = true) List<BusinessPartnerDTO> businessPartnerDTOS,
                                                                         CompanyUserDTO companyUserDTO) {

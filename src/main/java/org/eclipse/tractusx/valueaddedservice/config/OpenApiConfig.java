@@ -1,5 +1,5 @@
 /********************************************************************************
-* Copyright (c) 2022,2023 BMW Group AG 
+* Copyright (c) 2022,2023 BMW Group AG
 * Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
 *
 * See the NOTICE file(s) distributed with this work for additional
@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,41 +44,32 @@ public class OpenApiConfig {
     @Value("${vas.authentication-url.token-url}")
     private String tokenUrl;
 
-
     @Value("${bearer_token.bearer_schema}")
     private String bearerSchema;
 
     @Value("${bearer_token.bearer_format}")
     private String bearerFormat;
 
+
     @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI().addServersItem(new Server().url("/"))
+    public OpenAPI oauth2Auth() {
+        final String securitySchemeName = "open_id_scheme";
+        final String securitySchemeNameBearer = "bearerAuth";
+        return new OpenAPI()
+                .addServersItem(new Server().url("/"))
                 .addSecurityItem(new SecurityRequirement().addList("open_id_scheme", List.of("read", "write")))
                 .info(new Info().title("VAS API")
                         .version("1.0")
-                        .description("Swagger documentation for the Value Added Services APIs"));
-    }
+                        .description("Swagger documentation for the Value Added Services APIs"))
+                .components(new Components()
+                        .addSecuritySchemes(securitySchemeName, new SecurityScheme()
+                                .type(SecurityScheme.Type.OAUTH2)
+                                .flows(new OAuthFlows().authorizationCode(
+                                        new OAuthFlow().authorizationUrl(authUrl)
+                                                .tokenUrl(tokenUrl))))
+                        .addSecuritySchemes(securitySchemeNameBearer, new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme(bearerSchema).bearerFormat(bearerFormat)));
 
-    @Bean
-    public OpenApiCustomiser oauth2Auth() {
-        final String securitySchemeName = "open_id_scheme";
-        return openApi -> {
-            final Components components = openApi.getComponents();
-            components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
-                    .flows(new OAuthFlows().authorizationCode(
-                            new OAuthFlow().authorizationUrl(authUrl)
-                                    .tokenUrl(tokenUrl))));
-        };
-    }
-
-    @Bean
-    public OpenApiCustomiser bearerAuth() {
-        final String securitySchemeName = "bearerAuth";
-        return openApi -> {
-            final Components components = openApi.getComponents();
-            components.addSecuritySchemes(securitySchemeName, new SecurityScheme().type(SecurityScheme.Type.HTTP)
-                    .scheme(bearerSchema).bearerFormat(bearerFormat));
-        };
     }
 }

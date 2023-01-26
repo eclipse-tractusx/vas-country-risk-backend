@@ -23,6 +23,7 @@
 		<spring-boot.version>3.0.1</spring-boot.version>
 		<org.zalando.problem-spring-web>0.27.0</org.zalando.problem-spring-web>
 		<org.springdoc.springdoc-openapi-ui>1.6.14</org.springdoc.springdoc-openapi-ui>
+		<springdoc-openapi-starter-webmvc-ui>2.0.2</springdoc-openapi-starter-webmvc-ui>
 		<org.springframework.cloud>3.1.5</org.springframework.cloud>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
@@ -40,11 +41,11 @@
 		<wiremock-standalone-version>2.27.2</wiremock-standalone-version>
 		<snake-yaml-version>1.31</snake-yaml-version>
 		<openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
-		<spring-boot-starter-web-version>3.0.1</spring-boot-starter-web-version>
-		<spring-web-jar-version>6.0.3</spring-web-jar-version>
 		<hibernate-core-version>6.1.6.Final</hibernate-core-version>
+		<hypersistence-utils-hibernate-60>3.1.0</hypersistence-utils-hibernate-60>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+
 	</properties>
 
 	<pluginRepositories>
@@ -143,10 +144,19 @@
 			<artifactId>problem-spring-web</artifactId>
 			<version>${org.zalando.problem-spring-web}</version>
 		</dependency>
+
+<!--		Not available with spring boot 3.0.0 and java 17 , waiting for new version , until using springdoc webmvc-->
+<!--		<dependency>-->
+<!--			<groupId>org.springdoc</groupId>-->
+<!--			<artifactId>springdoc-openapi-ui</artifactId>-->
+<!--			<version>${org.springdoc.springdoc-openapi-ui}</version>-->
+<!--		</dependency>-->
+
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>${org.springdoc.springdoc-openapi-ui}</version>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui}</version>
 		</dependency>
 
 		<dependency>
@@ -199,8 +209,10 @@
 		<dependency>
 			<groupId>io.hypersistence</groupId>
 			<artifactId>hypersistence-utils-hibernate-60</artifactId>
-			<version>3.1.0</version>
+			<version>${hypersistence-utils-hibernate-60}</version>
 		</dependency>
+
+
 
 	</dependencies>
 

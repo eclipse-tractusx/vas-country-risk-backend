@@ -50,12 +50,6 @@ public class ReportValues implements Serializable {
     @Column(name = "name")
     private String name;
 
-
-//    @Column(name="object_value", columnDefinition = "jsonb")
-//    @Convert(converter = DataBaseJsonConverter.class)
-//    @JdbcTypeCode(SqlTypes.JSON)
-//    private Object objectValue;
-
     @Type(JsonType.class)
     @Column(name="object_value", columnDefinition = "jsonb")
     private Object objectValue ;
