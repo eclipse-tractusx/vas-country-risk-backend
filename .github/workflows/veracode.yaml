@@ -5,6 +5,10 @@ on:
     branches:
       - main
       - dev
+    paths:
+      - 'src/**'
+      - 'pom.xml'
+      - 'Dockerfile'
   schedule:
     # Once a day
     - cron: "0 0 * * *"

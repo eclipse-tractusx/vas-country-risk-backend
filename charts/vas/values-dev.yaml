@@ -1,7 +1,6 @@
 springProfiles:
   - dev
 
-
 appName: vas-country-risk-backend
 environment: dev
 
@@ -10,13 +9,13 @@ image:
   repository: ghcr.io/catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "dev"
+  tag: "latest"
 
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
 
 configmap:
-  # Specifies whether a configmap should be created
+  # Specifies whether a configmap should be created or not
   data:
     spring_profiles_active: dev
     APPLICATION_HOST: http://localhost:8080/api/dashboard

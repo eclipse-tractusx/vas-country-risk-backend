@@ -2,8 +2,10 @@ name: "Sonar Cloud Analyze"
 on:
   push:
     branches:
-      - 'main'
-      - 'dev'
+      - main
+      - dev
+    paths:
+      - 'src/**'
   pull_request:
     types: [ opened, reopened, synchronize ]
   workflow_call:

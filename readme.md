@@ -52,9 +52,13 @@ The project can be run locally with the following command: `mvn clean spring-boo
 
 ### Database Connection Configuration
 
-The project is mainly configured to use liquibase as a Database. When you run the project, this database will create
-multiple test data for usage and the data will persist when the project is closed. You can delete all the data and
-re-create the database by simply doing the following command `mvn clean install` and run the program again with the
+The project is mainly configured to use Postgres as a Database. For this, you need to open an terminal in the project main  
+directory and run the following command `docker compose up`. This will mount the database using the docker compose file 
+in the project. The connection configurations for this database are in the application-local.yml.
+
+This project also can be run using liquibase. For this it is needed to uncoment the commented lines in the application-local.yml.
+When you run the project, this database will create multiple test data for usage and the data will persist when the project is closed. 
+You can delete all the data andre-create the database by simply doing the following command `mvn clean install` and run the program again with the
 earlier presented command `mvn clean spring-boot:run -Dspring.profiles.active=local`. To access the UI for the database,
 use the following URL: http://localhost:8080/h2-console/login.jsp
 
