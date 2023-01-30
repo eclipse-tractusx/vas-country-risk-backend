@@ -10,6 +10,36 @@ security:
       - read
       - write
 paths:
+  /api/dashboard/updateReports:
+    put:
+      tags:
+        - Dashboard Controller
+      summary: Update Reports that
+      operationId: updateReports
+      parameters:
+        - name: companyUserDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportDTO'
+        required: true
+      responses:
+        '200':
+          description: Reports updated with success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+        '401':
+          description: Authentication Required
+      security:
+        - bearerAuth: []
+        - open_id_scheme: []
   /api/dashboard/uploadCsv:
     post:
       tags:
@@ -75,6 +105,36 @@ paths:
       security:
         - bearerAuth: []
         - open_id_scheme: []
+  /api/dashboard/shareReport:
+    post:
+      tags:
+        - Dashboard Controller
+      summary: Share Reports
+      operationId: shareReport
+      parameters:
+        - name: companyUserDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportDTO'
+        required: true
+      responses:
+        '200':
+          description: Reports shared with success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+        '401':
+          description: Authentication Required
+      security:
+        - bearerAuth: []
+        - open_id_scheme: []
   /api/dashboard/saveUserRanges:
     post:
       tags:
@@ -94,6 +154,7 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/RangeDTO'
+              maxItems: 3
         required: true
       responses:
         '200':
@@ -113,7 +174,7 @@ paths:
     post:
       tags:
         - Dashboard Controller
-      summary: Save new Reports that a user can get
+      summary: Save new Reports
       operationId: saveReports
       parameters:
         - name: companyUserDTO
@@ -167,6 +228,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DataSourceDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -186,6 +248,8 @@ paths:
             type: array
             items:
               $ref: '#/components/schemas/RatingDTO'
+            maxItems: 20
+            default: []
         - name: companyUser
           in: query
           required: true
@@ -207,6 +271,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DashBoardWorldMapDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -233,6 +298,34 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RangeDTO'
+                maxItems: 20
+        '401':
+          description: Authentication Required
+      security:
+        - bearerAuth: []
+        - open_id_scheme: []
+  /api/dashboard/getUserFromCompany:
+    get:
+      tags:
+        - Dashboard Controller
+      summary: Retrieves Company User of a Company
+      operationId: getUserFromCompany
+      parameters:
+        - name: companyUserDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+      responses:
+        '200':
+          description: Users get with success
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyUserDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -260,6 +353,7 @@ paths:
                 items:
                   type: string
                   format: byte
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -279,6 +373,8 @@ paths:
             type: array
             items:
               $ref: '#/components/schemas/RatingDTO'
+            default: []
+            maxItems: 20
         - name: year
           in: query
           required: false
@@ -300,6 +396,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DashBoardTableDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -331,6 +428,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReportValuesDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -357,6 +455,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReportDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -383,6 +482,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CountryDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -409,6 +509,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BusinessPartnerDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -435,6 +536,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CountryDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -461,79 +563,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CompanyGatesDTO'
-        '401':
-          description: Authentication Required
-      security:
-        - bearerAuth: []
-        - open_id_scheme: []
-  /api/dashboard/getAllRatingsScoresForEachBpn:
-    get:
-      tags:
-        - Dashboard Controller
-      summary: Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN
-      operationId: getAllRatingsScoresForEachBpn
-      parameters:
-        - name: datasource[]
-          in: query
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/DataSourceDTO'
-        - name: bpns[]
-          in: query
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/BusinessPartnerDTO'
-        - name: companyUserDTO
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CompanyUserDTO'
-      responses:
-        '200':
-          description: Ratings of inserted custom year retrieved with success
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ShareDTO'
-        '401':
-          description: Authentication Required
-      security:
-        - bearerAuth: []
-        - open_id_scheme: []
-  /api/dashboard/getAllRatingsForCompany:
-    get:
-      tags:
-        - Dashboard Controller
-      summary: Retrieves ratings based on inserted year and Company User
-      operationId: getAllRatingsForCompany
-      parameters:
-        - name: year
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: companyUserDTO
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CompanyUserDTO'
-      responses:
-        '200':
-          description: Ratings of inserted custom year retrieved with success
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DataSourceDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -561,6 +591,7 @@ paths:
                 items:
                   type: integer
                   format: int32
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -620,11 +651,46 @@ paths:
         - open_id_scheme: []
 components:
   schemas:
-    ResponseMessage:
+    ReportDTO:
+      required:
+        - reportName
       type: object
       properties:
-        message:
+        id:
+          type: integer
+          format: int64
+        reportName:
           type: string
+          example: Fake Report
+        companyUserName:
+          type: string
+          example: John
+        company:
+          type: string
+          example: Test Company
+        email:
+          type: string
+          example: John@email.com
+        type:
+          type: string
+          example: Company
+          enum:
+            - Global
+            - Custom
+            - Company
+        reportValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportValuesDTO'
+          maxItems: 20
+    ReportValuesDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Range
+        objectValue:
+          type: object
     CompanyUserDTO:
       required:
         - companyName
@@ -641,6 +707,11 @@ components:
         companyName:
           type: string
           example: TestCompany
+    ResponseMessage:
+      type: object
+      properties:
+        message:
+          type: string
     RangeDTO:
       required:
         - range
@@ -663,37 +734,6 @@ components:
           example: Max value
         companyUser:
           $ref: '#/components/schemas/CompanyUserDTO'
-    ReportDTO:
-      type: object
-      properties:
-        reportName:
-          type: string
-          example: Fake Report
-        companyUserName:
-          type: string
-          example: John
-        company:
-          type: string
-          example: Test Company
-        type:
-          type: string
-          example: Company
-          enum:
-            - Global
-            - Custom
-            - Company
-        reportValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportValuesDTO'
-    ReportValuesDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Range
-        objectValue:
-          type: object
     DataSourceDTO:
       required:
         - dataSourceName
@@ -866,35 +906,6 @@ components:
           type: string
         companyGateValue:
           type: string
-    ShareDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        bpn:
-          type: string
-          example: BPN-NUMBER
-        country:
-          type: string
-          example: Portugal
-        iso2:
-          type: string
-          example: PT
-        rating:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShareRatingDTO'
-    ShareRatingDTO:
-      type: object
-      properties:
-        dataSourceName:
-          type: string
-          example: Fake Rating
-        score:
-          type: number
-          format: float
-          example: 100
   securitySchemes:
     open_id_scheme:
       type: oauth2
@@ -902,7 +913,10 @@ components:
         authorizationCode:
           authorizationUrl: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
           tokenUrl: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-          scopes: {}
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations
     bearerAuth:
       type: http
       scheme: bearer
