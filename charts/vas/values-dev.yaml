@@ -9,7 +9,7 @@ image:
   repository: ghcr.io/catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "dev"
 
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
