@@ -1,0 +1,24 @@
+apiVersion: v1
+entries:
+  vas:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-02-03T10:21:03.416585185Z"
+    dependencies:
+    - alias: postgres
+      condition: postgres.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.*.*
+    - condition: pgadmin4.enabled
+      name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.x.x
+    description: A Helm chart for deploying the VAS service
+    digest: 68ab094b568235d09243782c5d52c022422c5708b64618d3d44c1cd58927370b
+    name: vas
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/vas-country-risk-backend/releases/download/vas-2.0.6/vas-2.0.6.tgz
+    version: 2.0.6
+generated: "2023-02-03T10:21:03.416591085Z"
