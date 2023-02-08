@@ -19,6 +19,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration  {
+
+    @Value("${security.enabled}")
+    private String sec;
 
 
     @Bean
@@ -72,6 +76,7 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
+        System.out.println("\n/// " + sec + "///\n");
         httpSecurity.httpBasic().disable();
         httpSecurity.formLogin().disable();
         httpSecurity.logout().disable();
@@ -82,7 +87,7 @@ public class SecurityConfiguration  {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/error","/api/**","/management/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
+                .requestMatchers("/**")
                 .permitAll();
 
         return httpSecurity.build();
