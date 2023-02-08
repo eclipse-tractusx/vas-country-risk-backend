@@ -5,11 +5,12 @@
 replicaCount: 1
 
 image:
-  registry: ghcr.io
-  repository: ghcr.io/catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "main"
+  tag: "1.0.0"
+
+certificate:
+  host: "localhost"
 
 appName: vas-country-risk-backend
 
@@ -46,7 +47,7 @@ autoscaling:
 
 ingress:
   className: nginx
-  enabled: true
+  enabled: false
 
 
 
@@ -100,8 +101,6 @@ readinessProbe:
 
 applicationSecret:
   enabled: true
-  clientSecret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret>
-  clientId: <path:value-added-service/data/country-risk/dev/keycloak#client-id>
 
 configmap:
   # Specifies whether a configmap should be created
@@ -130,6 +129,7 @@ postgres:
     port: 5432
 
 pgadmin4:
+  enabled: false
   secret:
     path: value-added-service/data/country-risk/dev/pgadmin4
   env:

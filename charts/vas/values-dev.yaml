@@ -5,14 +5,16 @@ appName: vas-country-risk-backend
 environment: dev
 
 image:
-  registry: ghcr.io
-  repository: ghcr.io/catenax-ng/product-value-added-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "dev"
 
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
+  enabled: true
+
+certificate:
+  host: "vas-country-risk-backend.dev.demo.catena-x.net"
 
 configmap:
   # Specifies whether a configmap should be created or not
@@ -21,12 +23,18 @@ configmap:
     APPLICATION_HOST: http://localhost:8080/api/dashboard
     SECURITY_ENABLED: 'true'
 
+applicationSecret:
+  enabled: true
+  clientSecret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret>
+  clientId: <path:value-added-service/data/country-risk/dev/keycloak#client-id>
+
 postgres:
   auth:
     postgresPassword: <path:value-added-service/data/country-risk/dev/postgresql#postgres-password>
     password: <path:value-added-service/data/country-risk/dev/postgresql#password>
 
 pgadmin4:
+  enabled: true
   secret:
     path: value-added-service/data/country-risk/dev/pgadmin4
   ingress:
