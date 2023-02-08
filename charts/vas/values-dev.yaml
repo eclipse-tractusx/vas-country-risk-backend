@@ -34,7 +34,7 @@ postgres:
     password: <path:value-added-service/data/country-risk/dev/postgresql#password>
 
 pgadmin4:
-  enabled: true
+  enabled: false
   secret:
     path: value-added-service/data/country-risk/dev/pgadmin4
   ingress:
