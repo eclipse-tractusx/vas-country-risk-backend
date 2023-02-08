@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.com/fabiomota1994/minikube-argocd.git
+    targetRevision: HEAD
+    path: templates/services
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
