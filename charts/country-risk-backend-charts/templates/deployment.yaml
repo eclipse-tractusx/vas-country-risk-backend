@@ -47,7 +47,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "includeWithPostgresContext" (list $ "postgresql.secretName") }}
                   key: password
-            {{- if .Values.applicationSecret.enabled -}}
             - name: VAS_KEYCLOAKCLIENTID
               valueFrom:
                 secretKeyRef:
@@ -58,7 +57,6 @@ spec:
                 secretKeyRef:
                   name: product-vas-country-risk-backend-application
                   key: keycloakClientId
-            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

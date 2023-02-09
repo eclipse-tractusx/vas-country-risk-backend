@@ -24,7 +24,6 @@ configmap:
     SECURITY_ENABLED: 'true'
 
 applicationSecret:
-  enabled: true
   clientSecret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret>
   clientId: <path:value-added-service/data/country-risk/dev/keycloak#client-id>
 

@@ -102,7 +102,9 @@ readinessProbe:
   port: 8080
 
 applicationSecret:
-  enabled: false
+  enabled: true
+  clientSecret: ''
+  clientId: ''
 
 configmap:
   # Specifies whether a configmap should be created
