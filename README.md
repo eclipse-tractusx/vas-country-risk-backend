@@ -29,8 +29,8 @@ an database and also from other CatenaX microservices
 
 ### Prerequisites
 
-* JDK 11
-* Maven
+* JDK 17
+* Maven 'Spring Boot is compatible with Apache Maven 3.5 or above'
 
 ### Profile Configurations
 
