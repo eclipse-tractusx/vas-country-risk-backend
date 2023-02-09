@@ -1,6 +1,6 @@
 apiVersion: v2
-name: vas
-description: A Helm chart for deploying the VAS service
+name: country-risk-backend
+description: A Helm chart for deploying the Country Risk service
 
 # A chart can be either an 'application' or a 'library' chart.
 #
