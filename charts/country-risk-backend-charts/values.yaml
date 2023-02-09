@@ -9,7 +9,7 @@ image:
   name: "catenax-ng/tx-vas-country-risk-backend"
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.0.0"
+  tag: "latest"
 
 certificate:
   host: "localhost"
