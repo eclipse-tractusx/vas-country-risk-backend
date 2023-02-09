@@ -4,9 +4,10 @@ kind: Ingress
 metadata:
   # name of the ingress resource. -ingress suffix as suggestion for clear naming convention
   name: {{ .Values.appName }}-ingress
+  {{- with .Values.ingress.annotations }}
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
