@@ -7,7 +7,7 @@ environment: dev
 image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "dev"
+  tag: "1.0.0"
 
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
