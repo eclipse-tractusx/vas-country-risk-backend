@@ -53,6 +53,34 @@ configmap:
     spring_profiles_active: dev
 ```
 
+
+## Keycloak
+
+To use auth, you need to have a Keycloak server ready to generate tokens and users, after which it can be used through the property.
+
+
+```yaml
+# -- Defines the client secret and client ID
+applicationSecret:
+  # -- Value that specifies whether the application secret should be used
+  enabled: true
+  # -- String value that represents the client secret
+  clientSecret: "" #
+  # -- String value that represents the client ID
+  clientId: ""  #
+```
+
+As well as activating through the application.yaml or configmap the security-enabled variable, which by default is active except for local tests.
+
+```yaml
+configmap:
+  # Specifies whether a configmap should be created
+  create: true
+  data:
+    # -- Security configurations for the application
+    security_enabled: 'true'
+```
+
 ## Ingress
 
 You can specify your own ingress configuration for the Helm deployment to make the Country Risk available over Ingress.
@@ -82,7 +110,7 @@ This way you are able to overwrite any configuration property of the `applicatio
 
 ## Helm Dependencies
 
-On default, the Helm deployment also contains a PostgresSQL and PGAdmin deployment.
+On default, the Helm deployment also contains a PostgreSQL and PGAdmin deployment.
 You can configure these deployments in your value file as well.
 For this, consider the documentation of the correspondent dependency [PostgreSQL](https://artifacthub.io/packages/helm/bitnami/postgresql/11.9.13)
 or [PGAdmin](https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html).
