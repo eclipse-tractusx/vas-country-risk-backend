@@ -164,7 +164,7 @@ elastic:
 
 postgres:
   # -- Should postgres DB be enabled or not
-  enabled: true
+  enabled: false
   # -- Configuration values for the Database
   auth:
     database: vas
