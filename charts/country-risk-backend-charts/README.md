@@ -87,6 +87,14 @@ On default, the Helm deployment also contains a PostgreSQL and PGAdmin deploymen
 You can configure these deployments in your value file as well.
 For this, consider the documentation of the correspondent dependency [PostgreSQL](https://artifacthub.io/packages/helm/bitnami/postgresql/11.9.13)
 or [PGAdmin](https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html).
+To use the ones that are on the charts file you can:
+
+
+```bash
+helm dependency build path-to-chart
+```
+
+
 In case you want to use an already deployed database or PGAdmin instance you can also disable the respective dependency:
 
 ```yaml
