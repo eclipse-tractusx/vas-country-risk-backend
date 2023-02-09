@@ -139,9 +139,9 @@ applicationSecret:
   # -- Value that specifies whether the application secret should be used
   enabled: true
   # -- String value that represents the client secret
-  clientSecret: '' #
+  clientSecret: "" #
   # -- String value that represents the client ID
-  clientId: ''  #
+  clientId: ""  #
 
 configmap:
   # Specifies whether a configmap should be created
