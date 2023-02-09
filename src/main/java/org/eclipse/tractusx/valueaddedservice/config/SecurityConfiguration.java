@@ -37,8 +37,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfiguration  {
 
-    @Value("${security.enabled}")
-    private String sec;
 
 
     @Bean
@@ -76,7 +74,7 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
-        System.out.println("\n/// " + sec + "///\n");
+
         httpSecurity.httpBasic().disable();
         httpSecurity.formLogin().disable();
         httpSecurity.logout().disable();
