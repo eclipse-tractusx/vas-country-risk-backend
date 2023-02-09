@@ -57,7 +57,15 @@ Create name of application secret
 {{- printf "%s-application" (include "vas.fullname" .) }}
 {{- end }}
 
-
+{{/*
+Invoke include on given definition with postgresql dependency context
+Usage: include "includeWithPostgresContext" (list $ "your_include_function_here")
+*/}}
+{{- define "includeWithPostgresContext" -}}
+{{- $ := index . 0 }}
+{{- $function := index . 1 }}
+{{- include $function (dict "Values" $.Values.postgres "Chart" (dict "Name" "postgres") "Release" $.Release) }}
+{{- end }}
 
 {{/*
 Invoke include on given definition with elastic dependency context

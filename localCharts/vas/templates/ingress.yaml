@@ -6,11 +6,12 @@ metadata:
   name: {{ .Values.appName }}-ingress
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
     # IMPORTANT: specifies the entrypoint (domain), myApp will be accessible from
-    - host: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+    - host: {{ .Values.certificate.host }}
       http:
         paths:
           # specific path the app should be reachable on the host
@@ -28,7 +29,7 @@ spec:
                   number: {{ .Values.service.port }}
   tls:
     - hosts:
-        - {{ .Values.appName }}-{{ .Values.environment }}.demo.catena-x.net
+        - {{ .Values.certificate.host }}
       # Default secret for certificate creation already provided to your namespace
       secretName: tls-secret
 

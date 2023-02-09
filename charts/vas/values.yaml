@@ -102,12 +102,14 @@ readinessProbe:
   port: 8080
 
 applicationSecret:
-  enabled: true
+  enabled: false
 
 configmap:
   # Specifies whether a configmap should be created
   create: true
-
+  data:
+    spring_profiles_active: 'dev'
+    security_enabled: 'false'
 
 
 elastic:
@@ -121,6 +123,8 @@ postgres:
   auth:
     database: vas
     username: vas
+    postgresPassword: vas
+    password: vas
   ingress:
     className: nginx
     enabled: true
