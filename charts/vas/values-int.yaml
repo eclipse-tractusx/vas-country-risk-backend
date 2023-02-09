@@ -1,7 +1,6 @@
 springProfiles:
   - int
 
-
 appName: vas-country-risk-backend
 environment: int
 
