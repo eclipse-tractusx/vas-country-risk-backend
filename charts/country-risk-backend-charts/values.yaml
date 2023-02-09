@@ -9,7 +9,7 @@ image:
   name: "catenax-ng/tx-vas-country-risk-backend"
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: ""
 
 certificate:
   host: "localhost"
@@ -103,8 +103,8 @@ readinessProbe:
 
 applicationSecret:
   enabled: true
-  clientSecret: ''
-  clientId: ''
+  clientSecret: '' #
+  clientId: ''  #
 
 configmap:
   # Specifies whether a configmap should be created

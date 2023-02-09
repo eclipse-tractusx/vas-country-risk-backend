@@ -7,7 +7,7 @@ environment: dev
 image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.0.0"
+  tag: "dev"
 
 ingress:
   host: catenax-vas-dev.demo.catena-x.net
@@ -33,7 +33,6 @@ postgres:
     password: <path:value-added-service/data/country-risk/dev/postgresql#password>
 
 pgadmin4:
-  enabled: false
   secret:
     path: value-added-service/data/country-risk/dev/pgadmin4
   ingress:

@@ -1,4 +1,4 @@
-# BPDM Pool Helm Chart
+# Country Risk Helm Chart
 
 This Helm Chart deploys the Country Risk Backend service to a Kubernetes environment.
 
@@ -73,17 +73,16 @@ ingress:
           pathType: Prefix
 ```
 
-## Pool Configuration
+## Country Risk Configuration
 
-The Helm deployment comes with the ability to configure the BPDM Pool application directly over the values file.
-This way you are able to overwrite any configuration property of the `application.properties`,  `application-auth.properties` and  `application-cdq.properties` files.
-Consider that you would need to turn on `auth` and `cdq` profile first before overwriting any property in the corresponding properties file could take effect.
-Overwriting configuration properties can be useful to connect to a remote service:
+The Helm deployment comes with the ability to configure the Country Risk application directly over the values file.
+This way you are able to overwrite any configuration property of the `application.yaml` files.
+
 
 
 ## Helm Dependencies
 
-On default, the Helm deployment also contains a PostgreSQL and PGAdmin deployment.
+On default, the Helm deployment also contains a PostgresSQL and PGAdmin deployment.
 You can configure these deployments in your value file as well.
 For this, consider the documentation of the correspondent dependency [PostgreSQL](https://artifacthub.io/packages/helm/bitnami/postgresql/11.9.13)
 or [PGAdmin](https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html).
@@ -115,3 +114,5 @@ vas:
     user: default
     pass: defaultpassword
 ```
+
+
