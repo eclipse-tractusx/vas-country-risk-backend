@@ -1,9 +1,0 @@
-image:
-  tag: "main"
-
-springProfiles:
-  - dev
-
-ingress:
-  host: catenax-vas-dev.demo.catena-x.net
-
