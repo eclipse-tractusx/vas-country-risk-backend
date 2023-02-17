@@ -86,8 +86,10 @@ ingress:
   className: nginx
   # -- Ingress enabled or not
   enabled: false
-    annotations:
+  annotations:
+    # -- HTTP traffic should be redirected to HTTPS
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # -- Ingress controller should pass SSL traffic directly to the backend pods
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
 
