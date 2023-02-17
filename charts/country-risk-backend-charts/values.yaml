@@ -86,13 +86,10 @@ ingress:
   className: nginx
   # -- Ingress enabled or not
   enabled: false
-
-ingress:
-  enabled: false
-  className: nginx
-  annotations:
+    annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+
 
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
