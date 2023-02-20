@@ -29,8 +29,8 @@ image:
   tag: "dev"
 
 ingress:
-  host: catenax-vas-dev.demo.catena-x.net
   enabled: true
+  host: catenax-vas-dev.demo.catena-x.net
 
 certificate:
   host: "vas-country-risk-backend.dev.demo.catena-x.net"
