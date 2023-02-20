@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- "Fix whitespace handling that removed apiVersion declaration from Helm templates"
+- Fix whitespace handling that removed apiVersion declaration from Helm templates
 
 ## [1.0.0] - 2023-01-26
 
