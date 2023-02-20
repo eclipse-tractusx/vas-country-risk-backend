@@ -69,12 +69,12 @@ spec:
             - name: VAS_KEYCLOAKCLIENTID
               valueFrom:
                 secretKeyRef:
-                  name: product-vas-country-risk-backend-application
+                  name: {{ include "vas.applicationSecret.name" . }}
                   key: keycloakClientSecret
             - name: VAS_KEYCLOAKCLIENTSECRET
               valueFrom:
                 secretKeyRef:
-                  name: product-vas-country-risk-backend-application
+                  name: {{ include "vas.applicationSecret.name" . }}
                   key: keycloakClientId
           ports:
             - name: http
