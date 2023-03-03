@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix image that veracode is validating 
 - Fix structure of folders on README.md
 - Fix dockerfile removing the same EXPOSE block
-- Fix helm chart readme on current version released
+- Fix Helm chart README.md on current version released
 - Fix Header on charts to be validated with Company group
 
 
