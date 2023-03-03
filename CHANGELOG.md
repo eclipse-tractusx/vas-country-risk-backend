@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix structure of folders on README.md
 - Fix dockerfile removing the same EXPOSE block
 - Fix helm chart readme on current version released
+- Fix Header on charts to be validated with Company group
 
 
 ## [1.0.3] -  2023-02-20
