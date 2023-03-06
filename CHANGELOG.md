@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixes
 
-- Fix image that veracode is validating 
-- Fix structure of folders on README.md
+- Fix image that veracode is validating
 - Fix Header on charts to be validated with Company group
 
 ### Changed 

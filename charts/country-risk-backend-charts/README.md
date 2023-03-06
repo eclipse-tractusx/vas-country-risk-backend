@@ -14,7 +14,7 @@ helm install release_name ./charts/country-risk-backend-charts --namespace your_
 ```
 
 This will install a new release of the Country Risk in the given namespace.
-On default values this release deploys the latest image tagged as `"v1.0.4"` from the repository's GitHub Container Registry.
+On default values this release deploys the latest image tagged that its on the `.Chart.appVersion` from the repository's GitHub Container Registry.
 The application is run on default profile (you can run it on a dev profile or local).
 Additionally, the Helm deployment contains a PostgreSQL database which the Country Risk connects to.
 
