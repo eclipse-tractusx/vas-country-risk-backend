@@ -2,15 +2,8 @@ FROM maven:3.8-openjdk-18 as maven
 COPY ./pom.xml /pom.xml
 COPY ./src ./src
 
-EXPOSE 8080
-EXPOSE 80
-EXPOSE 433
-
 RUN mvn clean package
 
-EXPOSE 8080
-EXPOSE 80
-EXPOSE 433
 
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 # Copy the jar and build image

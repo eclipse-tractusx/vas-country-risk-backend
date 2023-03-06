@@ -78,22 +78,25 @@ Inside the java folder, there is the source code for the project, which is divid
 and follows the mainly used project structure in most Spring Boot projects.
 
 ```sh
-       └───catenax
-           └───valueaddedservice
-               ├───config
-               ├───constants
-               ├───domain
-               │   └───enumeration
-               ├───dto
-               ├───interceptors
-               ├───repository
-               ├───service
-               │   ├───csv
-               │   ├───logic
-               │   └───mapper
-               ├───utils
-               └───web
-                   └───rest
+       └───org
+           └───eclipse
+               └───tractusx
+                   └───valueaddedservice
+                       ├───config
+                       ├───constants
+                       ├───domain
+                       │   └───enumeration
+                       ├───dto
+                       │   └───ShareDTOs
+                       ├───interceptors
+                       ├───repository
+                       ├───service
+                       │   ├───csv
+                       │   ├───logic
+                       │   └───mapper
+                       ├───utils
+                       └───web
+                           └───rest
 ```
 
 ## API sample endpoints
