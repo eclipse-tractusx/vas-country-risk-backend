@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed test data that shows on dashboard
 - Changed sonar token on properties
 
+### Fixes
+
+- Upgrade version to fix snake yaml vulnerability 
+- Multiple log libs ,removing log lib, using only lombok.extern.slf4j.Slf4j
+
 ## [1.0.4] -  2023-03-02
 
 ### Fixes

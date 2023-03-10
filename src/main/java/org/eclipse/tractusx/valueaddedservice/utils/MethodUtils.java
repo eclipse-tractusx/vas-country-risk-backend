@@ -20,8 +20,6 @@
 package org.eclipse.tractusx.valueaddedservice.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.owasp.esapi.ESAPI;
-import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DecimalFormat;
@@ -35,7 +33,7 @@ import java.util.function.Predicate;
 
 public class MethodUtils {
 
-    private static final Logger log = ESAPI.getLogger(MethodUtils.class);
+
 
     @Autowired
     ObjectMapper objectMapper;

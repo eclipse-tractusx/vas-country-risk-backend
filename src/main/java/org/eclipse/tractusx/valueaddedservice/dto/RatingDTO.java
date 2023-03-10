@@ -25,10 +25,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.domain.Region;
-import org.eclipse.tractusx.valueaddedservice.web.rest.DashBoardResource;
-import org.owasp.esapi.ESAPI;
-import org.owasp.esapi.Logger;
 
 import java.io.Serializable;
 
@@ -40,9 +38,12 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class RatingDTO implements Serializable {
 
-    private static final Logger log = ESAPI.getLogger(DashBoardResource.class);
+
+
+
     @Schema(example = "Fake Rating")
     private String dataSourceName = "";
 
@@ -56,7 +57,7 @@ public class RatingDTO implements Serializable {
             this.dataSourceName = ratingDTO.getDataSourceName();
             this.weight = ratingDTO.getWeight();
         } catch (JsonProcessingException e) {
-            log.error(Logger.EVENT_FAILURE, "Error converting " + e.getMessage());
+            log.error("Error converting " + e.getMessage());
             throw new RuntimeException(e);
         }
 

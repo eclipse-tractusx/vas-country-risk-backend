@@ -51,7 +51,7 @@
 		<sonar.projectKey>catenax-ng_tx-vas-country-risk-backend</sonar.projectKey>
 		<sonar1.coverage.exclusions>src/main/java/org/eclipse/tractusx/valueaddedservice/dto//.,src/main/java/org/eclipse/tractusx/valueaddedservice/domain//.¨</sonar1.coverage.exclusions>
 		<jacoco.version>0.8.7</jacoco.version>
-		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
+
 		<spring-boot-starter-oauth2-resource-server>3.0.1</spring-boot-starter-oauth2-resource-server>
 		<h2-version>2.1.214</h2-version>
 		<spring-security-web-version>6.0.1</spring-security-web-version>
@@ -59,7 +59,7 @@
 		<jackson-databind>2.13.4.1</jackson-databind>
 		<jackson-databind-nullable>0.2.4</jackson-databind-nullable>
 		<wiremock-standalone-version>2.27.2</wiremock-standalone-version>
-		<snake-yaml-version>1.31</snake-yaml-version>
+		<snake-yaml-version>2.0</snake-yaml-version>
 		<openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
 		<hibernate-core-version>6.1.6.Final</hibernate-core-version>
 		<hypersistence-utils-hibernate-60>3.1.0</hypersistence-utils-hibernate-60>
@@ -202,11 +202,7 @@
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 			<version>${org.springframework.cloud}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.owasp.esapi</groupId>
-			<artifactId>esapi</artifactId>
-			<version>${org.owasp.esapi}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
