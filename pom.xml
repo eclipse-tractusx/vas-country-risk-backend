@@ -48,7 +48,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.organization>catenax-ng</sonar.organization>
-		<sonar.projectKey>catenax-ng_product-value-added-service</sonar.projectKey>
+		<sonar.projectKey>catenax-ng_tx-vas-country-risk-backend</sonar.projectKey>
 		<sonar1.coverage.exclusions>src/main/java/org/eclipse/tractusx/valueaddedservice/dto//.,src/main/java/org/eclipse/tractusx/valueaddedservice/domain//.¨</sonar1.coverage.exclusions>
 		<jacoco.version>0.8.7</jacoco.version>
 		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
