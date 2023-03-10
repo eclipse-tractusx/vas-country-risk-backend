@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.5] -  Not released yet
 
 ### Changed
-- Changed data that shows on dashboard
+- Changed test data that shows on dashboard
 - Changed sonar token on properties
 
 ## [1.0.4] -  2023-03-02
