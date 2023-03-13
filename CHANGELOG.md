@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed test data that shows on dashboard
 - Changed sonar token on properties
 
+### Fixes
+
+- Upgrade version to fix snake yaml vulnerability 
+- Upgrade Commons upload lib version to fix vulnerability
+
 ## [1.0.4] -  2023-03-02
 
 ### Fixes
