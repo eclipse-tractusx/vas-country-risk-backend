@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixes
 
 - Upgrade version to fix snake yaml vulnerability 
-- Multiple log libs ,removing log lib, using only lombok.extern.slf4j.Slf4j
+- Upgrade Commons upload lib version to fix vulnerability
 
 ## [1.0.4] -  2023-03-02
 
