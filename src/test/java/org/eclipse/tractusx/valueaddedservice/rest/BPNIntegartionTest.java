@@ -33,6 +33,7 @@ import org.eclipse.tractusx.valueaddedservice.repository.CompanyGatesRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyGroupRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyUserRepository;
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
@@ -54,7 +56,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = ValueAddedServiceApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class BPNIntegartionTest {
 
     @Autowired

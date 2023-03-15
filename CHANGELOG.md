@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Changed test data that shows on dashboard
 - Changed sonar token on properties
+- Changed h2 databse on test to postgres containers
 
 ### Fixes
 

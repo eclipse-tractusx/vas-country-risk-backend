@@ -6,26 +6,6 @@ spring:
   liquibase:
     change-log: classpath:config/liquibase/master.xml
     enabled: true
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:vas;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    name:
-    username:
-    password:
-    hikari:
-      auto-commit: false
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.H2Dialect
-    database: H2
-    properties:
-      hibernate:
-        show_sql: false
-        format_sql: true
-        types:
-          print:
-            banner: false
 server:
   port: 8080
   tomcat:

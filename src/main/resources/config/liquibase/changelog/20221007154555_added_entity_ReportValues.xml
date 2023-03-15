@@ -5,23 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
 
-    <changeSet id="20221007154555-2" author="fabiodmota" dbms="h2">
-        <createTable tableName="t_report_value">
-            <column name="id" type="bigint" autoIncrement="true" incrementBy="1">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="object_value" type="json">
-                <constraints nullable="true" />
-            </column>
-            <column name="report_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
-        </createTable>
-    </changeSet>
 
     <changeSet id="20221007154555-2" author="fabiodmota" dbms="!h2">
         <createTable tableName="t_report_value">
