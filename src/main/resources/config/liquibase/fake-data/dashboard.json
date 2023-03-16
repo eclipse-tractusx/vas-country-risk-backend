@@ -1,14 +1,14 @@
 [
   {
-    "bpn": "BPNL00000008KD5G",
-    "legalName": "Steering Wheel Foundation",
-    "street": "West Road",
-    "houseNumber": "12",
-    "zipCode": "AA67HR",
-    "city": "Burao",
-    "country": "Somalia",
-    "longitude": 45.5336,
-    "latitude": 9.5221
+    "bpn":"BPNL00000008KD5G",
+    "legalName":"Steering Wheel Foundation",
+    "street":"West Road",
+    "houseNumber":"12",
+    "zipCode":"AA67HR",
+    "city":"Mogadishu",
+    "country":"Somalia",
+    "longitude": 45.3425,
+    "latitude": 2.0408
   },
   {
     "bpn": "BPNL00000012SR7T",
