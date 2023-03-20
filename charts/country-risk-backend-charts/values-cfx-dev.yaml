@@ -132,8 +132,8 @@ configmap:
   # Specifies whether a configmap should be created
   create: true
   data:
-    SPRING_PROFILES_ACTIVE: dev
-    SECURITY_ENABLED: 'true'
+    spring_profiles_active: dev
+    security_enabled: 'true'
     SPRING_DATASOURCE_URL: <path:value-added-service/data/country-risk/dev/postgresql#jdbc-url>
     SPRING_DATASOURCE_USERNAME: <path:value-added-service/data/country-risk/dev/postgresql#user>
     SPRING_DATASOURCE_PASSWORD: <path:value-added-service/data/country-risk/dev/postgresql#password>

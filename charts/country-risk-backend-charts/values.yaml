@@ -42,9 +42,9 @@ certificate:
 appName: vas-country-risk-backend
 
 # -- List of secrets to be used
-imagePullSecrets: [ ]
+imagePullSecrets: []
 # -- Annotations to be added to the running pod
-podAnnotations: { }
+podAnnotations: {}
 
 # -- Configuration for security-related options of the running pod
 podSecurityContext:
@@ -53,7 +53,7 @@ podSecurityContext:
 
 #Spring profiles under which the application should run
 springProfiles:
-  - dev
+- dev
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
@@ -69,7 +69,7 @@ securityContext:
   # -- Capabilities that the process inside the container should have
   capabilities:
     drop:
-      - ALL
+    - ALL
 
 # -- Service that should be created for the pod
 service:
@@ -108,25 +108,25 @@ resources:
     memory: 1Gi
 
 # -- Node placement constraints
-nodeSelector: { }
+nodeSelector: {}
 
 # -- Pod toleration constraints
-tolerations: [ ]
+tolerations: []
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-                # -- Match Pod rules
-              - key: app.kubernetes.io/name
-                operator: DoesNotExist
-          # -- Key that is used to determine the topology of the cluster
-          topologyKey: kubernetes.io/hostname
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          # -- Match Pod rules
+          - key: app.kubernetes.io/name
+            operator: DoesNotExist
+        # -- Key that is used to determine the topology of the cluster
+        topologyKey: kubernetes.io/hostname
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
@@ -162,7 +162,7 @@ applicationSecret:
   # -- String value that represents the client secret
   clientSecret: "" #
   # -- String value that represents the client ID
-  clientId: ""  #
+  clientId: "" #
 
 configmap:
   # Specifies whether a configmap should be created
