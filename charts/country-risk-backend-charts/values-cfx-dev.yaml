@@ -29,8 +29,6 @@ podSecurityContext:
 springProfiles:
 - dev
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 securityContext:
   # -- Specifies if processes running inside the container can gain more privileges than its initial user
   allowPrivilegeEscalation: false
@@ -69,8 +67,6 @@ ingress:
 
 
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
 resources:
   # -- Maximum amount of resources that the deployment should be able to consume
   limits:
@@ -87,8 +83,6 @@ nodeSelector: {}
 # -- Pod toleration constraints
 tolerations: []
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -102,8 +96,6 @@ affinity:
         # -- Key that is used to determine the topology of the cluster
         topologyKey: kubernetes.io/hostname
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
 # -- Determines if a pod is still alive or not
 livenessProbe:
   failureThreshold: 3
