@@ -1,0 +1,155 @@
+replicaCount: 1
+
+image:
+  registry: "ghcr.io"
+  # -- Name of the docker image
+  name: "catenax-ng/tx-vas-country-risk-backend"
+  pullPolicy: Always
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+certificate:
+  # -- Hostname for the certificate
+  host: "vas-country-risk-backend.dev.cofinity-x.com"
+
+# -- Name of the backend service
+appName: vas-country-risk-backend
+
+# -- List of secrets to be used
+imagePullSecrets: []
+# -- Annotations to be added to the running pod
+podAnnotations: {}
+
+# -- Configuration for security-related options of the running pod
+podSecurityContext:
+  # -- Set the file system group ID for all containers in the pod
+  fsGroup: 2000
+
+#Spring profiles under which the application should run
+springProfiles:
+- dev
+
+securityContext:
+  # -- Specifies if processes running inside the container can gain more privileges than its initial user
+  allowPrivilegeEscalation: false
+  # -- Specifies whether the process inside the container should run as a non-root user
+  runAsNonRoot: true
+  # -- Specifies the user ID that the process inside the container should run
+  runAsUser: 10001
+  # -- Specifies the group ID that the process inside the container should run
+  runAsGroup: 3000
+  # -- Capabilities that the process inside the container should have
+  capabilities:
+    drop:
+    - ALL
+
+# -- Service that should be created for the pod
+service:
+  # -- Type of service to be used
+  type: ClusterIP
+  # -- Service port
+  port: 8080
+
+# -- Specifies whether autoscaling should be enabled for the pod
+autoscaling:
+  enabled: false
+
+ingress:
+  # -- Class name
+  className: nginx
+  # -- Ingress enabled or not
+  enabled: true
+  annotations:
+    # -- HTTP traffic should be redirected to HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # -- Ingress controller should pass SSL traffic directly to the backend pods
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+
+
+
+resources:
+  # -- Maximum amount of resources that the deployment should be able to consume
+  limits:
+    cpu: 800m
+    memory: 2Gi
+  # -- Minimum amount of resources that the deployment should be guaranteed to receive
+  requests:
+    cpu: 300m
+    memory: 1Gi
+
+# -- Node placement constraints
+nodeSelector: {}
+
+# -- Pod toleration constraints
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          # -- Match Pod rules
+          - key: app.kubernetes.io/name
+            operator: DoesNotExist
+        # -- Key that is used to determine the topology of the cluster
+        topologyKey: kubernetes.io/hostname
+
+# -- Determines if a pod is still alive or not
+livenessProbe:
+  failureThreshold: 3
+  # -- Number of seconds to wait before performing the first liveness probe
+  initialDelaySeconds: 60
+  # -- Number of seconds to wait between consecutive probes
+  periodSeconds: 10
+  # -- Number of consecutive successful probes before a pod is considered healthy
+  successThreshold: 1
+  # -- Number of seconds after which a liveness probe times out
+  timeoutSeconds: 1
+  # -- HTTP endpoint
+  path: /management/health/liveness
+  # -- Port used
+  port: 8080
+# -- Determine when a pod is ready to start accepting requests
+readinessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  path: /management/health/readiness
+  port: 8080
+
+# -- Defines the client secret and client ID
+applicationSecret:
+  # -- String value that represents the client ID
+  clientId: <path:value-added-service/data/country-risk/dev/keycloak#client-id> #
+  # -- String value that represents the client secret
+  clientSecret: <path:value-added-service/data/country-risk/dev/keycloak#client-secret> #
+
+configmap:
+  # Specifies whether a configmap should be created
+  create: true
+  data:
+    SPRING_PROFILES_ACTIVE: dev
+    SECURITY_ENABLED: 'true'
+    SPRING_DATASOURCE_URL: <path:value-added-service/data/country-risk/dev/postgresql#jdbc-url>
+    SPRING_DATASOURCE_USERNAME: <path:value-added-service/data/country-risk/dev/postgresql#user>
+    SPRING_DATASOURCE_PASSWORD: <path:value-added-service/data/country-risk/dev/postgresql#password>
+    VAS_AUTHENTICATIONURL_TOKENURL: https://centralidp.dev.cofinity-x.com/auth/realms/CX-Central/protocol/openid-connect/token
+    VAS_AUTHENTICATIONURL_JWKSETURI: https://centralidp.dev.cofinity-x.com/auth/realms/CX-Central/protocol/openid-connect/certs
+    VAS_AUTHENTICATIONURL_AUTHURL: https://centralidp.dev.cofinity-x.com/auth/realms/CX-Central/protocol/openid-connect/auth
+    SPRINGDOC_SWAGGERURI_OAUTH_CLIENTID: <path:value-added-service/data/country-risk/dev/keycloak#swagger-ui-oauth-client-id>
+
+elastic:
+  # -- Should elastic be enabled or not
+  enabled: false
+
+postgres:
+  # -- Should postgres DB be enabled or not
+  enabled: false
+
+pgadmin4:
+  # -- Should pgadmin4 be enabled or not
+  enabled: false

@@ -58,6 +58,7 @@ spec:
             - configMapRef:
                 name: config-backend
           env:
+          {{- if eq true .Values.postgres.enabled }}
             - name: VAS_DATASOURCE_HOST
               value: {{ include "includeWithPostgresContext" (list $ "postgresql.primary.fullname") }}
             - name: VAS_DATASOURCE_USER
@@ -67,6 +68,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "includeWithPostgresContext" (list $ "postgresql.secretName") }}
                   key: password
+          {{- end }}
             - name: VAS_KEYCLOAKCLIENTID
               valueFrom:
                 secretKeyRef:
