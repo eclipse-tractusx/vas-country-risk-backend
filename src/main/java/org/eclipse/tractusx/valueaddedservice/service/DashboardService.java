@@ -25,7 +25,6 @@ import org.eclipse.tractusx.valueaddedservice.dto.*;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import org.eclipse.tractusx.valueaddedservice.service.logic.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,7 +73,7 @@ public class DashboardService {
     @Autowired
     ShareLogicService shareLogicService;
 
-    public Page getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser, Pageable pageable) {
+    public ResponsePageDTO getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser, Pageable pageable) {
         return worldMapAndTableLogicService.getTableInfo(year, ratingDTOList, companyUser, pageable);
     }
 

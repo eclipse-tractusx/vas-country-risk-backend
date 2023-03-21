@@ -37,7 +37,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfiguration  {
 
 
-
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
@@ -73,7 +72,6 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
-
         httpSecurity.httpBasic().disable();
         httpSecurity.formLogin().disable();
         httpSecurity.logout().disable();
@@ -84,7 +82,7 @@ public class SecurityConfiguration  {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/error","/api/**","/management/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
                 .permitAll();
 
         return httpSecurity.build();

@@ -25,6 +25,7 @@ import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardTableDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardWorldMapDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.RatingDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ResponsePageDTO;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,8 +92,8 @@ class DashBoardResourceIntegrationTest {
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
-        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
-        List<DashBoardTableDTO> list = responseEntity.getBody();
+        ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
+        List<DashBoardTableDTO> list = responseEntity.getBody().getContent();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
@@ -144,9 +145,9 @@ class DashBoardResourceIntegrationTest {
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings[]={ratings}&ratings[]={secondExistRating}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity.get(uri).build();
-        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
         });
-        List<DashBoardTableDTO> list =  responseEntity.getBody();
+        List<DashBoardTableDTO> list =  responseEntity.getBody().getContent();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
