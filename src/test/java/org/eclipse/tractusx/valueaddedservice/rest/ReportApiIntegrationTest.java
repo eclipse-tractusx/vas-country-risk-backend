@@ -29,6 +29,7 @@ import org.eclipse.tractusx.valueaddedservice.repository.CompanyUserRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.ReportRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.ReportValuesRepository;
 import org.eclipse.tractusx.valueaddedservice.service.csv.ResponseMessage;
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
@@ -50,6 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = ValueAddedServiceApplication.class)
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class ReportApiIntegrationTest {
 
     @Autowired

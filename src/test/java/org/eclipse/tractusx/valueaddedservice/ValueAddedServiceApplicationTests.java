@@ -19,12 +19,15 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice;
 
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class ValueAddedServiceApplicationTests {
 
 	@Test

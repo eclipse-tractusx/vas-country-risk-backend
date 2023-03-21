@@ -6,16 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.0.5] -  Not released yet
+## [1.1.0] -  Not released yet
 
 ### Changed
 - Changed test data that shows on dashboard
 - Changed sonar token on properties
+- Changed h2 database on test to postgres containers
 
 ### Fixes
 
 - Upgrade version to fix snake yaml vulnerability 
 - Upgrade Commons upload lib version to fix vulnerability
+
+### Added
+
+- Api for Dashboard working with new pagination 
 
 ## [1.0.4] -  2023-03-02
 
@@ -27,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed 
 - Change structure of folders on README.md
 - Change Helm chart README.md on current version released
+
 
 ### Removed 
 - Dockerfile removing the same EXPOSE block

@@ -25,6 +25,8 @@ import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardTableDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardWorldMapDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.RatingDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ResponsePageDTO;
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
 
@@ -49,6 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = ValueAddedServiceApplication.class)
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class DashBoardResourceIntegrationTest {
 
 
@@ -88,8 +92,8 @@ class DashBoardResourceIntegrationTest {
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
-        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
-        List<DashBoardTableDTO> list = responseEntity.getBody();
+        ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
+        List<DashBoardTableDTO> list = responseEntity.getBody().getContent();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
@@ -141,9 +145,9 @@ class DashBoardResourceIntegrationTest {
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings[]={ratings}&ratings[]={secondExistRating}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity.get(uri).build();
-        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
         });
-        List<DashBoardTableDTO> list =  responseEntity.getBody();
+        List<DashBoardTableDTO> list =  responseEntity.getBody().getContent();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());

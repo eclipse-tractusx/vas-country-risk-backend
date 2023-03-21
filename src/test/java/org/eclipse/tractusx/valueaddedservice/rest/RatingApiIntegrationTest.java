@@ -25,6 +25,7 @@ import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.dto.BusinessPartnerDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DataSourceDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareDTO;
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
 
@@ -47,6 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = ValueAddedServiceApplication.class)
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class RatingApiIntegrationTest {
 
     @Autowired

@@ -30,6 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,15 +79,18 @@ class DashBoardResourceTest {
 
 
     @Test
-    @DisplayName("Should return a list of dashboardtabledto when the year is not null")
+    @DisplayName("Should return a paged list of dashboardtabledto when the year is not null")
     void getAllDashBoardTableWhenYearIsNotNull() throws IOException {
         List<RatingDTO> ratingDTOS= new ArrayList<>();
         CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         companyUserDTO.setCompanyName("company");
         companyUserDTO.setName("name");
-        when(dashboardService.getTableInfo(anyInt(), anyList(), any()))
-                .thenReturn(List.of(new DashBoardTableDTO()));
-        var result = dashBoardResource.getAllDashBoardTable(ratingDTOS, 2020,companyUserDTO);
+        List<DashBoardTableDTO> dashBoardTableDTOs = new ArrayList<>();
+        ResponsePageDTO pagedResponse = new ResponsePageDTO<>(dashBoardTableDTOs);
+        Pageable pageable = PageRequest.of(0, 15);
+        when(dashboardService.getTableInfo(anyInt(), anyList(), any(),any()))
+                .thenReturn(pagedResponse);
+        var result = dashBoardResource.getAllDashBoardTable(ratingDTOS, 2020, companyUserDTO, pageable);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
