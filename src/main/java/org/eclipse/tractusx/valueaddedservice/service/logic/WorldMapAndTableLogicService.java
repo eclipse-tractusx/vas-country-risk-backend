@@ -71,7 +71,7 @@ public class WorldMapAndTableLogicService {
 
     public List<DashBoardWorldMapDTO> getWorldMapInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         log.debug("Request to get WorldMap Info");
-        List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).collect(Collectors.toList());
+        List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).toList();
         List<DataDTO> dataDTOS = new ArrayList<>();
 
         if (!dataSources.isEmpty() && year != null && year > 0) {
@@ -87,7 +87,7 @@ public class WorldMapAndTableLogicService {
     }
 
     private List<DashBoardWorldMapDTO> mapDataSourcesToWorldMap(List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS,CompanyUserDTO companyUser){
-        List<DataDTO> countryList = dataDTOS.stream().filter(MethodUtils.distinctByKey(DataDTO::getIso2)).collect(Collectors.toList());
+        List<DataDTO> countryList = dataDTOS.stream().filter(MethodUtils.distinctByKey(DataDTO::getIso2)).toList();
         final CountryDTO[] countryDTO = {new CountryDTO()};
         List<DashBoardWorldMapDTO> dashBoardWorldMapDTOS = new ArrayList<>();
         final DashBoardWorldMapDTO[] dashBoardWorldMapDTO = {new DashBoardWorldMapDTO()};
@@ -95,7 +95,7 @@ public class WorldMapAndTableLogicService {
             countryDTO[0] = new CountryDTO(country.getCountry(),country.getIso3(),country.getIso2(),country.getContinent());
             final float[] generalFormulaTotal = {0F};
             final float[] totalRatedByUser = {0F};
-            List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country.getCountry())).collect(Collectors.toList());
+            List<DataDTO> dataSources = dataDTOS.stream().filter(dataDTO -> dataDTO.getCountry().equalsIgnoreCase(country.getCountry())).toList();
             dataSources.forEach(each -> totalRatedByUser[0] = totalRatedByUser[0] + each.getWeight());
             dataSources.forEach(dataDTO -> generalFormulaTotal[0] = generalFormulaTotal[0] + calculateFinalScore(ratingDTOS.size(),dataSources.size(),dataDTO,totalRatedByUser[0]));
             dashBoardWorldMapDTO[0] = new DashBoardWorldMapDTO();
@@ -153,7 +153,7 @@ public class WorldMapAndTableLogicService {
     }
 
     private DashBoardTableDTO mapScoreForEachBpn(DashBoardTableDTO d, List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS){
-        List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getCountry().equalsIgnoreCase(d.getCountry())).collect(Collectors.toList());
+        List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getCountry().equalsIgnoreCase(d.getCountry())).toList();
         final float[] generalFormulaTotal = {0F};
         final String[] ratingsList = {""};
         final float[] totalRatedByUser = {0F};

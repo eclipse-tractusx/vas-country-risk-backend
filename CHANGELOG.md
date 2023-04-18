@@ -6,17 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.0.5] -  Not released yet
+## [1.1.0] -  Not released yet
 
 ### Changed
+
 - Changed test data that shows on dashboard
 - Changed sonar token on properties
-- Changed h2 databse on test to postgres containers
+- Changed h2 database on test to postgres containers
+- Changed Dependencies file based on new upgraded dependencies
 
 ### Fixes
 
+- Upgrade version of spring-expression to 6.0.7
 - Upgrade version to fix snake yaml vulnerability 
 - Upgrade Commons upload lib version to fix vulnerability
+- Fix Bug for Sonar Long conversion from long native
+- Readme updated with new Helm Chart leading repository information
+
+### Added
+
+- Added .tractusx metafile with information about leading repository
 
 ## [1.0.4] -  2023-03-02
 

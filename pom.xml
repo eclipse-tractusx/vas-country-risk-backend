@@ -30,7 +30,7 @@
 	</parent>
 	<groupId>org.eclipse.tractusx</groupId>
 	<artifactId>value-added-service</artifactId>
-	<version>1.0.5</version>
+	<version>1.1.0</version>
 	<name>value-added-service</name>
 	<description>Project to Validate Country Risks Score</description>
 	<properties>
@@ -67,6 +67,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<testcontainers.version>1.17.2</testcontainers.version>
+		<spring-expression-version>6.0.7</spring-expression-version>
 	</properties>
 
 	<pluginRepositories>
@@ -101,6 +102,11 @@
 				<artifactId>commons-fileupload</artifactId>
 				<version>${commons-fileupload-version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring-expression-version}</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
@@ -111,7 +117,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -409,5 +414,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 </project>
