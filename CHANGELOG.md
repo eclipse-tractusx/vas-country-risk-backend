@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed sonar token on properties
 - Changed h2 database on test to postgres containers
 - Changed Dependencies file based on new upgraded dependencies
+- Changed Arc42 and User Guide documentation
 
 ### Fixes
 
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added .tractusx metafile with information about leading repository
+- Added new images on docs folder
 
 ## [1.0.4] -  2023-03-02
 
