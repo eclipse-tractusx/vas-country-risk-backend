@@ -2,7 +2,7 @@ FROM maven:3.8-openjdk-18 as maven
 COPY ./pom.xml /pom.xml
 COPY ./src ./src
 
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
@@ -13,8 +13,8 @@ ARG UID=1000
 ARG GID=1000
 
 EXPOSE 8080
-EXPOSE 80
 EXPOSE 433
+EXPOSE 80
 
 WORKDIR /app
 

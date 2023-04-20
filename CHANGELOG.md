@@ -9,18 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] -  Not released yet
 
 ### Changed
+
 - Changed test data that shows on dashboard
 - Changed sonar token on properties
 - Changed h2 database on test to postgres containers
+- Changed Dependencies file based on new upgraded dependencies
+- Changed Arc42 and User Guide documentation
 
 ### Fixes
 
+- Upgrade version of spring-expression to 6.0.8
 - Upgrade version to fix snake yaml vulnerability 
 - Upgrade Commons upload lib version to fix vulnerability
+- Fix Bug for Sonar Long conversion from long native
+- Readme updated with new Helm Chart leading repository information
+- Upgraded jackson-databind and spring-core
 
 ### Added
 
-- Api for Dashboard working with new pagination 
+- Added .tractusx metafile with information about leading repository
+- Added new images on docs folder
 
 ## [1.0.4] -  2023-03-02
 
@@ -32,7 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed 
 - Change structure of folders on README.md
 - Change Helm chart README.md on current version released
-
 
 ### Removed 
 - Dockerfile removing the same EXPOSE block
