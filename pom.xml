@@ -56,7 +56,7 @@
 
 		<spring-security-web-version>6.0.1</spring-security-web-version>
 		<postgresql-version>42.5.1</postgresql-version>
-		<jackson-databind>2.13.4.1</jackson-databind>
+		<jackson-databind>2.13.4.2</jackson-databind>
 		<jackson-databind-nullable>0.2.4</jackson-databind-nullable>
 		<wiremock-standalone-version>2.27.2</wiremock-standalone-version>
 		<snake-yaml-version>2.0</snake-yaml-version>
@@ -67,7 +67,8 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<testcontainers.version>1.17.2</testcontainers.version>
-		<spring-expression-version>6.0.7</spring-expression-version>
+		<spring-expression-version>6.0.8</spring-expression-version>
+		<spring-core-version>6.0.8</spring-core-version>
 	</properties>
 
 	<pluginRepositories>
@@ -106,6 +107,11 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-expression</artifactId>
 				<version>${spring-expression-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring-core-version}</version>
 			</dependency>
 		</dependencies>
 
@@ -329,39 +335,39 @@
 					</execution>
 				</executions>
 			</plugin>
-<!--			<plugin>-->
-<!--				&lt;!&ndash;-->
-<!--                    Plugin that provides API-first development using openapi-generator to-->
-<!--                    generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file-->
-<!--                &ndash;&gt;-->
-<!--				<groupId>org.openapitools</groupId>-->
-<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
-<!--				<version>${openapi-generator-maven-plugin.version}</version>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<goals>-->
-<!--							<goal>generate</goal>-->
-<!--						</goals>-->
-<!--						<configuration>-->
-<!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
-<!--							</inputSpec>-->
-<!--							<generatorName>spring</generatorName>-->
-<!--							<invokerPackage>org.eclipse.tractusx.valueaddedservice.web.rest</invokerPackage>-->
-<!--							<apiPackage>org.eclipse.tractusx.valueaddedservice.web.rest</apiPackage>-->
-<!--							<modelPackage>org.eclipse.tractusx.valueaddedservice.web.rest</modelPackage>-->
-<!--							<modelNameSuffix>Model</modelNameSuffix>-->
-<!--							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
-<!--							<validateSpec>true</validateSpec>-->
-<!--							<generateApiTests>true</generateApiTests>-->
-<!--							<generateApiDocumentation>true</generateApiDocumentation>-->
-<!--							<configOptions>-->
-<!--								<delegatePattern>true</delegatePattern>-->
-<!--								<serializableModel>true</serializableModel>-->
-<!--							</configOptions>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
+			<!--			<plugin>-->
+			<!--				&lt;!&ndash;-->
+			<!--                    Plugin that provides API-first development using openapi-generator to-->
+			<!--                    generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file-->
+			<!--                &ndash;&gt;-->
+			<!--				<groupId>org.openapitools</groupId>-->
+			<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
+			<!--				<version>${openapi-generator-maven-plugin.version}</version>-->
+			<!--				<executions>-->
+			<!--					<execution>-->
+			<!--						<goals>-->
+			<!--							<goal>generate</goal>-->
+			<!--						</goals>-->
+			<!--						<configuration>-->
+			<!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
+			<!--							</inputSpec>-->
+			<!--							<generatorName>spring</generatorName>-->
+			<!--							<invokerPackage>org.eclipse.tractusx.valueaddedservice.web.rest</invokerPackage>-->
+			<!--							<apiPackage>org.eclipse.tractusx.valueaddedservice.web.rest</apiPackage>-->
+			<!--							<modelPackage>org.eclipse.tractusx.valueaddedservice.web.rest</modelPackage>-->
+			<!--							<modelNameSuffix>Model</modelNameSuffix>-->
+			<!--							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
+			<!--							<validateSpec>true</validateSpec>-->
+			<!--							<generateApiTests>true</generateApiTests>-->
+			<!--							<generateApiDocumentation>true</generateApiDocumentation>-->
+			<!--							<configOptions>-->
+			<!--								<delegatePattern>true</delegatePattern>-->
+			<!--								<serializableModel>true</serializableModel>-->
+			<!--							</configOptions>-->
+			<!--						</configuration>-->
+			<!--					</execution>-->
+			<!--				</executions>-->
+			<!--			</plugin>-->
 		</plugins>
 		<pluginManagement>
 			<plugins>

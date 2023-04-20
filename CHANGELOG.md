@@ -18,11 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixes
 
-- Upgrade version of spring-expression to 6.0.7
+- Upgrade version of spring-expression to 6.0.8
 - Upgrade version to fix snake yaml vulnerability 
 - Upgrade Commons upload lib version to fix vulnerability
 - Fix Bug for Sonar Long conversion from long native
 - Readme updated with new Helm Chart leading repository information
+- Upgraded jackson-databind and spring-core
 
 ### Added
 

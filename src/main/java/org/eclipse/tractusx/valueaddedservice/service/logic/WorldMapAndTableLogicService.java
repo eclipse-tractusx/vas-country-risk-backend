@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link DataSource}.
@@ -50,7 +49,7 @@ public class WorldMapAndTableLogicService {
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         log.debug("Request to get Table Info");
-        List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).collect(Collectors.toList());
+        List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).toList();
         List<DataDTO> dataDTOS = new ArrayList<>();
 
         List<BusinessPartnerDTO> businessPartnerDTOS;
