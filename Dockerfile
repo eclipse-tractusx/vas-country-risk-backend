@@ -7,7 +7,7 @@ RUN mvn clean package -DskipTests
 
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 # Copy the jar and build image
-FROM eclipse-temurin:19_36-jre AS value-added-service
+FROM eclipse-temurin:17-jre-alpine AS value-added-service
 
 ARG UID=1000
 ARG GID=1000

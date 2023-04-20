@@ -25,7 +25,6 @@ import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardTableDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardWorldMapDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.RatingDTO;
-import org.eclipse.tractusx.valueaddedservice.dto.ResponsePageDTO;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +66,7 @@ class DashBoardResourceIntegrationTest {
 
 
     private Map<String,Object> getMap() throws IOException {
-       RatingDTO ratingDTO = objectMapper.readValue(listRatingJson.getInputStream(), RatingDTO.class);
+        RatingDTO ratingDTO = objectMapper.readValue(listRatingJson.getInputStream(), RatingDTO.class);
 
         Map<String,Object> map = new HashMap<>();
         map.put("year",2021);
@@ -92,8 +91,8 @@ class DashBoardResourceIntegrationTest {
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).build();
-        ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
-        List<DashBoardTableDTO> list = responseEntity.getBody().getContent();
+        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request,new ParameterizedTypeReference<>() {});
+        List<DashBoardTableDTO> list = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());
@@ -145,9 +144,9 @@ class DashBoardResourceIntegrationTest {
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings[]={ratings}&ratings[]={secondExistRating}&name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity.get(uri).build();
-        ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        ResponseEntity<List<DashBoardTableDTO>> responseEntity = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
         });
-        List<DashBoardTableDTO> list =  responseEntity.getBody().getContent();
+        List<DashBoardTableDTO> list =  responseEntity.getBody();
 
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
         assertNotEquals(0,list.size());

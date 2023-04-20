@@ -25,7 +25,6 @@ import org.eclipse.tractusx.valueaddedservice.dto.*;
 import org.eclipse.tractusx.valueaddedservice.service.DataSourceValueService;
 import org.eclipse.tractusx.valueaddedservice.utils.MethodUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class WorldMapAndTableLogicService {
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
 
-    public ResponsePageDTO getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser, Pageable pageable) {
+    public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         log.debug("Request to get Table Info");
         List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).toList();
         List<DataDTO> dataDTOS = new ArrayList<>();
@@ -66,7 +65,7 @@ public class WorldMapAndTableLogicService {
                 each.setWeight(eachData.getWeight());
             }
         }));
-        return convertToPage(mapBusinessPartnerToDashboard(businessPartnerDTOS,dataDTOS,ratingDTOList),pageable);
+        return mapBusinessPartnerToDashboard(businessPartnerDTOS,dataDTOS,ratingDTOList);
     }
 
     public List<DashBoardWorldMapDTO> getWorldMapInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
@@ -175,12 +174,6 @@ public class WorldMapAndTableLogicService {
         }
 
         return ratingsList;
-    }
-
-    private ResponsePageDTO convertToPage(List objectList, Pageable pageable){
-        int first = Math.min(Long.valueOf(pageable.getOffset()).intValue(), objectList.size());;
-        int last = Math.min(first + pageable.getPageSize(), objectList.size());
-        return new ResponsePageDTO<>(objectList.subList(first, last), pageable, objectList.size());
     }
 
 

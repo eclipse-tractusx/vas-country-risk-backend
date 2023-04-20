@@ -37,8 +37,6 @@ import org.eclipse.tractusx.valueaddedservice.service.csv.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -66,13 +64,13 @@ public class DashBoardResource {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Business partners request with success based on selected variables "),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTableInfo")
-    public ResponseEntity<ResponsePageDTO<DashBoardTableDTO>> getAllDashBoardTable(@NotNull @Parameter(name = "ratings[]", description = "") @Valid @RequestParam(value = "ratings[]", required = false,defaultValue = "") List<RatingDTO> ratings,
+    public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@NotNull @Parameter(name = "ratings[]", description = "") @Valid @RequestParam(value = "ratings[]", required = false,defaultValue = "") List<RatingDTO> ratings,
                                                                                    @Parameter(name = "year", description = "") @Valid @RequestParam(value = "year", required = false, defaultValue = "0") Integer year,
-                                                                                   CompanyUserDTO companyUser, @PageableDefault(size = 15)Pageable pageable) {
+                                                                                   CompanyUserDTO companyUser) {
 
         log.debug( "REST request to get a page of Dashboard");
-        ResponsePageDTO dashBoardTableDTOs;
-         dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings, companyUser, pageable);
+        List<DashBoardTableDTO> dashBoardTableDTOs;
+        dashBoardTableDTOs = dashboardService.getTableInfo(year, ratings, companyUser);
         return ResponseEntity.ok().body(dashBoardTableDTOs);
     }
 
