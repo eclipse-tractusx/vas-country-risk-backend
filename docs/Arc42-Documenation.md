@@ -207,7 +207,7 @@ Each box represents a feature and each arrow between features represents its dep
 
 #### World Map View
 
-![WorldMap](../docs/Images/image2022-10-10_16-49-37.png)
+![WorldMap](../docs/Images/WorldMap.png)
 
 For this component, it is necessary to call three different APIs that allow mapping the Map and painting based on the score obtained from each country.
 
@@ -216,11 +216,11 @@ For this component, it is necessary to call three different APIs that allow mapp
 For each of these APIs we can consult its input and output in the APIs section.
 ##### Sample result
 
-![WorldMapColor](../docs/Images/image2022-10-10_16-52-17.png)
+![WorldMapColor](../docs/Images/WorldMapColor.png)
 
 #### Ratings
 
-![RatingTable](../docs/Images/image2022-10-10_17-8-48.png)
+![RatingTable](../docs/Images/Ratings.png)
 
 For this component, it is necessary to call just one API that gets the Ratings available for the user.
 
@@ -230,7 +230,7 @@ Some Ratings may be available globally by user or by the company they belong to 
 
 #### Ranges
 
-![Ranges](../docs/Images/image2022-10-10_17-21-38.png)
+![Ranges](../docs/Images/Ranges.png)
 
 For this component we have a call to two APIs, one that allows searching for a user's ranges, if any, and another that allows saving them if the user wants to for the next validation of the Map.
 
@@ -238,7 +238,7 @@ For this component we have a call to two APIs, one that allows searching for a u
 
 #### Business Partners Table
 
-![Table](../docs/Images/image2022-10-10_17-34-12.png)
+![Table](../docs/Images/BusinessPartnerTable.png)
 
 For this component, it is necessary to call just one API that gets the information about the Business Partners and the scores on which country they are displayed.
 
@@ -248,7 +248,7 @@ It is necessary for the user to select one or more ratings for this table to be 
 
 ##### Sample Result
 
-![SampleTable](../docs/Images/image2022-10-10_17-42-59.png)
+![SampleTable](../docs/Images/BusinessPartnerTableSample.png)
 
 #### Country Picker
 
@@ -260,7 +260,7 @@ In this component, we call one API to populate the dropdown menu with a selectio
 
 #### Company View
 
-![CompanyView](../docs/Images/image2022-10-11_8-30-59.png)
+![CompanyView](../docs/Images/CompanyView.png)
 
 For this component, it is necessary to call three different APIs. The APIs used are the getBpnCountries, getCountryFilterByISO2 and getTableInfo.  With the data that we get from this APIs, and also with the value from the selected country in the country picker component, we can present on the map the markers for the Business Partners of the selected country with some information associated to the markers.
 
@@ -278,22 +278,22 @@ https://vas-country-risk-backend.dev.demo.catena-x.net/swagger-ui/index.html#/
 
 In this endpoint, it is automatically inserted the information from the user that is accessing the tool, and it needs a manually inserted name and also an CSV file that can be retrieved in the download template in the tool. After this it is created a new registry with the information inside of the inserted CSV file onto the database. As parameters it requires the rating name, year, and type (Global, Company or Custom).
 Example:
-![csvselector](../docs/Images/image2022-12-5_14-24-2.png)
-![csvfile](../docs/Images/image2022-10-10_15-43-52.png)
 
+![csvselector](../docs/Images/SaveRating.png)
+
+![csvfile](../docs/Images/image2022-10-10_15-43-52.png)
 
 ![saveRanges](../docs/Images/image2022-10-10_13-31-47.png)
 
 In this endpoint, it is automatically inserted the information from the user that is accessing the tool, and it is manually inputted the three ranges currently selected by the user in the ranges component. These values are all saved using an object type. Example:
 
-![ranges](../docs/Images/image2022-12-5_14-23-26.png)
-
+![ranges](../docs/Images/Ranges.png)
 
 ![saveReports](../docs/Images/image2022-12-5_12-40-53.png)
 
 This endpoint is used to save an reports. It is used in the report component to save multiple selected data (Selected Ratings, Country, Range Values) and be able to use it in a later time. This endpoint receives as input field the Report name, the Type (Global, Company or Custom) of which the report should be saved for. Also it receives the current user information and an object that gathers all the selected data (Selected Ratings, Country, Range Values). Example:
 
-![Report](../docs/Images/image2022-12-5_12-59-48.png)
+![Report](../docs/Images/Reports.png)
 
 ![Rating](../docs/Images/image2022-10-10_13-33-31.png)
 
@@ -458,6 +458,7 @@ To contribute to the development please follow these Branching guidelines in the
 #### Endpoint: /dashboard/getTableInfo
 
 ![getDashboardTableinfo](../docs/Images/DashBoardResource_getAllDashBoardTable.jpg)
+
 In the DashBoardResource we invoke the method getTableInfo, that is inside the DashboardService.
 
 In there we invoke the method getTableInfo, which is situated in the WorldMapAndTableLogicService. Inside this method is were most of the logic is located.

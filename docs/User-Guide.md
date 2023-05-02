@@ -30,12 +30,12 @@ Choose the Login Option you want and is setup.
 
 5. After the Login you will be directed to the Dashboard
 
-![Dashboard](../docs/User-Guide-Images/image2023-1-16_11-2-53.png)
+![Dashboard](../docs/User-Guide-Images/Dashboard.png)
 
 
 ## Country Rating Component
 
-![Rating](../docs/User-Guide-Images/image2023-1-16_11-6-26.png)
+![Rating](../docs/User-Guide-Images/RatingList.png)
 
 This Component includes multiple smaller Functionalities
 
@@ -49,26 +49,26 @@ This Component includes multiple smaller Functionalities
 
 The first step you need to take is to select a year.
 
-![Year](../docs/User-Guide-Images/image2023-1-16_11-11-8.png)
+![Year](../docs/User-Guide-Images/RatingYearSelection.png)
 
 After you selected a year the Rating List will be updated. The Ratings in the List are saved for the selected year.  
 Currently all Globally available Ratings are Open Source. We do not create Scores, we only collect them and aggregate them according to your selections.
 
-![RatingTable](../docs/User-Guide-Images/image2023-1-16_11-12-24.png)
+![RatingTable](../docs/User-Guide-Images/RatingSelection.png)
 
 Next to the Year Selection you will find the the Gate selection. This selection will be done for you atuomatically on the first start-up of the Dashbaord.
 
-![Gateselect](../docs/User-Guide-Images/image2023-1-16_11-13-58.png)
+![Gateselect](../docs/User-Guide-Images/GateSelection.png)
 
 The Gate gives the Input on which Business Partners you will be able see in all components.  
 Thereafter you can select one or multiple Ratings in the Table.
 
-![Ratingselected](../docs/User-Guide-Images/image2023-1-16_11-19-57.png)
+![Ratingselected](../docs/User-Guide-Images/RatingSelected.png)
 
 If you want to select more Ratings at once you can Opena Pop-Up with the 'Show Ratings' Button  
 In this Table you can manipulate the same way oyu can in the smaller Table.
 
-![Popupselection](../docs/User-Guide-Images/image2023-1-16_11-37-20.png)
+![Popupselection](../docs/User-Guide-Images/RatingListPopUp.png)
 
 
 After selecting a Rating the World Map will change the Color of each individual Country.  
@@ -76,7 +76,7 @@ How is this done. Each Rating has a score for most of the Countries. We have a S
 For Example the CPI Rating has a Score of 45 for China and 29 for Russia.  
 Depending on your selection with the Ranges the Country is then colored.
 
-![WorldMap](../docs/User-Guide-Images/image2023-1-16_11-32-21.png)
+![WorldMap](../docs/User-Guide-Images/WorldMapFiltered.png)
 
 As you can see the Weighting column to the right of the Names are automatically created and evenly distributed.  
 This weighting can be customized individually.
@@ -84,7 +84,7 @@ This weighting can be customized individually.
 The Rules for the weighting are:
 1. always needs to add up to 100%
 
-![weighting](../docs/User-Guide-Images/image2023-1-16_11-24-0.png)
+![weighting](../docs/User-Guide-Images/WeightingOverlap.png)
 
 2. automatic weighting overwrites upon selecting new Raings
 3. when changing you need to confiem value by pressing "enter"
@@ -104,7 +104,7 @@ After creating your own Rating all you have to Upload the File you start with cl
 
 Then this Pop-Up is shown:
 
-![popupupload](../docs/User-Guide-Images/image2023-1-16_11-47-48.png)
+![popupupload](../docs/User-Guide-Images/RatingUpload.png)
 
 You then have the Option to select who can see thiws Rating after Uploading.  
 You have the Option between 'Only For me' or 'For the Company'. The secon Option is grayed out if you dont have administration rights.  
@@ -113,15 +113,15 @@ Below the year selection you can Give a Name to the Rating. A Rating Name can on
 This Name is then shown in the Rating table after finishing the Upload.
 
 
-![savingrating](../docs/User-Guide-Images/image2023-1-16_11-52-12.png)
+![savingrating](../docs/User-Guide-Images/RatingUploadFilled.png)
 
 Afterwards yoou will be asked to Upload the File you previously created. You can do thi s per darg and drop or by clicking on the cloud symbol to search your Explorer for the File.
 
-![popupsaved](../docs/User-Guide-Images/image2023-1-16_12-38-43.png)
+![popupsaved](../docs/User-Guide-Images/RatingUploadSuccess.png)
 
 After closing the Pop-Up the Rating is directly available in the table without the need to refresh the application.
 
-![refresh](../docs/User-Guide-Images/image2023-1-16_12-39-35.png)
+![refresh](../docs/User-Guide-Images/RatingUploaded.png)
 
 If you want to delete a Rating you have the Option to do so by clicking on the 'Trash' Icon to the right of the Rating.
 
@@ -139,26 +139,26 @@ The Map shows an interactive Map of the World for the User
 - After the first Zoom step the country Codes are shown with the ISO 3166-1 alpha-2 Codes
 - Hovering over the Codes shows the Complete Country Name
 
-![hovercountry](../docs/User-Guide-Images/image2023-1-15_22-6-5.png)
+![hovercountry](../docs/User-Guide-Images/WorldMap.png)
 
 - Upon zooming in the User can see Markers in countries.
   Those markers show the Location of the available Business Partners
   Hovering over the Marker reveils the Company Name in that Location
 
-![hoveringmarker](../docs/User-Guide-Images/image2023-1-15_22-6-37.png)
+![hoveringmarker](../docs/User-Guide-Images/WorldMapMarker.png)
 
 - The User has the Option to Expand the Map with the Help of the Icon in the top right corner
   After Expanding the World Map the User can find a Legend in the bottom left corner which represents the Ranges
   The functionalities remain in the expanded Mode
 
-![expandbutton](../docs/User-Guide-Images/image2023-1-15_22-8-14.png)
+![expandbutton](../docs/User-Guide-Images/WorldMapExpand.png)
 
-![popupMap](../docs/User-Guide-Images/image2023-1-15_22-8-54.png)
+![popupMap](../docs/User-Guide-Images/WorldMapExpanded.png)
 
 - After Expanding the World Map the User can see the Option to Export the Image.
   Upon clicking on the Button a PNG is created and downloaded. The File is named "worldMap.png"
 
-![exportImage](../docs/User-Guide-Images/image2023-1-15_22-10-48.png)
+![exportImage](../docs/User-Guide-Images/WorldMapExport.png)
 
 
 ## Company View
@@ -168,30 +168,30 @@ The Company View shows a Map of the World.
 The Map is similar to the World Map.  
 In this Map the User can also zoom in to reveil more Information:
 
-![zoommap](../docs/User-Guide-Images/image2023-1-16_12-32-50.png)
+![zoommap](../docs/User-Guide-Images/CompanyView.png)
 
 The User can also hover over one Country at a time.
 
-![hovercountrymap](../docs/User-Guide-Images/image2023-1-16_12-33-58.png)
+![hovercountrymap](../docs/User-Guide-Images/CompanyViewHover.png)
 
 In the Company view we not only show the Name of the Country we also show how many Business Partners which are available to you are located in this country.  
 We also show the Score in the Hover since the COuntries are not being colored when a Rating is selected.
 
 New in this View is the Option to Filter for a country
 
-![searchcountry](../docs/User-Guide-Images/image2023-1-16_12-42-4.png)
+![searchcountry](../docs/User-Guide-Images/CompanyViewFiltered.png)
 
 After selecting a country the Map zooms to the country and shows the Markers for each Business Partner in this Country.  
 Also the Table below both Maps is filtered for the selected country.
 
-![tablesearched](../docs/User-Guide-Images/image2023-1-16_12-43-37.png)
+![tablesearched](../docs/User-Guide-Images/TableFiltered.png)
 
 The User has the Option to Expand the Map with the Help of the Icon in the top right corner.  
 The functionalities remain in the expanded Mode.
 
-![expandcountrymap](../docs/User-Guide-Images/image2023-1-16_12-45-24.png)
+![expandcountrymap](../docs/User-Guide-Images/CompanyViewExpand.png)
 
-![expandedcountrymap](../docs/User-Guide-Images/image2023-1-16_12-46-1.png)
+![expandedcountrymap](../docs/User-Guide-Images/CompanyViewExpanded.png)
 
 After Expanding the Map the User can see the Option to Export the Image.  
 Upon clicking on the Button a PNG is created and downloaded. The File is named "BusinessPartnerMap.png"
@@ -199,7 +199,7 @@ Upon clicking on the Button a PNG is created and downloaded. The File is named "
 
 ## Business Partner Table
 
-![Table](../docs/User-Guide-Images/image2023-2-19_16-54-36.png)
+![Table](../docs/User-Guide-Images/Table.png)
 
 Functionalities:
 
@@ -227,19 +227,19 @@ Upon starting the Application we are setting up a connection to the Gate your Co
 We then make a request to get the Information for each BPN-L, BPN-S and BPN-A.  
 We then display all Business Partners in the table and the World Map.
 
-![tablefull](../docs/User-Guide-Images/image2023-2-19_16-55-0.png)
+![tablefull](../docs/User-Guide-Images/tablefull.png)
 
 
 ### Pagination
 
 On each Page we show 15 Business partners. If the User wants to see the next 15 business Partners he has the Option to switch to the next Page by clicking in the bottom right corner on the arrows
 
-![pagination](../docs/User-Guide-Images/image2023-1-16_13-9-11.png)
+![pagination](../docs/User-Guide-Images/TablePagination.png)
 
 ### The KPI
 We show the number of filtered Business Partners next to the Export Option:
 
-![kpi](../docs/User-Guide-Images/image2023-1-16_13-10-31.png)
+![kpi](../docs/User-Guide-Images/TableFilteredBusinessPartners.png)
 
 ### The Score
 
@@ -265,19 +265,17 @@ This search is looking in each column for the entered text.
 
 ![searchexample](../docs/User-Guide-Images/image2023-1-16_13-3-10.png)
 
-![filteredtable](../docs/User-Guide-Images/image2023-2-19_16-55-45.png)
-
 ### Export of the selected Table
 
 The User has the option to Export the Table and its content.
 
 1. The User selects which rows to export, each line individually or all rows
 
-![checkbox](../docs/User-Guide-Images/image2023-1-16_13-5-31.png)
+![checkbox](../docs/User-Guide-Images/TableSelection.png)
 
 2. The User then clicks on 'Export to csv'
 
-![exportbutton](../docs/User-Guide-Images/image2023-1-16_13-6-12.png)
+![exportbutton](../docs/User-Guide-Images/TableExport.png)
 
 3. After that a CSV File is created, which you can then Download.
 
@@ -286,7 +284,7 @@ The User has the option to Export the Table and its content.
 
 ## Reports
 
-![reports](../docs/User-Guide-Images/image2023-1-16_13-12-53.png)
+![reports](../docs/User-Guide-Images/Reports.png)
 
 Functionalities:
 
@@ -311,16 +309,16 @@ When the User has set a view of the Dashboard he wants to acces regularly withou
 
 1. Click on 'Save Report'
 
-![savereport](../docs/User-Guide-Images/image2023-1-16_13-17-55.png)
+![savereport](../docs/User-Guide-Images/ReportSave.png)
 
 2. Fill out the Pop-Up
    The User can choose between Uploading a Report for himself or for the Company if he has the status of an admin
 
-![savereportpopup](../docs/User-Guide-Images/image2023-1-16_13-17-42.png)
+![savereportpopup](../docs/User-Guide-Images/ReportCreated.png)
 
 After setting a Name and clicking on Save the Report is then available in the Report Table
 
-![definitionreport](../docs/User-Guide-Images/image2023-1-16_13-19-30.png)
+![definitionreport](../docs/User-Guide-Images/ReportAdded.png)
 
 
 ### How to change a Saved report
@@ -328,21 +326,19 @@ The process of changing a saved Report is eay.
 
 1. Select the Report
 
-![selectreport](../docs/User-Guide-Images/image2023-1-16_13-22-39.png)
+![selectreport](../docs/User-Guide-Images/ReportSelected.png)
 
 2. Change the Filters in the Dashboard
 
-![changes1](../docs/User-Guide-Images/image2023-1-16_13-23-4.png)
-
-![changes2](../docs/User-Guide-Images/image2023-1-16_13-23-29.png)
+![changes1](../docs/User-Guide-Images/ReportChange.png)
 
 3. Click on the Save Icon next to the selected Report
 
-![saveicon](../docs/User-Guide-Images/image2023-1-16_13-23-46.png)
+![saveicon](../docs/User-Guide-Images/ReportSaveIcon.png)
 
 4. Confirm that you want to save the changes
 
-![confirmation](../docs/User-Guide-Images/image2023-1-16_13-24-3.png)
+![confirmation](../docs/User-Guide-Images/ReportChanged.png)
 
 
 ### How to Share a Report with a colleague
@@ -352,11 +348,11 @@ Meaning he has to have created a Report or a Rating for himself.
 
 ToShare a Report you then select the Report you want to share and continue by clicking on the Share Icon to the most right of the Row.
 
-![shareicon](../docs/User-Guide-Images/image2023-1-16_13-26-39.png)
+![shareicon](../docs/User-Guide-Images/ReportShareIcon.png)
 
 In the Dropdown you select the Person you want to share the Report with and click on 'share'
 
-![selectusers](../docs/User-Guide-Images/image2023-1-16_13-27-31.png)
+![selectusers](../docs/User-Guide-Images/ReportShareSelection.png)
 
 You can only share Reports with Users in the Same Company as you.
 
@@ -365,18 +361,18 @@ You can only share Reports with Users in the Same Company as you.
 
 You can delete a Report by clicking on the 'trash' icon between the Save and Share functionality
 
-![deleteicon](../docs/User-Guide-Images/image2023-1-16_13-29-0.png)
+![deleteicon](../docs/User-Guide-Images/ReportDeleteIcon.png)
 
 Afterwards you confirm that you want to delete the Report by clicking on 'yes'
 
-![confirm](../docs/User-Guide-Images/image2023-1-16_13-29-44.png)
+![confirm](../docs/User-Guide-Images/ReportDeleteConfirmation.png)
 
 
 ## Rating Range Setter
 
 The Ranges define which color is shown for each Score
 
-![rangesselector](../docs/User-Guide-Images/image2023-1-16_13-32-55.png)
+![rangesselector](../docs/User-Guide-Images/draganddropranges.png)
 
 The Standard values are:  
 Green: 100 - 71  
@@ -388,22 +384,22 @@ Red: 30 - 0
 
 The User can slide the endpoint Points of the Strings by dragging them per Mouse hold.
 
-![draganddrop](../docs/User-Guide-Images/image2023-1-16_13-37-19.png)
+![draganddrop](../docs/User-Guide-Images/draganddropranges.png)
 
 The other option is by inputing the Value into the Text fields next to the Sliders and confirming by either clicking out of the box or pressing enter.
 
-![inputfield](../docs/User-Guide-Images/image2023-1-16_13-37-48.png)
+![inputfield](../docs/User-Guide-Images/rangessaved.png)
 
 The Values automatically adjust to the changes. There is not an option to have overlapping Values.
 
-![overlap](../docs/User-Guide-Images/image2023-1-16_13-38-26.png)
+![overlap](../docs/User-Guide-Images/rangesoverlap.png)
 
 ### How To Save individual Ranges
 
 To save the Ranges the User can click on 'Save Ranges' they are then automatically set to the currently selected values.
 
-![savebutton](../docs/User-Guide-Images/image2023-1-16_13-38-44.png)
+![savebutton](../docs/User-Guide-Images/savebuttonranges.png)
 
-![informationof saving](../docs/User-Guide-Images/image2023-1-16_13-39-1.png)
+![informationof saving](../docs/User-Guide-Images/rangessaved.png)
 
 When the User Returns at a later date the Saved Ranges are automatically set.
