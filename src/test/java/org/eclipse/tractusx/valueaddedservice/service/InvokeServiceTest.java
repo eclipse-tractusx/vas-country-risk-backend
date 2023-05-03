@@ -25,6 +25,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.service.logic.InvokeService;
 import org.eclipse.tractusx.valueaddedservice.service.mocks.ConfigServerMock;
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +42,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest(classes = ValueAddedServiceApplication.class)
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class InvokeServiceTest {
 
 
     public static WireMockServer wireMockServer;
 
     @Autowired
-    private InvokeService invokeService;
+    InvokeService invokeService;
 
     @BeforeEach
     public void preSetup() throws InterruptedException {

@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.1.0] -  2023-04-20
+
+### Changed
+
+- Changed test data that shows on dashboard
+- Changed sonar token on properties
+- Changed h2 database on test to postgres containers
+- Changed Dependencies file based on new upgraded dependencies
+- Changed Arc42 and User Guide documentation
+
+### Fixes
+
+- Upgrade version of spring-expression to 6.0.8
+- Upgrade version to fix snake yaml vulnerability 
+- Upgrade Commons upload lib version to fix vulnerability
+- Fix Bug for Sonar Long conversion from long native
+- Readme updated with new Helm Chart leading repository information
+- Upgraded jackson-databind and spring-core
+- Fixed dockerfile Jar and Trivy scan path
+
+### Added
+
+- Added .tractusx metafile with information about leading repository
+- Added new images on docs folder
+
 ## [1.0.4] -  2023-03-02
 
 ### Fixes

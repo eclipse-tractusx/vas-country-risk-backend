@@ -25,6 +25,7 @@ import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardTableDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardWorldMapDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.RatingDTO;
+import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriTemplate;
 
@@ -49,6 +51,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = ValueAddedServiceApplication.class)
+@ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class DashBoardResourceIntegrationTest {
 
 
@@ -63,7 +66,7 @@ class DashBoardResourceIntegrationTest {
 
 
     private Map<String,Object> getMap() throws IOException {
-       RatingDTO ratingDTO = objectMapper.readValue(listRatingJson.getInputStream(), RatingDTO.class);
+        RatingDTO ratingDTO = objectMapper.readValue(listRatingJson.getInputStream(), RatingDTO.class);
 
         Map<String,Object> map = new HashMap<>();
         map.put("year",2021);

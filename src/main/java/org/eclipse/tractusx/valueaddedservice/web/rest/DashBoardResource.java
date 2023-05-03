@@ -65,8 +65,8 @@ public class DashBoardResource {
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/dashboard/getTableInfo")
     public ResponseEntity<List<DashBoardTableDTO>> getAllDashBoardTable(@NotNull @Parameter(name = "ratings[]", description = "") @Valid @RequestParam(value = "ratings[]", required = false,defaultValue = "") List<RatingDTO> ratings,
-                                                                        @Parameter(name = "year", description = "") @Valid @RequestParam(value = "year", required = false, defaultValue = "0") Integer year,
-                                                                        CompanyUserDTO companyUser) {
+                                                                                   @Parameter(name = "year", description = "") @Valid @RequestParam(value = "year", required = false, defaultValue = "0") Integer year,
+                                                                                   CompanyUserDTO companyUser) {
 
         log.debug( "REST request to get a page of Dashboard");
         List<DashBoardTableDTO> dashBoardTableDTOs;

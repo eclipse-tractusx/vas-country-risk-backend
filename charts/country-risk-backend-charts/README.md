@@ -1,5 +1,7 @@
 # Country Risk Helm Chart
 
+**This text is deprecated and no longer being updated. Please refer to the  ![Tag](https://img.shields.io/static/v1?label=&message=LeadingRepository&color=green&style=flat) ( [vas-country-risk-frontend](https://github.com/eclipse-tractusx/vas-country-risk-frontend) ) leading repository for the latest information.**
+
 This Helm Chart deploys the Country Risk Backend service to a Kubernetes environment.
 
 ## Prerequisites
