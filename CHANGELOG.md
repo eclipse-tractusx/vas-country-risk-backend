@@ -6,13 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.1.1] -  Not released yet
+## [1.1.1] -  2023-05-09
 
 ### Fixes
 
 - Upgrade version of spring-security-web to fix vul to 6.0.3
 - Upgrade version of spring boot to fix vul to 3.0.6
 - Update DEPENDENCIES file
+- Update Code of Conduct
 
 
 ## [1.1.0] -  2023-04-20
