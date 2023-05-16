@@ -19,6 +19,8 @@ Table of content:
 This project in mainly used as a microservice for the Value Added Service Frontend project. It feeds information from
 an database and also from other CatenaX microservices
 
+You can find the leading repository with all deploy and info on [value added service country risk](https://github.com/eclipse-tractusx/vas-country-risk-frontend) project.
+
 ## Container images
 
 This application provides container images for demonstration purposes.
