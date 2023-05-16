@@ -16,7 +16,7 @@
 @REM specific language governing permissions and limitations
 @REM under the License.
 @REM ----------------------------------------------------------------------------
-
+@REM SPDX-License-Identifier: Apache-2.0
 @REM ----------------------------------------------------------------------------
 @REM Maven Start Up Batch script
 @REM
