@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Removed charts that be on leading repo
+- Removed Helm Charts folder and sub folders content, helms can be found on leading repository described on Readme.md 
 
 
 ## [1.1.0] -  2023-04-20
