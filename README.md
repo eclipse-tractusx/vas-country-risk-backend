@@ -19,6 +19,23 @@ Table of content:
 This project in mainly used as a microservice for the Value Added Service Frontend project. It feeds information from
 an database and also from other CatenaX microservices
 
+You can find the leading repository with all deploy and info on [value added service country risk](https://github.com/eclipse-tractusx/vas-country-risk-frontend) project.
+
+## Container images
+
+This application provides container images for demonstration purposes.
+The base image used, to build this demo application image is `eclipse-temurin:17-jre-alpine`
+
+Docker Hub:
+
+* [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
+* [17-jre-alpine](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-02c04793fa49ad5cd193c961403223755f9209a67894622e05438598b32f210e?context=explore)
+
+Source:
+
+* [temurin-build](https://github.com/adoptium/temurin-build)
+* [temurin docker repo info](https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin)
+
 ## Running environments
 
 | Environment | Link                                                    |
@@ -103,6 +120,11 @@ and follows the mainly used project structure in most Spring Boot projects.
                        └───web
                            └───rest
 ```
+
+## API sample endpoints
+
+* Swagger UI: `http://localhost:8080/swagger-ui/index.html#/`
+
 
 ## API sample endpoints
 

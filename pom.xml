@@ -25,12 +25,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.1</version>
+		<version>3.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.eclipse.tractusx</groupId>
 	<artifactId>value-added-service</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<name>value-added-service</name>
 	<description>Project to Validate Country Risks Score</description>
 	<properties>
@@ -54,7 +54,7 @@
 		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
 		<spring-boot-starter-oauth2-resource-server>3.0.1</spring-boot-starter-oauth2-resource-server>
 
-		<spring-security-web-version>6.0.1</spring-security-web-version>
+		<spring-security-web-version>6.0.3</spring-security-web-version>
 		<postgresql-version>42.5.1</postgresql-version>
 		<jackson-databind>2.13.4.2</jackson-databind>
 		<jackson-databind-nullable>0.2.4</jackson-databind-nullable>

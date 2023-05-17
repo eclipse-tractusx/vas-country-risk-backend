@@ -69,7 +69,6 @@ public class ExternalBusinessPartnersLogicService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setBearerAuth(applicationVariables.getToken());
             HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-            //invokeService.executeRequest(legalEntitiesUrl, HttpMethod.GET,httpEntity,new Object());
             return objectMapper.readValue(json.getInputStream(), new TypeReference<>() {
             });
         } catch (IOException e) {
