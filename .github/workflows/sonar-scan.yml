@@ -11,6 +11,7 @@ on:
     secrets:
       SONAR_TOKEN:
         required: true
+  workflow_dispatch:
 
 env:
   JAVA_VERSION: 17
