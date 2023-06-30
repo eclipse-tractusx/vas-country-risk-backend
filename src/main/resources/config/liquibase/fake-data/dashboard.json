@@ -1,14 +1,16 @@
 [
   {
-    "bpn":"BPNL00000008KD5G",
-    "legalName":"Steering Wheel Foundation",
-    "street":"West Road",
-    "houseNumber":"12",
-    "zipCode":"AA67HR",
-    "city":"Mogadishu",
-    "country":"Somalia",
+    "bpn": "BPNL00000008KD5G",
+    "legalName": "Steering Wheel Foundation",
+    "street": "West Road",
+    "houseNumber": "12",
+    "zipCode": "AA67HR",
+    "city": "Mogadishu",
+    "country": "Somalia",
     "longitude": 45.3425,
-    "latitude": 2.0408
+    "latitude": 2.0408,
+    "supplier": true,
+    "customer": false
   },
   {
     "bpn": "BPNL00000012SR7T",
@@ -19,7 +21,9 @@
     "city": "Graubünden",
     "country": "Switzerland",
     "longitude": 7.4474,
-    "latitude": 46.9480
+    "latitude": 46.9480,
+    "supplier": true,
+    "customer": true
   },
   {
     "bpn": "BPNL00000025OT5F",
@@ -30,12 +34,10 @@
     "city": "San Francisco",
     "country": "United States of America",
     "longitude": -122.4430,
-    "latitude": 37.7562
+    "latitude": 37.7562,
+    "supplier": false,
+    "customer": true
   },
-
-
-
-
   {
     "bpn": "BPNL00000008KD5G",
     "legalName": "Williamson LLC",
@@ -45,7 +47,9 @@
     "city": "Ob’",
     "country": "Russia",
     "longitude": 82.6615789,
-    "latitude": 55.0214573
+    "latitude": 55.0214573,
+    "supplier": false,
+    "customer": false
   },
   {
     "bpn": "BPNL00000012SR7T",

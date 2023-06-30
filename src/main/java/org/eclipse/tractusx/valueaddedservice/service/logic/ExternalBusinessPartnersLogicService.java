@@ -41,6 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.eclipse.tractusx.valueaddedservice.constants.VasConstants.CSV_ROLE_READ_CUSTOMER;
+import static org.eclipse.tractusx.valueaddedservice.constants.VasConstants.CSV_ROLE_READ_SUPPLIER;
+
 @Service
 @Slf4j
 public class ExternalBusinessPartnersLogicService {
@@ -57,30 +60,51 @@ public class ExternalBusinessPartnersLogicService {
     @Autowired
     ApplicationVariables applicationVariables;
 
-    @Autowired
-    InvokeService invokeService;
-
-    
-    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUser.name,#companyUser.email,#companyUser.companyName}}", unless = "#result == null")
-    public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser) {
+    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUser.name,#companyUser.email,#companyUser.companyName}, #roles}", unless = "#result == null")
+    public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser,String token, List<String> roles) {
         log.debug("getExternalBusinessPartners for companyUserDTO {}",companyUser);
         try {
             var headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(applicationVariables.getToken());
+            headers.setBearerAuth(token);
             HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-            return objectMapper.readValue(json.getInputStream(), new TypeReference<>() {
+            List<BusinessPartnerDTO> businessPartnerDTOS = objectMapper.readValue(json.getInputStream(), new TypeReference<>() {
             });
+
+
+            List<BusinessPartnerDTO> filteredBusinessPartnerDTOS;
+
+            if (roles.contains(CSV_ROLE_READ_SUPPLIER) && roles.contains(CSV_ROLE_READ_CUSTOMER)) {
+                // User has both roles, no need to filter
+                filteredBusinessPartnerDTOS = businessPartnerDTOS;
+            } else if (roles.contains(CSV_ROLE_READ_SUPPLIER)) {
+                // User can only read suppliers and those who are not customers
+                filteredBusinessPartnerDTOS = businessPartnerDTOS.stream()
+                        .filter(bpn -> bpn.getSupplier() || !bpn.getCustomer())
+                        .toList();
+            } else if (roles.contains(CSV_ROLE_READ_CUSTOMER)) {
+                // User can only read customers and those who are not suppliers
+                filteredBusinessPartnerDTOS = businessPartnerDTOS.stream()
+                        .filter(bpn -> bpn.getCustomer() || !bpn.getSupplier())
+                        .toList();
+            } else {
+                // User has neither role, can only see those who are neither suppliers nor customers
+                filteredBusinessPartnerDTOS = businessPartnerDTOS.stream()
+                        .filter(bpn -> !bpn.getSupplier() && !bpn.getCustomer())
+                        .toList();
+            }
+            return filteredBusinessPartnerDTOS;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     
-    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
-    public List<String> getExternalPartnersCountry (CompanyUserDTO companyUserDTO) {
+    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName},#roles}", unless = "#result == null")
+    public List<String> getExternalPartnersCountry (CompanyUserDTO companyUserDTO,String token,List<String> roles) {
         log.debug("getExternalPartnersCountry for companyUserDTO {}",companyUserDTO);
         List<BusinessPartnerDTO> businessPartnerDTOS;
-        businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO);
+        businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO,token,roles);
         List<String> countryList = new ArrayList<>();
         countryList.addAll(businessPartnerDTOS.stream().map(BusinessPartnerDTO::getCountry)
                 .collect(Collectors.toSet()));
@@ -88,10 +112,10 @@ public class ExternalBusinessPartnersLogicService {
     }
 
     
-    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#countryDTO.iso3, #companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
-    public Long getTotalBpnByCountry(CountryDTO countryDTO,CompanyUserDTO companyUserDTO){
+    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#countryDTO.iso3, #companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName},#roles}", unless = "#result == null")
+    public Long getTotalBpnByCountry(CountryDTO countryDTO,CompanyUserDTO companyUserDTO,String token,List<String> roles){
         log.debug("getTotalBpnByCountry filtered by country {} and companyUser {}",countryDTO,companyUserDTO);
-        List<BusinessPartnerDTO> businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO);
+        List<BusinessPartnerDTO> businessPartnerDTOS = getExternalBusinessPartners(companyUserDTO,token,roles);
         return  businessPartnerDTOS.stream().filter(businessPartnerDTO -> businessPartnerDTO.getCountry().equalsIgnoreCase(countryDTO.getCountry())).count();
 
     }

@@ -45,12 +45,13 @@ public class  ShareLogicService {
     @Autowired
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
-    public List<ShareDTO> findRatingsScoresForEachBpn(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartnerToMap, CompanyUserDTO companyUser) {
+    public List<ShareDTO> findRatingsScoresForEachBpn(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartnerToMap, CompanyUserDTO companyUser,
+                                                      String token,List<String> roles) {
 
         List<ShareDTO> shareDTOSList = new ArrayList<>();
         
         List<BusinessPartnerDTO> companyBusinessPartnerDTOS;
-        companyBusinessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
+        companyBusinessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser,token,roles);
 
         businessPartnerToMap.forEach(bp -> {
             if(bp.getCountry() == null){

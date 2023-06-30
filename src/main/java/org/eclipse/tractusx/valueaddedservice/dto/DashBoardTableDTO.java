@@ -67,4 +67,10 @@ public class DashBoardTableDTO implements Serializable {
     @Schema(example = "-6.6889038")
     private String latitude;
 
+    @Schema(example = "false")
+    private Boolean supplier;
+
+    @Schema(example = "true")
+    private Boolean customer;
+
 }

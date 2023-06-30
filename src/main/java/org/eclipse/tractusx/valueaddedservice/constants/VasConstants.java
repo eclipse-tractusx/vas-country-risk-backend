@@ -55,7 +55,8 @@ public final class VasConstants {
     public static final String CSV_ROLE_TYPE_COMPANY = "Company";
 
     public static final String CSV_ROLE_COMPANY_ADMIN = "Company Admin";
-
+    public static final String CSV_ROLE_READ_SUPPLIER = "read_suppliers";
+    public static final String CSV_ROLE_READ_CUSTOMER = "read_customers";
 
 
     public static final String REQUEST_COMPANY_NAME = "companyName";

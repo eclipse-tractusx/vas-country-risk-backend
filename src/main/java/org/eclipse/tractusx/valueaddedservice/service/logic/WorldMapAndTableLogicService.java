@@ -47,14 +47,14 @@ public class WorldMapAndTableLogicService {
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
 
 
-    public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
+    public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser,String token,List<String> roles) {
         log.debug("Request to get Table Info");
         List<String> dataSources = ratingDTOList.stream().map(RatingDTO::getDataSourceName).toList();
         List<DataDTO> dataDTOS = new ArrayList<>();
 
         List<BusinessPartnerDTO> businessPartnerDTOS;
-        businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser);
-        List<String> countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUser);
+        businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser,token,roles);
+        List<String> countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUser,token,roles);
 
         if (!dataSources.isEmpty() && year != null && year > 0) {
             dataDTOS = dataSourceValueService.findByRatingAndCountryAndScoreGreaterThanAndYear(Float.valueOf(-1), countryList, dataSources, year);
@@ -148,6 +148,8 @@ public class WorldMapAndTableLogicService {
         dashBoardTableDTO.setId(Long.valueOf(id));
         dashBoardTableDTO.setLatitude(businessPartnerDTO.getLatitude());
         dashBoardTableDTO.setLongitude(businessPartnerDTO.getLongitude());
+        dashBoardTableDTO.setCustomer(businessPartnerDTO.getCustomer());
+        dashBoardTableDTO.setSupplier(businessPartnerDTO.getSupplier());
         return dashBoardTableDTO;
     }
 

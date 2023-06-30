@@ -63,6 +63,12 @@ public class BusinessPartnerDTO implements Serializable {
     @Schema(example = "-6.6889038")
     private String latitude;
 
+    @Schema(example = "false")
+    private Boolean supplier = false;
+
+    @Schema(example = "true")
+    private Boolean customer = false;
+
     public BusinessPartnerDTO(String json) {
 
         try {

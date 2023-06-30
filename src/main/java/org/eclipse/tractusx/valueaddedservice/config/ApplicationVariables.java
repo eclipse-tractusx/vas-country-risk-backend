@@ -33,7 +33,7 @@ public class ApplicationVariables {
 
     private String token;
 
-   private AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
+    private AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
 
     public String getToken() {
         return token;

@@ -19,6 +19,8 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
+import org.eclipse.tractusx.valueaddedservice.config.ApplicationVariables;
+import org.eclipse.tractusx.valueaddedservice.dto.AuthPropertiesDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CountryDTO;
 import org.eclipse.tractusx.valueaddedservice.service.CountryService;
@@ -51,6 +53,12 @@ class CountryLogicServiceTest {
     @InjectMocks
     CountryLogicService countryLogicService;
 
+    @Mock
+    ApplicationVariables applicationVariables;
+
+
+
+
     @Test
     @DisplayName("Should return a list of countries filtered by iso2")
     void getCountryFilterByISO2ShouldReturnListOfCountriesFilteredByISO2() {
@@ -58,16 +66,25 @@ class CountryLogicServiceTest {
         CountryDTO countryDTO1 = new CountryDTO(1L, "Germany", "DEU", "DE", "Europe","","",3L);
         CountryDTO countryDTO2 = new CountryDTO(2L, "Spain", "ESP", "ES", "Europe","","",3L);
         CountryDTO countryDTO3 = new CountryDTO(3L, "France", "FRA", "FR", "Europe","","",3L);
+
+        AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
+        authPropertiesDTO.setCompanyName("TestCompany");
+        authPropertiesDTO.setEmail("test@email.com");
+        authPropertiesDTO.setName("TestName");
+
+
+        when(applicationVariables.getToken()).thenReturn("");
+
         List<CountryDTO> countryDTOList = Arrays.asList(countryDTO1, countryDTO2, countryDTO3);
         when(countryService.findAll()).thenReturn(countryDTOList);
-        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO1, companyUserDTO))
+        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO1, companyUserDTO,applicationVariables.getToken(),new ArrayList<>()))
                 .thenReturn(1L);
-        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO2, companyUserDTO))
+        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO2, companyUserDTO,applicationVariables.getToken(),new ArrayList<>()))
                 .thenReturn(2L);
-        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO3, companyUserDTO))
+        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO3, companyUserDTO,applicationVariables.getToken(),new ArrayList<>()))
                 .thenReturn(3L);
 
-        List<CountryDTO> result = countryLogicService.getCountryFilterByISO2(companyUserDTO);
+        List<CountryDTO> result = countryLogicService.getCountryFilterByISO2(companyUserDTO,applicationVariables.getToken(),new ArrayList<>());
 
         assertEquals(3, result.size());
         assertEquals("Germany", result.get(0).getCountry());
@@ -89,14 +106,16 @@ class CountryLogicServiceTest {
         List<CountryDTO> countryDTOList = Arrays.asList(countryDTO1, countryDTO2, countryDTO3);
 
         when(countryService.findAll()).thenReturn(countryDTOList);
-        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO1, companyUserDTO))
+        when(applicationVariables.getToken()).thenReturn("");
+
+        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO1, companyUserDTO,applicationVariables.getToken(),new ArrayList<>()))
                 .thenReturn(1L);
-        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO2, companyUserDTO))
+        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO2, companyUserDTO,applicationVariables.getToken(),new ArrayList<>()))
                 .thenReturn(2L);
-        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO3, companyUserDTO))
+        when(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO3, companyUserDTO,applicationVariables.getToken(),new ArrayList<>()))
                 .thenReturn(3L);
 
-        List<CountryDTO> result = countryLogicService.getCountryFilterByISO2(companyUserDTO);
+        List<CountryDTO> result = countryLogicService.getCountryFilterByISO2(companyUserDTO,"",new ArrayList<>());
 
         assertEquals(3, result.size());
         assertEquals("Germany", result.get(0).getCountry());
@@ -121,7 +140,7 @@ class CountryLogicServiceTest {
     void getAssociatedCountriesWhenCompanyUserDTONullThenReturnEmptyList() {
         CompanyUserDTO companyUserDTO = null;
         List<CountryDTO> countryDTOList =
-                countryLogicService.getAssociatedCountries(companyUserDTO);
+                countryLogicService.getAssociatedCountries(companyUserDTO,"",new ArrayList<>());
         assertTrue(countryDTOList.isEmpty());
     }
 
@@ -147,7 +166,7 @@ class CountryLogicServiceTest {
 
         when(countryService.findByCountryIn(anyList())).thenReturn(countryDTOList);
 
-        List<CountryDTO> result = countryLogicService.getAssociatedCountries(companyUserDTO);
+        List<CountryDTO> result = countryLogicService.getAssociatedCountries(companyUserDTO,"",new ArrayList<>());
 
         assertNotNull(result);
         assertEquals(1, result.size());

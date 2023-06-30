@@ -6,8 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.1.2] -  tbd
+## [1.2.0] -  tbd
+
+### Added
 - Add project name to sonar cloud properties
+- Added Suppliers and Customers fields for logic filtering
+
+### Changed
+- Map Between API and New Data Model for getting Suppliers and Customers
 
 ## [1.1.1] -  2023-05-16
 

@@ -19,25 +19,28 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
+import org.eclipse.tractusx.valueaddedservice.config.ApplicationVariables;
 import org.eclipse.tractusx.valueaddedservice.domain.Company;
 import org.eclipse.tractusx.valueaddedservice.domain.CompanyGates;
 import org.eclipse.tractusx.valueaddedservice.domain.CompanyGroup;
 import org.eclipse.tractusx.valueaddedservice.domain.CompanyUser;
-import org.eclipse.tractusx.valueaddedservice.dto.BusinessPartnerDTO;
-import org.eclipse.tractusx.valueaddedservice.dto.CompanyGatesDTO;
-import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
-import org.eclipse.tractusx.valueaddedservice.dto.CountryDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.*;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyGatesRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyGroupRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyUserRepository;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -54,6 +57,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
@@ -74,6 +78,27 @@ class BPNIntegartionTest {
 
     @Autowired
     CompanyUserRepository companyUserRepository;
+
+    @MockBean
+    ApplicationVariables applicationVariables;
+
+    @BeforeEach
+    public void setUp() throws JsonProcessingException {
+        AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
+        authPropertiesDTO.setCompanyName("TestCompany");
+        authPropertiesDTO.setEmail("test@email.com");
+        authPropertiesDTO.setName("TestName");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "{ \"Cl16-CX-CRisk\": { \"roles\": [ \"User\", \"Company Admin\", \"read_suppliers\", \"read_customers\" ] } }";
+        Map<String, Object> map = mapper.readValue(json, new TypeReference<>() {
+        });
+        authPropertiesDTO.setResourceAccess(map);
+
+        when(applicationVariables.getAuthPropertiesDTO()).thenReturn(authPropertiesDTO);
+        when(applicationVariables.getToken()).thenReturn("");
+    }
+
 
     @AfterEach
     public void cleanGatesAndRelations(){
@@ -110,7 +135,6 @@ class BPNIntegartionTest {
     }
 
     @Test
-
     void getCompanyBpns() throws Exception {
 
         Map<String,Object> map = getMap();
