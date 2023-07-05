@@ -72,16 +72,29 @@ public class CountryLogicService {
     @Cacheable(value = "vas-country", key = "{#root.methodName , #countryName}", unless = "#result == null")
     public CountryDTO findCountryByName(String countryName){
         Optional<CountryDTO> countryDTO = countryService.findCountryByName(countryName);
-        log.debug("findCountryByName filtered by countryName {}", countryName);
+        log.debug("findCountryByName filtered by countryName");
         if(countryDTO.isPresent()){
             return countryDTO.get();
         }else{
-            log.error("Country does not exists on country table {}", countryName);
+            log.error("Country does not exists on country table");
             return new CountryDTO();
         }
 
+    }
+
+    @Cacheable(value = "vas-country", key = "{#root.methodName , #iso2}", unless = "#result == null")
+    public CountryDTO findCountryByIso2(String iso2){
+        Optional<CountryDTO> countryDTO = countryService.findCountryByIso2(iso2);
+        log.debug("findCountryByIso2 filtered by iso2");
+        if(countryDTO.isPresent()){
+            return countryDTO.get();
+        }else{
+            log.error("Country does not exists on country table");
+            return new CountryDTO();
+        }
 
     }
+
 
     @CacheEvict(value = "vas-country", allEntries = true)
     public void invalidateAllCache() {

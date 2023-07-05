@@ -62,4 +62,7 @@ application:
   name: default
   host: project-value-added-service-vas/api/dashboard
   partnersPoolUrl:
-    legalEntities: 'http://localhost:8080/api/catena/legal-entities'
+    bpdmAddressUrl: 'http://localhost:8585/companies/test-company/api/catena/output/addresses/search?'
+    bpdmSiteUrl: 'http://localhost:8585/companies/test-company/api/catena/output/sites/search?'
+    bpdmLegalUrl: 'http://localhost:8585/companies/test-company/api/catena/output/legal-entities/search?'
+  clientId: 'test-crisk'

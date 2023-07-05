@@ -31,4 +31,6 @@ application:
   name: dev
   host: http://project-value-added-service-vas/api/schedule
   partnersPoolUrl:
-    legalEntities: 'https://partners-pool.dev.demo.catena-x.net/api/catena/legal-entities'
+    bpdmAddressUrl: 'https://business-partners.dev.demo.catena-x.net/companies/test-company/api/catena/output/addresses/search?limit=10'
+    bpdmSiteUrl: 'https://business-partners.dev.demo.catena-x.net/companies/test-company/api/catena/output/sites/search?limit=10'
+    bpdmLegalUrl: 'https://business-partners.dev.demo.catena-x.net/companies/test-company/api/catena/output/legal-entities/search?limit=10'

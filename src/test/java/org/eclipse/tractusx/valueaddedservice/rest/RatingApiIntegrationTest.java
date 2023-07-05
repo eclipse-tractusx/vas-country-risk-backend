@@ -29,9 +29,12 @@ import org.eclipse.tractusx.valueaddedservice.dto.AuthPropertiesDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.BusinessPartnerDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DataSourceDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareDTO;
+import org.eclipse.tractusx.valueaddedservice.utils.MockUtilsTest;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.when;
 
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
 @ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class RatingApiIntegrationTest {
@@ -83,8 +87,18 @@ class RatingApiIntegrationTest {
     @MockBean
     ApplicationVariables applicationVariables;
 
+    MockUtilsTest mockUtilsTest;
+
+    @BeforeAll
+    public void beforeAll() {
+        mockUtilsTest = new MockUtilsTest();
+        mockUtilsTest.beforeAll();
+    }
+
+
     @BeforeEach
-    public void setUp() throws JsonProcessingException {
+    public void setUp() throws JsonProcessingException, InterruptedException {
+        mockUtilsTest.openPorts();
         AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
         authPropertiesDTO.setCompanyName("TestCompany");
         authPropertiesDTO.setEmail("test@email.com");
@@ -96,8 +110,8 @@ class RatingApiIntegrationTest {
         authPropertiesDTO.setResourceAccess(map);
 
         when(applicationVariables.getAuthPropertiesDTO()).thenReturn(authPropertiesDTO);
-    }
 
+    }
 
     @Test
     @Transactional

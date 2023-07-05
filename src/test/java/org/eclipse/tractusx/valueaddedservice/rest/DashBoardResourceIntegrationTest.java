@@ -29,9 +29,12 @@ import org.eclipse.tractusx.valueaddedservice.dto.AuthPropertiesDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardTableDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DashBoardWorldMapDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.RatingDTO;
+import org.eclipse.tractusx.valueaddedservice.utils.MockUtilsTest;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,6 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.when;
 
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
 @ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class DashBoardResourceIntegrationTest {
@@ -74,8 +78,18 @@ class DashBoardResourceIntegrationTest {
     @MockBean
     ApplicationVariables applicationVariables;
 
+    MockUtilsTest mockUtilsTest;
+
+    @BeforeAll
+    public void beforeAll() {
+        mockUtilsTest = new MockUtilsTest();
+        mockUtilsTest.beforeAll();
+    }
+
+
     @BeforeEach
     public void setUp() throws JsonProcessingException {
+        mockUtilsTest.openPorts();
         AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
         authPropertiesDTO.setCompanyName("TestCompany");
         authPropertiesDTO.setEmail("test@email.com");
@@ -83,7 +97,8 @@ class DashBoardResourceIntegrationTest {
 
         ObjectMapper mapper = new ObjectMapper();
         String json = "{ \"Cl16-CX-CRisk\": { \"roles\": [ \"User\", \"Company Admin\", \"read_suppliers\", \"read_customers\" ] } }";
-        Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>(){});
+        Map<String, Object> map = mapper.readValue(json, new TypeReference<>() {
+        });
         authPropertiesDTO.setResourceAccess(map);
 
         when(applicationVariables.getAuthPropertiesDTO()).thenReturn(authPropertiesDTO);
@@ -111,6 +126,7 @@ class DashBoardResourceIntegrationTest {
     @Test
     @Transactional
     void getTableInfo() throws Exception {
+
 
         Map<String,Object> map = getMap();
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTableInfo?year={year}&ratings[]={ratings}&name={name}&companyName={companyName}&email={email}");
@@ -162,6 +178,7 @@ class DashBoardResourceIntegrationTest {
     @Test
     @Transactional
     void getTableInfoInfoWithRatingTwoExistRating() throws Exception {
+
         RatingDTO ratingDTO = new RatingDTO();
         ratingDTO.setDataSourceName("Economist Intelligence Unit Country Ratings");
         ratingDTO.setWeight(50F);

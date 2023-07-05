@@ -21,18 +21,18 @@ package org.eclipse.tractusx.valueaddedservice.service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.tomakehurst.wiremock.WireMockServer;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.ValueAddedServiceApplication;
 import org.eclipse.tractusx.valueaddedservice.service.logic.InvokeService;
-import org.eclipse.tractusx.valueaddedservice.service.mocks.ConfigServerMock;
+import org.eclipse.tractusx.valueaddedservice.utils.MockUtilsTest;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
@@ -42,25 +42,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest(classes = ValueAddedServiceApplication.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
+@Slf4j
 class InvokeServiceTest {
 
-
-    public static WireMockServer wireMockServer;
 
     @Autowired
     InvokeService invokeService;
 
+    MockUtilsTest mockUtilsTest;
+
+    @BeforeAll
+    public void beforeAll() {
+        mockUtilsTest = new MockUtilsTest();
+        mockUtilsTest.beforeAll();
+    }
+
     @BeforeEach
-    public void preSetup() throws InterruptedException {
-        wireMockServer = ConfigServerMock.openPort(wireMockServer);
+    public void setUp() throws JsonProcessingException, InterruptedException {
+        mockUtilsTest.openPorts();
     }
-
-    @AfterEach
-    public void afterAll() throws InterruptedException {
-        wireMockServer = ConfigServerMock.closePort(wireMockServer);
-    }
-
 
     @Test
     @DisplayName("Should return the response when the request is success")
@@ -70,12 +72,9 @@ class InvokeServiceTest {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);
 
-        List<String> list = new ArrayList<>();
-        list.add("oneElement");
-        ConfigServerMock.mocKConnectionToExternalBpnApi(wireMockServer, list);
-        ResponseEntity<List> response =
-                (ResponseEntity<List>) invokeService.executeRequest(url, HttpMethod.GET, httpEntity, list);
-        assertNotEquals(0, response.getBody().size());
+        List<String> response =
+                invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction);
+        assertNotEquals(0, response.size());
     }
 
     @Test
@@ -85,11 +84,18 @@ class InvokeServiceTest {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);
+        List<String> newEmptyList = invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction);
+        assertEquals(0, newEmptyList.size());
+    }
+
+    // Mock mapping function
+    private List<String> mockMappingFunction(String json) {
+        // Implement your mock mapping logic here
 
         List<String> list = new ArrayList<>();
         list.add("oneElement");
-        ConfigServerMock.mocKConnectionToExternalBpnApiError(wireMockServer);
-        List newEmptyList = (List) invokeService.executeRequest(url, HttpMethod.GET, httpEntity, list);
-        assertEquals(0, newEmptyList.size());
+        return list;
     }
+
+
 }

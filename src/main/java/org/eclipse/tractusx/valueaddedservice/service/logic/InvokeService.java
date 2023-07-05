@@ -23,11 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 
 @Service
 @Slf4j
@@ -35,13 +38,16 @@ public class InvokeService {
 
     @Autowired
     RestTemplate restTemplate;
-    public Object executeRequest(String url, HttpMethod httpMethod, HttpEntity httpEntity,Object object){
-        try{
-            return restTemplate.exchange(url,httpMethod,httpEntity,object.getClass());
-        }catch(HttpClientErrorException e){
-            log.error("error url {} message {}",url,e.getMessage() );
-        }
-        return new ArrayList<>();
-    }
 
+    public <T> List<T> executeRequest(String url, HttpMethod httpMethod, HttpEntity httpEntity, Class<T> responseType, Function<String, List<T>> mappingFunction) {
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, httpMethod, httpEntity, String.class);
+            String json = responseEntity.getBody();
+            return mappingFunction.apply(json);
+        } catch (HttpClientErrorException e) {
+            log.error("error url {} message {}", url, e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 }
+

@@ -36,4 +36,6 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
     List<Country> findByCountryIn(List<String> stringList);
 
     Optional<Country> findByCountry(String countryName);
+
+    Optional<Country> findByIso2(String iso2);
 }

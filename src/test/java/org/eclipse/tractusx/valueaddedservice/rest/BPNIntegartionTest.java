@@ -34,10 +34,9 @@ import org.eclipse.tractusx.valueaddedservice.repository.CompanyGatesRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyGroupRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyRepository;
 import org.eclipse.tractusx.valueaddedservice.repository.CompanyUserRepository;
+import org.eclipse.tractusx.valueaddedservice.utils.MockUtilsTest;
 import org.eclipse.tractusx.valueaddedservice.utils.PostgreSQLContextInitializer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -60,6 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.when;
 
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
 @ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class BPNIntegartionTest {
@@ -82,6 +82,15 @@ class BPNIntegartionTest {
     @MockBean
     ApplicationVariables applicationVariables;
 
+    MockUtilsTest mockUtilsTest;
+
+    @BeforeAll
+    public void beforeAll() {
+        mockUtilsTest = new MockUtilsTest();
+        mockUtilsTest.beforeAll();
+    }
+
+
     @BeforeEach
     public void setUp() throws JsonProcessingException {
         AuthPropertiesDTO authPropertiesDTO = new AuthPropertiesDTO();
@@ -97,6 +106,8 @@ class BPNIntegartionTest {
 
         when(applicationVariables.getAuthPropertiesDTO()).thenReturn(authPropertiesDTO);
         when(applicationVariables.getToken()).thenReturn("");
+        mockUtilsTest.openPorts();
+
     }
 
 
@@ -109,6 +120,7 @@ class BPNIntegartionTest {
 
     }
 
+
     private Map<String,Object> getMap() throws IOException {
         Map<String,Object> map = new HashMap<>();
         map.put("companyName","TestCompany");
@@ -119,9 +131,8 @@ class BPNIntegartionTest {
     }
 
     @Test
-
     void getCountryByAssociatedBPtoUser() throws Exception {
-
+        mockUtilsTest.openPorts();
         Map<String,Object> map = getMap();
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/getBpnCountrys?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
@@ -136,7 +147,7 @@ class BPNIntegartionTest {
 
     @Test
     void getCompanyBpns() throws Exception {
-
+        mockUtilsTest.openPorts();
         Map<String,Object> map = getMap();
         UriTemplate uritemplate= new UriTemplate("/api/dashboard/getCompanyBpns?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);

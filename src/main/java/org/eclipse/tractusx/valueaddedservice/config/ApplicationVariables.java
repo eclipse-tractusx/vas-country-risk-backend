@@ -24,12 +24,16 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.valueaddedservice.constants.VasConstants;
 import org.eclipse.tractusx.valueaddedservice.dto.AuthPropertiesDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
 
 @Component
 public class ApplicationVariables {
+
+    @Value("${application.clientId}")
+    private String clientId;
 
     private String token;
 
@@ -57,6 +61,7 @@ public class ApplicationVariables {
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String header = new String(decoder.decode(chunks[1]));
         this.authPropertiesDTO = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readValue(header, AuthPropertiesDTO.class);
+        this.authPropertiesDTO.setClientResource(clientId);
         this.authPropertiesDTO.getRoles(this.authPropertiesDTO.getClientResource());
     }
 

@@ -57,7 +57,9 @@ security:
 application:
   host: http://localhost:8080/api/dashboard
   partnersPoolUrl:
-    legalEntities: 'https://partners-pool.dev.demo.catena-x.net/api/catena/legal-entities'
+    bpdmAddressUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
+    bpdmSiteUrl: 'http://localhost:8082/api/catena/output/sites/search?size=100'
+    bpdmLegalUrl: 'http://localhost:8082/api/catena/output/legal-entities/search?size=100'
 
 server:
   port: 9090

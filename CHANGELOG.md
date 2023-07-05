@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add project name to sonar cloud properties
 - Added Suppliers and Customers fields for logic filtering
+- Added new client id to get roles from the new country risk published app
 
 ### Changed
 - Map Between API and New Data Model for getting Suppliers and Customers

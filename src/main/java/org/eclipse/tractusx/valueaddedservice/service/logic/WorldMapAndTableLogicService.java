@@ -40,11 +40,12 @@ public class WorldMapAndTableLogicService {
     @Autowired
     DataSourceValueService dataSourceValueService;
 
-    @Autowired
-    CountryLogicService countryLogicService;
 
     @Autowired
     ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
+
+    @Autowired
+    BusinessPartnersLogicService businessPartnersLogicService;
 
 
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser,String token,List<String> roles) {
@@ -53,7 +54,7 @@ public class WorldMapAndTableLogicService {
         List<DataDTO> dataDTOS = new ArrayList<>();
 
         List<BusinessPartnerDTO> businessPartnerDTOS;
-        businessPartnerDTOS = externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUser,token,roles);
+        businessPartnerDTOS = businessPartnersLogicService.getExternalBusinessPartners(companyUser,token,roles);
         List<String> countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUser,token,roles);
 
         if (!dataSources.isEmpty() && year != null && year > 0) {

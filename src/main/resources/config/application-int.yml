@@ -32,3 +32,8 @@ spring:
 
 application:
   name: int
+  host: http://project-value-added-service-vas/api/schedule
+  partnersPoolUrl:
+    bpdmAddressUrl: 'https://business-partners.int.demo.catena-x.net/companies/test-company/api/catena/output/addresses/search?limit=10'
+    bpdmSiteUrl: 'https://business-partners.int.demo.catena-x.net/companies/test-company/api/catena/output/sites/search?limit=10'
+    bpdmLegalUrl: 'https://business-partners.int.demo.catena-x.net/companies/test-company/api/catena/output/legal-entities/search?limit=10'

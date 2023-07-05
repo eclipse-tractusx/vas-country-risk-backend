@@ -76,6 +76,9 @@ public class DashboardService {
     @Autowired
     ApplicationVariables applicationVariables;
 
+    @Autowired
+    BusinessPartnersLogicService businessPartnersLogicService;
+
     public List<DashBoardTableDTO> getTableInfo(Integer year, List<RatingDTO> ratingDTOList, CompanyUserDTO companyUser) {
         return worldMapAndTableLogicService.getTableInfo(year, ratingDTOList, companyUser,applicationVariables.getToken(),
                 applicationVariables.getAuthPropertiesDTO().getRoles(applicationVariables.getAuthPropertiesDTO().getClientResource()));
@@ -123,7 +126,7 @@ public class DashboardService {
     }
 
     public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUserDTO) {
-        return externalBusinessPartnersLogicService.getExternalBusinessPartners(companyUserDTO,applicationVariables.getToken(),
+        return businessPartnersLogicService.getExternalBusinessPartners(companyUserDTO,applicationVariables.getToken(),
                 applicationVariables.getAuthPropertiesDTO().getRoles(applicationVariables.getAuthPropertiesDTO().getClientResource()));
 
     }
