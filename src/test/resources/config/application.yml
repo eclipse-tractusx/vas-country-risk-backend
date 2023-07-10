@@ -18,6 +18,19 @@
 # SPDX-License-Identifier: Apache-2.0
 #*******************************************************************************/
 
+vas:
+  datasource:
+    host: localhost
+    user: default
+    pass: defaultpassword
+  keycloakClientSecret: defautlSecret
+  keycloakClientId: country-risk-client
+  clientName: country-risk-client
+  authentication-url:
+    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+
 # Spring Boot configuration
 spring:
   config:
@@ -32,18 +45,23 @@ server:
     relaxedPathChars: "|,{,},[,]"
     relaxedQueryChars: "|,{,},[,]"
   max-http-header-size: 40KB
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: ${vas_keycloakClientId}
+            client-secret: ${vas_keycloakClientSecret}
+          country-risk-client:
+            authorization-grant-type: client_credentials
+            client-id: ${vas_keycloakClientId}
+            client-secret: ${vas_keycloakClientSecret}
+            provider: keycloak
+        provider:
+          keycloak:
+            token-uri: ${vas.authentication-url.token-url}
 
-vas:
-  datasource:
-    host: localhost
-    user: default
-    pass: defaultpassword
-  keycloakClientSecret:
-  keycloakClientId:
-  authentication-url:
-    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
 
 bearer_token:

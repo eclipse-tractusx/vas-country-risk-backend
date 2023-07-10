@@ -70,10 +70,10 @@ class InvokeServiceTest {
         String url = "http://localhost:8585/api/dashboard/v1/users";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);
+        HttpEntity<Object> httpEntity = new HttpEntity<>("",httpHeaders);
 
         List<String> response =
-                invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction);
+                invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction).block();
         assertNotEquals(0, response.size());
     }
 
@@ -83,8 +83,8 @@ class InvokeServiceTest {
         String url = "http://localhost:8585/api/dashboard/v1/usersError";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);
-        List<String> newEmptyList = invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction);
+        HttpEntity<Object> httpEntity = new HttpEntity<>("",httpHeaders);
+        List<String> newEmptyList = invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction).block();
         assertEquals(0, newEmptyList.size());
     }
 

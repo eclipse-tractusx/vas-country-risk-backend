@@ -30,8 +30,11 @@ vas:
     host: localhost
     user: default
     pass: defaultpassword
-  keycloakClientSecret:
-  keycloakClientId:
+
+  keycloak:
+    clientId:
+    clientSecret:
+  clientName: country-risk-client
   authentication-url:
     token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
@@ -54,8 +57,13 @@ spring:
         registration:
           keycloak:
             authorization-grant-type: client_credentials
-            client-id: ${vas_keycloakClientId}
-            client-secret: ${vas_keycloakClientSecret}
+            client-id: ${vas.keycloak.clientId}
+            client-secret: ${vas.keycloak.clientSecret}
+          country-risk-client:
+            authorization-grant-type: client_credentials
+            client-id: ${vas.keycloak.clientId}
+            client-secret: ${vas.keycloak.clientSecret}
+            provider: keycloak
         provider:
           keycloak:
             token-uri: ${vas.authentication-url.token-url}
@@ -93,9 +101,9 @@ application:
   host: project-value-added-service-vas/api/dashboard
   partnersPoolUrl:
     bpdmAddressUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
+    bpdmLegalUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
     bpdmSiteUrl: 'http://localhost:8082/api/catena/output/sites/search?size=100'
-    bpdmLegalUrl: 'http://localhost:8082/api/catena/output/legal-entities/search?size=100'
-  clientId: 'app374'
+
 
 management:
   endpoints:

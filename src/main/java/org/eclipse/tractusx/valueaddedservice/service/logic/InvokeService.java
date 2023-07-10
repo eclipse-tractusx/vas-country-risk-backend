@@ -23,10 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +37,21 @@ import java.util.function.Function;
 public class InvokeService {
 
     @Autowired
-    RestTemplate restTemplate;
+    WebClient webClient;
 
-    public <T> List<T> executeRequest(String url, HttpMethod httpMethod, HttpEntity httpEntity, Class<T> responseType, Function<String, List<T>> mappingFunction) {
-        try {
-            ResponseEntity<String> responseEntity = restTemplate.exchange(url, httpMethod, httpEntity, String.class);
-            String json = responseEntity.getBody();
-            return mappingFunction.apply(json);
-        } catch (HttpClientErrorException e) {
-            log.error("error url {} message {}", url, e.getMessage());
-            return new ArrayList<>();
-        }
+    public <T> Mono<List<T>> executeRequest(String url, HttpMethod httpMethod, HttpEntity<?> httpEntity, Class<T> responseType, Function<String, List<T>> mappingFunction) {
+        return webClient.method(httpMethod)
+                .uri(url)
+                .headers(headers -> headers.addAll(httpEntity.getHeaders()))
+                .body(BodyInserters.fromValue(httpEntity.getBody()))
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(mappingFunction)
+                .onErrorResume(e -> {
+                    log.error("error url {} message {}", url, e.getMessage());
+                    return Mono.just(new ArrayList<>());
+                });
     }
 }
+
 

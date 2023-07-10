@@ -53,7 +53,9 @@
 		<sonar1.coverage.exclusions>src/main/java/org/eclipse/tractusx/valueaddedservice/dto//.,src/main/java/org/eclipse/tractusx/valueaddedservice/domain//.¨</sonar1.coverage.exclusions>
 		<jacoco.version>0.8.7</jacoco.version>
 		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
-		<spring-boot-starter-oauth2-resource-server>3.0.1</spring-boot-starter-oauth2-resource-server>
+		<spring-boot-starter-oauth2-resource-server>3.0.4</spring-boot-starter-oauth2-resource-server>
+		<spring-boot-starter-oauth2>2.5.1.RELEASE</spring-boot-starter-oauth2>
+		<spring-boot-starter-webflux-version>2.5.1</spring-boot-starter-webflux-version>
 
 		<spring-security-web-version>6.0.3</spring-security-web-version>
 		<postgresql-version>42.5.1</postgresql-version>
@@ -190,7 +192,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 			<version>${spring-boot-starter-oauth2-resource-server}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+			<version>${spring-boot-starter-oauth2-resource-server}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<version>${spring-boot-starter-webflux-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${spring-boot-starter-oauth2}</version>
 		</dependency>
 
 		<dependency>

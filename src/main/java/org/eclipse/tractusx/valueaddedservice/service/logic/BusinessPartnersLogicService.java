@@ -74,7 +74,6 @@ public class BusinessPartnersLogicService {
 
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(token);
         String body = "[]";
         HttpEntity<Object> httpEntity = new HttpEntity<>(body, headers);
 
@@ -82,16 +81,16 @@ public class BusinessPartnersLogicService {
         Map<String, String> externalIdToLegalName = new HashMap<>();
 
         // Call the first endpoint and create the DTOs
-        List<BusinessPartnerDTO> businessPartnerDTOS = invokeService.executeRequest(bpdmLegalUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName));
+        List<BusinessPartnerDTO> businessPartnerDTOS = invokeService.executeRequest(bpdmLegalUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
 
         // Call the second endpoint and create the DTOs, but only if the externalId is not already present in the existing DTOs
-        List<BusinessPartnerDTO> businessPartnerDTOS2 = invokeService.executeRequest(bpdmAddressUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName));
+        List<BusinessPartnerDTO> businessPartnerDTOS2 = invokeService.executeRequest(bpdmAddressUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
         businessPartnerDTOS2.removeIf(dto -> isExternalIdPresent(dto.getBpn(), businessPartnerDTOS));
         businessPartnerDTOS.addAll(businessPartnerDTOS2);
         businessPartnerDTOS2.clear();
 
         // Call the third endpoint and create the DTOs, but only if the externalId is not already present in the existing DTOs
-        businessPartnerDTOS2 = invokeService.executeRequest(bpdmSiteUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName));
+        businessPartnerDTOS2 = invokeService.executeRequest(bpdmSiteUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
         businessPartnerDTOS2.removeIf(dto -> isExternalIdPresent(dto.getBpn(), businessPartnerDTOS));
         businessPartnerDTOS.addAll(businessPartnerDTOS2);
 

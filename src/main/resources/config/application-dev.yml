@@ -25,6 +25,10 @@ vas:
     jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
+spring:
+  config:
+    activate:
+      on-profile: dev
 
 
 application:

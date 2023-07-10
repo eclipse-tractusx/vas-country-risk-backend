@@ -45,6 +45,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.util.UriTemplate;
 
@@ -81,6 +82,10 @@ class BPNIntegartionTest {
 
     @MockBean
     ApplicationVariables applicationVariables;
+
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
+
 
     MockUtilsTest mockUtilsTest;
 
