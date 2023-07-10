@@ -17,425 +17,414 @@
 
 <!--	 SPDX-License-Identifier: Apache-2.0-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>org.eclipse.tractusx</groupId>
+    <artifactId>value-added-service</artifactId>
+    <version>1.2.0</version>
+    <name>vas-country-risk-backend</name>
+    <description>Project to Validate Country Risks Score</description>
+    <properties>
+        <java.version>17</java.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <org.projectlombok.version>1.18.28</org.projectlombok.version>
+        <liquibase.version>4.23.0</liquibase.version>
+        <liquibase-hibernate5.version>4.22.0</liquibase-hibernate5.version>
+        <spring-boot.version>3.1.1</spring-boot.version>
+        <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
+        <org.springdoc.springdoc-openapi-ui>2.1.0</org.springdoc.springdoc-openapi-ui>
+        <org.springframework.cloud>4.0.3</org.springframework.cloud>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.organization>catenax-ng</sonar.organization>
+        <sonar.projectKey>catenax-ng_tx-vas-country-risk-backend</sonar.projectKey>
+        <sonar.projectName>tx-vas-country-risk-backend</sonar.projectName>
+        <sonar1.coverage.exclusions>
+            src/main/java/org/eclipse/tractusx/valueaddedservice/dto//.,src/main/java/org/eclipse/tractusx/valueaddedservice/domain//.¨
+        </sonar1.coverage.exclusions>
+        <jacoco.version>0.8.7</jacoco.version>
+        <org.owasp.esapi>2.5.2.0</org.owasp.esapi>
+        <spring-boot-starter-oauth2>3.1.1</spring-boot-starter-oauth2>
+        <spring-security-web-version>6.1.1</spring-security-web-version>
+        <postgresql-version>42.6.0</postgresql-version>
+        <jackson-databind>2.13.4.2</jackson-databind>
+        <jackson-databind-nullable>0.2.6</jackson-databind-nullable>
+        <wiremock-standalone-version>3.0.0-beta-10</wiremock-standalone-version>
+        <snake-yaml-version>2.0</snake-yaml-version>
+        <commons-fileupload-version>1.5</commons-fileupload-version>
+        <openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
+        <hibernate-core-version>6.2.6.Final</hibernate-core-version>
+        <hypersistence-utils-hibernate-60>3.5.1</hypersistence-utils-hibernate-60>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <testcontainers.version>1.18.3</testcontainers.version>
+        <spring-expression-version>6.0.8</spring-expression-version>
+        <spring-core-version>6.0.8</spring-core-version>
+        <springdoc-openapi-starter-webmvc-ui>2.1.0</springdoc-openapi-starter-webmvc-ui>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>dash-licenses-snapshots</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security-web-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snake-yaml-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${spring-expression-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring-core-version}</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+    <!-- Rest of the pom.xml -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <version>${org.projectlombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem-spring-web</artifactId>
+            <version>${org.zalando.problem-spring-web}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi-starter-webmvc-ui}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>${spring-boot-starter-oauth2}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <version>${spring-boot-starter-oauth2}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.5.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security-web-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <version>${org.springframework.cloud}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+            <version>${org.owasp.esapi}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-standalone</artifactId>
+            <version>${wiremock-standalone-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.hypersistence</groupId>
+            <artifactId>hypersistence-utils-hibernate-60</artifactId>
+            <version>${hypersistence-utils-hibernate-60}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <!-- Rest of the pom.xml -->
 
 
 
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>org.eclipse.tractusx</groupId>
-	<artifactId>value-added-service</artifactId>
-	<version>1.2.0</version>
-	<name>vas-country-risk-backend</name>
-	<description>Project to Validate Country Risks Score</description>
-	<properties>
-		<java.version>17</java.version>
-		<validation-api.version>2.0.1.Final</validation-api.version>
-		<mapstruct.version>1.5.3.Final</mapstruct.version>
-		<org.projectlombok.version>1.18.24</org.projectlombok.version>
-		<liquibase.version>4.18.0</liquibase.version>
-		<liquibase-hibernate5.version>4.18.0</liquibase-hibernate5.version>
-		<spring-boot.version>3.0.1</spring-boot.version>
-		<org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
-		<org.springdoc.springdoc-openapi-ui>1.6.14</org.springdoc.springdoc-openapi-ui>
-		<springdoc-openapi-starter-webmvc-ui>2.0.2</springdoc-openapi-starter-webmvc-ui>
-		<org.springframework.cloud>3.1.5</org.springframework.cloud>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<sonar.organization>catenax-ng</sonar.organization>
-		<sonar.projectKey>catenax-ng_tx-vas-country-risk-backend</sonar.projectKey>
-		<sonar.projectName>tx-vas-country-risk-backend</sonar.projectName>
-		<sonar1.coverage.exclusions>src/main/java/org/eclipse/tractusx/valueaddedservice/dto//.,src/main/java/org/eclipse/tractusx/valueaddedservice/domain//.¨</sonar1.coverage.exclusions>
-		<jacoco.version>0.8.7</jacoco.version>
-		<org.owasp.esapi>2.5.1.0</org.owasp.esapi>
-		<spring-boot-starter-oauth2-resource-server>3.0.1</spring-boot-starter-oauth2-resource-server>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-help-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>
+                        <!-- This is needed when using Lombok 1.18.16 and above -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <!-- Creates test coverage report -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.dash</groupId>
+                <artifactId>license-tool-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>license-check</id>
+                        <goals>
+                            <goal>license-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--			<plugin>-->
+            <!--				&lt;!&ndash;-->
+            <!--                    Plugin that provides API-first development using openapi-generator to-->
+            <!--                    generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file-->
+            <!--                &ndash;&gt;-->
+            <!--				<groupId>org.openapitools</groupId>-->
+            <!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
+            <!--				<version>${openapi-generator-maven-plugin.version}</version>-->
+            <!--				<executions>-->
+            <!--					<execution>-->
+            <!--						<goals>-->
+            <!--							<goal>generate</goal>-->
+            <!--						</goals>-->
+            <!--						<configuration>-->
+            <!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
+            <!--							</inputSpec>-->
+            <!--							<generatorName>spring</generatorName>-->
+            <!--							<invokerPackage>org.eclipse.tractusx.valueaddedservice.web.rest</invokerPackage>-->
+            <!--							<apiPackage>org.eclipse.tractusx.valueaddedservice.web.rest</apiPackage>-->
+            <!--							<modelPackage>org.eclipse.tractusx.valueaddedservice.web.rest</modelPackage>-->
+            <!--							<modelNameSuffix>Model</modelNameSuffix>-->
+            <!--							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
+            <!--							<validateSpec>true</validateSpec>-->
+            <!--							<generateApiTests>true</generateApiTests>-->
+            <!--							<generateApiDocumentation>true</generateApiDocumentation>-->
+            <!--							<configOptions>-->
+            <!--								<delegatePattern>true</delegatePattern>-->
+            <!--								<serializableModel>true</serializableModel>-->
+            <!--							</configOptions>-->
+            <!--						</configuration>-->
+            <!--					</execution>-->
+            <!--				</executions>-->
+            <!--			</plugin>-->
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>${liquibase.version}</version>
+                    <configuration>
+                        <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
+                        <diffChangeLogFile>
+                            ${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml
+                        </diffChangeLogFile>
+                        <driver>org.h2.Driver</driver>
+                        <url>jdbc:h2:file:${project.build.directory}/h2db/db/vas</url>
+                        <defaultSchemaName></defaultSchemaName>
+                        <username>vas</username>
+                        <password></password>
+                        <referenceUrl>
+                            hibernate:spring:org.eclipse.tractusx.valueaddedservice.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+                        </referenceUrl>
+                        <verbose>true</verbose>
+                        <logging>debug</logging>
+                        <contexts>!test</contexts>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.liquibase</groupId>
+                            <artifactId>liquibase-core</artifactId>
+                            <version>${liquibase.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.liquibase.ext</groupId>
+                            <artifactId>liquibase-hibernate5</artifactId>
+                            <version>${liquibase-hibernate5.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-data-jpa</artifactId>
+                            <version>${spring-boot.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>javax.validation</groupId>
+                            <artifactId>validation-api</artifactId>
+                            <version>${validation-api.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.h2database</groupId>
+                            <artifactId>h2</artifactId>
+                            <version>${h2.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
 
-		<spring-security-web-version>6.0.3</spring-security-web-version>
-		<postgresql-version>42.5.1</postgresql-version>
-		<jackson-databind>2.13.4.2</jackson-databind>
-		<jackson-databind-nullable>0.2.4</jackson-databind-nullable>
-		<wiremock-standalone-version>2.27.2</wiremock-standalone-version>
-		<snake-yaml-version>2.0</snake-yaml-version>
-		<commons-fileupload-version>1.5</commons-fileupload-version>
-		<openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
-		<hibernate-core-version>6.1.6.Final</hibernate-core-version>
-		<hypersistence-utils-hibernate-60>3.1.0</hypersistence-utils-hibernate-60>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<testcontainers.version>1.17.2</testcontainers.version>
-		<spring-expression-version>6.0.8</spring-expression-version>
-		<spring-core-version>6.0.8</spring-core-version>
-	</properties>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>dash-licenses-snapshots</id>
-			<url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-core</artifactId>
-				<version>${spring-security-web-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson-databind}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.yaml</groupId>
-				<artifactId>snakeyaml</artifactId>
-				<version>${snake-yaml-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>${commons-fileupload-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-expression</artifactId>
-				<version>${spring-expression-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${spring-core-version}</version>
-			</dependency>
-		</dependencies>
-
-	</dependencyManagement>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${postgresql-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-			<version>${org.projectlombok.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>${validation-api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-			<!-- Inherited version from Spring Boot can't be used because of regressions -->
-			<version>${liquibase.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.zalando</groupId>
-			<artifactId>problem-spring-web</artifactId>
-			<version>${org.zalando.problem-spring-web}</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${springdoc-openapi-starter-webmvc-ui}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-			<version>${spring-boot-starter-oauth2-resource-server}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-			<version>${spring-boot-starter-oauth2-resource-server}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-			<version>${spring-boot-starter-webflux-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>${spring-boot-starter-oauth2}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring-security-web-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bootstrap</artifactId>
-			<version>${org.springframework.cloud}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.owasp.esapi</groupId>
-			<artifactId>esapi</artifactId>
-			<version>${org.owasp.esapi}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openapitools</groupId>
-			<artifactId>jackson-databind-nullable</artifactId>
-			<version>${jackson-databind-nullable}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.tomakehurst</groupId>
-			<artifactId>wiremock-standalone</artifactId>
-			<version>${wiremock-standalone-version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate-core-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.hypersistence</groupId>
-			<artifactId>hypersistence-utils-hibernate-60</artifactId>
-			<version>${hypersistence-utils-hibernate-60}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>${testcontainers.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${testcontainers.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
-
-
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-help-plugin</artifactId>
-				<version>${maven-clean-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>${mapstruct.version}</version>
-						</path>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${org.projectlombok.version}</version>
-						</path>
-						<!-- This is needed when using Lombok 1.18.16 and above -->
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok-mapstruct-binding</artifactId>
-							<version>0.2.0</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<!-- Creates test coverage report -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<formats>
-								<format>XML</format>
-							</formats>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.dash</groupId>
-				<artifactId>license-tool-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<id>license-check</id>
-						<goals>
-							<goal>license-check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!--			<plugin>-->
-			<!--				&lt;!&ndash;-->
-			<!--                    Plugin that provides API-first development using openapi-generator to-->
-			<!--                    generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file-->
-			<!--                &ndash;&gt;-->
-			<!--				<groupId>org.openapitools</groupId>-->
-			<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
-			<!--				<version>${openapi-generator-maven-plugin.version}</version>-->
-			<!--				<executions>-->
-			<!--					<execution>-->
-			<!--						<goals>-->
-			<!--							<goal>generate</goal>-->
-			<!--						</goals>-->
-			<!--						<configuration>-->
-			<!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
-			<!--							</inputSpec>-->
-			<!--							<generatorName>spring</generatorName>-->
-			<!--							<invokerPackage>org.eclipse.tractusx.valueaddedservice.web.rest</invokerPackage>-->
-			<!--							<apiPackage>org.eclipse.tractusx.valueaddedservice.web.rest</apiPackage>-->
-			<!--							<modelPackage>org.eclipse.tractusx.valueaddedservice.web.rest</modelPackage>-->
-			<!--							<modelNameSuffix>Model</modelNameSuffix>-->
-			<!--							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
-			<!--							<validateSpec>true</validateSpec>-->
-			<!--							<generateApiTests>true</generateApiTests>-->
-			<!--							<generateApiDocumentation>true</generateApiDocumentation>-->
-			<!--							<configOptions>-->
-			<!--								<delegatePattern>true</delegatePattern>-->
-			<!--								<serializableModel>true</serializableModel>-->
-			<!--							</configOptions>-->
-			<!--						</configuration>-->
-			<!--					</execution>-->
-			<!--				</executions>-->
-			<!--			</plugin>-->
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.liquibase</groupId>
-					<artifactId>liquibase-maven-plugin</artifactId>
-					<version>${liquibase.version}</version>
-					<configuration>
-						<changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
-						<diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
-						<driver>org.h2.Driver</driver>
-						<url>jdbc:h2:file:${project.build.directory}/h2db/db/vas</url>
-						<defaultSchemaName></defaultSchemaName>
-						<username>vas</username>
-						<password></password>
-						<referenceUrl>hibernate:spring:org.eclipse.tractusx.valueaddedservice.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
-						<verbose>true</verbose>
-						<logging>debug</logging>
-						<contexts>!test</contexts>
-					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>org.liquibase</groupId>
-							<artifactId>liquibase-core</artifactId>
-							<version>${liquibase.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>org.liquibase.ext</groupId>
-							<artifactId>liquibase-hibernate5</artifactId>
-							<version>${liquibase-hibernate5.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>org.springframework.boot</groupId>
-							<artifactId>spring-boot-starter-data-jpa</artifactId>
-							<version>${spring-boot.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>javax.validation</groupId>
-							<artifactId>validation-api</artifactId>
-							<version>${validation-api.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>com.h2database</groupId>
-							<artifactId>h2</artifactId>
-							<version>${h2.version}</version>
-						</dependency>
-					</dependencies>
-				</plugin>
-
-			</plugins>
-		</pluginManagement>
-	</build>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
