@@ -11,6 +11,7 @@ on:
     secrets:
       SONAR_TOKEN:
         required: true
+  workflow_dispatch:
 
 env:
   JAVA_VERSION: 17
@@ -36,8 +37,16 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Set Sonar Project Name
+        run: |
+          if [[ "${{ github.repository }}" == "eclipse-tractusx/vas-country-risk-backend" ]]; then
+            echo "SONAR_PROJECT_NAME=vas-country-risk-backend" >> $GITHUB_ENV
+          else
+            echo "SONAR_PROJECT_NAME=tx-vas-country-risk-backend" >> $GITHUB_ENV
+          fi
+
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectName=$SONAR_PROJECT_NAME

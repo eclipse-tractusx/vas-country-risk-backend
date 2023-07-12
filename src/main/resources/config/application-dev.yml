@@ -19,16 +19,12 @@
 #*******************************************************************************/
 
 # Spring Boot configuration
-vas:
-  authentication-url:
-    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
-
+spring:
+  config:
+    activate:
+      on-profile: dev
 
 
 application:
   name: dev
   host: http://project-value-added-service-vas/api/schedule
-  partnersPoolUrl:
-    legalEntities: 'https://partners-pool.dev.demo.catena-x.net/api/catena/legal-entities'

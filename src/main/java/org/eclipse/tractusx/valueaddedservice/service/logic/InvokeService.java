@@ -24,24 +24,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 
 @Service
 @Slf4j
 public class InvokeService {
 
     @Autowired
-    RestTemplate restTemplate;
-    public Object executeRequest(String url, HttpMethod httpMethod, HttpEntity httpEntity,Object object){
-        try{
-            return restTemplate.exchange(url,httpMethod,httpEntity,object.getClass());
-        }catch(HttpClientErrorException e){
-            log.error("error url {} message {}",url,e.getMessage() );
-        }
-        return new ArrayList<>();
-    }
+    WebClient webClient;
 
+    public <T> Mono<List<T>> executeRequest(String url, HttpMethod httpMethod, HttpEntity<?> httpEntity, Class<T> responseType, Function<String, List<T>> mappingFunction) {
+        return webClient.method(httpMethod)
+                .uri(url)
+                .headers(headers -> headers.addAll(httpEntity.getHeaders()))
+                .body(BodyInserters.fromValue(httpEntity.getBody()))
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(mappingFunction)
+                .onErrorResume(e -> {
+                    log.error("error url {} message {}", url, e.getMessage());
+                    return Mono.just(new ArrayList<>());
+                });
+    }
 }
+
+

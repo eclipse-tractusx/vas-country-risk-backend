@@ -30,12 +30,17 @@ vas:
     host: localhost
     user: default
     pass: defaultpassword
-  keycloakClientSecret:
-  keycloakClientId:
+  auth:
+    url: http://localhost:8081
+
+  keycloak:
+    clientId:
+    clientSecret:
+  clientName: country-risk-client
   authentication-url:
-    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+    token-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/auth
 
 
 bearer_token:
@@ -54,8 +59,13 @@ spring:
         registration:
           keycloak:
             authorization-grant-type: client_credentials
-            client-id: ${vas_keycloakClientId}
-            client-secret: ${vas_keycloakClientSecret}
+            client-id: ${vas.keycloak.clientId}
+            client-secret: ${vas.keycloak.clientSecret}
+          country-risk-client:
+            authorization-grant-type: client_credentials
+            client-id: ${vas.keycloak.clientId}
+            client-secret: ${vas.keycloak.clientSecret}
+            provider: keycloak
         provider:
           keycloak:
             token-uri: ${vas.authentication-url.token-url}
@@ -92,8 +102,10 @@ application:
   name: default
   host: project-value-added-service-vas/api/dashboard
   partnersPoolUrl:
-    legalEntities: 'http://localhost:8080/api/catena/legal-entities'
-  clientId: 'Cl16-CX-CRisk'
+    bpdmAddressUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
+    bpdmLegalUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
+    bpdmSiteUrl: 'http://localhost:8082/api/catena/output/sites/search?size=100'
+
 
 management:
   endpoints:
