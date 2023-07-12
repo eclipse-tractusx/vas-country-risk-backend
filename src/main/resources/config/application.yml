@@ -30,15 +30,17 @@ vas:
     host: localhost
     user: default
     pass: defaultpassword
+  auth:
+    url: http://localhost:8081
 
   keycloak:
     clientId:
     clientSecret:
   clientName: country-risk-client
   authentication-url:
-    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+    token-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/auth
 
 
 bearer_token:

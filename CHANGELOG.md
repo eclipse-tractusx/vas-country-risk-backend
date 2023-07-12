@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Map Between API and New Data Model for getting Suppliers and Customers
 - Changed restTemplate to WebClient for new 
 - Replaced RestTemplate with WebClient for non-blocking HTTP requests
+- Updated Dependencies file
 
 ## [1.1.1] -  2023-05-16
 

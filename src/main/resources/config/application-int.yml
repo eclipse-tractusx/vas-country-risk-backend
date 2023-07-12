@@ -19,11 +19,6 @@
 #*******************************************************************************/
 
 # Spring Boot configuration
-vas:
-  authentication-url:
-    token-url: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
 
 spring:
   config:
@@ -33,7 +28,3 @@ spring:
 application:
   name: int
   host: http://project-value-added-service-vas/api/schedule
-  partnersPoolUrl:
-    bpdmAddressUrl: 'https://business-partners.int.demo.catena-x.net/companies/test-company/api/catena/output/addresses/search?limit=10'
-    bpdmSiteUrl: 'https://business-partners.int.demo.catena-x.net/companies/test-company/api/catena/output/sites/search?limit=10'
-    bpdmLegalUrl: 'https://business-partners.int.demo.catena-x.net/companies/test-company/api/catena/output/legal-entities/search?limit=10'

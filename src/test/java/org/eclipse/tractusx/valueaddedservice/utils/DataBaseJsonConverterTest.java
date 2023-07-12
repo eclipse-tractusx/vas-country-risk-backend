@@ -61,9 +61,6 @@ public class DataBaseJsonConverterTest {
     }
 
 
-
-
-
     @Test
     public void testConvertToDatabaseColumn() throws JsonProcessingException {
         Map<String, Object> customerInfo = new HashMap<>();
