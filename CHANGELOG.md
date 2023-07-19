@@ -6,18 +6,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.2.0] -  tbd
+# Changelog
+
+## [1.2.0] - [Unreleased]
 
 ### Added
-- Add project name to sonar cloud properties
-- Added Suppliers and Customers fields for logic filtering
-- Added new client id to get roles from the new country risk published app
+- Added project name to Sonar Cloud properties.
+- Added Suppliers and Customers fields for logic filtering.
+- Added new client ID to get roles from the newly published Country Risk app.
 
 ### Changed
-- Map Between API and New Data Model for getting Suppliers and Customers
-- Changed restTemplate to WebClient for new 
-- Replaced RestTemplate with WebClient for non-blocking HTTP requests
-- Updated Dependencies file
+- Mapped between API and new Data Model for getting Suppliers and Customers.
+- Updated libraries:
+  - com.github.tomakehurst:wiremock-standalone to 3.0.0-beta-10
+  - io.hypersistence:hypersistence-utils-hibernate-60 to 3.5.1
+  - org.hibernate:hibernate-core to 6.2.6.Final
+  - org.liquibase:liquibase-core to 4.23.0
+  - org.mapstruct:mapstruct to 1.5.5.Final
+  - org.openapitools:jackson-databind-nullable to 0.2.6
+  - org.owasp.esapi:esapi to 2.5.2.0
+  - org.postgresql:postgresql to 42.6.0
+  - org.projectlombok:lombok to 1.18.28
+  - org.springdoc:springdoc-openapi-starter-webmvc-ui to 2.1.0
+  - org.springframework.boot:spring-boot-starter-actuator to 3.1.1
+  - org.springframework.boot:spring-boot-starter-cache to 3.1.1
+  - org.springframework.boot:spring-boot-starter-data-jpa to 3.1.1
+  - org.springframework.boot:spring-boot-starter-oauth2-resource-server to 3.1.1
+  - org.springframework.boot:spring-boot-starter-test to 3.1.1
+  - org.springframework.boot:spring-boot-starter-validation to 3.1.1
+  - org.springframework.boot:spring-boot-starter-web to 3.1.1
+  - org.springframework.cloud:spring-cloud-starter-bootstrap to 4.0.3
+  - org.springframework.security:spring-security-web to 6.1.1
+  - org.testcontainers:junit-jupiter to 1.18.3
+  - org.testcontainers:postgresql to 1.18.3
+  - org.zalando:problem-spring-web to 0.26.0
+- Changed Dependencies file with new library versions.
+
+### Fixes
+- Upgraded version of spring-boot-autoconfigure to fix vulnerability to 3.1.1.
+- Upgraded lib on object mapper after org.zalando:problem-spring-web update.
+
+### Removed
+- Replaced RestTemplate with WebClient for non-blocking HTTP requests.
+
 
 ## [1.1.1] -  2023-05-16
 
