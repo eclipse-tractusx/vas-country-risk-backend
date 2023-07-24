@@ -17,40 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Mapped between API and new Data Model for getting Suppliers and Customers.
-- Updated libraries:
-  - com.github.tomakehurst:wiremock-standalone to 3.0.0-beta-10
-  - io.hypersistence:hypersistence-utils-hibernate-60 to 3.5.1
-  - io.micrometer:micrometer-commons to 1.11.2
-  - io.micrometer:micrometer-core to 1.11.2
-  - io.micrometer:micrometer-observation to 1.11.2
-  - io.projectreactor.netty:reactor-netty-core to 1.1.9
-  - io.projectreactor.netty:reactor-netty-http to 1.1.9
-  - io.projectreactor:reactor-core to 3.5.8
-  - org.apache.tomcat.embed:tomcat-embed-core to 10.1.11
-  - org.apache.tomcat.embed:tomcat-embed-el to 10.1.11
-  - org.apache.tomcat.embed:tomcat-embed-websocket to 10.1.11
-  - org.hibernate.validator:hibernate-validator to 8.0.1.Final
-  - org.hibernate:hibernate-core to 6.2.6.Final
-  - org.jboss.logging:jboss-logging to 3.5.3.Final
-  - org.liquibase:liquibase-core to 4.23.0
-  - org.mapstruct:mapstruct to 1.5.5.Final
-  - org.openapitools:jackson-databind-nullable to 0.2.6
-  - org.owasp.esapi:esapi to 2.5.2.0
-  - org.postgresql:postgresql to 42.6.0
-  - org.projectlombok:lombok to 1.18.28
-  - org.springdoc:springdoc-openapi-starter-webmvc-ui to 2.1.0
-  - org.springframework.boot:spring-boot-starter-actuator to 3.1.2
-  - org.springframework.boot:spring-boot-starter-cache to 3.1.2
-  - org.springframework.boot:spring-boot-starter-data-jpa to 3.1.2
-  - org.springframework.boot:spring-boot-starter-oauth2-resource-server to 3.1.2
-  - org.springframework.boot:spring-boot-starter-test to 3.1.2
-  - org.springframework.boot:spring-boot-starter-validation to 3.1.2
+- Major Updated libraries:
+  - Updated spring boot parent version to 3.1.2
   - org.springframework.boot:spring-boot-starter-web to 3.1.2
-  - org.springframework.cloud:spring-cloud-starter-bootstrap to 4.0.3
   - org.springframework.security:spring-security-web to 6.1.1
-  - org.testcontainers:junit-jupiter to 1.18.3
-  - org.testcontainers:postgresql to 1.18.3
-  - org.zalando:problem-spring-web to 0.26.0
 - Changed Dependencies file with new library versions.
 
 

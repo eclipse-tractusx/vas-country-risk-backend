@@ -111,17 +111,17 @@ maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.1.2, Apa
 maven/mavencentral/org.springframework.boot/spring-boot-starter-actuator/3.1.2, Apache-2.0, approved, #9344
 maven/mavencentral/org.springframework.boot/spring-boot-starter-aop/3.1.2, Apache-2.0, approved, #9338
 maven/mavencentral/org.springframework.boot/spring-boot-starter-cache/3.1.2, Apache-2.0, approved, #9653
-maven/mavencentral/org.springframework.boot/spring-boot-starter-data-jpa/3.1.2, , restricted, clearlydefined
-maven/mavencentral/org.springframework.boot/spring-boot-starter-jdbc/3.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-data-jpa/3.1.2, Apache-2.0, approved, #9733
+maven/mavencentral/org.springframework.boot/spring-boot-starter-jdbc/3.1.2, Apache-2.0, approved, #9737
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.1.2, Apache-2.0, approved, #9336
 maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.1.2, Apache-2.0, approved, #9343
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.1.1, Apache-2.0, approved, #8806
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-resource-server/3.1.1, Apache-2.0, approved, #8804
-maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-reactor-netty/3.1.2, Apache-2.0, approved, #9738
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.1.2, Apache-2.0, approved, #9351
 maven/mavencentral/org.springframework.boot/spring-boot-starter-validation/3.1.2, Apache-2.0, approved, #9335
 maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.1.2, Apache-2.0, approved, #9347
-maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-webflux/3.1.2, Apache-2.0, approved, #9739
 maven/mavencentral/org.springframework.boot/spring-boot-starter/3.1.2, Apache-2.0, approved, #9349
 maven/mavencentral/org.springframework.boot/spring-boot/3.1.2, Apache-2.0, approved, #9352
 maven/mavencentral/org.springframework.cloud/spring-cloud-commons/4.0.3, Apache-2.0, approved, #7292
@@ -131,11 +131,11 @@ maven/mavencentral/org.springframework.cloud/spring-cloud-starter/4.0.3, Apache-
 maven/mavencentral/org.springframework.data/spring-data-commons/3.1.2, Apache-2.0, approved, #8805
 maven/mavencentral/org.springframework.data/spring-data-jpa/3.1.2, Apache-2.0, approved, #9120
 maven/mavencentral/org.springframework.security.oauth/spring-security-oauth2/2.5.2.RELEASE, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-config/6.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework.security/spring-security-config/6.1.2, Apache-2.0, approved, #9736
 maven/mavencentral/org.springframework.security/spring-security-core/6.1.1, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-crypto/6.1.2, , restricted, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.1.2, , restricted, clearlydefined
-maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework.security/spring-security-crypto/6.1.2, Apache-2.0 AND ISC, approved, #9735
+maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.1.2, Apache-2.0, approved, #9740
+maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.1.2, Apache-2.0, approved, #9741
 maven/mavencentral/org.springframework.security/spring-security-oauth2-jose/6.1.2, Apache-2.0, approved, #9345
 maven/mavencentral/org.springframework.security/spring-security-oauth2-resource-server/6.1.2, Apache-2.0, approved, #8798
 maven/mavencentral/org.springframework.security/spring-security-rsa/1.0.11.RELEASE, Apache-2.0, approved, CQ20647
