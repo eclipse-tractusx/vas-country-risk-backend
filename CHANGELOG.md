@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [1.2.0] - [Unreleased]
+## [1.2.0] - 2023-09-28
 
 ### Added
 - Added project name to Sonar Cloud properties.
@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - org.springframework.boot:spring-boot-starter-web to 3.1.2
   - org.springframework.security:spring-security-web to 6.1.1
 - Changed Dependencies file with new library versions.
+- Changed Mapping to adapt new Data Model on BPDM Gate
+- Enable Hidden endpoints for Sharing Bpn data
 
 
 ### Fixes

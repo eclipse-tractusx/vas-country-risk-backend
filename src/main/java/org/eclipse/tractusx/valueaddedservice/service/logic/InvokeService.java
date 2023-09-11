@@ -28,7 +28,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -49,7 +48,7 @@ public class InvokeService {
                 .map(mappingFunction)
                 .onErrorResume(e -> {
                     log.error("error url {} message {}", url, e.getMessage());
-                    return Mono.just(new ArrayList<>());
+                    throw new RuntimeException(e.getMessage());
                 });
     }
 }

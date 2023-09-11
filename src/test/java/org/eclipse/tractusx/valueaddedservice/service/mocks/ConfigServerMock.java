@@ -78,8 +78,8 @@ public class ConfigServerMock {
                         .withStatus(200)
                         .withHeader("Content-Type", APPLICATION_JSON_VALUE)
                         .withBody("{\n" +
-                                "    \"totalElements\": 1009,\n" +
-                                "    \"totalPages\": 1009,\n" +
+                                "    \"totalElements\": 1,\n" +
+                                "    \"totalPages\": 1,\n" +
                                 "    \"page\": 0,\n" +
                                 "    \"contentSize\": 1,\n" +
                                 "    \"content\": [\n" +
@@ -89,41 +89,46 @@ public class ConfigServerMock {
                                 "            ],\n" +
                                 "            \"states\": [\n" +
                                 "                {\n" +
-                                "                    \"description\": \"Baden-Wuerttemberg\",\n" +
-                                "                    \"validFrom\": \"2023-06-05T10:32:30.231\",\n" +
-                                "                    \"validTo\": \"2023-06-05T10:32:30.231\",\n" +
+                                "                    \"description\": \"WESTERN_LATIN_STANDARD\",\n" +
+                                "                    \"validFrom\": \"2020-12-16T05:54:48.942\",\n" +
+                                "                    \"validTo\": \"2023-06-05T07:31:01.213\",\n" +
                                 "                    \"type\": \"ACTIVE\"\n" +
                                 "                }\n" +
                                 "            ],\n" +
-                                "            \"identifiers\": [],\n" +
+                                "            \"identifiers\": [\n" +
+                                "                {\n" +
+                                "                    \"value\": \"12345678910\",\n" +
+                                "                    \"type\": \"CUSTOM_ID_ADD_TYPE\"\n" +
+                                "                }\n" +
+                                "            ],\n" +
                                 "            \"physicalPostalAddress\": {\n" +
                                 "                \"geographicCoordinates\": {\n" +
                                 "                    \"longitude\": 0.0,\n" +
                                 "                    \"latitude\": 0.0,\n" +
                                 "                    \"altitude\": 0.0\n" +
                                 "                },\n" +
-                                "                \"country\": \"SO\",\n" +
-                                "                \"postalCode\": \"70327\",\n" +
-                                "                \"city\": \"Mogadishu\",\n" +
-                                "                \"street\": {\n" +
-                                "                    \"namePrefix\": null,\n" +
-                                "                    \"additionalNamePrefix\": null,\n" +
-                                "                    \"name\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                    \"additionalNameSuffix\": null,\n" +
-                                "                    \"houseNumber\": \"1234\",\n" +
-                                "                    \"milestone\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                    \"direction\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                    \"nameSuffix\": null\n" +
-                                "                },\n" +
-                                "                \"administrativeAreaLevel1\": null,\n" +
-                                "                \"administrativeAreaLevel2\": null,\n" +
-                                "                \"administrativeAreaLevel3\": null,\n" +
+                                "                \"country\": \"DE\",\n" +
+                                "                \"administrativeAreaLevel1\": \"Baden-Wuerttemberg\",\n" +
+                                "                \"administrativeAreaLevel2\": \"test1\",\n" +
+                                "                \"administrativeAreaLevel3\": \"test2\",\n" +
+                                "                \"postalCode\": \"70546\",\n" +
+                                "                \"city\": \"Stuttgart\",\n" +
                                 "                \"district\": \"Stuttgart\",\n" +
-                                "                \"companyPostalCode\": \"71034\",\n" +
-                                "                \"industrialZone\": \"Sindelfinden\",\n" +
+                                "                \"street\": {\n" +
+                                "                    \"namePrefix\": \"test prefix\",\n" +
+                                "                    \"additionalNamePrefix\": \"test1\",\n" +
+                                "                    \"name\": \"Stuttgarter Strasse\",\n" +
+                                "                    \"nameSuffix\": \"test\",\n" +
+                                "                    \"additionalNameSuffix\": \"test2\",\n" +
+                                "                    \"houseNumber\": \"1\",\n" +
+                                "                    \"milestone\": \"Stuttgarter Strasse 1\",\n" +
+                                "                    \"direction\": \"Stuttgarter Str.\"\n" +
+                                "                },\n" +
+                                "                \"companyPostalCode\": \"GM01\",\n" +
+                                "                \"industrialZone\": \"HEADQUARTER\",\n" +
                                 "                \"building\": \"Building A\",\n" +
                                 "                \"floor\": \"A\",\n" +
-                                "                \"door\": \"1\"\n" +
+                                "                \"door\": \"test\"\n" +
                                 "            },\n" +
                                 "            \"alternativePostalAddress\": {\n" +
                                 "                \"geographicCoordinates\": {\n" +
@@ -132,18 +137,20 @@ public class ConfigServerMock {
                                 "                    \"altitude\": 0.0\n" +
                                 "                },\n" +
                                 "                \"country\": \"DE\",\n" +
+                                "                \"administrativeAreaLevel1\": \"Baden-Wuerttemberg 1\",\n" +
                                 "                \"postalCode\": \"1234\",\n" +
-                                "                \"city\": \"Stuttgart\",\n" +
-                                "                \"administrativeAreaLevel1\": null,\n" +
-                                "                \"deliveryServiceNumber\": \"Untertuerckheim Strasse 1\",\n" +
+                                "                \"city\": \"Stuttgart 1\",\n" +
                                 "                \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                \"deliveryServiceQualifier\": \"test qualifier\"\n" +
+                                "                \"deliveryServiceQualifier\": \"test\",\n" +
+                                "                \"deliveryServiceNumber\": \"1234\"\n" +
                                 "            },\n" +
-                                "            \"roles\": [],\n" +
+                                "            \"roles\": [\n" +
+                                "                \"SUPPLIER\"\n" +
+                                "            ],\n" +
                                 "            \"externalId\": \"12044444_legalAddress\",\n" +
                                 "            \"legalEntityExternalId\": \"12044444\",\n" +
                                 "            \"siteExternalId\": null,\n" +
-                                "            \"bpn\": \"BPNA000000000001\"\n" +
+                                "            \"bpna\": \"BPNL0000000001YN\"\n" +
                                 "        }\n" +
                                 "    ]\n" +
                                 "}")));
@@ -173,10 +180,12 @@ public class ConfigServerMock {
                                 "                    \"type\": \"ACTIVE\"\n" +
                                 "                }\n" +
                                 "            ],\n" +
-                                "            \"roles\": [],\n" +
+                                "            \"roles\": [\n" +
+                                "                \"SUPPLIER\"\n" +
+                                "            ],\n" +
                                 "            \"mainAddress\": {\n" +
                                 "                \"nameParts\": [\n" +
-                                "                    \"SITE ADDRESS\"\n" +
+                                "                    \"WESTERN_LATIN_STANDARD\"\n" +
                                 "                ],\n" +
                                 "                \"states\": [\n" +
                                 "                    {\n" +
@@ -186,30 +195,35 @@ public class ConfigServerMock {
                                 "                        \"type\": \"ACTIVE\"\n" +
                                 "                    }\n" +
                                 "                ],\n" +
-                                "                \"identifiers\": [],\n" +
+                                "                \"identifiers\": [\n" +
+                                "                    {\n" +
+                                "                        \"value\": \"123456789\",\n" +
+                                "                        \"type\": \"CUSTOM_SITE_ID\"\n" +
+                                "                    }\n" +
+                                "                ],\n" +
                                 "                \"physicalPostalAddress\": {\n" +
                                 "                    \"geographicCoordinates\": {\n" +
                                 "                        \"longitude\": 0.0,\n" +
                                 "                        \"latitude\": 0.0,\n" +
                                 "                        \"altitude\": 0.0\n" +
                                 "                    },\n" +
-                                "                    \"country\": \"RU\",\n" +
-                                "                    \"postalCode\": \"0000\",\n" +
-                                "                    \"city\": \"Russs\",\n" +
-                                "                    \"street\": {\n" +
-                                "                        \"namePrefix\": null,\n" +
-                                "                        \"additionalNamePrefix\": null,\n" +
-                                "                        \"name\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"additionalNameSuffix\": null,\n" +
-                                "                        \"houseNumber\": \"1234\",\n" +
-                                "                        \"milestone\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"direction\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"nameSuffix\": null\n" +
-                                "                    },\n" +
-                                "                    \"administrativeAreaLevel1\": null,\n" +
+                                "                    \"country\": \"DE\",\n" +
+                                "                    \"administrativeAreaLevel1\": \"Baden-Wuerttember\",\n" +
                                 "                    \"administrativeAreaLevel2\": null,\n" +
                                 "                    \"administrativeAreaLevel3\": null,\n" +
+                                "                    \"postalCode\": \"70327\",\n" +
+                                "                    \"city\": \"Stuttgart\",\n" +
                                 "                    \"district\": \"Stuttgart\",\n" +
+                                "                    \"street\": {\n" +
+                                "                        \"namePrefix\": \"test prefix\",\n" +
+                                "                        \"additionalNamePrefix\": \"test\",\n" +
+                                "                        \"name\": \"Untertuerckheim Strasse 1\",\n" +
+                                "                        \"nameSuffix\": \"test1 suffix\",\n" +
+                                "                        \"additionalNameSuffix\": \"test suffix\",\n" +
+                                "                        \"houseNumber\": \"1234\",\n" +
+                                "                        \"milestone\": \"Untertuerckheim Strasse 1\",\n" +
+                                "                        \"direction\": \"Untertuerckheim Strasse 1\"\n" +
+                                "                    },\n" +
                                 "                    \"companyPostalCode\": \"71034\",\n" +
                                 "                    \"industrialZone\": \"Sindelfinden\",\n" +
                                 "                    \"building\": \"Building A\",\n" +
@@ -223,22 +237,24 @@ public class ConfigServerMock {
                                 "                        \"altitude\": 0.0\n" +
                                 "                    },\n" +
                                 "                    \"country\": \"DE\",\n" +
+                                "                    \"administrativeAreaLevel1\": \"Stuttgart\",\n" +
                                 "                    \"postalCode\": \"1234\",\n" +
                                 "                    \"city\": \"Stuttgart\",\n" +
-                                "                    \"administrativeAreaLevel1\": null,\n" +
-                                "                    \"deliveryServiceNumber\": \"Untertuerckheim Strasse 1\",\n" +
                                 "                    \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                    \"deliveryServiceQualifier\": \"test qualifier\"\n" +
+                                "                    \"deliveryServiceQualifier\": \"test qualifier\",\n" +
+                                "                    \"deliveryServiceNumber\": \"Untertuerckheim Strasse 1\"\n" +
                                 "                },\n" +
-                                "                \"roles\": [],\n" +
+                                "                \"roles\": [\n" +
+                                "                    \"SUPPLIER\"\n" +
+                                "                ],\n" +
                                 "                \"externalId\": \"12044444_site\",\n" +
                                 "                \"legalEntityExternalId\": null,\n" +
                                 "                \"siteExternalId\": \"12044444\",\n" +
-                                "                \"bpn\": \"BPNA000000000001\"\n" +
+                                "                \"bpna\": \"BPNS000000000001\"\n" +
                                 "            },\n" +
                                 "            \"externalId\": \"12044444\",\n" +
                                 "            \"legalEntityExternalId\": \"12044444\",\n" +
-                                "            \"bpn\": \"BPNS000000000001\"\n" +
+                                "            \"bpns\": \"BPNL0000000001YN\"\n" +
                                 "        }\n" +
                                 "    ]\n" +
                                 "}")));
@@ -251,106 +267,27 @@ public class ConfigServerMock {
                         .withStatus(200)
                         .withHeader("Content-Type", APPLICATION_JSON_VALUE)
                         .withBody("{\n" +
-                                "    \"totalElements\": 2,\n" +
+                                "    \"totalElements\": 1,\n" +
                                 "    \"totalPages\": 1,\n" +
                                 "    \"page\": 0,\n" +
-                                "    \"contentSize\": 2,\n" +
+                                "    \"contentSize\": 1,\n" +
                                 "    \"content\": [\n" +
                                 "        {\n" +
-                                "            \"identifiers\": [],\n" +
-                                "            \"legalShortName\": \"NoC\",\n" +
-                                "            \"legalForm\": \"CUSTOM_LEGAL_FORM\",\n" +
-                                "            \"states\": [\n" +
-                                "                {\n" +
-                                "                    \"officialDenotation\": \"Active\",\n" +
-                                "                    \"validFrom\": \"2020-12-16T05:54:48.942\",\n" +
-                                "                    \"validTo\": \"2023-06-05T07:31:01.213\",\n" +
-                                "                    \"type\": \"ACTIVE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
-                                "            \"classifications\": [\n" +
-                                "                {\n" +
-                                "                    \"value\": \"Farming of cattle, dairy farming\",\n" +
-                                "                    \"code\": \"01.21\",\n" +
-                                "                    \"type\": \"NACE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
                                 "            \"legalNameParts\": [\n" +
                                 "                \"Name of Company\"\n" +
                                 "            ],\n" +
-                                "            \"roles\": [],\n" +
-                                "            \"legalAddress\": {\n" +
-                                "                \"nameParts\": [\n" +
-                                "                    \"WESTERN_LATIN_STANDARD\"\n" +
-                                "                ],\n" +
-                                "                \"states\": [\n" +
-                                "                    {\n" +
-                                "                        \"description\": \"Baden-Wuerttemberg\",\n" +
-                                "                        \"validFrom\": \"2023-06-05T10:32:30.231\",\n" +
-                                "                        \"validTo\": \"2023-06-05T10:32:30.231\",\n" +
-                                "                        \"type\": \"ACTIVE\"\n" +
-                                "                    }\n" +
-                                "                ],\n" +
-                                "                \"identifiers\": [],\n" +
-                                "                \"physicalPostalAddress\": {\n" +
-                                "                    \"geographicCoordinates\": {\n" +
-                                "                        \"longitude\": 0.0,\n" +
-                                "                        \"latitude\": 0.0,\n" +
-                                "                        \"altitude\": 0.0\n" +
-                                "                    },\n" +
-                                "                    \"country\": \"SO\",\n" +
-                                "                    \"postalCode\": \"70327\",\n" +
-                                "                    \"city\": \"Mogadishu\",\n" +
-                                "                    \"street\": {\n" +
-                                "                        \"namePrefix\": null,\n" +
-                                "                        \"additionalNamePrefix\": null,\n" +
-                                "                        \"name\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"additionalNameSuffix\": null,\n" +
-                                "                        \"houseNumber\": \"1234\",\n" +
-                                "                        \"milestone\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"direction\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"nameSuffix\": null\n" +
-                                "                    },\n" +
-                                "                    \"administrativeAreaLevel1\": null,\n" +
-                                "                    \"administrativeAreaLevel2\": null,\n" +
-                                "                    \"administrativeAreaLevel3\": null,\n" +
-                                "                    \"district\": \"Stuttgart\",\n" +
-                                "                    \"companyPostalCode\": \"71034\",\n" +
-                                "                    \"industrialZone\": \"Sindelfinden\",\n" +
-                                "                    \"building\": \"Building A\",\n" +
-                                "                    \"floor\": \"A\",\n" +
-                                "                    \"door\": \"1\"\n" +
-                                "                },\n" +
-                                "                \"alternativePostalAddress\": {\n" +
-                                "                    \"geographicCoordinates\": {\n" +
-                                "                        \"longitude\": 0.0,\n" +
-                                "                        \"latitude\": 0.0,\n" +
-                                "                        \"altitude\": 0.0\n" +
-                                "                    },\n" +
-                                "                    \"country\": \"DE\",\n" +
-                                "                    \"postalCode\": \"1234\",\n" +
-                                "                    \"city\": \"Stuttgart\",\n" +
-                                "                    \"administrativeAreaLevel1\": null,\n" +
-                                "                    \"deliveryServiceNumber\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                    \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                    \"deliveryServiceQualifier\": \"test qualifier\"\n" +
-                                "                },\n" +
-                                "                \"roles\": [],\n" +
-                                "                \"externalId\": \"12044444_legalAddress\",\n" +
-                                "                \"legalEntityExternalId\": \"12044444\",\n" +
-                                "                \"siteExternalId\": null,\n" +
-                                "                \"bpn\": \"BPNA000000000001\"\n" +
-                                "            },\n" +
-                                "            \"externalId\": \"12044444\",\n" +
-                                "            \"bpn\": \"BPNL0000000001YN\"\n" +
-                                "        },\n" +
-                                "        {\n" +
-                                "            \"identifiers\": [],\n" +
+                                "            \"identifiers\": [\n" +
+                                "                {\n" +
+                                "                    \"value\": \"123456789\",\n" +
+                                "                    \"type\": \"CUSTOM_ID_TYPE\",\n" +
+                                "                    \"issuingBody\": \"CUSTOM_ISSUE_BODY\"\n" +
+                                "                }\n" +
+                                "            ],\n" +
                                 "            \"legalShortName\": \"NoC\",\n" +
                                 "            \"legalForm\": \"CUSTOM_LEGAL_FORM\",\n" +
                                 "            \"states\": [\n" +
                                 "                {\n" +
-                                "                    \"officialDenotation\": \"Active\",\n" +
+                                "                    \"description\": null,\n" +
                                 "                    \"validFrom\": \"2020-12-16T05:54:48.942\",\n" +
                                 "                    \"validTo\": \"2023-06-05T07:31:01.213\",\n" +
                                 "                    \"type\": \"ACTIVE\"\n" +
@@ -363,13 +300,12 @@ public class ConfigServerMock {
                                 "                    \"type\": \"NACE\"\n" +
                                 "                }\n" +
                                 "            ],\n" +
-                                "            \"legalNameParts\": [\n" +
-                                "                \"Test Company\"\n" +
+                                "            \"roles\": [\n" +
+                                "                \"SUPPLIER\"\n" +
                                 "            ],\n" +
-                                "            \"roles\": [],\n" +
                                 "            \"legalAddress\": {\n" +
                                 "                \"nameParts\": [\n" +
-                                "                    \"Not real address \"\n" +
+                                "                    \"WESTERN_LATIN_STANDARD\"\n" +
                                 "                ],\n" +
                                 "                \"states\": [\n" +
                                 "                    {\n" +
@@ -379,30 +315,35 @@ public class ConfigServerMock {
                                 "                        \"type\": \"ACTIVE\"\n" +
                                 "                    }\n" +
                                 "                ],\n" +
-                                "                \"identifiers\": [],\n" +
+                                "                \"identifiers\": [\n" +
+                                "                    {\n" +
+                                "                        \"value\": \"12345678910\",\n" +
+                                "                        \"type\": \"CUSTOM_ID_ADD_TYPE\"\n" +
+                                "                    }\n" +
+                                "                ],\n" +
                                 "                \"physicalPostalAddress\": {\n" +
                                 "                    \"geographicCoordinates\": {\n" +
                                 "                        \"longitude\": 0.0,\n" +
                                 "                        \"latitude\": 0.0,\n" +
                                 "                        \"altitude\": 0.0\n" +
                                 "                    },\n" +
-                                "                    \"country\": \"ES\",\n" +
-                                "                    \"postalCode\": \"00000\",\n" +
-                                "                    \"city\": \"Madrid\",\n" +
-                                "                    \"street\": {\n" +
-                                "                        \"namePrefix\": null,\n" +
-                                "                        \"additionalNamePrefix\": null,\n" +
-                                "                        \"name\": \"Stuttgarter Strasse\",\n" +
-                                "                        \"additionalNameSuffix\": null,\n" +
-                                "                        \"houseNumber\": \"1\",\n" +
-                                "                        \"milestone\": \"Stuttgarter Strasse 1\",\n" +
-                                "                        \"direction\": \"Stuttgarter Str.\",\n" +
-                                "                        \"nameSuffix\": null\n" +
-                                "                    },\n" +
-                                "                    \"administrativeAreaLevel1\": null,\n" +
+                                "                    \"country\": \"DE\",\n" +
+                                "                    \"administrativeAreaLevel1\": \"Baden-Wuerttemberg\",\n" +
                                 "                    \"administrativeAreaLevel2\": \"test1\",\n" +
                                 "                    \"administrativeAreaLevel3\": \"test2\",\n" +
+                                "                    \"postalCode\": \"70546\",\n" +
+                                "                    \"city\": \"Stuttgart\",\n" +
                                 "                    \"district\": \"Stuttgart\",\n" +
+                                "                    \"street\": {\n" +
+                                "                        \"namePrefix\": \"test prefix\",\n" +
+                                "                        \"additionalNamePrefix\": \"test1\",\n" +
+                                "                        \"name\": \"Stuttgarter Strasse\",\n" +
+                                "                        \"nameSuffix\": \"test\",\n" +
+                                "                        \"additionalNameSuffix\": \"test2\",\n" +
+                                "                        \"houseNumber\": \"1\",\n" +
+                                "                        \"milestone\": \"Stuttgarter Strasse 1\",\n" +
+                                "                        \"direction\": \"Stuttgarter Str.\"\n" +
+                                "                    },\n" +
                                 "                    \"companyPostalCode\": \"GM01\",\n" +
                                 "                    \"industrialZone\": \"HEADQUARTER\",\n" +
                                 "                    \"building\": \"Building A\",\n" +
@@ -416,21 +357,23 @@ public class ConfigServerMock {
                                 "                        \"altitude\": 0.0\n" +
                                 "                    },\n" +
                                 "                    \"country\": \"DE\",\n" +
+                                "                    \"administrativeAreaLevel1\": \"Baden-Wuerttemberg 1\",\n" +
                                 "                    \"postalCode\": \"1234\",\n" +
                                 "                    \"city\": \"Stuttgart 1\",\n" +
-                                "                    \"administrativeAreaLevel1\": null,\n" +
-                                "                    \"deliveryServiceNumber\": \"1234\",\n" +
                                 "                    \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                    \"deliveryServiceQualifier\": \"test\"\n" +
+                                "                    \"deliveryServiceQualifier\": \"test\",\n" +
+                                "                    \"deliveryServiceNumber\": \"1234\"\n" +
                                 "                },\n" +
-                                "                \"roles\": [],\n" +
-                                "                \"externalId\": \"test-cr_legalAddress\",\n" +
-                                "                \"legalEntityExternalId\": \"test-cr\",\n" +
+                                "                \"roles\": [\n" +
+                                "                    \"SUPPLIER\"\n" +
+                                "                ],\n" +
+                                "                \"externalId\": \"12044444_legalAddress\",\n" +
+                                "                \"legalEntityExternalId\": \"12044444\",\n" +
                                 "                \"siteExternalId\": null,\n" +
-                                "                \"bpn\": \"BPNA000000000003\"\n" +
+                                "                \"bpna\": \"BPNL0000000001YN\"\n" +
                                 "            },\n" +
-                                "            \"externalId\": \"test-cr\",\n" +
-                                "            \"bpn\": \"BPNL0000000001Y2\"\n" +
+                                "            \"externalId\": \"12044444\",\n" +
+                                "            \"bpnl\": \"BPNL0000000001YN\"\n" +
                                 "        }\n" +
                                 "    ]\n" +
                                 "}")));

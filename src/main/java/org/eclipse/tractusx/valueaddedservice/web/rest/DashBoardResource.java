@@ -324,7 +324,7 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(dashboardService.getGatesForCompanyUser(companyUserDTO));
     }
 
-    @Operation(summary = "Retrieves ratings based on inserted year and Company User",hidden = true)
+    @Operation(summary = "Retrieves ratings based on inserted year and Company User")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/getAllRatingsForCompany")
@@ -337,7 +337,7 @@ public class DashBoardResource {
     }
 
 
-    @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN",hidden = true)
+    @Operation(summary = "Retrieves Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/getAllRatingsScoresForEachBpn")

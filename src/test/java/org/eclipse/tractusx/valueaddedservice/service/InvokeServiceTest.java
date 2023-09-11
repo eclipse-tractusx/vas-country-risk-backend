@@ -38,7 +38,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest(classes = ValueAddedServiceApplication.class)
@@ -78,15 +78,19 @@ class InvokeServiceTest {
     }
 
     @Test
-    @DisplayName("Should return empty list when the request is failed")
-    void executeRequestWhenRequestIsFailedThenReturnEmptyList() throws JsonProcessingException {
+    @DisplayName("Should throw RuntimeException when the request is failed")
+    void executeRequestWhenRequestIsFailedThenThrowRuntimeException() throws JsonProcessingException {
         String url = "http://localhost:8585/api/dashboard/v1/usersError";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> httpEntity = new HttpEntity<>("",httpHeaders);
-        List<String> newEmptyList = invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction).block();
-        assertEquals(0, newEmptyList.size());
+        HttpEntity<Object> httpEntity = new HttpEntity<>("", httpHeaders);
+
+        // Expect a RuntimeException to be thrown
+        assertThrows(RuntimeException.class, () -> {
+            invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction).block();
+        });
     }
+
 
     // Mock mapping function
     private List<String> mockMappingFunction(String json) {
