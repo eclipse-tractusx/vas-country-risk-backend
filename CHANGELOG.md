@@ -8,12 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [1.2.0] - [Unreleased]
+## [1.2.0] - 2023-10-04
 
 ### Added
 - Added project name to Sonar Cloud properties.
 - Added Suppliers and Customers fields for logic filtering.
 - Added new client ID to get roles from the newly published Country Risk app.
+- Added new file for [Standard Api Documentation](docs/swagger/standard_api.yml)
 
 ### Changed
 - Mapped between API and new Data Model for getting Suppliers and Customers.
@@ -22,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - org.springframework.boot:spring-boot-starter-web to 3.1.2
   - org.springframework.security:spring-security-web to 6.1.1
 - Changed Dependencies file with new library versions.
+- Changed Mapping to adapt new Data Model on BPDM Gate
+- Enable Hidden endpoints for Sharing Controller
 
 
 ### Fixes

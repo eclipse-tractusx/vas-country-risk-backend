@@ -200,6 +200,68 @@ paths:
       security:
         - bearerAuth: []
         - open_id_scheme: []
+  /api/sharing/getAllRatingsScoresForEachBpn:
+    get:
+      operationId: getAllRatingsScoresForEachBpn
+      parameters:
+        - name: datasource[]
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/DataSourceDTO'
+            maxItems: 20
+            default: []
+        - name: bpns[]
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/BusinessPartnerDTO'
+            maxItems: 20
+            default: []
+        - name: companyUser
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+  /api/sharing/getAllRatingsForCompany:
+    get:
+      tags:
+        - Sharing Controller
+      summary: Retrieves ratings based on inserted year and Company User
+      operationId: getAllRatingsForCompany
+      parameters:
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: companyUserDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+      responses:
+        '200':
+          description: Ratings of inserted custom year retrieved with success
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataSourceDTO'
+                maxItems: 20
+                default: []
+        '401':
+          description: Authentication Required
+      security:
+        - bearerAuth: []
+        - open_id_scheme: []
   /api/dashboard/ratingsByYear:
     get:
       tags:
@@ -761,6 +823,76 @@ components:
         fileName:
           type: string
           example: Test Company Rating
+    BusinessPartnerDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        bpn:
+          type: string
+          example: BPN-NUMBER
+        legalName:
+          type: string
+          example: Divape Company
+        street:
+          type: string
+          example: 1st
+        houseNumber:
+          type: string
+          example: Sutteridge
+        zipCode:
+          type: string
+          example: '633104'
+        city:
+          type: string
+          example: Covilha
+        country:
+          type: string
+          example: Portugal
+        longitude:
+          type: string
+          example: '107.6185727'
+        latitude:
+          type: string
+          example: '-6.6889038'
+        supplier:
+          type: boolean
+          example: false
+        customer:
+          type: boolean
+          example: true
+    ShareDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        bpn:
+          type: string
+          example: BPN-NUMBER
+        country:
+          type: string
+          example: Portugal
+        iso2:
+          type: string
+          example: PT
+        rating:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShareRatingDTO'
+          maxItems: 20
+          default: []
+    ShareRatingDTO:
+      type: object
+      properties:
+        dataSourceName:
+          type: string
+          example: Fake Rating
+        score:
+          type: number
+          format: float
+          example: 100
     RatingDTO:
       type: object
       properties:
@@ -843,7 +975,7 @@ components:
           example: '633104'
         city:
           type: string
-          example: Covilhã
+          example: Covilha
         country:
           type: string
           example: Portugal
@@ -860,39 +992,12 @@ components:
         latitude:
           type: string
           example: '-6.6889038'
-    BusinessPartnerDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        bpn:
-          type: string
-          example: BPN-NUMBER
-        legalName:
-          type: string
-          example: Divape Company
-        street:
-          type: string
-          example: 1st
-        houseNumber:
-          type: string
-          example: Sutteridge
-        zipCode:
-          type: string
-          example: '633104'
-        city:
-          type: string
-          example: Covilhã
-        country:
-          type: string
-          example: Portugal
-        longitude:
-          type: string
-          example: '107.6185727'
-        latitude:
-          type: string
-          example: '-6.6889038'
+        supplier:
+          type: boolean
+          example: false
+        customer:
+          type: boolean
+          example: true
     CompanyGatesDTO:
       required:
         - companyGateValue
@@ -921,3 +1026,4 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+

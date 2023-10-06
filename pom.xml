@@ -352,7 +352,7 @@
             <!--							<goal>generate</goal>-->
             <!--						</goals>-->
             <!--						<configuration>-->
-            <!--							<inputSpec>${project.basedir}/src/main/resources/swagger/api.yml-->
+            <!--							<inputSpec>${project.basedir}/src/main/resources/swagger/full_api.yml-->
             <!--							</inputSpec>-->
             <!--							<generatorName>spring</generatorName>-->
             <!--							<invokerPackage>org.eclipse.tractusx.valueaddedservice.web.rest</invokerPackage>-->

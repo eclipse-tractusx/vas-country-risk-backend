@@ -29,7 +29,6 @@ import org.eclipse.tractusx.valueaddedservice.dto.CountryDTO;
 import org.eclipse.tractusx.valueaddedservice.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -68,7 +67,7 @@ public class BusinessPartnersLogicService {
     CountryService countryService;
 
 
-    @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUser.name,#companyUser.email,#companyUser.companyName}, #roles}", unless = "#result == null")
+
     public List<BusinessPartnerDTO> getExternalBusinessPartners(CompanyUserDTO companyUser, String token, List<String> roles) {
         log.debug("getExternalBusinessPartners for companyUserDTO {}", companyUser);
 
@@ -83,16 +82,16 @@ public class BusinessPartnersLogicService {
         // Call the first endpoint and create the DTOs
         List<BusinessPartnerDTO> businessPartnerDTOS = invokeService.executeRequest(bpdmLegalUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
 
-        // Call the second endpoint and create the DTOs, but only if the externalId is not already present in the existing DTOs
-        List<BusinessPartnerDTO> businessPartnerDTOS2 = invokeService.executeRequest(bpdmAddressUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
-        businessPartnerDTOS2.removeIf(dto -> isExternalIdPresent(dto.getBpn(), businessPartnerDTOS));
-        businessPartnerDTOS.addAll(businessPartnerDTOS2);
-        businessPartnerDTOS2.clear();
-
         // Call the third endpoint and create the DTOs, but only if the externalId is not already present in the existing DTOs
-        businessPartnerDTOS2 = invokeService.executeRequest(bpdmSiteUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
-        businessPartnerDTOS2.removeIf(dto -> isExternalIdPresent(dto.getBpn(), businessPartnerDTOS));
-        businessPartnerDTOS.addAll(businessPartnerDTOS2);
+        List<BusinessPartnerDTO>  businessPartnerDTOS2 = invokeService.executeRequest(bpdmSiteUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
+        Objects.requireNonNull(businessPartnerDTOS2).removeIf(dto -> isExternalIdPresent(dto.getBpn(), businessPartnerDTOS));
+        Objects.requireNonNull(businessPartnerDTOS).addAll(businessPartnerDTOS2);
+
+        // Call the second endpoint and create the DTOs, but only if the externalId is not already present in the existing DTOs
+        businessPartnerDTOS2 = invokeService.executeRequest(bpdmAddressUrl, HttpMethod.POST, httpEntity, BusinessPartnerDTO.class, json -> customMappingLogic(json, externalIdToLegalName)).block();
+        Objects.requireNonNull(businessPartnerDTOS2).removeIf(dto -> isExternalIdPresent(dto.getBpn(), businessPartnerDTOS));
+        Objects.requireNonNull(businessPartnerDTOS).addAll(businessPartnerDTOS2);
+        businessPartnerDTOS2.clear();
 
 
         // Update country names
@@ -160,38 +159,54 @@ public class BusinessPartnersLogicService {
             externalIdToLegalName.put(externalId, legalName);
         } else {
             externalId = elementNode.get("legalEntityExternalId").asText();
+            JsonNode siteExternalIdNode = elementNode.get("siteExternalId");
+
+            // Check for null legalEntityExternalId and non-null siteExternalId
+            if (elementNode.get("legalEntityExternalId").isNull() && siteExternalIdNode != null && !siteExternalIdNode.isNull()) {
+                String siteExternalId = siteExternalIdNode.asText();
+
+                // If siteExternalId exists in map, get corresponding legalEntityExternalId
+                if (externalIdToLegalName.containsKey(siteExternalId)) {
+                    externalId = externalIdToLegalName.get(siteExternalId);
+                }
+            } else if (siteExternalIdNode != null && !siteExternalIdNode.isNull()) {
+                // Handle non-null siteExternalId
+                String siteExternalId = siteExternalIdNode.asText();
+                externalIdToLegalName.put(siteExternalId, externalId);
+            }
         }
         return externalId;
     }
 
+
     private void handleSecondTypeJson(JsonNode elementNode, String externalId, List<BusinessPartnerDTO> dtos, Map<String, String> externalIdToLegalName) {
         JsonNode legalAddressNode = elementNode.get("legalAddress");
-        String bpn = legalAddressNode.get("bpn").asText();
-        if (bpn != null) {
-            dtos.add(createDto(bpn, legalAddressNode, externalIdToLegalName.get(externalId)));
+        String bpna = legalAddressNode.get("bpna").asText();
+        if (bpna != null) {
+            dtos.add(createDto(bpna, legalAddressNode, externalIdToLegalName.get(externalId)));
         }
-        bpn = elementNode.get("bpn").asText();
-        if (bpn != null) {
-            dtos.add(createDto(bpn, legalAddressNode, externalIdToLegalName.get(externalId)));
+        String bpnl = elementNode.get("bpnl").asText();
+        if (bpnl != null) {
+            dtos.add(createDto(bpnl, legalAddressNode, externalIdToLegalName.get(externalId)));
         }
     }
 
     private void handleFirstTypeJson(JsonNode elementNode, String externalId, List<BusinessPartnerDTO> dtos, Map<String, String> externalIdToLegalName) {
-        String bpn = elementNode.get("bpn").asText();
-        if (bpn != null) {
-            dtos.add(createDto(bpn, elementNode, externalIdToLegalName.get(externalId)));
+        String bpna = elementNode.get("bpna").asText();
+        if (bpna != null) {
+            dtos.add(createDto(bpna, elementNode, externalIdToLegalName.get(externalId)));
         }
     }
 
     private void handleThirdTypeJson(JsonNode elementNode, String externalId, List<BusinessPartnerDTO> dtos, Map<String, String> externalIdToLegalName) {
         JsonNode mainAddressNode = elementNode.get("mainAddress");
-        String bpn = mainAddressNode.get("bpn").asText();
-        if (bpn != null) {
-            dtos.add(createDto(bpn, mainAddressNode, externalIdToLegalName.get(externalId)));
+        String bpna = mainAddressNode.get("bpna").asText();
+        if (bpna != null) {
+            dtos.add(createDto(bpna, mainAddressNode, externalIdToLegalName.get(externalId)));
         }
-        bpn = elementNode.get("bpn").asText();
-        if (bpn != null) {
-            dtos.add(createDto(bpn, mainAddressNode, externalIdToLegalName.get(externalId)));
+        String bpns = elementNode.get("bpns").asText();
+        if (bpns != null) {
+            dtos.add(createDto(bpns, mainAddressNode, externalIdToLegalName.get(externalId)));
         }
     }
 
@@ -208,14 +223,48 @@ public class BusinessPartnersLogicService {
     private void setFieldsFromAddress(BusinessPartnerDTO dto, JsonNode addressNode) {
         JsonNode physicalPostalAddressNode = addressNode.get("physicalPostalAddress");
         if (physicalPostalAddressNode != null) {
-            dto.setStreet(physicalPostalAddressNode.get("street").get("name").asText());
-            dto.setHouseNumber(physicalPostalAddressNode.get("street").get("houseNumber").asText());
-            dto.setZipCode(physicalPostalAddressNode.get("postalCode").asText());
-            dto.setCity(physicalPostalAddressNode.get("city").asText());
-            dto.setCountry(physicalPostalAddressNode.get("country").asText());
-            dto.setLongitude(physicalPostalAddressNode.get("geographicCoordinates").get("longitude").asText());
-            dto.setLatitude(physicalPostalAddressNode.get("geographicCoordinates").get("latitude").asText());
+            JsonNode streetNode = physicalPostalAddressNode.get("street");
+            if (streetNode != null) {
+                JsonNode nameNode = streetNode.get("name");
+                if (nameNode != null) {
+                    dto.setStreet(nameNode.asText());
+                }
+
+                JsonNode houseNumberNode = streetNode.get("houseNumber");
+                if (houseNumberNode != null) {
+                    dto.setHouseNumber(houseNumberNode.asText());
+                }
+            }
+
+            JsonNode postalCodeNode = physicalPostalAddressNode.get("postalCode");
+            if (postalCodeNode != null) {
+                dto.setZipCode(postalCodeNode.asText());
+            }
+
+            JsonNode cityNode = physicalPostalAddressNode.get("city");
+            if (cityNode != null) {
+                dto.setCity(cityNode.asText());
+            }
+
+            JsonNode countryNode = physicalPostalAddressNode.get("country");
+            if (countryNode != null) {
+                dto.setCountry(countryNode.asText());
+            }
+
+            JsonNode geographicCoordinatesNode = physicalPostalAddressNode.get("geographicCoordinates");
+            if (geographicCoordinatesNode != null) {
+                JsonNode longitudeNode = geographicCoordinatesNode.get("longitude");
+                if (longitudeNode != null) {
+                    dto.setLongitude(longitudeNode.asText());
+                }
+
+                JsonNode latitudeNode = geographicCoordinatesNode.get("latitude");
+                if (latitudeNode != null) {
+                    dto.setLatitude(latitudeNode.asText());
+                }
+            }
         }
+
     }
 
     private void setRoles(BusinessPartnerDTO dto, JsonNode addressNode) {

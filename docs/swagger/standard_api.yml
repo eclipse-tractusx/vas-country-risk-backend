@@ -1,0 +1,230 @@
+openapi: 3.0.1
+info:
+  description: Swagger documentation for the Value Added Services APIs
+  title: VAS API
+  version: '1.0'
+servers:
+  - url: /
+security:
+  - open_id_scheme:
+      - read
+      - write
+paths:
+  /api/sharing/getAllRatingsForCompany:
+    get:
+      operationId: getAllRatingsForCompany
+      parameters:
+        - in: query
+          name: year
+          required: false
+          schema:
+            default: 0
+            format: int32
+            type: integer
+        - in: query
+          name: companyUserDTO
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                default: []
+                items:
+                  $ref: '#/components/schemas/DataSourceDTO'
+                maxItems: 20
+                type: array
+          description: Ratings of inserted custom year retrieved with success
+        '401':
+          description: Authentication Required
+      security:
+        - bearerAuth: []
+        - open_id_scheme: []
+      summary: Retrieves ratings based on inserted year and Company User
+      tags:
+        - Sharing Controller
+  /api/sharing/getAllRatingsScoresForEachBpn:
+    get:
+      operationId: getAllRatingsScoresForEachBpn
+      parameters:
+        - name: datasource[]
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/DataSourceDTO'
+            maxItems: 20
+            default: []
+        - name: bpns[]
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/BusinessPartnerDTO'
+            maxItems: 20
+            default: []
+        - name: companyUser
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CompanyUserDTO'
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                default: []
+                items:
+                  $ref: '#/components/schemas/ShareDTO'
+                maxItems: 20
+                type: array
+          description: Ratings of inserted custom year retrieved with success
+        '401':
+          description: Authentication Required
+      security:
+        - bearerAuth: []
+        - open_id_scheme: []
+      summary: Retrieves Mapped ratings to the Business Partners based on inserted
+        year, Company User, Ratings, BPN
+      tags:
+        - Sharing Controller
+components:
+  schemas:
+    BusinessPartnerDTO:
+      additionalProperties: false
+      properties:
+        bpn:
+          example: BPN-NUMBER
+          type: string
+        city:
+          example: Covilha
+          type: string
+        country:
+          example: Portugal
+          type: string
+        customer:
+          example: true
+          type: boolean
+        houseNumber:
+          example: Sutteridge
+          type: string
+        id:
+          format: int64
+          type: integer
+        latitude:
+          example: '-6.6889038'
+          type: string
+        legalName:
+          example: Divape Company
+          type: string
+        longitude:
+          example: '107.6185727'
+          type: string
+        street:
+          example: 1st
+          type: string
+        supplier:
+          example: false
+          type: boolean
+        zipCode:
+          example: '633104'
+          type: string
+      type: object
+    CompanyUserDTO:
+      additionalProperties: false
+      properties:
+        companyName:
+          example: TestCompany
+          type: string
+        email:
+          example: John@email.com
+          type: string
+        name:
+          example: John
+          type: string
+      required:
+        - companyName
+        - email
+        - name
+      type: object
+    DataSourceDTO:
+      additionalProperties: false
+      properties:
+        dataSourceName:
+          example: Fake Rating
+          type: string
+        fileName:
+          example: Test Company Rating
+          type: string
+        id:
+          format: int64
+          type: integer
+        type:
+          enum:
+            - Global
+            - Custom
+            - Company
+          example: Custom
+          type: string
+        yearPublished:
+          example: 2021
+          format: int32
+          type: integer
+      required:
+        - dataSourceName
+        - type
+        - yearPublished
+      type: object
+    ShareDTO:
+      additionalProperties: false
+      properties:
+        bpn:
+          example: BPN-NUMBER
+          type: string
+        country:
+          example: Portugal
+          type: string
+        id:
+          format: int64
+          type: integer
+        iso2:
+          example: PT
+          type: string
+        rating:
+          default: []
+          items:
+            $ref: '#/components/schemas/ShareRatingDTO'
+          maxItems: 20
+          type: array
+      type: object
+    ShareRatingDTO:
+      additionalProperties: false
+      properties:
+        dataSourceName:
+          example: Fake Rating
+          type: string
+        score:
+          example: 100
+          format: float
+          type: number
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+    open_id_scheme:
+      flows:
+        authorizationCode:
+          authorizationUrl: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+          scopes:
+            admin: Grants access to admin operations
+            read: Grants read access
+            write: Grants write access
+          tokenUrl: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      type: oauth2
+
