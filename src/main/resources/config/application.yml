@@ -34,8 +34,8 @@ vas:
     url: http://localhost:8081
 
   keycloak:
-    clientId:
-    clientSecret:
+    clientId: test
+    clientSecret: test
   clientName: country-risk-client
   authentication-url:
     token-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/token

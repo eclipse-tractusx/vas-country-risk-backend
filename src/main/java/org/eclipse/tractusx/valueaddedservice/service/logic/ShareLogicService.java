@@ -23,13 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.dto.BusinessPartnerDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DataDTO;
-import org.eclipse.tractusx.valueaddedservice.dto.DataSourceDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.InputSharingBusinessPartnerDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.InputSharingDataSourceDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareRatingDTO;
 import org.eclipse.tractusx.valueaddedservice.service.DataSourceValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,8 +51,8 @@ public class  ShareLogicService {
     @Autowired
     BusinessPartnersLogicService businessPartnersLogicService;
 
-    public List<ShareDTO> findRatingsScoresForEachBpn(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartnerToMap, CompanyUserDTO companyUser,
-                                                      String token,List<String> roles) {
+    public List<ShareDTO> findRatingsScoresForEachBpn(@NotNull @Valid List<InputSharingDataSourceDTO> datasource, @NotNull @Valid List<InputSharingBusinessPartnerDTO> businessPartnerToMap, CompanyUserDTO companyUser,
+                                                      String token, List<String> roles) {
 
         List<ShareDTO> shareDTOSList = new ArrayList<>();
         
@@ -67,9 +70,9 @@ public class  ShareLogicService {
         });
 
         List<String> countryList = new ArrayList<>();;
-        countryList.addAll(businessPartnerToMap.stream().map(BusinessPartnerDTO::getCountry).collect(Collectors.toSet()));
+        countryList.addAll(businessPartnerToMap.stream().map(InputSharingBusinessPartnerDTO::getCountry).collect(Collectors.toSet()));
 
-        List<String> dataSources = datasource.stream().map(DataSourceDTO::getDataSourceName).collect(Collectors.toList());
+        List<String> dataSources = datasource.stream().map(InputSharingDataSourceDTO::getDataSourceName).collect(Collectors.toList());
         List<DataDTO> dataDTOS = new ArrayList<>();
 
         datasource.forEach(ds -> {
@@ -89,7 +92,7 @@ public class  ShareLogicService {
         return shareDTOSList;
     }
 
-    private ShareDTO setShareDTO(BusinessPartnerDTO bp, List<DataDTO> dataDTOS, Integer id ) {
+    private ShareDTO setShareDTO(InputSharingBusinessPartnerDTO bp, List<DataDTO> dataDTOS, Integer id ) {
         List<ShareRatingDTO> shareRatingDTOList = new ArrayList<>();
         ShareDTO shareDTO = new ShareDTO();
         shareDTO.setId(Long.valueOf(id));

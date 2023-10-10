@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed Dependencies file with new library versions.
 - Changed Mapping to adapt new Data Model on BPDM Gate
 - Enable Hidden endpoints for Sharing Controller
+- Change Dtos of Sharing Controllers
 
 
 ### Fixes

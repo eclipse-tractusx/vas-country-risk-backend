@@ -55,7 +55,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/DataSourceDTO'
+              $ref: '#/components/schemas/InputSharingDataSourceDTO'
             maxItems: 20
             default: []
         - name: bpns[]
@@ -64,7 +64,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/BusinessPartnerDTO'
+              $ref: '#/components/schemas/InputSharingBusinessPartnerDTO'
             maxItems: 20
             default: []
         - name: companyUser
@@ -94,91 +94,44 @@ paths:
         - Sharing Controller
 components:
   schemas:
-    BusinessPartnerDTO:
-      additionalProperties: false
-      properties:
-        bpn:
-          example: BPN-NUMBER
-          type: string
-        city:
-          example: Covilha
-          type: string
-        country:
-          example: Portugal
-          type: string
-        customer:
-          example: true
-          type: boolean
-        houseNumber:
-          example: Sutteridge
-          type: string
-        id:
-          format: int64
-          type: integer
-        latitude:
-          example: '-6.6889038'
-          type: string
-        legalName:
-          example: Divape Company
-          type: string
-        longitude:
-          example: '107.6185727'
-          type: string
-        street:
-          example: 1st
-          type: string
-        supplier:
-          example: false
-          type: boolean
-        zipCode:
-          example: '633104'
-          type: string
-      type: object
     CompanyUserDTO:
-      additionalProperties: false
-      properties:
-        companyName:
-          example: TestCompany
-          type: string
-        email:
-          example: John@email.com
-          type: string
-        name:
-          example: John
-          type: string
       required:
         - companyName
         - email
         - name
       type: object
-    DataSourceDTO:
-      additionalProperties: false
       properties:
-        dataSourceName:
-          example: Fake Rating
+        name:
           type: string
-        fileName:
-          example: Test Company Rating
+          example: John
+        email:
           type: string
-        id:
-          format: int64
-          type: integer
-        type:
-          enum:
-            - Global
-            - Custom
-            - Company
-          example: Custom
+          example: John@email.com
+        companyName:
           type: string
-        yearPublished:
-          example: 2021
-          format: int32
-          type: integer
+          example: TestCompany
+    InputSharingDataSourceDTO:
       required:
         - dataSourceName
-        - type
         - yearPublished
       type: object
+      properties:
+        dataSourceName:
+          type: string
+          example: Fake Rating
+        yearPublished:
+          type: integer
+          format: int32
+          example: 2021
+    InputSharingBusinessPartnerDTO:
+      type: object
+      properties:
+        bpn:
+          type: string
+          example: BPN-NUMBER
+        country:
+          type: string
+          example: Portugal
     ShareDTO:
       additionalProperties: false
       properties:
@@ -202,16 +155,46 @@ components:
           type: array
       type: object
     ShareRatingDTO:
-      additionalProperties: false
+      type: object
       properties:
         dataSourceName:
-          example: Fake Rating
           type: string
+          example: Fake Rating
         score:
-          example: 100
-          format: float
           type: number
+          format: float
+          example: 100
+        yearPublished:
+          type: integer
+          format: int32
+          example: 2021
+    DataSourceDTO:
+      required:
+        - dataSourceName
+        - type
+        - yearPublished
       type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dataSourceName:
+          type: string
+          example: Fake Rating
+        type:
+          type: string
+          example: Custom
+          enum:
+            - Global
+            - Custom
+            - Company
+        yearPublished:
+          type: integer
+          format: int32
+          example: 2021
+        fileName:
+          type: string
+          example: Test Company Rating
   securitySchemes:
     bearerAuth:
       bearerFormat: JWT

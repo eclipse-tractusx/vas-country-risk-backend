@@ -28,9 +28,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.valueaddedservice.dto.BusinessPartnerDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DataSourceDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.InputSharingBusinessPartnerDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.InputSharingDataSourceDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import org.eclipse.tractusx.valueaddedservice.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +74,8 @@ public class SharingResource {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ratings of inserted custom year retrieved with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @GetMapping("/sharing/getAllRatingsScoresForEachBpn")
-    public ResponseEntity<List<ShareDTO>> getAllRatingsScoresForEachBpn(@NotNull @Parameter(name = "datasource[]", description = "", required = true) @Valid @RequestParam(value = "datasource[]", required = true) List<DataSourceDTO> datasource,
-                                                                        @NotNull @Parameter(name = "bpns[]", description = "", required = true) @Valid @RequestParam(value = "bpns[]", required = true) List<BusinessPartnerDTO> businessPartnerDTOS,
+    public ResponseEntity<List<ShareDTO>> getAllRatingsScoresForEachBpn(@NotNull @Parameter(name = "datasource[]", description = "", required = true) @Valid @RequestParam(value = "datasource[]", required = true) List<InputSharingDataSourceDTO> datasource,
+                                                                        @NotNull @Parameter(name = "bpns[]", description = "", required = true) @Valid @RequestParam(value = "bpns[]", required = true) List<InputSharingBusinessPartnerDTO> businessPartnerDTOS,
                                                                         CompanyUserDTO companyUserDTO) {
         log.debug( "REST request to retrieve Mapped ratings to the Business Partners based on inserted year, Company User, Ratings, BPN");
         List<ShareDTO> shareDTOS;
