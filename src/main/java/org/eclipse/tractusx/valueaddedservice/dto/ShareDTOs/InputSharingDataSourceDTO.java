@@ -19,29 +19,49 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import org.eclipse.tractusx.valueaddedservice.domain.Region;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.eclipse.tractusx.valueaddedservice.domain.DataSource;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
 /**
- * A DTO for the {@link Region} entity.
+ * A DTO for the {@link DataSource} entity.
  */
 @Setter
 @Getter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
-public class ShareRatingDTO implements Serializable {
+@JsonIgnoreProperties("companyUser")
+public class InputSharingDataSourceDTO implements Serializable {
 
     @Schema(example = "Fake Rating")
-    private String dataSourceName = "";
-
-    @Schema(example = "100")
-    private Float score = 0F;
+    @NotNull
+    private String dataSourceName;
 
     @Schema(example = "2021")
+    @NotNull
     private Integer yearPublished;
 
+    public InputSharingDataSourceDTO(String json) {
+
+        try {
+            InputSharingDataSourceDTO dataSourceDTO = new ObjectMapper()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readValue(json, InputSharingDataSourceDTO.class);
+            this.dataSourceName = dataSourceDTO.getDataSourceName();
+            this.yearPublished = dataSourceDTO.getYearPublished();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

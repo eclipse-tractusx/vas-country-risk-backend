@@ -19,6 +19,7 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -33,6 +34,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ShareDTO implements Serializable {
 
+    @JsonIgnore
     private Long id;
 
     @Schema(example = "BPN-NUMBER")

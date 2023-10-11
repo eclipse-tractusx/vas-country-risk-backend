@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.config.ApplicationVariables;
 import org.eclipse.tractusx.valueaddedservice.domain.DataSource;
 import org.eclipse.tractusx.valueaddedservice.dto.*;
+import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.InputSharingBusinessPartnerDTO;
+import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.InputSharingDataSourceDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs.ShareDTO;
 import org.eclipse.tractusx.valueaddedservice.service.logic.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +178,7 @@ public class DashboardService {
         return dataSourceDTOList;
     }
 
-    public List<ShareDTO> findRatingsScoresForEachBpn(List<DataSourceDTO> datasource, List<BusinessPartnerDTO> businessPartner, CompanyUserDTO companyUser) {
+    public List<ShareDTO> findRatingsScoresForEachBpn(@NotNull @Valid List<InputSharingDataSourceDTO> datasource, @NotNull @Valid List<InputSharingBusinessPartnerDTO> businessPartner, CompanyUserDTO companyUser) {
         return shareLogicService.findRatingsScoresForEachBpn(datasource, businessPartner ,companyUser,applicationVariables.getToken(),
                 applicationVariables.getAuthPropertiesDTO().getRoles(applicationVariables.getAuthPropertiesDTO().getClientResource()));
     }

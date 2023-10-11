@@ -154,6 +154,7 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/RangeDTO'
+              maxItems: 3
         required: true
       responses:
         '200':
@@ -227,6 +228,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DataSourceDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -246,6 +248,7 @@ paths:
             type: array
             items:
               $ref: '#/components/schemas/RatingDTO'
+            maxItems: 20
             default: []
         - name: companyUser
           in: query
@@ -268,6 +271,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DashBoardWorldMapDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -294,6 +298,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RangeDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -320,6 +325,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CompanyUserDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -347,6 +353,7 @@ paths:
                 items:
                   type: string
                   format: byte
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -367,6 +374,7 @@ paths:
             items:
               $ref: '#/components/schemas/RatingDTO'
             default: []
+            maxItems: 20
         - name: year
           in: query
           required: false
@@ -388,6 +396,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DashBoardTableDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -419,6 +428,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReportValuesDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -445,6 +455,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReportDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -471,6 +482,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CountryDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -497,6 +509,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BusinessPartnerDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -523,6 +536,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CountryDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -549,6 +563,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CompanyGatesDTO'
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -576,6 +591,7 @@ paths:
                 items:
                   type: integer
                   format: int32
+                maxItems: 20
         '401':
           description: Authentication Required
       security:
@@ -666,6 +682,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReportValuesDTO'
+          maxItems: 20
     ReportValuesDTO:
       type: object
       properties:
@@ -767,7 +784,7 @@ components:
           example: '633104'
         city:
           type: string
-          example: Covilhã
+          example: Covilha
         country:
           type: string
           example: Portugal
@@ -783,35 +800,6 @@ components:
         customer:
           type: boolean
           example: true
-    ShareDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        bpn:
-          type: string
-          example: BPN-NUMBER
-        country:
-          type: string
-          example: Portugal
-        iso2:
-          type: string
-          example: PT
-        rating:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShareRatingDTO'
-    ShareRatingDTO:
-      type: object
-      properties:
-        dataSourceName:
-          type: string
-          example: Fake Rating
-        score:
-          type: number
-          format: float
-          example: 100
     RatingDTO:
       type: object
       properties:
@@ -840,9 +828,13 @@ components:
           type: string
           example: Germany
         iso3:
+          maxLength: 2
+          minLength: 0
           type: string
           example: DEU
         iso2:
+          maxLength: 3
+          minLength: 0
           type: string
           example: DE
         continent:
@@ -890,7 +882,7 @@ components:
           example: '633104'
         city:
           type: string
-          example: Covilhã
+          example: Covilha
         country:
           type: string
           example: Portugal
@@ -933,7 +925,12 @@ components:
         authorizationCode:
           authorizationUrl: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
           tokenUrl: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+

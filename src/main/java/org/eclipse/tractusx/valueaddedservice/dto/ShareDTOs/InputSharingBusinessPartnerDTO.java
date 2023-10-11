@@ -19,29 +19,40 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.dto.ShareDTOs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.eclipse.tractusx.valueaddedservice.domain.Region;
 
 import java.io.Serializable;
 
-/**
- * A DTO for the {@link Region} entity.
- */
+
 @Setter
 @Getter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
-public class ShareRatingDTO implements Serializable {
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+public class InputSharingBusinessPartnerDTO implements Serializable {
 
-    @Schema(example = "Fake Rating")
-    private String dataSourceName = "";
+    @Schema(example = "BPN-NUMBER")
+    private String bpn;
 
-    @Schema(example = "100")
-    private Float score = 0F;
+    @Schema(example = "Portugal")
+    private String country;
 
-    @Schema(example = "2021")
-    private Integer yearPublished;
+
+    public InputSharingBusinessPartnerDTO(String json) {
+
+        try {
+            InputSharingBusinessPartnerDTO businessPartnerDTO = new ObjectMapper()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readValue(json, InputSharingBusinessPartnerDTO.class);
+            this.bpn = businessPartnerDTO.getBpn();
+            this.country = businessPartnerDTO.getCountry();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 }
