@@ -12,9 +12,9 @@ contributors. See <https://arc42.org>.
 
 # Introduction and Goals
 
-### Inital Situation from Business View
+### Initial Situation from Business View
 
-Geographical risks become more relevant in VUCA times and User from Business need an excellent solution to fulfill their requirements. VUCA meens volatile, uncertain, complex, and ambigous. In VUCA times, situations can change quickly (e.g. Ukraine war).
+Geographical risks become more relevant in VUCA times and User from Business need an excellent solution to fulfill their requirements. VUCA means volatile, uncertain, complex, and ambiguous. In VUCA times, situations can change quickly (e.g. Ukraine war).
 
 The Business challenge is to have awareness towards their business partners just in time. Be it in ongoing business or in the initiation of business. From business side the user needs to know who they are dealing with. This is especially true for business partners in a different country.
 
@@ -54,7 +54,7 @@ The benefit is to get to know your business partner or potential business partne
 
 Role/Name       | Contact                                                                                                                           | Expectations
 ----------------|-----------------------------------------------------------------------------------------------------------------------------------| -----------
-Member Company  | A company that participates in the Catena-X ecosystem (use-cases and data sharing).                                         | Participate in the overal value proposition/stream provided by Catena-X.
+Member Company  | A company that participates in the Catena-X ecosystem (use-cases and data sharing).                                         | Participate in the overall value proposition/stream provided by Catena-X.
 Company Admin   | A person that manages a single member companies integration into the dataspace on behalf of his employer.                   | Manage and monitor the proper integration and function of a member company within the Catena-X ecosystem.
 Company User    | A person that acts within the provided functionality of Catena-X on behalf of his employer (that is a member company)       | Execute various permitted tasks on behalf of a member company the user is assigned to.
 
@@ -65,7 +65,7 @@ Company User    | A person that acts within the provided functionality of Catena
 - Run anywhere: can be deployed as a docker image, e. g. on Kubernetes (platform-independent, cloud, on prem or local).
 - Modular design: core-components are loosely coupled.
 - Freedom of choice for technology components stops where UX is negatively impacted.
-  (currently under revision by the overall catena architecture roundtable)
+  (currently under revision by the overall catena architecture round table)
 - Roles & Rights Matrix: Roles & Rights Concept
 
 ## Roles Rights Management
@@ -77,12 +77,21 @@ There shall be 3 roles specific to the country risk application in the portal:
 - Company Admin User
 - Company Standard User
 
+
 ![RolesRightsManagement](../docs/Images/RolesRights.jpg)
 
+There can be two more roles for now regarding what type of User this is, and they are:
+- Customer
+- Supplier
+
+Each User can have none , one or both.
+It will determine what columns we will see on the Table.
+
+![table roles](../docs/Images/Table.png)
 
 # System Scope and Context
 
-![System Scope](../docs/Images/image2023-1-15_19-3-44.png)
+![System Scope](../docs/Images/StandardisedDataExchange.png)
 
 
 #### Example Data Sources
@@ -197,7 +206,7 @@ UI/UX             | HTML, JavaScript, CSS
 
 # Building Block View
 
-## Whitebox Overall System
+## White-box Overall System
 
 This components Diagram represents the possible actions to be done by the user when opening the dashboard.
 
@@ -268,11 +277,22 @@ For this component, it is necessary to call three different APIs. The APIs used 
 
 # Interfaces
 
-Please Check Swagger Doku
+Please Check Swagger Documentation
 https://vas-country-risk-backend.dev.demo.catena-x.net/swagger-ui/index.html#/
 
 
 ### Endpoint explanation:
+
+## Dashboard Controller
+
+![apiUpload](../docs/Images/reportUpdate.png)
+
+This endpoint is used to update the report. Let's say a user has already saved their report; when updating it, such as changing the selected range to color in different ways, just press the save symbol and the new settings will be updated.
+
+![updateReport](../docs/Images/updateReport.png)
+
+![saveChangesReport](../docs/Images/saveChangesReport.png)
+
 
 ![apiUpload](../docs/Images/image2022-10-10_13-32-5.png)
 
@@ -283,11 +303,20 @@ Example:
 
 ![csvfile](../docs/Images/image2022-10-10_15-43-52.png)
 
+![shareReport](../docs/Images/shareReport.png)
+
+This endpoint is used to share the report. Let's say a user has already saved their report; when sharing it, they can share it with users from their company who have already used the Dashboard and are available to receive the shared report.
+
+![shareReportIcon](../docs/Images/shareReportIcon.png)
+
+![shareReportIconOption](../docs/Images/shareReportIconOption.png)
+
 ![saveRanges](../docs/Images/image2022-10-10_13-31-47.png)
 
 In this endpoint, it is automatically inserted the information from the user that is accessing the tool, and it is manually inputted the three ranges currently selected by the user in the ranges component. These values are all saved using an object type. Example:
 
 ![ranges](../docs/Images/Ranges.png)
+
 
 ![saveReports](../docs/Images/image2022-12-5_12-40-53.png)
 
@@ -311,7 +340,17 @@ This endpoint retrieves a score based on selected ratings, year and current user
 
 This endpoint is used for retrieving an the current user ranges. The values retrieved are the three types of ranges (Minimum, middle and Maximum), each associated to a type of value. This values are used to populate the ranges component with the last saved ranges that the user inputted.
 
-![RangesExample](../docs/Images/image2022-10-10_14-9-44.png)
+![RangesExample](../docs/Images/ranges_example.png)
+
+
+![template](../docs/Images/getUsersFromCompany.png)
+
+In this endpoint, we can consult the users of our company. 
+Our company is automatically extracted from the authentication token, thus avoiding filters.
+It is used when we intend to share a report for example.
+
+![companyUsersResponse.png](../docs/Images/companyUsersResponse.png)
+
 
 ![template](../docs/Images/image2022-10-10_13-36-1.png)
 
@@ -335,6 +374,7 @@ This endpoint is used to retrieve reports. This endpoint receives as input field
 This endpoint is used to retrieve reports. It is used in the report component to to populate the table. This endpoint only receives as input field the current user information.
 
 ![exampleuserinfo](../docs/Images/image2022-12-5_13-31-59.png)
+This endpoint is used to retrieve all the Reports that a user can choose from.
 
 ![getcountryfilter](../docs/Images/image2022-10-10_13-43-23.png)
 
@@ -358,25 +398,6 @@ This endpoint retrieves all the countries that are associated to the Business pa
 
 This endpoint returns information from the BPDM Gate to show the User specific Business Partners
 
-![getscoresperbpn](../docs/Images/image2022-12-5_13-33-24.png)
-
-In this endpoint the User can request a Mapping of Business Partners to a specific Rating. As parameters it is needed an Rating and BPNs array and also the company of he user.
-
-![examplequery](../docs/Images/image2022-12-5_14-14-19.png)
-
-In this picture, we can see how both the Ratings and BPNs are composed. The Ratings array can contain multiple objects that have the dataSourceName and the
-
-following year. Regarding the BPNs array, it can also contain multiple objects, and each of them have the BPN name and a country of which can be given a value
-
-or no value. If the BPN has no country value, the backend will map it according to the BPN.
-
-![exampleresultmatching](../docs/Images/image2022-12-5_14-14-53.png)
-
-![getRatingsforCompany](../docs/Images/image2022-12-5_13-33-41.png)
-
-In this endpoint it is possible for the user to request Information about which Ratings are available to his Company. The information needed is solely the Company and the Year.
-
-![exampleratingsforcompany](../docs/Images/image2022-12-5_14-8-29.png)
 
 ![getyears](../docs/Images/image2022-10-10_13-44-13.png)
 
@@ -391,23 +412,49 @@ This endpoint is used to delete an report created by the user. It is used in the
 
 This endpoint is used to delete an rating created by the user. It is used in the report table in the Front-End application. It needs the id related to the rating selected and also the user information to proceed with the delete request.
 
+## Sharing Controller
+
+![scoreforEachBpn](../docs/Images/scoreforEachBpn.png)
+
+In this endpoint the User can request a Mapping of Business Partners to a specific Rating. As parameters it is needed an Rating and BPNs array and also the company of he user.
+
+![examplequery](../docs/Images/image2022-12-5_14-14-19.png)
+
+In this picture, we can see how both the Ratings and BPNs are composed. The Ratings array can contain multiple objects that have the dataSourceName and the
+
+following year. Regarding the BPNs array, it can also contain multiple objects, and each of them have the BPN name and a country of which can be given a value
+
+or no value. If the BPN has no country value, the backend will map it according to the BPN.
+
+![exampleForEachBpn](../docs/Images/exampleForEachBpn.png)
+
+
+
+![endpointAllRatingsForCompany](../docs/Images/endpointAllRatingsForCompany.png)
+
+In this endpoint it is possible for the user to request Information about which Ratings are available to his Company. The information needed is solely the Company and the Year.
+
+![exampleratingsforcompany](../docs/Images/image2022-12-5_14-8-29.png)
+
 ## How to configure the Gate Connection
 
 ### Setting up Company Cluster
 
 The first step to connect the Dashboard to a company specific "Gate" is setting up a Company Group.
 
-![addcompanygroup](../docs/Configuration-of-Gates/2023-02-24_12_45_25.png)
-
-- company_name: Inser the Name of the requesting Company
-- company_group_id: Set a numeric value counting up from the beginning 1 per company
+![addcompanygroup](../docs/Configuration-of-Gates/configofgates03.png)
 
 we create a company group for the Case that a sharing Company has multiple "Gates" to which can be connected.
+
 
 ### Setting up Company
 To be able to connect to a company specific Gate first the Company has to be inserted into the t_company table and connected to a company group:
 
-![addcompany](../docs/Configuration-of-Gates/2023-02-24_12_43_46.png)
+![addcompany](../docs/Configuration-of-Gates/configofgates02.png)
+
+- company_name: Insert the Name of the requesting Company
+- company_group_id: Set a numeric value counting up from the beginning 1 per company
+
 
 After the company has been added to the Table the next step is to set a "Gate" for this company.
 
@@ -416,7 +463,7 @@ After the company has been added to the Table the next step is to set a "Gate" f
 
 To set the "Gate" Link the Administrator has to insert the following Information into the table t_company_group_gates
 
-![addGate](../docs/Configuration-of-Gates/2023-02-24_12_41_14.png)
+![addGate](../docs/Configuration-of-Gates/configofgates01.png)
 
 - gate_name: can be given freely preferably connected to name of the company
 - company_gate_value: Direct Link to "Gate" developed by the BPDM Team
@@ -674,7 +721,7 @@ If the report would been duplicated, an Http Bad Request status would be shown, 
 
 ![updateReports](../docs/Images/image2023-1-11_9-49-15.jpg)
 
-In this endpoint, it is received as a parameter the CompanyUser and an ReportDTO that will be used to be upated. It is used to update an ReportDTO related to the CompanyUser parameter received.
+In this endpoint, it is received as a parameter the CompanyUser and an ReportDTO that will be used to be updated. It is used to update an ReportDTO related to the CompanyUser parameter received.
 
 The method 1.1.1 getOrCreate will receive the parameter CompanyUser, and will do a verification if that user is already created. If not it will create that user.
 
@@ -711,7 +758,7 @@ The method 1.1.1 getGatesForCompanyUser, it firstly done the method getCompanyBy
 After this, an List of CompanyGatesDTOS is returned in the main class (DashBoardResouce).
 
 
-#### Endpoint: /dashboard/getAllRatingsForCompany
+#### Endpoint: /sharing/getAllRatingsForCompany
 
 ![getAllRatingsforCompany](../docs/Images/image2023-1-11_9-58-31.jpg)
 
@@ -724,7 +771,7 @@ After that, the method 1.1.1.2 findByYearPublishedAndCompanyUserCompanyNameAndTy
 After this, both lists are join onto one and returned in the main class as an List of DataSourceDTO.
 
 
-#### Endpoint: /dashboard/getAllRatingsScoresForEachBpn
+#### Endpoint: /sharing/getAllRatingsScoresForEachBpn
 
 ![getRatingsScore](../docs/Images/image2023-1-11_9-58-28.jpg)
 
