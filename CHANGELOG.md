@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixes
 - Fix bug on sharing endpoint authorization
+- Fix health check for trivy scan on docker image
+- Fix vulnerability find on spring security core 6.1.1
 
 ## [1.2.0] - 2023-10-10
 
