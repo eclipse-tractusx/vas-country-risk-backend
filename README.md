@@ -129,3 +129,21 @@ and follows the mainly used project structure in most Spring Boot projects.
 ## API sample endpoints
 
 * Swagger UI: `http://localhost:8080/swagger-ui/index.html#/`
+
+
+## Notice for Docker image
+
+This application provides container images for demonstration purposes.
+
+DockerHub: https://hub.docker.com/u/tractusx/vas-country-risk-backend
+
+Base image: eclipse-temurin:17-jre-alpine
+
+- Dockerfile: [nginxinc/nginx-unprivileged:alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
+- GitHub project: [https://github.com/nginxinc/docker-nginx-unprivileged](https://github.com/nginxinc/docker-nginx-unprivileged)
+- DockerHub: [https://hub.docker.com/r/nginxinc/nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged)
+
+## License
+
+Distributed under the Apache 2.0 License.
+See [LICENSE](./LICENSE) for more information.
