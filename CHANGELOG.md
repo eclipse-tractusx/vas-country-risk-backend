@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-
 ## [1.2.1] - tbr
 
 ### Changed
@@ -18,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix bug on sharing endpoint authorization
 - Fix health check for trivy scan on docker image
 - Fix vulnerability find on spring security core 6.1.1
+
+### Added
+- Added docker registry workflow
+- Added dockerhub notice.md
+- Added docker notice.md to readme.md
 
 ## [1.2.0] - 2023-10-10
 
