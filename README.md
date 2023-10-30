@@ -133,15 +133,9 @@ and follows the mainly used project structure in most Spring Boot projects.
 
 ## Notice for Docker image
 
-This application provides container images for demonstration purposes.
+Bellow you can find the information regarding docker notice md for this application.
 
-DockerHub: https://hub.docker.com/u/tractusx/vas-country-risk-backend
-
-Base image: eclipse-temurin:17-jre-alpine
-
-- Dockerfile: [nginxinc/nginx-unprivileged:alpine](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template)
-- GitHub project: [https://github.com/nginxinc/docker-nginx-unprivileged](https://github.com/nginxinc/docker-nginx-unprivileged)
-- DockerHub: [https://hub.docker.com/r/nginxinc/nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged)
+* [Vas Country Risk Backend](./DOCKER_NOTICE.md)
 
 ## License
 

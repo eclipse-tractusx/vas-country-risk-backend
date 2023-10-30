@@ -1,18 +1,15 @@
 ## Notice for Docker image
 
-DockerHub: [https://hub.docker.com/u/tractusx](https://hub.docker.com/r/tractusx)
+DockerHub: [https://hub.docker.com/r/tractusx/vas-country-risk-backend](https://hub.docker.com/u/tractusx/vas-country-risk-backend)
 
 Eclipse Tractus-X product(s) installed within the image:
 
 **VAS Country Risk Backend**
 
-Eclipse Tractus-X product(s) installed within the image:
-
 - GitHub: https://github.com/eclipse-tractusx/vas-country-risk-backend 
 - Project home: https://projects.eclipse.org/projects/automotive.tractusx
-- Pool Dockerfile: https://github.com/eclipse-tractusx/vas-country-risk-backend/blob/main/Dockerfile
+- Dockerfile: https://github.com/eclipse-tractusx/vas-country-risk-backend/blob/main/Dockerfile
 - Project license: [Apache License, Version 2.0](https://github.com/eclipse-tractusx/vas-country-risk-backend/blob/main/LICENSE)
-
 
 **Used base image**
 
