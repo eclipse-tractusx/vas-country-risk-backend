@@ -28,7 +28,7 @@
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
     <artifactId>value-added-service</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <name>vas-country-risk-backend</name>
     <description>Project to Validate Country Risks Score</description>
     <properties>
@@ -53,7 +53,7 @@
         </sonar1.coverage.exclusions>
         <jacoco.version>0.8.7</jacoco.version>
         <org.owasp.esapi>2.5.2.0</org.owasp.esapi>
-        <spring-boot-starter-oauth2>3.1.1</spring-boot-starter-oauth2>
+        <spring-boot-starter-oauth2>3.1.5</spring-boot-starter-oauth2>
         <spring-security-web-version>6.1.1</spring-security-web-version>
         <postgresql-version>42.6.0</postgresql-version>
         <jackson-databind>2.13.4.2</jackson-databind>
@@ -69,6 +69,7 @@
         <testcontainers.version>1.18.3</testcontainers.version>
         <spring-expression-version>6.0.8</spring-expression-version>
         <spring-core-version>6.0.8</spring-core-version>
+        <spring-security-core-version>6.1.5</spring-security-core-version>
         <springdoc-openapi-starter-webmvc-ui>2.1.0</springdoc-openapi-starter-webmvc-ui>
     </properties>
 
@@ -113,6 +114,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <version>${spring-core-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security-core-version}</version>
             </dependency>
         </dependencies>
 

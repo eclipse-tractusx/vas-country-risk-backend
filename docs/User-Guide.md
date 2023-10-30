@@ -7,14 +7,14 @@ In this Section we are describing how you can gain Access to the Dashboard
 2.	Your Company needs to setup everything for the Connection with our Application: This can be found with the BPDM 'Create a Gate'  
       And needs to be subscribed to the service
 
-![Portal](../docs/User-Guide-Images/image2023-1-16_10-55-20.png)
+![Portal](../docs/User-Guide-Images/add_app.png)
 
 3. Your Accounts needs to have one of the two Roles currently available
 
-![App](../docs/User-Guide-Images/image2023-1-16_10-54-3.png)
+![App](../docs/User-Guide-Images/main_page.png)
 
 
-After the Previous steps are finished the way to the Dashboar dis very simple:
+After the Previous steps are finished the way to the Dashboard is very simple:
 
 1. Go to the Catena-X Portal
 2. Open your Applications
@@ -24,9 +24,9 @@ After the Previous steps are finished the way to the Dashboar dis very simple:
 
 ![Login](../docs/User-Guide-Images/image2023-1-16_11-0-2.png)
 
-Choose the Login Option you want and is setup.
+Choose the Login Option you want and its setup.
 
-![Input](../docs/User-Guide-Images/image2023-1-16_11-1-17.png)
+![Input](../docs/User-Guide-Images/login_board.png)
 
 5. After the Login you will be directed to the Dashboard
 
@@ -56,17 +56,17 @@ Currently all Globally available Ratings are Open Source. We do not create Score
 
 ![RatingTable](../docs/User-Guide-Images/RatingSelection.png)
 
-Next to the Year Selection you will find the the Gate selection. This selection will be done for you atuomatically on the first start-up of the Dashbaord.
+Next to the Year Selection you will find the Gate selection. This selection will be done for you atuomatically on the first start-up of the Dashbaord.
 
 ![Gateselect](../docs/User-Guide-Images/GateSelection.png)
 
-The Gate gives the Input on which Business Partners you will be able see in all components.  
+The Gate gives the Input on which Business Partners you will be able to see in all components.  
 Thereafter you can select one or multiple Ratings in the Table.
 
 ![Ratingselected](../docs/User-Guide-Images/RatingSelected.png)
 
-If you want to select more Ratings at once you can Opena Pop-Up with the 'Show Ratings' Button  
-In this Table you can manipulate the same way oyu can in the smaller Table.
+If you want to select more Ratings at once you can Open a Pop-Up with the 'Show Ratings' Button  
+In this Table you can manipulate the same way you can in the smaller Table.
 
 ![Popupselection](../docs/User-Guide-Images/RatingListPopUp.png)
 
@@ -87,8 +87,8 @@ The Rules for the weighting are:
 ![weighting](../docs/User-Guide-Images/WeightingOverlap.png)
 
 2. automatic weighting overwrites upon selecting new Raings
-3. when changing you need to confiem value by pressing "enter"
-   Changing the Weighting changes the Scores given in the Table below. How the Scores are calculated is this desbrided there.
+3. when changing you need to confirm value by pressing "enter"
+   Changing the Weighting changes the Scores given in the Table below. How the Scores are calculated is described there.
 
 
 ### How can i Upload my own Rating and what do i need to know.
@@ -100,13 +100,13 @@ The First step is to Download the Template. This is important since this is the 
 ![excellist](../docs/User-Guide-Images/image2023-1-16_11-44-50.png)
 
 After filling out the Column E please save the File. The name is not important since the Name is set when the Rating is Uploaded.  
-After creating your own Rating all you have to Upload the File you start with clicking on 'Upload Rating'
+After creating your own Rating all you have to do is Upload the File, you can start with clicking on 'Upload Rating'
 
 Then this Pop-Up is shown:
 
 ![popupupload](../docs/User-Guide-Images/RatingUpload.png)
 
-You then have the Option to select who can see thiws Rating after Uploading.  
+You then have the Option to select who can see this Rating after Uploading.  
 You have the Option between 'Only For me' or 'For the Company'. The secon Option is grayed out if you dont have administration rights.  
 After selecting the Target group you can select the year for which this Rating is relevant for.  
 Below the year selection you can Give a Name to the Rating. A Rating Name can only be given once.  
@@ -143,7 +143,7 @@ The Map shows an interactive Map of the World for the User
 
 - Upon zooming in the User can see Markers in countries.
   Those markers show the Location of the available Business Partners
-  Hovering over the Marker reveils the Company Name in that Location
+  Hovering over the Marker reveals the Company Name in that Location
 
 ![hoveringmarker](../docs/User-Guide-Images/WorldMapMarker.png)
 
@@ -166,7 +166,7 @@ The Map shows an interactive Map of the World for the User
 The Company View shows a Map of the World.
 
 The Map is similar to the World Map.  
-In this Map the User can also zoom in to reveil more Information:
+In this Map the User can also zoom in to reveal more Information:
 
 ![zoommap](../docs/User-Guide-Images/CompanyView.png)
 
@@ -175,14 +175,14 @@ The User can also hover over one Country at a time.
 ![hovercountrymap](../docs/User-Guide-Images/CompanyViewHover.png)
 
 In the Company view we not only show the Name of the Country we also show how many Business Partners which are available to you are located in this country.  
-We also show the Score in the Hover since the COuntries are not being colored when a Rating is selected.
+We also show the Score in the Hover since the Countries are not being colored when a Rating is selected.
 
 New in this View is the Option to Filter for a country
 
 ![searchcountry](../docs/User-Guide-Images/CompanyViewFiltered.png)
 
 After selecting a country the Map zooms to the country and shows the Markers for each Business Partner in this Country.  
-Also the Table below both Maps is filtered for the selected country.
+Also the Table below is filtered for the selected country.
 
 ![tablesearched](../docs/User-Guide-Images/TableFiltered.png)
 
@@ -191,7 +191,7 @@ The functionalities remain in the expanded Mode.
 
 ![expandcountrymap](../docs/User-Guide-Images/CompanyViewExpand.png)
 
-![expandedcountrymap](../docs/User-Guide-Images/CompanyViewExpanded.png)
+![expandedcountrymap](../docs/User-Guide-Images/ComapnyViewExpanded.png)
 
 After Expanding the Map the User can see the Option to Export the Image.  
 Upon clicking on the Button a PNG is created and downloaded. The File is named "BusinessPartnerMap.png"
@@ -211,16 +211,18 @@ Functionalities:
 - Export of Table as a CSV File (depending on the selected Business partners)
 
 
-In the Table we show 9 Columns:
+In the Table we show 7 Columns:
 
 - Business Partner Number
 - Legal Name
-- Street
-- House Number
-- Zip-Code
-- City Country
+- Country
+- City
 - Score
 - Ratings (In the Rating Column we then show the selected Ratings.)
+
+In the Table you can also have 2 more columns dependent of the roles you have:
+- Customer
+- Supplier
 
 
 Upon starting the Application we are setting up a connection to the Gate your Company has setup and you are allowed to access.  
