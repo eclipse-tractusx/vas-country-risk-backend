@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
@@ -38,7 +38,7 @@
         <org.projectlombok.version>1.18.28</org.projectlombok.version>
         <liquibase.version>4.23.0</liquibase.version>
         <liquibase-hibernate5.version>4.22.0</liquibase-hibernate5.version>
-        <spring-boot.version>3.1.2</spring-boot.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
         <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
         <org.springdoc.springdoc-openapi-ui>2.1.0</org.springdoc.springdoc-openapi-ui>
         <org.springframework.cloud>4.0.3</org.springframework.cloud>

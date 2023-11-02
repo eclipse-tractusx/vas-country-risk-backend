@@ -12,11 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Changed arq42 documentation to be updated to current application
+- Update Dependencies md file
 
 ### Fixes
 - Fix bug on sharing endpoint authorization
 - Fix health check for trivy scan on docker image
 - Fix vulnerability find on spring security core 6.1.1
+- Fix vulnerability find on spring web flux 3.1.2
 
 ### Added
 - Added docker registry workflow
