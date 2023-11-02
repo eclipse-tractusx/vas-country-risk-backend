@@ -294,7 +294,7 @@ public class DashBoardResource {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "Update Reports that")
+    @Operation(summary = "Update Reports")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Reports updated with success"),
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @PutMapping("/dashboard/updateReports")

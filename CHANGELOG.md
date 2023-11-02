@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [1.2.1] - tbr
+## [1.2.1] - [Unreleased]
 
 ### Changed
 - Changed arq42 documentation to be updated to current application

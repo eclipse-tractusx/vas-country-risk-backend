@@ -287,7 +287,7 @@ https://vas-country-risk-backend.dev.demo.catena-x.net/swagger-ui/index.html#/
 
 ![apiUpload](../docs/Images/reportUpdate.png)
 
-This endpoint is used to update the report. Let's say a user has already saved their report; when updating it, such as changing the selected range to color in different ways, just press the save symbol and the new settings will be updated.
+This endpoint is used to update the report. An example in the dashboard is when a user updates a report such as changing the selected rating ranges to change the rating colour ranges, the user can press the save reports button and the new settings will be updated.
 
 ![updateReport](../docs/Images/updateReport.png)
 
@@ -296,7 +296,8 @@ This endpoint is used to update the report. Let's say a user has already saved t
 
 ![apiUpload](../docs/Images/image2022-10-10_13-32-5.png)
 
-In this endpoint, it is automatically inserted the information from the user that is accessing the tool, and it needs a manually inserted name and also an CSV file that can be retrieved in the download template in the tool. After this it is created a new registry with the information inside of the inserted CSV file onto the database. As parameters it requires the rating name, year, and type (Global, Company or Custom).
+This endpoint automatically inserts the information from the current user. The uploaded file needs to be in the format of the template which may be downloaded, with the file name being manually set. After upload, the data in the file is available to be utilised by the user in the application. Required parameters are rating name, rating year, and type (Global, Company or Custom).
+
 Example:
 
 ![csvselector](../docs/Images/SaveRating.png)
@@ -305,7 +306,8 @@ Example:
 
 ![shareReport](../docs/Images/shareReport.png)
 
-This endpoint is used to share the report. Let's say a user has already saved their report; when sharing it, they can share it with users from their company who have already used the Dashboard and are available to receive the shared report.
+This endpoint is used to share the ratings report. 
+When a user has already saved their report and would like to share it, the user can share the report with other users from their company who have the required permissions to the Country Risk Dashboard.
 
 ![shareReportIcon](../docs/Images/shareReportIcon.png)
 
@@ -345,9 +347,9 @@ This endpoint is used for retrieving an the current user ranges. The values retr
 
 ![template](../docs/Images/getUsersFromCompany.png)
 
-In this endpoint, we can consult the users of our company. 
-Our company is automatically extracted from the authentication token, thus avoiding filters.
-It is used when we intend to share a report for example.
+This endpoint allows the retrieval of users from the user's company. 
+The company is automatically extracted from the authentication token, thus avoiding filters. 
+It is used when a report is to be shared for example.
 
 ![companyUsersResponse.png](../docs/Images/companyUsersResponse.png)
 
