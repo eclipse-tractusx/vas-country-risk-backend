@@ -133,7 +133,7 @@ and follows the mainly used project structure in most Spring Boot projects.
 
 ## Notice for Docker image
 
-Bellow you can find the information regarding docker notice md for this application.
+Bellow you can find the information regarding Docker Notice for this application.
 
 * [Vas Country Risk Backend](./DOCKER_NOTICE.md)
 
