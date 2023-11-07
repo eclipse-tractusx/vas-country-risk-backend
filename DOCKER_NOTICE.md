@@ -1,6 +1,6 @@
 ## Notice for Docker image
 
-DockerHub: [https://hub.docker.com/r/tractusx/vas-country-risk-backend](https://hub.docker.com/u/tractusx/vas-country-risk-backend)
+DockerHub: [https://hub.docker.com/r/tractusx/vas-country-risk-backend](https://hub.docker.com/r/tractusx/vas-country-risk-backend)
 
 Eclipse Tractus-X product(s) installed within the image:
 
