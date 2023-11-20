@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix health check for trivy scan on docker image
 - Fix vulnerability find on spring security core 6.1.1
 - Fix vulnerability find on spring web flux 3.1.2
+- Fix vulnerability with exclusion of bouncycastle lib on spring security
+- Fix vulnerability find on owasp antisamy 1.7.3
 
 ### Added
 - Added docker registry workflow

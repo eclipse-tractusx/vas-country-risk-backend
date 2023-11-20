@@ -24,12 +24,12 @@ You can find the leading repository with all deploy and info on [value added ser
 ## Container images
 
 This application provides container images for demonstration purposes.
-The base image used, to build this demo application image is `eclipse-temurin:17-jre-alpine`
+The base image used, to build this demo application image is `eclipse-temurin:21-jre-alpine`
 
 Docker Hub:
 
 * [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
-* [17-jre-alpine](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-02c04793fa49ad5cd193c961403223755f9209a67894622e05438598b32f210e?context=explore)
+* [21-jre-alpine](https://hub.docker.com/layers/library/eclipse-temurin/21-jre-alpine/images/sha256-02c04793fa49ad5cd193c961403223755f9209a67894622e05438598b32f210e?context=explore)
 
 Source:
 
