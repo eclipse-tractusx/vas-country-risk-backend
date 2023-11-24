@@ -51,7 +51,7 @@ Source:
 
 ### Prerequisites
 
-* JDK 17
+* JDK 17 ( or Higher)
 * Maven 'Spring Boot is compatible with Apache Maven 3.5 or above'
 
 ### Profile Configurations
@@ -74,19 +74,11 @@ The project can be run locally with the following command: `mvn clean spring-boo
 
 ### Database Connection Configuration
 
-The project is mainly configured to use Postgres as a Database. For this, you need to open an terminal in the project main  
+The project is mainly configured to use Postgres as a Database. For this, you need to open a terminal in the project main  
 directory and run the following command `docker compose up`. This will mount the database using the docker compose file
 in the project. The connection configurations for this database are in the application-local.yml.
 
-This project also can be run using liquibase. For this it is needed to uncoment the commented lines in the application-local.yml.
-When you run the project, this database will create multiple test data for usage and the data will persist when the project is closed.
-You can delete all the data andre-create the database by simply doing the following command `mvn clean install` and run the program again with the
-earlier presented command `mvn clean spring-boot:run -Dspring.profiles.active=local`. To access the UI for the database,
-use the following URL: http://localhost:8080/h2-console/login.jsp
-
-Also, it is possible to use Postgres as a Database. To do this, the postgres configuration in the application-local.yml
-needs to be uncommented, and the username, URL and password should be changed according the installed postgres DB. Also,
-the liquibase configuration in the same yml should be commented.
+See [Installation guide](https://github.com/eclipse-tractusx/vas-country-risk-backend/blob/main/INSTALL.md)
 
 ## Project Structure
 
@@ -120,11 +112,6 @@ and follows the mainly used project structure in most Spring Boot projects.
                        └───web
                            └───rest
 ```
-
-## API sample endpoints
-
-* Swagger UI: `http://localhost:8080/swagger-ui/index.html#/`
-
 
 ## API sample endpoints
 
