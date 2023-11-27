@@ -22,7 +22,7 @@ FROM maven:3.8-openjdk-18 as maven
 
 COPY ./pom.xml /pom.xml
 COPY ./src ./src
-COPY LICENSE NOTICE.md DEPENDENCIES SECURITY.md /app
+COPY LICENSE NOTICE.md DEPENDENCIES SECURITY.md /app/
 
 RUN mvn clean package -DskipTests
 
