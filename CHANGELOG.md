@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [1.2.1] - [Unreleased]
+## [1.2.1] - 2023-11-27
 
 ### Changed
 - Changed arq42 documentation to be updated to current application
@@ -66,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Removed Helm Charts folder and sub folders content, helms can be found on leading repository described on Readme.md 
+- Removed Helm Charts folder and sub folders content, helms can be found on leading repository described on Readme.md
 
 
 ## [1.1.0] -  2023-04-20
@@ -82,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixes
 
 - Upgrade version of spring-expression to 6.0.8
-- Upgrade version to fix snake yaml vulnerability 
+- Upgrade version to fix snake yaml vulnerability
 - Upgrade Commons upload lib version to fix vulnerability
 - Fix Bug for Sonar Long conversion from long native
 - Readme updated with new Helm Chart leading repository information
@@ -101,11 +101,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix image that veracode is validating
 - Fix Header on charts to be validated with Company group
 
-### Changed 
+### Changed
 - Change structure of folders on README.md
 - Change Helm chart README.md on current version released
 
-### Removed 
+### Removed
 - Dockerfile removing the same EXPOSE block
 
 ## [1.0.3] -  2023-02-20
@@ -132,5 +132,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- First Release 
+- First Release
 
