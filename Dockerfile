@@ -42,6 +42,7 @@ WORKDIR /app
 
 COPY --chown=${UID}:${GID} --from=maven target/value-added-service-*.jar app.jar
 
+RUN apk update && apk upgrade --no-cache libssl3 libcrypto3
 
 USER ${UID}:${GID}
 
