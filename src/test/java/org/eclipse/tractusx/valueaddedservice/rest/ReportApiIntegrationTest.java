@@ -38,6 +38,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
@@ -56,7 +58,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class ReportApiIntegrationTest {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    TestRestTemplate testRestTemplate;
+    @Autowired
+    private WebTestClient webTestClient;
 
     @Autowired
     ReportRepository reportRepository;
@@ -597,7 +601,7 @@ class ReportApiIntegrationTest {
     }
 
     @Test
-    void saveReportsAndUpdateUnautorized () throws Exception {
+    void saveReportsAndUpdateUnauthorized() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
@@ -635,16 +639,21 @@ class ReportApiIntegrationTest {
 
         companyUserRepository.save(companyUser);
 
-        UriTemplate uriTemplateUpdate = new UriTemplate("/api/dashboard/updateReports?name={name}&companyName={companyName}&email={email}");
-        map.put("name","Not John");
-        map.put("email","Terry@email.com");
-        URI uriUpdate = uriTemplateUpdate.expand(map);
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromPath("/api/dashboard/updateReports")
+                .queryParam("name", "Not John") // Do not encode "Not John"
+                .queryParam("companyName", "TestCompany") // Do not encode "TestCompany"
+                .queryParam("email", "Terry@email.com"); // Do not encode "Terry@email.com"
 
-        RequestEntity request = new RequestEntity(reportDTOSize.get(0),headers,HttpMethod.PUT,uriUpdate);
+        String url = builder.build(false).toUriString();
 
-        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        webTestClient.put()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(reportDTOSize.get(0))
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.UNAUTHORIZED);
 
-        assertEquals(HttpStatus.UNAUTHORIZED,responseEntityDelete.getStatusCode());
 
     }
 

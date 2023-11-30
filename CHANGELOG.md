@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+
+
+## [1.2.2] - 2023-11-30
+
+### Removed
+- Removed org.owasp.esapi lib 
+
+### Changed
+- Change Unit Test from testRestTemplate to webTestClient since testRestTemplate does not handle UNAUTHORIZED errors
+
 ## [1.2.1] - 2023-11-27
 
 ### Changed
