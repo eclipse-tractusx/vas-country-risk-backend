@@ -8,7 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+## [1.2.3] - 2023-11-30
 
+### Fixes
+- Fix vulnerability on ch.qos.logback lib to 1.14.13
 
 ## [1.2.2] - 2023-11-30
 
