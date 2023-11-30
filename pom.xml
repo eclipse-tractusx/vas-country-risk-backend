@@ -28,7 +28,7 @@
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
     <artifactId>value-added-service</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.3</version>
     <name>vas-country-risk-backend</name>
     <description>Project to Validate Country Risks Score</description>
     <properties>
@@ -72,6 +72,7 @@
         <springdoc-openapi-starter-webmvc-ui>2.1.0</springdoc-openapi-starter-webmvc-ui>
         <org.owasp.antisamy>1.7.4</org.owasp.antisamy>
         <io.projectreactor.netty>1.1.13</io.projectreactor.netty>
+        <ch.qos.logback>1.4.13</ch.qos.logback>
     </properties>
 
     <pluginRepositories>
@@ -130,6 +131,16 @@
                 <groupId>io.projectreactor.netty</groupId>
                 <artifactId>reactor-netty-http</artifactId>
                 <version>${io.projectreactor.netty}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${ch.qos.logback}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${ch.qos.logback}</version>
             </dependency>
         </dependencies>
 
