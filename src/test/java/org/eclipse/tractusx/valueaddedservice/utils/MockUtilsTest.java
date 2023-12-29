@@ -53,6 +53,7 @@ public class MockUtilsTest {
         ConfigServerMock.mocKConnectionToBpdmGateSite(wireMockServer);
         ConfigServerMock.mocKConnectionToExternalBpnApi(wireMockServer, list);
         ConfigServerMock.mocKConnectionToExternalBpnApiError(wireMockServer);
+        ConfigServerMock.mocKConnectionToBpdmGateGeneric(wireMockServer);
     }
 
 }

@@ -73,7 +73,7 @@ public class ConfigServerMock {
 
     public static void mocKConnectionToBpdmGateAddresses(WireMockServer mockServer) throws JsonProcessingException {
 
-        mockServer.stubFor(post("/companies/test-company/api/catena/output/addresses/search")
+        mockServer.stubFor(post("/pool/api/catena/addresses/search")
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", APPLICATION_JSON_VALUE)
@@ -84,73 +84,41 @@ public class ConfigServerMock {
                                 "    \"contentSize\": 1,\n" +
                                 "    \"content\": [\n" +
                                 "        {\n" +
-                                "            \"nameParts\": [\n" +
-                                "                \"WESTERN_LATIN_STANDARD\"\n" +
-                                "            ],\n" +
-                                "            \"states\": [\n" +
-                                "                {\n" +
-                                "                    \"description\": \"WESTERN_LATIN_STANDARD\",\n" +
-                                "                    \"validFrom\": \"2020-12-16T05:54:48.942\",\n" +
-                                "                    \"validTo\": \"2023-06-05T07:31:01.213\",\n" +
-                                "                    \"type\": \"ACTIVE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
-                                "            \"identifiers\": [\n" +
-                                "                {\n" +
-                                "                    \"value\": \"12345678910\",\n" +
-                                "                    \"type\": \"CUSTOM_ID_ADD_TYPE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
+                                "            \"bpna\": \"BPNA000000006X3N\",\n" +
+                                "            \"name\": \"E2E Tests 1223 Generic Endpoint Company 1\",\n" +
+                                "            \"states\": [],\n" +
+                                "            \"identifiers\": [],\n" +
                                 "            \"physicalPostalAddress\": {\n" +
-                                "                \"geographicCoordinates\": {\n" +
-                                "                    \"longitude\": 0.0,\n" +
-                                "                    \"latitude\": 0.0,\n" +
-                                "                    \"altitude\": 0.0\n" +
+                                "                \"geographicCoordinates\": null,\n" +
+                                "                \"country\": {\n" +
+                                "                    \"technicalKey\": \"DE\",\n" +
+                                "                    \"name\": \"Germany\"\n" +
                                 "                },\n" +
-                                "                \"country\": \"DE\",\n" +
-                                "                \"administrativeAreaLevel1\": \"Baden-Wuerttemberg\",\n" +
-                                "                \"administrativeAreaLevel2\": \"test1\",\n" +
-                                "                \"administrativeAreaLevel3\": \"test2\",\n" +
+                                "                \"administrativeAreaLevel1\": null,\n" +
+                                "                \"administrativeAreaLevel2\": null,\n" +
+                                "                \"administrativeAreaLevel3\": null,\n" +
                                 "                \"postalCode\": \"70546\",\n" +
                                 "                \"city\": \"Stuttgart\",\n" +
-                                "                \"district\": \"Stuttgart\",\n" +
+                                "                \"district\": null,\n" +
                                 "                \"street\": {\n" +
-                                "                    \"namePrefix\": \"test prefix\",\n" +
-                                "                    \"additionalNamePrefix\": \"test1\",\n" +
                                 "                    \"name\": \"Stuttgarter Strasse\",\n" +
-                                "                    \"nameSuffix\": \"test\",\n" +
-                                "                    \"additionalNameSuffix\": \"test2\",\n" +
                                 "                    \"houseNumber\": \"1\",\n" +
-                                "                    \"milestone\": \"Stuttgarter Strasse 1\",\n" +
-                                "                    \"direction\": \"Stuttgarter Str.\"\n" +
+                                "                    \"milestone\": null,\n" +
+                                "                    \"direction\": null\n" +
                                 "                },\n" +
-                                "                \"companyPostalCode\": \"GM01\",\n" +
-                                "                \"industrialZone\": \"HEADQUARTER\",\n" +
-                                "                \"building\": \"Building A\",\n" +
-                                "                \"floor\": \"A\",\n" +
-                                "                \"door\": \"test\"\n" +
+                                "                \"companyPostalCode\": null,\n" +
+                                "                \"industrialZone\": null,\n" +
+                                "                \"building\": null,\n" +
+                                "                \"floor\": null,\n" +
+                                "                \"door\": null\n" +
                                 "            },\n" +
-                                "            \"alternativePostalAddress\": {\n" +
-                                "                \"geographicCoordinates\": {\n" +
-                                "                    \"longitude\": 0.0,\n" +
-                                "                    \"latitude\": 0.0,\n" +
-                                "                    \"altitude\": 0.0\n" +
-                                "                },\n" +
-                                "                \"country\": \"DE\",\n" +
-                                "                \"administrativeAreaLevel1\": \"Baden-Wuerttemberg 1\",\n" +
-                                "                \"postalCode\": \"1234\",\n" +
-                                "                \"city\": \"Stuttgart 1\",\n" +
-                                "                \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                \"deliveryServiceQualifier\": \"test\",\n" +
-                                "                \"deliveryServiceNumber\": \"1234\"\n" +
-                                "            },\n" +
-                                "            \"roles\": [\n" +
-                                "                \"SUPPLIER\"\n" +
-                                "            ],\n" +
-                                "            \"externalId\": \"12044444_legalAddress\",\n" +
-                                "            \"legalEntityExternalId\": \"12044444\",\n" +
-                                "            \"siteExternalId\": null,\n" +
-                                "            \"bpna\": \"BPNL0000000001YN\"\n" +
+                                "            \"alternativePostalAddress\": null,\n" +
+                                "            \"bpnLegalEntity\": null,\n" +
+                                "            \"isLegalAddress\": false,\n" +
+                                "            \"bpnSite\": \"BPNS0000000001YN\",\n" +
+                                "            \"isMainAddress\": true,\n" +
+                                "            \"createdAt\": \"2023-11-14T18:16:30.076772Z\",\n" +
+                                "            \"updatedAt\": \"2023-11-14T18:16:30.080344Z\"\n" +
                                 "        }\n" +
                                 "    ]\n" +
                                 "}")));
@@ -158,7 +126,7 @@ public class ConfigServerMock {
 
     public static void mocKConnectionToBpdmGateSite(WireMockServer mockServer) throws JsonProcessingException {
 
-        mockServer.stubFor(post("/companies/test-company/api/catena/output/sites/search")
+        mockServer.stubFor(post("/pool/api/catena/sites/search")
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", APPLICATION_JSON_VALUE)
@@ -169,92 +137,49 @@ public class ConfigServerMock {
                                 "    \"contentSize\": 1,\n" +
                                 "    \"content\": [\n" +
                                 "        {\n" +
-                                "            \"nameParts\": [\n" +
-                                "                \"Factory UT\"\n" +
-                                "            ],\n" +
-                                "            \"states\": [\n" +
-                                "                {\n" +
-                                "                    \"description\": \"Baden-Wuerttemberg\",\n" +
-                                "                    \"validFrom\": \"2023-06-05T08:29:20.015\",\n" +
-                                "                    \"validTo\": \"2023-06-05T08:29:20.015\",\n" +
-                                "                    \"type\": \"ACTIVE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
-                                "            \"roles\": [\n" +
-                                "                \"SUPPLIER\"\n" +
-                                "            ],\n" +
+                                "            \"bpns\": \"BPNS0000000001YN\",\n" +
+                                "            \"name\": \"E2E Tests 1223 Generic Endpoint Company 1\",\n" +
+                                "            \"states\": [],\n" +
+                                "            \"bpnLegalEntity\": \"BPNL00000007QTKE\",\n" +
+                                "            \"createdAt\": \"2023-11-14T18:16:30.077820Z\",\n" +
+                                "            \"updatedAt\": \"2023-11-14T18:16:30.077823Z\",\n" +
                                 "            \"mainAddress\": {\n" +
-                                "                \"nameParts\": [\n" +
-                                "                    \"WESTERN_LATIN_STANDARD\"\n" +
-                                "                ],\n" +
-                                "                \"states\": [\n" +
-                                "                    {\n" +
-                                "                        \"description\": \"Baden-Wuerttemberg\",\n" +
-                                "                        \"validFrom\": \"2023-06-05T08:29:20.015\",\n" +
-                                "                        \"validTo\": \"2023-06-05T08:29:20.015\",\n" +
-                                "                        \"type\": \"ACTIVE\"\n" +
-                                "                    }\n" +
-                                "                ],\n" +
-                                "                \"identifiers\": [\n" +
-                                "                    {\n" +
-                                "                        \"value\": \"123456789\",\n" +
-                                "                        \"type\": \"CUSTOM_SITE_ID\"\n" +
-                                "                    }\n" +
-                                "                ],\n" +
+                                "                \"bpna\": \"BPNA000000006X3N\",\n" +
+                                "                \"name\": \"E2E Tests 1223 Generic Endpoint Company 1\",\n" +
+                                "                \"states\": [],\n" +
+                                "                \"identifiers\": [],\n" +
                                 "                \"physicalPostalAddress\": {\n" +
-                                "                    \"geographicCoordinates\": {\n" +
-                                "                        \"longitude\": 0.0,\n" +
-                                "                        \"latitude\": 0.0,\n" +
-                                "                        \"altitude\": 0.0\n" +
+                                "                    \"geographicCoordinates\": null,\n" +
+                                "                    \"country\": {\n" +
+                                "                        \"technicalKey\": \"DE\",\n" +
+                                "                        \"name\": \"Germany\"\n" +
                                 "                    },\n" +
-                                "                    \"country\": \"DE\",\n" +
-                                "                    \"administrativeAreaLevel1\": \"Baden-Wuerttember\",\n" +
+                                "                    \"administrativeAreaLevel1\": null,\n" +
                                 "                    \"administrativeAreaLevel2\": null,\n" +
                                 "                    \"administrativeAreaLevel3\": null,\n" +
-                                "                    \"postalCode\": \"70327\",\n" +
+                                "                    \"postalCode\": \"70546\",\n" +
                                 "                    \"city\": \"Stuttgart\",\n" +
-                                "                    \"district\": \"Stuttgart\",\n" +
+                                "                    \"district\": null,\n" +
                                 "                    \"street\": {\n" +
-                                "                        \"namePrefix\": \"test prefix\",\n" +
-                                "                        \"additionalNamePrefix\": \"test\",\n" +
-                                "                        \"name\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"nameSuffix\": \"test1 suffix\",\n" +
-                                "                        \"additionalNameSuffix\": \"test suffix\",\n" +
-                                "                        \"houseNumber\": \"1234\",\n" +
-                                "                        \"milestone\": \"Untertuerckheim Strasse 1\",\n" +
-                                "                        \"direction\": \"Untertuerckheim Strasse 1\"\n" +
+                                "                        \"name\": \"Stuttgarter Strasse\",\n" +
+                                "                        \"houseNumber\": \"1\",\n" +
+                                "                        \"milestone\": null,\n" +
+                                "                        \"direction\": null\n" +
                                 "                    },\n" +
-                                "                    \"companyPostalCode\": \"71034\",\n" +
-                                "                    \"industrialZone\": \"Sindelfinden\",\n" +
-                                "                    \"building\": \"Building A\",\n" +
-                                "                    \"floor\": \"A\",\n" +
-                                "                    \"door\": \"1\"\n" +
+                                "                    \"companyPostalCode\": null,\n" +
+                                "                    \"industrialZone\": null,\n" +
+                                "                    \"building\": null,\n" +
+                                "                    \"floor\": null,\n" +
+                                "                    \"door\": null\n" +
                                 "                },\n" +
-                                "                \"alternativePostalAddress\": {\n" +
-                                "                    \"geographicCoordinates\": {\n" +
-                                "                        \"longitude\": 0.0,\n" +
-                                "                        \"latitude\": 0.0,\n" +
-                                "                        \"altitude\": 0.0\n" +
-                                "                    },\n" +
-                                "                    \"country\": \"DE\",\n" +
-                                "                    \"administrativeAreaLevel1\": \"Stuttgart\",\n" +
-                                "                    \"postalCode\": \"1234\",\n" +
-                                "                    \"city\": \"Stuttgart\",\n" +
-                                "                    \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                    \"deliveryServiceQualifier\": \"test qualifier\",\n" +
-                                "                    \"deliveryServiceNumber\": \"Untertuerckheim Strasse 1\"\n" +
-                                "                },\n" +
-                                "                \"roles\": [\n" +
-                                "                    \"SUPPLIER\"\n" +
-                                "                ],\n" +
-                                "                \"externalId\": \"12044444_site\",\n" +
-                                "                \"legalEntityExternalId\": null,\n" +
-                                "                \"siteExternalId\": \"12044444\",\n" +
-                                "                \"bpna\": \"BPNS000000000001\"\n" +
-                                "            },\n" +
-                                "            \"externalId\": \"12044444\",\n" +
-                                "            \"legalEntityExternalId\": \"12044444\",\n" +
-                                "            \"bpns\": \"BPNL0000000001YN\"\n" +
+                                "                \"alternativePostalAddress\": null,\n" +
+                                "                \"bpnLegalEntity\": null,\n" +
+                                "                \"isLegalAddress\": false,\n" +
+                                "                \"bpnSite\": \"BPNS0000000001YN\",\n" +
+                                "                \"isMainAddress\": true,\n" +
+                                "                \"createdAt\": \"2023-11-14T18:16:30.076772Z\",\n" +
+                                "                \"updatedAt\": \"2023-11-14T18:16:30.080344Z\"\n" +
+                                "            }\n" +
                                 "        }\n" +
                                 "    ]\n" +
                                 "}")));
@@ -262,125 +187,134 @@ public class ConfigServerMock {
 
     public static void mocKConnectionToBpdmGateLegalEntity(WireMockServer mockServer) throws JsonProcessingException {
 
-        mockServer.stubFor(post("/companies/test-company/api/catena/output/legal-entities/search")
+        mockServer.stubFor(post("/pool/api/catena/legal-entities/search")
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", APPLICATION_JSON_VALUE)
+                        .withBody("[\n" +
+                                "    {\n" +
+                                "        \"legalName\": \"Showcase Business Partner Address\",\n" +
+                                "        \"bpnl\": \"BPNL00000007QZG8\",\n" +
+                                "        \"identifiers\": [],\n" +
+                                "        \"legalShortName\": null,\n" +
+                                "        \"legalForm\": null,\n" +
+                                "        \"states\": [],\n" +
+                                "        \"classifications\": [],\n" +
+                                "        \"relations\": [],\n" +
+                                "        \"currentness\": \"2023-11-29T10:59:00.034673Z\",\n" +
+                                "        \"createdAt\": \"2023-11-29T10:59:00.047537Z\",\n" +
+                                "        \"updatedAt\": \"2023-11-29T10:59:00.047543Z\",\n" +
+                                "        \"legalAddress\": {\n" +
+                                "            \"bpna\": \"BPNA000000007BT8\",\n" +
+                                "            \"name\": \"Showcase Business Partner Address\",\n" +
+                                "            \"states\": [],\n" +
+                                "            \"identifiers\": [],\n" +
+                                "            \"physicalPostalAddress\": {\n" +
+                                "                \"geographicCoordinates\": null,\n" +
+                                "                \"country\": {\n" +
+                                "                    \"technicalKey\": \"DE\",\n" +
+                                "                    \"name\": \"Germany\"\n" +
+                                "                },\n" +
+                                "                \"administrativeAreaLevel1\": {\n" +
+                                "                    \"countryCode\": \"DE\",\n" +
+                                "                    \"regionCode\": \"DE-BW\",\n" +
+                                "                    \"regionName\": \"Baden-Wurttemberg\"\n" +
+                                "                },\n" +
+                                "                \"administrativeAreaLevel2\": null,\n" +
+                                "                \"administrativeAreaLevel3\": null,\n" +
+                                "                \"postalCode\": \"77777\",\n" +
+                                "                \"city\": \"City X\",\n" +
+                                "                \"district\": \"\",\n" +
+                                "                \"street\": {\n" +
+                                "                    \"name\": \"Base Street\",\n" +
+                                "                    \"houseNumber\": \"3\",\n" +
+                                "                    \"milestone\": \"\",\n" +
+                                "                    \"direction\": \"\"\n" +
+                                "                },\n" +
+                                "                \"companyPostalCode\": null,\n" +
+                                "                \"industrialZone\": null,\n" +
+                                "                \"building\": null,\n" +
+                                "                \"floor\": null,\n" +
+                                "                \"door\": null\n" +
+                                "            },\n" +
+                                "            \"alternativePostalAddress\": null,\n" +
+                                "            \"bpnLegalEntity\": \"BPNL00000007QZG8\",\n" +
+                                "            \"isLegalAddress\": true,\n" +
+                                "            \"bpnSite\": null,\n" +
+                                "            \"isMainAddress\": false,\n" +
+                                "            \"createdAt\": \"2023-11-29T10:59:00.045497Z\",\n" +
+                                "            \"updatedAt\": \"2023-11-29T10:59:00.059879Z\"\n" +
+                                "        }\n" +
+                                "    }\n" +
+                                "]")));
+    }
+
+
+    public static void mocKConnectionToBpdmGateGeneric(WireMockServer mockServer) throws JsonProcessingException {
+
+        mockServer.stubFor(post("/companies/test-company/api/catena/output/business-partners/search")
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", APPLICATION_JSON_VALUE)
                         .withBody("{\n" +
-                                "    \"totalElements\": 1,\n" +
+                                "    \"totalElements\": 4,\n" +
                                 "    \"totalPages\": 1,\n" +
                                 "    \"page\": 0,\n" +
                                 "    \"contentSize\": 1,\n" +
                                 "    \"content\": [\n" +
                                 "        {\n" +
-                                "            \"legalNameParts\": [\n" +
-                                "                \"Name of Company\"\n" +
+                                "            \"externalId\": \"12237777\",\n" +
+                                "            \"nameParts\": [\n" +
+                                "                \"E2E Tests 1223 Generic Endpoint Company 1\"\n" +
                                 "            ],\n" +
+                                "            \"shortName\": \"Generic Endpoint Company 1\",\n" +
                                 "            \"identifiers\": [\n" +
                                 "                {\n" +
-                                "                    \"value\": \"123456789\",\n" +
                                 "                    \"type\": \"CUSTOM_ID_TYPE\",\n" +
+                                "                    \"value\": \"12237777\",\n" +
                                 "                    \"issuingBody\": \"CUSTOM_ISSUE_BODY\"\n" +
                                 "                }\n" +
                                 "            ],\n" +
-                                "            \"legalShortName\": \"NoC\",\n" +
-                                "            \"legalForm\": \"CUSTOM_LEGAL_FORM\",\n" +
-                                "            \"states\": [\n" +
-                                "                {\n" +
-                                "                    \"description\": null,\n" +
-                                "                    \"validFrom\": \"2020-12-16T05:54:48.942\",\n" +
-                                "                    \"validTo\": \"2023-06-05T07:31:01.213\",\n" +
-                                "                    \"type\": \"ACTIVE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
-                                "            \"classifications\": [\n" +
-                                "                {\n" +
-                                "                    \"value\": \"Farming of cattle, dairy farming\",\n" +
-                                "                    \"code\": \"01.21\",\n" +
-                                "                    \"type\": \"NACE\"\n" +
-                                "                }\n" +
-                                "            ],\n" +
+                                "            \"legalName\": null,\n" +
+                                "            \"legalForm\": null,\n" +
+                                "            \"states\": [],\n" +
+                                "            \"classifications\": [],\n" +
                                 "            \"roles\": [\n" +
                                 "                \"SUPPLIER\"\n" +
                                 "            ],\n" +
-                                "            \"legalAddress\": {\n" +
-                                "                \"nameParts\": [\n" +
-                                "                    \"WESTERN_LATIN_STANDARD\"\n" +
-                                "                ],\n" +
-                                "                \"states\": [\n" +
-                                "                    {\n" +
-                                "                        \"description\": \"WESTERN_LATIN_STANDARD\",\n" +
-                                "                        \"validFrom\": \"2020-12-16T05:54:48.942\",\n" +
-                                "                        \"validTo\": \"2023-06-05T07:31:01.213\",\n" +
-                                "                        \"type\": \"ACTIVE\"\n" +
-                                "                    }\n" +
-                                "                ],\n" +
-                                "                \"identifiers\": [\n" +
-                                "                    {\n" +
-                                "                        \"value\": \"12345678910\",\n" +
-                                "                        \"type\": \"CUSTOM_ID_ADD_TYPE\"\n" +
-                                "                    }\n" +
-                                "                ],\n" +
+                                "            \"postalAddress\": {\n" +
+                                "                \"addressType\": \"LegalAndSiteMainAddress\",\n" +
                                 "                \"physicalPostalAddress\": {\n" +
-                                "                    \"geographicCoordinates\": {\n" +
-                                "                        \"longitude\": 0.0,\n" +
-                                "                        \"latitude\": 0.0,\n" +
-                                "                        \"altitude\": 0.0\n" +
-                                "                    },\n" +
+                                "                    \"geographicCoordinates\": null,\n" +
                                 "                    \"country\": \"DE\",\n" +
-                                "                    \"administrativeAreaLevel1\": \"Baden-Wuerttemberg\",\n" +
-                                "                    \"administrativeAreaLevel2\": \"test1\",\n" +
-                                "                    \"administrativeAreaLevel3\": \"test2\",\n" +
+                                "                    \"administrativeAreaLevel1\": null,\n" +
+                                "                    \"administrativeAreaLevel2\": null,\n" +
+                                "                    \"administrativeAreaLevel3\": null,\n" +
                                 "                    \"postalCode\": \"70546\",\n" +
                                 "                    \"city\": \"Stuttgart\",\n" +
-                                "                    \"district\": \"Stuttgart\",\n" +
+                                "                    \"district\": null,\n" +
                                 "                    \"street\": {\n" +
-                                "                        \"namePrefix\": \"test prefix\",\n" +
-                                "                        \"additionalNamePrefix\": \"test1\",\n" +
+                                "                        \"namePrefix\": null,\n" +
+                                "                        \"additionalNamePrefix\": null,\n" +
                                 "                        \"name\": \"Stuttgarter Strasse\",\n" +
-                                "                        \"nameSuffix\": \"test\",\n" +
-                                "                        \"additionalNameSuffix\": \"test2\",\n" +
+                                "                        \"nameSuffix\": null,\n" +
+                                "                        \"additionalNameSuffix\": null,\n" +
                                 "                        \"houseNumber\": \"1\",\n" +
-                                "                        \"milestone\": \"Stuttgarter Strasse 1\",\n" +
-                                "                        \"direction\": \"Stuttgarter Str.\"\n" +
+                                "                        \"milestone\": null,\n" +
+                                "                        \"direction\": null\n" +
                                 "                    },\n" +
-                                "                    \"companyPostalCode\": \"GM01\",\n" +
-                                "                    \"industrialZone\": \"HEADQUARTER\",\n" +
-                                "                    \"building\": \"Building A\",\n" +
-                                "                    \"floor\": \"A\",\n" +
-                                "                    \"door\": \"test\"\n" +
+                                "                    \"companyPostalCode\": null,\n" +
+                                "                    \"industrialZone\": null,\n" +
+                                "                    \"building\": null,\n" +
+                                "                    \"floor\": null,\n" +
+                                "                    \"door\": null\n" +
                                 "                },\n" +
-                                "                \"alternativePostalAddress\": {\n" +
-                                "                    \"geographicCoordinates\": {\n" +
-                                "                        \"longitude\": 0.0,\n" +
-                                "                        \"latitude\": 0.0,\n" +
-                                "                        \"altitude\": 0.0\n" +
-                                "                    },\n" +
-                                "                    \"country\": \"DE\",\n" +
-                                "                    \"administrativeAreaLevel1\": \"Baden-Wuerttemberg 1\",\n" +
-                                "                    \"postalCode\": \"1234\",\n" +
-                                "                    \"city\": \"Stuttgart 1\",\n" +
-                                "                    \"deliveryServiceType\": \"PO_BOX\",\n" +
-                                "                    \"deliveryServiceQualifier\": \"test\",\n" +
-                                "                    \"deliveryServiceNumber\": \"1234\"\n" +
-                                "                },\n" +
-                                "                \"roles\": [\n" +
-                                "                    \"SUPPLIER\"\n" +
-                                "                ],\n" +
-                                "                \"externalId\": \"12044444_legalAddress\",\n" +
-                                "                \"legalEntityExternalId\": \"12044444\",\n" +
-                                "                \"siteExternalId\": null,\n" +
-                                "                \"bpna\": \"BPNL0000000001YN\"\n" +
-                                "            },\n" +
-                                "            \"externalId\": \"12044444\",\n" +
-                                "            \"bpnl\": \"BPNL0000000001YN\"\n" +
+                                "                \"alternativePostalAddress\": null\n" +
+                                "            }\n" +
                                 "        }\n" +
                                 "    ]\n" +
-                                "}")));
+                                "}\n")));
     }
-
-
-
 
 
 }

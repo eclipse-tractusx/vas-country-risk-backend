@@ -25,7 +25,14 @@ vas:
     pass: defaultpassword
   keycloakClientSecret: defautlSecret
   keycloakClientId: country-risk-client
-  clientName: country-risk-client
+  gateClient:
+    name: country-risk-gate-client
+    clientId: test
+    clientSecret: test
+  poolClient:
+    name: country-risk-pool-client
+    clientId: test
+    clientSecret: test
   authentication-url:
     token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
     jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
@@ -79,8 +86,16 @@ logging:
 application:
   name: default
   host: project-value-added-service-vas/api/dashboard
-  partnersPoolUrl:
-    bpdmAddressUrl: 'http://localhost:8585/companies/test-company/api/catena/output/addresses/search?'
-    bpdmSiteUrl: 'http://localhost:8585/companies/test-company/api/catena/output/sites/search?'
-    bpdmLegalUrl: 'http://localhost:8585/companies/test-company/api/catena/output/legal-entities/search?'
+  bpdm:
+    addressUrl: 'http://localhost:8585/pool/api/catena/addresses/search'
+    legalUrl: 'http://localhost:8585/pool/api/catena/legal-entities/search'
+    siteUrl: 'http://localhost:8585/pool/api/catena/sites/search'
+    genericUrl: 'http://localhost:8585/companies/test-company/api/catena/output/business-partners/search'
+    consumerManagementUrl: 'http://localhost:8585'
+    gateProviderProtocolUrl: 'http://localhost:8585'
+    gateProviderId: 'BPN000'
+    policyBpn: 'BPN000'
+    apiKey: ""
+  edc:
+    enabled: false
   clientId: 'test-crisk'

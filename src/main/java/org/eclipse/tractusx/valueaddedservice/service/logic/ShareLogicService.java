@@ -46,9 +46,6 @@ public class  ShareLogicService {
     DataSourceValueService dataSourceValueService;
 
     @Autowired
-    ExternalBusinessPartnersLogicService externalBusinessPartnersLogicService;
-
-    @Autowired
     BusinessPartnersLogicService businessPartnersLogicService;
 
     public List<ShareDTO> findRatingsScoresForEachBpn(@NotNull @Valid List<InputSharingDataSourceDTO> datasource, @NotNull @Valid List<InputSharingBusinessPartnerDTO> businessPartnerToMap, CompanyUserDTO companyUser,

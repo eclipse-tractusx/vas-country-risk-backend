@@ -60,8 +60,8 @@ public class ExternalBusinessPartnersLogicService {
 
     }
 
-    @CacheEvict(value = "vas-bpn", allEntries = true)
+    @CacheEvict(value = "vas-bpdm", allEntries = true)
     public void invalidateAllCache() {
-        log.debug("invalidateAllCache|vas-Bpn -  invalidated cache - allEntries");
+        log.debug("invalidateAllCache|vas-bpdm -  invalidated cache - allEntries");
     }
 }

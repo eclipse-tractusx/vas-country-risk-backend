@@ -53,7 +53,7 @@ public class CacheEvictService {
         log.info("Cache for country's cleared.");
     }
 
-    @Scheduled(fixedRate = ONE_MINUTE*15)
+    @Scheduled(fixedRate = ONE_MINUTE*5)
     public void clearCacheBpn() {
         externalBusinessPartnersLogicService.invalidateAllCache();
         log.info("Cache for bpn cleared.");
