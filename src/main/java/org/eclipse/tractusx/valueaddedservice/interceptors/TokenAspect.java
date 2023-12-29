@@ -73,11 +73,30 @@ public class TokenAspect {
      */
     @Pointcut("within(org.eclipse.tractusx.valueaddedservice.web.rest.*)")
     public void restController() {
-        // Method is empty as this is just a Pointcut, the implementations are in the advices.
+        // Pointcut definition
     }
 
+    /**
+     * Pointcut that matches the /api/dashboard endpoint specifically.
+     */
+    @Pointcut("execution(* org.eclipse.tractusx.valueaddedservice.web.rest.DashBoardResource.*(..))")
+    public void dashboardController() {
+        // Pointcut definition
+    }
 
     @Before("restController()")
+    public void beforeAnyRestController() throws JsonProcessingException {
+        validateToken();
+    }
+
+    @Before("dashboardController()")
+    public void beforeDashboardController() throws JsonProcessingException {
+        // Since this is specific to the DashboardController,
+        // validateToken() is already called by the beforeAnyRestController advice,
+        // so we only need to call the additional validation method here.
+        validateUserAndTokenAreTheSame();
+    }
+
     public void validateToken() throws JsonProcessingException {
         if (env.getProperty("security.enabled") != null && Boolean.parseBoolean(env.getProperty("security.enabled"))) {
             // Get the specific header attribute
@@ -92,7 +111,7 @@ public class TokenAspect {
         }
     }
 
-    @Before("restController()")
+
     public void validateUserAndTokenAreTheSame() {
         if (env.getProperty("security.enabled") != null && Boolean.parseBoolean(env.getProperty("security.enabled"))) {
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
