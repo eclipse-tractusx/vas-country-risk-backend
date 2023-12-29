@@ -19,6 +19,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -34,18 +35,19 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class WebClientConfiguration {
+public class PoolWebClientConfiguration {
 
     @Value("${security.enabled}")
     private boolean isSecurityEnabled;
 
-    @Value("${vas.clientName}")
+    @Value("${vas.poolClient.name}")
     private String clientName;
 
 
     @Bean
+    @Qualifier("poolWebClient")
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
-    public WebClient webClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientService authorizedClientService) {
+    public WebClient poolWebClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientService authorizedClientService) {
         OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder().clientCredentials().build();
         AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService);
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
@@ -59,8 +61,9 @@ public class WebClientConfiguration {
     }
 
     @Bean
+    @Qualifier("poolWebClient")
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
-    public WebClient webClientNoAuth() {
+    public WebClient poolWebClientNoAuth() {
         return WebClient.builder().build();
 
     }
