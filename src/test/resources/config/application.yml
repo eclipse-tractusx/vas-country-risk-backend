@@ -19,12 +19,12 @@
 #*******************************************************************************/
 
 vas:
-  datasource:
-    host: localhost
-    user: default
-    pass: defaultpassword
-  keycloakClientSecret: defautlSecret
-  keycloakClientId: country-risk-client
+  auth:
+    url: http://localhost:8081
+
+  keycloak:
+    clientId: test
+    clientSecret: test
   gateClient:
     name: country-risk-gate-client
     clientId: test
@@ -34,9 +34,13 @@ vas:
     clientId: test
     clientSecret: test
   authentication-url:
-    token-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    jwk-set-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-    auth-url: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/auth
+    token-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/token
+    jwk-set-uri: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/certs
+    auth-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/auth
+  datasource:
+    host: localhost
+    user: default
+    pass: defaultpassword
 
 # Spring Boot configuration
 spring:
@@ -58,12 +62,17 @@ server:
         registration:
           keycloak:
             authorization-grant-type: client_credentials
-            client-id: ${vas_keycloakClientId}
-            client-secret: ${vas_keycloakClientSecret}
-          country-risk-client:
+            client-id: ${vas.keycloak.clientId}
+            client-secret: ${vas.keycloak.clientSecret}
+          country-risk-gate-client:
             authorization-grant-type: client_credentials
-            client-id: ${vas_keycloakClientId}
-            client-secret: ${vas_keycloakClientSecret}
+            client-id: ${vas.gateClient.clientId}
+            client-secret: ${vas.gateClient.clientSecret}
+            provider: keycloak
+          country-risk-pool-client:
+            authorization-grant-type: client_credentials
+            client-id: ${vas.poolClient.clientId}
+            client-secret: ${vas.poolClient.clientSecret}
             provider: keycloak
         provider:
           keycloak:
@@ -97,5 +106,5 @@ application:
     policyBpn: 'BPN000'
     apiKey: ""
   edc:
-    enabled: false
+    enabled: 'false'
   clientId: 'test-crisk'
