@@ -73,7 +73,7 @@ class InvokeServiceTest {
         HttpEntity<Object> httpEntity = new HttpEntity<>("",httpHeaders);
 
         List<String> response =
-                invokeService.executeRequest(url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction).block();
+                invokeService.executeRequest("",url, HttpMethod.GET, httpEntity, String.class, this::mockMappingFunction).block();
         assertNotEquals(0, response.size());
     }
 

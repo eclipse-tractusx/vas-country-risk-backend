@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+## [1.3.0] - [unreleased]
+
+### Changed
+- BPDM endpoints changed for requesting EDC when available
+- Logic mapping changed between Gate Pool and Country Risk DTO
+
+### Added
+- Added mapping for generic Endpoint
+- Added mapping for Pool lsa types
+
 ## [1.2.3] - 2023-11-30
 
 ### Fixes

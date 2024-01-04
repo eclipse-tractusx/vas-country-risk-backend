@@ -72,6 +72,12 @@ public class AuthPropertiesDTO implements Serializable {
     @JsonProperty("isAdmin")
     private Boolean isAdmin = false;
 
+
+    @Schema(example = "16a5s4qewqwhqwjhehjv")
+    @NotNull
+    @JsonProperty("edcToken")
+    private String edcToken = "";;
+
     public List<String> getRoles(String clientId){
         LinkedHashMap list =  (LinkedHashMap) resourceAccess;
         LinkedHashMap clientResources = list.get(clientId) != null ? (LinkedHashMap) list.get(clientId):new LinkedHashMap();

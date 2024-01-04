@@ -36,7 +36,14 @@ vas:
   keycloak:
     clientId: test
     clientSecret: test
-  clientName: country-risk-client
+  gateClient:
+    name: country-risk-gate-client
+    clientId: test
+    clientSecret: test
+  poolClient:
+    name: country-risk-pool-client
+    clientId: test
+    clientSecret: test
   authentication-url:
     token-url: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/token
     jwk-set-uri: ${vas.auth.url}/auth/realms/CX-Central/protocol/openid-connect/certs
@@ -61,10 +68,15 @@ spring:
             authorization-grant-type: client_credentials
             client-id: ${vas.keycloak.clientId}
             client-secret: ${vas.keycloak.clientSecret}
-          country-risk-client:
+          country-risk-gate-client:
             authorization-grant-type: client_credentials
-            client-id: ${vas.keycloak.clientId}
-            client-secret: ${vas.keycloak.clientSecret}
+            client-id: ${vas.gateClient.clientId}
+            client-secret: ${vas.gateClient.clientSecret}
+            provider: keycloak
+          country-risk-pool-client:
+            authorization-grant-type: client_credentials
+            client-id: ${vas.poolClient.clientId}
+            client-secret: ${vas.poolClient.clientSecret}
             provider: keycloak
         provider:
           keycloak:
@@ -101,10 +113,18 @@ logging:
 application:
   name: default
   host: project-value-added-service-vas/api/dashboard
-  partnersPoolUrl:
-    bpdmAddressUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
-    bpdmLegalUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
-    bpdmSiteUrl: 'http://localhost:8082/api/catena/output/sites/search?size=100'
+  bpdm:
+    addressUrl: 'http://localhost:8082/api/catena/output/addresses/search?size=100'
+    legalUrl: 'http://localhost:8082/api/catena/output/legal/search?size=100'
+    siteUrl: 'http://localhost:8082/api/catena/output/sites/search?size=100'
+    genericUrl: 'http://localhost:8082'
+    consumerManagementUrl: 'http://localhost:8082'
+    gateProviderProtocolUrl: 'http://localhost:8082'
+    gateProviderId: 'BPN000'
+    policyBpn: 'BPN000'
+    apiKey: ""
+  edc:
+    enabled: false
 
 
 management:
