@@ -39,7 +39,7 @@
         <liquibase.version>4.23.0</liquibase.version>
         <liquibase-hibernate5.version>4.22.0</liquibase-hibernate5.version>
         <spring-boot.version>3.1.7</spring-boot.version>
-        <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
+        <org.zalando.problem-spring-web>0.27.0</org.zalando.problem-spring-web>
         <org.springdoc.springdoc-openapi-ui>2.1.0</org.springdoc.springdoc-openapi-ui>
         <org.springframework.cloud>4.0.4</org.springframework.cloud>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -333,11 +333,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <projectId>automotive.tractusx</projectId>
-                    <summary>DEPENDENCIES</summary>
-                    <includeScope>test</includeScope>
-                </configuration>
             </plugin>
             <!--			<plugin>-->
             <!--				&lt;!&ndash;-->
