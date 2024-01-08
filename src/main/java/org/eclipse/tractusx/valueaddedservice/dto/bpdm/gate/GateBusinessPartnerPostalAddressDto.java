@@ -30,6 +30,7 @@ import org.eclipse.tractusx.valueaddedservice.dto.bpdm.PhysicalPostalAddressDto;
 @Setter
 @ToString
 public class GateBusinessPartnerPostalAddressDto {
+    private String addressBpn;
     private AddressType addressType;
     private PhysicalPostalAddressDto physicalPostalAddress;
     private AlternativePostalAddressDto alternativePostalAddress;

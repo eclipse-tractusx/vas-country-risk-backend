@@ -22,24 +22,10 @@ package org.eclipse.tractusx.valueaddedservice.dto.bpdm.gate;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.eclipse.tractusx.valueaddedservice.domain.enumeration.BusinessPartnerRole;
-
-import java.util.Collection;
-import java.util.List;
 
 @Setter
 @Getter
 @ToString
-public class GateBusinessPartnerOutputDto {
-
-    private String externalId;
-    private List<String> nameParts;
-    private Collection<BusinessPartnerRole> roles;
-    private boolean isOwnCompanyData;
-    private GateBusinessPartnerLegalEntityDto legalEntity;
-    private String legalName;
-    private String shortName;
-    private GateBusinessPartnerSiteDto site;
-    private GateBusinessPartnerPostalAddressDto address;
-
+public class GateBusinessPartnerLegalEntityDto {
+    private String legalEntityBpn;
 }

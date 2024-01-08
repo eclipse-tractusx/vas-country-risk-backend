@@ -170,18 +170,18 @@ public class RequestLogicService {
     }
     private Map<AddressType, Map<String, Collection<BusinessPartnerRole>>> processBusinessPartners(List<GateBusinessPartnerOutputDto> list) {
         Map<AddressType, Map<String, Collection<BusinessPartnerRole>>> map = new HashMap<>();
-        list.forEach(dto -> Optional.ofNullable(dto.getPostalAddress().getAddressType()).ifPresent(type -> processAddressType(map, type, dto)));
+        list.forEach(dto -> Optional.ofNullable(dto.getAddress().getAddressType()).ifPresent(type -> processAddressType(map, type, dto)));
         return map;
     }
 
     private void processAddressType(Map<AddressType, Map<String, Collection<BusinessPartnerRole>>> map, AddressType addressType, GateBusinessPartnerOutputDto dto) {
         if (EnumSet.of(AddressType.LegalAndSiteMainAddress, AddressType.LegalAddress).contains(addressType)) {
-            addToList(map, AddressType.LegalAddress, dto.getRoles(),dto.getLegalEntityBpn());
+            addToList(map, AddressType.LegalAddress, dto.getRoles(),dto.getLegalEntity().getLegalEntityBpn());
         }
         if (EnumSet.of(AddressType.LegalAndSiteMainAddress, AddressType.SiteMainAddress).contains(addressType)) {
-            addToList(map, AddressType.SiteMainAddress, dto.getRoles(),dto.getSiteBpn());
+            addToList(map, AddressType.SiteMainAddress, dto.getRoles(),dto.getSite().getSiteBpn());
         }
-        addToList(map, AddressType.AdditionalAddress, dto.getRoles(),dto.getAddressBpn());
+        addToList(map, AddressType.AdditionalAddress, dto.getRoles(),dto.getAddress().getAddressBpn());
     }
 
     private void addToList(Map<AddressType, Map<String,Collection<BusinessPartnerRole>>> map, AddressType key, Collection<BusinessPartnerRole>  roles, String value) {
