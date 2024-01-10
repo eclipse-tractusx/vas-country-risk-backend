@@ -260,14 +260,14 @@ public class ConfigServerMock {
                                 "    \"totalElements\": 4,\n" +
                                 "    \"totalPages\": 1,\n" +
                                 "    \"page\": 0,\n" +
-                                "    \"contentSize\": 1,\n" +
+                                "    \"contentSize\": 4,\n" +
                                 "    \"content\": [\n" +
+                                "  \n" +
                                 "        {\n" +
                                 "            \"externalId\": \"12237777\",\n" +
                                 "            \"nameParts\": [\n" +
                                 "                \"E2E Tests 1223 Generic Endpoint Company 1\"\n" +
                                 "            ],\n" +
-                                "            \"shortName\": \"Generic Endpoint Company 1\",\n" +
                                 "            \"identifiers\": [\n" +
                                 "                {\n" +
                                 "                    \"type\": \"CUSTOM_ID_TYPE\",\n" +
@@ -275,14 +275,41 @@ public class ConfigServerMock {
                                 "                    \"issuingBody\": \"CUSTOM_ISSUE_BODY\"\n" +
                                 "                }\n" +
                                 "            ],\n" +
-                                "            \"legalName\": null,\n" +
-                                "            \"legalForm\": null,\n" +
                                 "            \"states\": [],\n" +
-                                "            \"classifications\": [],\n" +
                                 "            \"roles\": [\n" +
                                 "                \"SUPPLIER\"\n" +
                                 "            ],\n" +
-                                "            \"postalAddress\": {\n" +
+                                "            \"isOwnCompanyData\": false,\n" +
+                                "            \"legalEntity\": {\n" +
+                                "                \"legalEntityBpn\": \"BPNL00000007QTKE\",\n" +
+                                "                \"legalName\": null,\n" +
+                                "                \"shortName\": \"Generic Endpoint Company 1\",\n" +
+                                "                \"legalForm\": null,\n" +
+                                "                \"classifications\": [],\n" +
+                                "                \"confidenceCriteria\": {\n" +
+                                "                    \"sharedByOwner\": false,\n" +
+                                "                    \"checkedByExternalDataSource\": false,\n" +
+                                "                    \"numberOfBusinessPartners\": 1,\n" +
+                                "                    \"lastConfidenceCheckAt\": \"2024-01-04T09:47:12.667671\",\n" +
+                                "                    \"nextConfidenceCheckAt\": \"2024-01-04T09:47:12.667671\",\n" +
+                                "                    \"confidenceLevel\": 0\n" +
+                                "                }\n" +
+                                "            },\n" +
+                                "            \"site\": {\n" +
+                                "                \"siteBpn\": \"BPNS0000000001YN\",\n" +
+                                "                \"name\": null,\n" +
+                                "                \"confidenceCriteria\": {\n" +
+                                "                    \"sharedByOwner\": false,\n" +
+                                "                    \"checkedByExternalDataSource\": false,\n" +
+                                "                    \"numberOfBusinessPartners\": 1,\n" +
+                                "                    \"lastConfidenceCheckAt\": \"2024-01-05T09:26:02.009513\",\n" +
+                                "                    \"nextConfidenceCheckAt\": \"2024-01-05T09:26:02.009513\",\n" +
+                                "                    \"confidenceLevel\": 0\n" +
+                                "                }\n" +
+                                "            },\n" +
+                                "            \"address\": {\n" +
+                                "                \"addressBpn\": \"BPNA000000006X3N\",\n" +
+                                "                \"name\": null,\n" +
                                 "                \"addressType\": \"LegalAndSiteMainAddress\",\n" +
                                 "                \"physicalPostalAddress\": {\n" +
                                 "                    \"geographicCoordinates\": null,\n" +
@@ -300,6 +327,7 @@ public class ConfigServerMock {
                                 "                        \"nameSuffix\": null,\n" +
                                 "                        \"additionalNameSuffix\": null,\n" +
                                 "                        \"houseNumber\": \"1\",\n" +
+                                "                        \"houseNumberSupplement\": null,\n" +
                                 "                        \"milestone\": null,\n" +
                                 "                        \"direction\": null\n" +
                                 "                    },\n" +
@@ -309,8 +337,27 @@ public class ConfigServerMock {
                                 "                    \"floor\": null,\n" +
                                 "                    \"door\": null\n" +
                                 "                },\n" +
-                                "                \"alternativePostalAddress\": null\n" +
-                                "            }\n" +
+                                "                \"alternativePostalAddress\": {\n" +
+                                "                    \"geographicCoordinates\": null,\n" +
+                                "                    \"country\": null,\n" +
+                                "                    \"administrativeAreaLevel1\": null,\n" +
+                                "                    \"postalCode\": null,\n" +
+                                "                    \"city\": null,\n" +
+                                "                    \"deliveryServiceType\": null,\n" +
+                                "                    \"deliveryServiceQualifier\": null,\n" +
+                                "                    \"deliveryServiceNumber\": null\n" +
+                                "                },\n" +
+                                "                \"confidenceCriteria\": {\n" +
+                                "                    \"sharedByOwner\": false,\n" +
+                                "                    \"checkedByExternalDataSource\": false,\n" +
+                                "                    \"numberOfBusinessPartners\": 1,\n" +
+                                "                    \"lastConfidenceCheckAt\": \"2024-01-04T09:47:12.667671\",\n" +
+                                "                    \"nextConfidenceCheckAt\": \"2024-01-04T09:47:12.667671\",\n" +
+                                "                    \"confidenceLevel\": 0\n" +
+                                "                }\n" +
+                                "            },\n" +
+                                "            \"createdAt\": \"2023-11-14T18:17:00.030818Z\",\n" +
+                                "            \"updatedAt\": \"2023-11-14T18:17:00.030823Z\"\n" +
                                 "        }\n" +
                                 "    ]\n" +
                                 "}\n")));
