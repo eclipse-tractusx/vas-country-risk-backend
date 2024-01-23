@@ -24,10 +24,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * Security config bean
@@ -41,18 +42,18 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
+        httpSecurity.cors(withDefaults())
+                        .csrf(((csrf)-> csrf.disable()))
+                                .authorizeHttpRequests(((authz)-> authz
+                                        .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/edc/**")
+                                        .authenticated()
+                                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**","/management/**")
+                                        .permitAll()
+                                ));
 
-        httpSecurity.cors().and().csrf().and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/edc/**")
-                .authenticated()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**","/management/**")
-                .permitAll()
-                .and()
-                .oauth2ResourceServer().jwt();
+        httpSecurity.oauth2ResourceServer(resourceServer -> resourceServer
+                .jwt(withDefaults()));
+
 
         return httpSecurity.build();
     }
@@ -72,18 +73,20 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.httpBasic().disable();
-        httpSecurity.formLogin().disable();
-        httpSecurity.logout().disable();
-        httpSecurity.headers().frameOptions().disable();
 
-        httpSecurity.cors().and().csrf().ignoringRequestMatchers("/api/**").and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/error","/api/**","/management/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
-                .permitAll();
+
+        httpSecurity.cors(withDefaults())
+                .csrf(((csrf)-> csrf.disable()))
+                .formLogin(((form)-> form.disable()))
+                .httpBasic((httpBasic)-> httpBasic.disable())
+                .logout((logout)-> logout.disable())
+                .headers((headers)->headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
+                .authorizeHttpRequests(((authz)-> authz
+                        .requestMatchers("/error","/api/**","/management/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
+                        .permitAll()
+                ));
+
+
 
         return httpSecurity.build();
     }

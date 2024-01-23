@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.1.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
@@ -38,7 +38,7 @@
         <org.projectlombok.version>1.18.28</org.projectlombok.version>
         <liquibase.version>4.23.0</liquibase.version>
         <liquibase-hibernate5.version>4.22.0</liquibase-hibernate5.version>
-        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-boot.version>3.1.7</spring-boot.version>
         <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
         <org.springdoc.springdoc-openapi-ui>2.1.0</org.springdoc.springdoc-openapi-ui>
         <org.springframework.cloud>4.0.4</org.springframework.cloud>
@@ -52,33 +52,27 @@
             src/main/java/org/eclipse/tractusx/valueaddedservice/dto//.,src/main/java/org/eclipse/tractusx/valueaddedservice/domain//.¨
         </sonar1.coverage.exclusions>
         <jacoco.version>0.8.7</jacoco.version>
-        <spring-boot-starter-oauth2>3.1.5</spring-boot-starter-oauth2>
-        <spring-security-web-version>6.1.1</spring-security-web-version>
+
+        <spring-security-web-version>6.2.1</spring-security-web-version>
         <postgresql-version>42.6.0</postgresql-version>
-        <jackson-databind>2.13.4.2</jackson-databind>
         <jackson-databind-nullable>0.2.6</jackson-databind-nullable>
         <wiremock-standalone-version>3.0.0-beta-10</wiremock-standalone-version>
-        <snake-yaml-version>2.0</snake-yaml-version>
-        <commons-fileupload-version>1.5</commons-fileupload-version>
+        <snake-yaml-version>2.2</snake-yaml-version>
         <openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
         <hibernate-core-version>6.2.6.Final</hibernate-core-version>
         <hypersistence-utils-hibernate-60>3.5.1</hypersistence-utils-hibernate-60>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <testcontainers.version>1.18.3</testcontainers.version>
-        <spring-expression-version>6.0.8</spring-expression-version>
-        <spring-core-version>6.0.8</spring-core-version>
-        <spring-security-core-version>6.1.5</spring-security-core-version>
         <springdoc-openapi-starter-webmvc-ui>2.1.0</springdoc-openapi-starter-webmvc-ui>
         <org.owasp.antisamy>1.7.4</org.owasp.antisamy>
-        <io.projectreactor.netty>1.1.13</io.projectreactor.netty>
-        <ch.qos.logback>1.4.13</ch.qos.logback>
+
     </properties>
 
     <pluginRepositories>
         <pluginRepository>
             <id>dash-licenses-snapshots</id>
-            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -88,60 +82,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-core</artifactId>
-                <version>${spring-security-web-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson-databind}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>${snake-yaml-version}</version>
             </dependency>
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons-fileupload-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-expression</artifactId>
-                <version>${spring-expression-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring-core-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-core</artifactId>
-                <version>${spring-security-core-version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>org.owasp.antisamy</groupId>
                 <artifactId>antisamy</artifactId>
                 <version>${org.owasp.antisamy}</version>
             </dependency>
-            <dependency>
-                <groupId>io.projectreactor.netty</groupId>
-                <artifactId>reactor-netty-http</artifactId>
-                <version>${io.projectreactor.netty}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${ch.qos.logback}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${ch.qos.logback}</version>
-            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
@@ -212,12 +163,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-            <version>${spring-boot-starter-oauth2}</version>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
-            <version>${spring-boot-starter-oauth2}</version>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -373,7 +324,7 @@
             <plugin>
                 <groupId>org.eclipse.dash</groupId>
                 <artifactId>license-tool-plugin</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.2</version>
                 <executions>
                     <execution>
                         <id>license-check</id>
@@ -382,6 +333,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <projectId>automotive.tractusx</projectId>
+                    <summary>DEPENDENCIES</summary>
+                    <includeScope>test</includeScope>
+                </configuration>
             </plugin>
             <!--			<plugin>-->
             <!--				&lt;!&ndash;-->
