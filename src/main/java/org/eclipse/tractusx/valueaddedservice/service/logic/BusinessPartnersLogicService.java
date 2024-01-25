@@ -51,13 +51,15 @@ public class BusinessPartnersLogicService {
         List<BusinessPartnerDTO> filteredBusinessPartnerDTOS;
         log.debug("Roles {}",roles);
         log.debug("Code Roles {} {}",CSV_ROLE_READ_SUPPLIER,CSV_ROLE_READ_CUSTOMER);
-        if (roles.contains(CSV_ROLE_READ_SUPPLIER) && roles.contains(CSV_ROLE_READ_CUSTOMER)) {
+
+        if (roles.stream().anyMatch(role -> role.equalsIgnoreCase(CSV_ROLE_READ_SUPPLIER)) &&
+                roles.stream().anyMatch(role -> role.equalsIgnoreCase(CSV_ROLE_READ_CUSTOMER))) {
             // User has both roles, no need to filter
             filteredBusinessPartnerDTOS = businessPartnerDTOS;
-        } else if (roles.contains(CSV_ROLE_READ_SUPPLIER)) {
+        } else if (roles.stream().anyMatch(role -> role.equalsIgnoreCase(CSV_ROLE_READ_SUPPLIER))) {
             // User can only read suppliers and those who are not customers
             filteredBusinessPartnerDTOS = filterSuppliers(businessPartnerDTOS);
-        } else if (roles.contains(CSV_ROLE_READ_CUSTOMER)) {
+        } else if (roles.stream().anyMatch(role -> role.equalsIgnoreCase(CSV_ROLE_READ_CUSTOMER))) {
             // User can only read customers and those who are not suppliers
             filteredBusinessPartnerDTOS = filterCustomers(businessPartnerDTOS);
         } else {
