@@ -122,7 +122,7 @@ public class RequestLogicService {
     private List<BusinessPartnerDTO> handleNonSequentialRequests() {
         List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
 
-        String body = "[\"\"]";
+        String body = "[]";
         HttpEntity<Object> httpEntity = createHttpEntity(body);
 
         log.info("Sequential requests not enabled. Starting process to fetch external business partners from generic.");
