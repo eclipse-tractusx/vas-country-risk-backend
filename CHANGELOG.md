@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added mapping for Pool lsa types
 
 ### Fixes
-- Fix vulnerability on spring boot version and upgrade version to 3.1.7
+- Fix vulnerability on spring boot version and upgrade version to 3.1.8
 
 ## [1.2.3] - 2023-11-30
 
