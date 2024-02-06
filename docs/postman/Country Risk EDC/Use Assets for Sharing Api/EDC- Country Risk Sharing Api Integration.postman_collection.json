@@ -168,7 +168,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -402,7 +402,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -680,7 +680,7 @@
 		},
 		{
 			"key": "API-KEY",
-			"value": "#d<>-x9U-\\W9'9mb7<08Ro;t",
+			"value": "",
 			"type": "string"
 		},
 		{

@@ -243,7 +243,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -461,7 +461,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"       pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -679,7 +679,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -896,7 +896,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -1124,7 +1124,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -1342,7 +1342,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -1560,7 +1560,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -1777,7 +1777,7 @@
 															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
 															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
 															"        // For example, you can set it as an environment variable",
-															"        pm.environment.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
 															"    } else {",
 															"        console.log(\"No negotiated transfer process ID found.\");",
 															"    }",
@@ -1923,6 +1923,237 @@
 									]
 								}
 							]
+						},
+						{
+							"name": "Input",
+							"item": [
+								{
+									"name": "PUT Generic Input",
+									"item": [
+										{
+											"name": "Initiate EDR Negotation",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n\t\"@context\": {\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n\t},\n\t\"@type\": \"NegotiationInitiateRequestDto\",\n\t\"connectorAddress\": \"{{GATE_PROVIDER_PROTOCOL_URL}}\",\n\t\"protocol\": \"dataspace-protocol-http\",\n\t\"connectorId\": \"{{GATE_PROVIDER_ID}}\",\n\t\"providerId\": \"{{GATE_PROVIDER_ID}}\",\n\t\"offer\": {\n\t\t\"offerId\": \"{{OFFERID_PUT_GENERIC_INPUT}}\",\n\t\t\"assetId\": \"{{ASSET_PUT_GENERIC_INPUT}}\",\n\t\t\"policy\": {\n\t\t\t\"@type\": \"odrl:Set\",\n\t\t\t\"odrl:permission\": {\n\t\t\t\t\"odrl:target\": \"{{ASSET_PUT_GENERIC_INPUT}}\",\n\t\t\t\t\"odrl:action\": {\n\t\t\t\t\t\"odrl:type\": \"USE\"\n\t\t\t\t},\n\t\t\t\t\"odrl:constraint\": {\n\t\t\t\t\t\"odrl:or\": {\n\t\t\t\t\t\t\"odrl:leftOperand\": \"BusinessPartnerNumber\",\n\t\t\t\t\t\t\"odrl:operator\": {\n                            \"@id\": \"odrl:eq\"\n                        },\n\t\t\t\t\t\t\"odrl:rightOperand\": \"{{GATE_SHARING_MEMBER_ID}}\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"odrl:prohibition\": [],\n\t\t\t\"odrl:obligation\": [],\n\t\t\t\"odrl:target\": \"{{ASSET_PUT_GENERIC_INPUT}}\"\n\t\t}\n\t}\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{GATE_CONSUMER_MANAGEMENT_URL}}/edrs",
+													"host": [
+														"{{GATE_CONSUMER_MANAGEMENT_URL}}"
+													],
+													"path": [
+														"edrs"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Query EDRs Cached",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"// Parse the JSON response",
+															"var responseBody = pm.response.json();",
+															"",
+															"var lastNegotiatedTransferProcessId = \"\";",
+															"",
+															"// Check if the response is an array and has elements",
+															"if (Array.isArray(responseBody) && responseBody.length > 0) {",
+															"    responseBody.forEach(function(item) {",
+															"        if (item.hasOwnProperty(\"tx:edrState\") && item[\"tx:edrState\"] === \"NEGOTIATED\") {",
+															"            if (item.hasOwnProperty(\"edc:transferProcessId\")) {",
+															"                lastNegotiatedTransferProcessId = item[\"edc:transferProcessId\"];",
+															"            }",
+															"        }",
+															"    });",
+															"",
+															"    if (lastNegotiatedTransferProcessId !== \"\") {",
+															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
+															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
+															"        // For example, you can set it as an environment variable",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"    } else {",
+															"        console.log(\"No negotiated transfer process ID found.\");",
+															"    }",
+															"} else {",
+															"    console.log(\"Response is not an array or it has no elements.\");",
+															"}",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{GATE_CONSUMER_MANAGEMENT_URL}}/edrs?assetId={{ASSET_PUT_GENERIC_INPUT}}",
+													"host": [
+														"{{GATE_CONSUMER_MANAGEMENT_URL}}"
+													],
+													"path": [
+														"edrs"
+													],
+													"query": [
+														{
+															"key": "assetId",
+															"value": "{{ASSET_PUT_GENERIC_INPUT}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get EDR by tp ID",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"// Parse the JSON response",
+															"var responseBody = pm.response.json();",
+															"",
+															"// Check if the response contains the \"edc:authCode\" property",
+															"if (responseBody.hasOwnProperty(\"edc:authCode\")) {",
+															"    // Get the value of \"edc:authCode\"",
+															"    var authCode = responseBody[\"edc:authCode\"];",
+															"",
+															"    // Set the collection variable with the value of \"edc:authCode\"",
+															"    pm.collectionVariables.set(\"AUTH_CODE\", authCode);",
+															"",
+															"    // Log the value to the Postman console",
+															"    console.log(\"edc:authCode: \" + authCode);",
+															"} else {",
+															"    console.log(\"Response does not contain 'edc:authCode' property.\");",
+															"}"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{GATE_CONSUMER_MANAGEMENT_URL}}/edrs/{{TRANSFERID_AUTOTEST}}",
+													"host": [
+														"{{GATE_CONSUMER_MANAGEMENT_URL}}"
+													],
+													"path": [
+														"edrs",
+														"{{TRANSFERID_AUTOTEST}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Public API PUT",
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "value",
+															"value": "{{AUTH_CODE}}",
+															"type": "string"
+														},
+														{
+															"key": "key",
+															"value": "Authorization",
+															"type": "string"
+														}
+													]
+												},
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "[\n  {\n    \"externalId\": \"generic_test\",\n    \"nameParts\": [\n      \"Name of Company 1\",\n      \"Name of Company 2\",\n      \"Name of Company 3\",\n      \"Name of Company 4\",\n      \"Name of Company 5\"    \n    ],\n    \"shortName\": \"string\",\n    \"identifiers\": [\n      {\n           \"value\": \"123456789\",\n           \"type\": \"CUSTOM_ID_TYPE\",\n           \"issuingBody\": \"CUSTOM_ISSUE_BODY\"\n       }\n    ],\n    \"legalForm\": \"CUSTOM_FORM\",\n    \"states\": [\n      {\n        \"validFrom\": \"2023-09-29T08:57:22.999Z\",\n        \"validTo\": \"2023-09-29T08:57:22.999Z\",\n        \"type\": \"ACTIVE\",\n        \"description\": \"Active\"\n      }\n    ],\n    \"classifications\": [\n      {\n        \"type\": \"NACE\",\n        \"code\": \"01.21\",\n        \"value\": \"Farming of cattle, dairy farming\"\n      }\n    ],\n    \"roles\": [\n      \"SUPPLIER\"\n    ],\n    \"postalAddress\": {\n      \"addressType\": null,\n      \"physicalPostalAddress\": {\n        \"geographicCoordinates\": {\n          \"longitude\": 0,\n          \"latitude\": 0,\n          \"altitude\": 0\n        },\n        \"country\": \"DE\",\n        \"administrativeAreaLevel1\": \"Baden-Wuerttemberg\",\n        \"administrativeAreaLevel2\": \"test1\",\n        \"administrativeAreaLevel3\": \"test2\",\n        \"postalCode\": \"70546\",\n        \"city\": \"Stuttgart\",\n        \"district\": \"Stuttgart\",\n        \"street\": {\n          \"namePrefix\": \"test prefix\",\n          \"additionalNamePrefix\": \"test1\",\n          \"name\": \"Stuttgarter Strasse\",\n          \"nameSuffix\": \"test\",\n          \"additionalNameSuffix\": \"test2\",\n          \"houseNumber\": \"1\",\n          \"milestone\": \"Stuttgarter Strasse 1\",\n          \"direction\": \"Stuttgarter Str.\"\n        },\n        \"companyPostalCode\": \"GM01\",\n        \"industrialZone\": \"HEADQUARTER\",\n        \"building\": \"Building A\",\n        \"floor\": \"A\",\n        \"door\": \"test\"\n      },\n      \"alternativePostalAddress\": {\n        \"geographicCoordinates\": {\n          \"longitude\": 0,\n          \"latitude\": 0,\n          \"altitude\": 0\n        },\n        \"country\": \"DE\",\n        \"administrativeAreaLevel1\": \"Baden-Wuerttemberg 1\",\n        \"postalCode\": \"1234\",\n        \"city\": \"Stuttgart 1\",\n        \"deliveryServiceType\": \"PO_BOX\",\n        \"deliveryServiceQualifier\": \"test\",\n        \"deliveryServiceNumber\": \"1234\"\n      }\n    },\n    \"isOwner\": true\n  }\n]",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "https://gate-edc.int.demo.catena-x.net/api/public",
+													"protocol": "https",
+													"host": [
+														"gate-edc",
+														"int",
+														"demo",
+														"catena-x",
+														"net"
+													],
+													"path": [
+														"api",
+														"public"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
 						}
 					]
 				}
@@ -2035,7 +2266,7 @@
 		},
 		{
 			"key": "API-KEY",
-			"value": "#d<>-x9U-\\W9'9mb7<08Ro;t",
+			"value": "",
 			"type": "string"
 		},
 		{
