@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added mapping for generic Endpoint
 - Added mapping for Pool lsa types
+- Added edc postman collection 
 
 ### Fixes
 - Fix vulnerability on spring boot version and upgrade version to 3.1.8

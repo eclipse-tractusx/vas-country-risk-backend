@@ -1,0 +1,425 @@
+{
+	"info": {
+		"_postman_id": "b9cdb757-046a-4bc1-bfae-d44145e03a8d",
+		"name": "EDC Country Risk Sharing Apis Setup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29921765"
+	},
+	"item": [
+		{
+			"name": "Create Assets",
+			"item": [
+				{
+					"name": "Country Risk Assets",
+					"item": [
+						{
+							"name": "Sharing Rating Score for Each Bpn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": {},\n    \"asset\": {\n        \"@type\": \"Asset\",\n        \"@id\": \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_EACH_BPN}}\",\n        \"properties\": {\n            \"description\": \"GET Sharing States ({{CR_URL}}/swagger-ui/index.html#/Sharing Controller/getAllRatingsScoresForEachBpn)\",\n            \"company\": \"{{COMPANY_ID}}\"\n        }\n    },\n    \"dataAddress\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"HttpData\",\n        \"baseUrl\": \"{{CR_URL}}/api/sharing/getAllRatingsScoresForEachBpn\",\n        \"oauth2:tokenUrl\": \"{{ASSET_TOKEN_URL}}\",\n        \"oauth2:clientId\": \"{{ASSET_CLIENT_ID}}\",\n        \"oauth2:clientSecretKey\": \"{{ASSET_CLIENT_SECRET}}\",\n        \"proxyQueryParams\": \"true\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MANAGEMENT_URL}}/assets",
+									"host": [
+										"{{PROVIDER_MANAGEMENT_URL}}"
+									],
+									"path": [
+										"assets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sharing Ratings for Company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": {},\n    \"asset\": {\n        \"@type\": \"Asset\",\n        \"@id\": \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}\",\n        \"properties\": {\n            \"description\": \"GET Sharing States ({{CR_URL}}/swagger-ui/index.html#/Sharing Controller/getAllRatingsForCompany)\",\n            \"company\": \"{{COMPANY_ID}}\"\n        }\n    },\n    \"dataAddress\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"HttpData\",\n        \"baseUrl\": \"{{CR_URL}}/api/sharing/getAllRatingsForCompany\",\n        \"oauth2:tokenUrl\": \"{{ASSET_TOKEN_URL}}\",\n        \"oauth2:clientId\": \"{{ASSET_CLIENT_ID}}\",\n        \"oauth2:clientSecretKey\": \"{{ASSET_CLIENT_SECRET}}\",\n        \"proxyQueryParams\": \"true\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MANAGEMENT_URL}}/assets",
+									"host": [
+										"{{PROVIDER_MANAGEMENT_URL}}"
+									],
+									"path": [
+										"assets"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get all Assets CR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"@context\": {\r\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 10,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"fieldName\",\r\n  \"filterExpression\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/assets/request",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asset by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/assets/GET_CR_SHARING_RATINGS_FOR_COMPANY",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								"GET_CR_SHARING_RATINGS_FOR_COMPANY"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Policy",
+			"item": [
+				{
+					"name": "Get all Policies CR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n    },\n    \"id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n        \"prohibitions\": [],\n        \"obligations\": [],\n        \"permissions\": [\n            {\n                \"edctype\": \"dataspaceconnector:permission\",\n                \"action\": {\n                    \"type\": \"USE\"\n                },\n                \"constraints\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/policydefinitions/request/",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								"request",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delte Policy by ID Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n        \"prohibitions\": [],\n        \"obligations\": [],\n        \"permissions\": [\n            {\n                \"edctype\": \"dataspaceconnector:permission\",\n                \"action\": {\n                    \"type\": \"USE\"\n                },\n                \"constraints\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/policydefinitions/{{POLICY_ID}}",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								"{{POLICY_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n    },\n    \"@type\": \"PolicyDefinitionRequestDto\",\n    \"@id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n\t\t\"@type\": \"Policy\",\n\t\t\"odrl:permission\" : [{\n\t\t\t\"odrl:action\" : \"USE\",\n\t\t\t\"odrl:constraint\" : {\n\t\t\t\t\"@type\": \"LogicalConstraint\",\n\t\t\t\t\"odrl:or\" : [{\n\t\t\t\t\t\"@type\" : \"Constraint\",\n\t\t\t\t\t\"odrl:leftOperand\" : \"BusinessPartnerNumber\",\n\t\t\t\t\t\"odrl:operator\" : {\n                        \"@id\": \"odrl:eq\"\n                    },\n\t\t\t\t\t\"odrl:rightOperand\" : \"{{BPNL_SHARING_MEMBER}}\"\n\t\t\t\t}]\n\t\t\t}\n\t\t}]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/policydefinitions",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Definition",
+			"item": [
+				{
+					"name": "Get all Contract Definitiions CR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/contractdefinitions/request",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractdefinitions",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delte Contract Definition Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n        \"prohibitions\": [],\n        \"obligations\": [],\n        \"permissions\": [\n            {\n                \"edctype\": \"dataspaceconnector:permission\",\n                \"action\": {\n                    \"type\": \"USE\"\n                },\n                \"constraints\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/contractdefinitions/{{CONTRACT_DEFINITION_ID}}",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractdefinitions",
+								"{{CONTRACT_DEFINITION_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contract Definition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {},\n    \"@id\": \"{{CONTRACT_DEFINITION_ID}}\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"{{ACCESS_POLICY_ID}}\",\n    \"contractPolicyId\": \"{{CONTRACT_POLICY_ID}}\",\n    \"assetsSelector\": {\n        \"@type\": \"CriterionDto\",\n        \"operandLeft\": \"{{EDC_NAMESPACE}}id\",\n        \"operator\": \"in\",\n        \"operandRight\": [\n            \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_EACH_BPN}}\",\n            \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROVIDER_MANAGEMENT_URL}}/contractdefinitions",
+							"host": [
+								"{{PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractdefinitions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{API-KEY}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Api-Key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PROVIDER_MANAGEMENT_URL",
+			"value": "https://country-risk-edc.int.demo.catena-x.net/management/v2"
+		},
+		{
+			"key": "POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "ACCESS_POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_DEFINITION_ID",
+			"value": "COUNTRY_RISK_COMPANY_TEST_SHARING_MEMBER",
+			"type": "default"
+		},
+		{
+			"key": "BPNL_SHARING_MEMBER",
+			"value": "BPNL00000007RWSM",
+			"type": "default"
+		},
+		{
+			"key": "EDC_NAMESPACE",
+			"value": "https://w3id.org/edc/v0.0.1/ns/",
+			"type": "string"
+		},
+		{
+			"key": "API-KEY",
+			"value": "api-key",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_TOKEN_URL",
+			"value": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_CLIENT_ID",
+			"value": "sa121",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_CLIENT_SECRET",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CR_URL",
+			"value": "https://vas-country-risk-backend.int.demo.catena-x.net",
+			"type": "string"
+		},
+		{
+			"key": "COMPANY_ID",
+			"value": "BPNL00000007RF54",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_GET_CR_SHARING_RATINGS_FOR_EACH_BPN",
+			"value": "GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY",
+			"value": "GET_CR_SHARING_RATINGS_FOR_COMPANY",
+			"type": "string"
+		}
+	]
+}
