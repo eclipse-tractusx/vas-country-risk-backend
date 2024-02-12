@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - BPDM endpoints changed for requesting EDC when available
 - Logic mapping changed between Gate Pool and Country Risk DTO
+- Update header year for TRG on each file
 
 ### Added
 - Added mapping for generic Endpoint

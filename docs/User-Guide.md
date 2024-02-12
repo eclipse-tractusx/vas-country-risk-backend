@@ -4,7 +4,7 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 
 - SPDX-License-Identifier: Apache-2.0
 - Licence Path: https://creativecommons.org/licenses/by/4.0/legalcode
-- Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
+- Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
 - Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
 - Source URL: https://github.com/eclipse-tractusx/vas-country-risk-backend
 
