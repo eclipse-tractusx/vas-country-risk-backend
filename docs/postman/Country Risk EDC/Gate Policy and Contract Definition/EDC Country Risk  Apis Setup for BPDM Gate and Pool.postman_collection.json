@@ -1,0 +1,352 @@
+{
+	"info": {
+		"_postman_id": "05486d2b-ce3c-4424-af31-400e13537620",
+		"name": "EDC Country Risk  Apis Setup for BPDM Gate and Pool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29921765"
+	},
+	"item": [
+		{
+			"name": "Create Assets",
+			"item": [
+				{
+					"name": "Get all Assets BPDM",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"@context\": {\r\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 10,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"fieldName\",\r\n  \"filterExpression\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/assets/request",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asset by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/assets/GET_CR_SHARING_RATINGS_FOR_COMPANY",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								"GET_CR_SHARING_RATINGS_FOR_COMPANY"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Policy",
+			"item": [
+				{
+					"name": "Get all Policies BPDM",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n    },\n    \"id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n        \"prohibitions\": [],\n        \"obligations\": [],\n        \"permissions\": [\n            {\n                \"edctype\": \"dataspaceconnector:permission\",\n                \"action\": {\n                    \"type\": \"USE\"\n                },\n                \"constraints\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/policydefinitions/request",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delte Policy by ID Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n        \"prohibitions\": [],\n        \"obligations\": [],\n        \"permissions\": [\n            {\n                \"edctype\": \"dataspaceconnector:permission\",\n                \"action\": {\n                    \"type\": \"USE\"\n                },\n                \"constraints\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/policydefinitions/{{POLICY_ID}}",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								"{{POLICY_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Policy BPDM",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n    },\n    \"@type\": \"PolicyDefinitionRequestDto\",\n    \"@id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n\t\t\"@type\": \"Policy\",\n\t\t\"odrl:permission\" : [{\n\t\t\t\"odrl:action\" : \"USE\",\n\t\t\t\"odrl:constraint\" : {\n\t\t\t\t\"@type\": \"LogicalConstraint\",\n\t\t\t\t\"odrl:or\" : [{\n\t\t\t\t\t\"@type\" : \"Constraint\",\n\t\t\t\t\t\"odrl:leftOperand\" : \"BusinessPartnerNumber\",\n\t\t\t\t\t\"odrl:operator\" : {\n                        \"@id\": \"odrl:eq\"\n                    },\n\t\t\t\t\t\"odrl:rightOperand\" : \"{{BPNL_SHARING_MEMBER}}\"\n\t\t\t\t}]\n\t\t\t}\n\t\t}]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/policydefinitions",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Definition",
+			"item": [
+				{
+					"name": "Get all Contract Definitiions BPDM",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/contractdefinitions/request",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractdefinitions",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delte Contract Definition Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n        \"prohibitions\": [],\n        \"obligations\": [],\n        \"permissions\": [\n            {\n                \"edctype\": \"dataspaceconnector:permission\",\n                \"action\": {\n                    \"type\": \"USE\"\n                },\n                \"constraints\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/contractdefinitions/{{CONTRACT_DEFINITION_ID}}",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractdefinitions",
+								"{{CONTRACT_DEFINITION_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contract Definition BPDM",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {},\n    \"@id\": \"{{CONTRACT_DEFINITION_ID}}\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"{{ACCESS_POLICY_ID}}\",\n    \"contractPolicyId\": \"{{CONTRACT_POLICY_ID}}\",\n    \"assetsSelector\": {\n        \"@type\": \"CriterionDto\",\n        \"operandLeft\": \"{{EDC_NAMESPACE}}id\",\n        \"operator\": \"in\",\n        \"operandRight\": [\n            \"{{ASSET_POST_GENERIC_OUTPUT_SEARCH}}\",\n            \"{{ASSET_POST_BPL_POOL_SEARCH}}\",\n            \"{{ASSET_POST_BPA_POOL_SEARCH}}\",\n            \"{{ASSET_POST_BPS_POOL_SEARCH}}\"\n\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATE_PROVIDER_MANAGEMENT_URL}}/contractdefinitions/",
+							"host": [
+								"{{GATE_PROVIDER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractdefinitions",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{API-KEY}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Api-Key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "GATE_PROVIDER_MANAGEMENT_URL",
+			"value": "https://gate-edc.int.demo.catena-x.net/management/v2"
+		},
+		{
+			"key": "POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "ACCESS_POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_DEFINITION_ID",
+			"value": "COUNTRY_RISK_COMPANY_TEST_SHARING_MEMBER",
+			"type": "default"
+		},
+		{
+			"key": "BPNL_SHARING_MEMBER",
+			"value": "BPNL00000007RWSM",
+			"type": "default"
+		},
+		{
+			"key": "EDC_NAMESPACE",
+			"value": "https://w3id.org/edc/v0.0.1/ns/",
+			"type": "string"
+		},
+		{
+			"key": "API-KEY",
+			"value": "api-key",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_TOKEN_URL",
+			"value": "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_CLIENT_ID",
+			"value": "sa121",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_CLIENT_SECRET",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CR_URL",
+			"value": "https://vas-country-risk-backend.int.demo.catena-x.net",
+			"type": "string"
+		},
+		{
+			"key": "COMPANY_ID",
+			"value": "BPNL00000007RF54",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_POST_GENERIC_OUTPUT_SEARCH",
+			"value": "POST_GENERIC_OUTPUT_SEARCH",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_POST_BPL_POOL_SEARCH",
+			"value": "POST_BPL_POOL_SEARCH",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_POST_BPA_POOL_SEARCH",
+			"value": "POST_BPA_POOL_SEARCH",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_POST_BPS_POOL_SEARCH",
+			"value": "POST_BPS_POOL_SEARCH",
+			"type": "string"
+		}
+	]
+}

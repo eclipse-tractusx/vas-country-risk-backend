@@ -1,0 +1,742 @@
+{
+	"info": {
+		"_postman_id": "e9e246be-a0d9-4374-8adf-46200f24f89e",
+		"name": "EDC- Country Risk Sharing Api Integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29921765"
+	},
+	"item": [
+		{
+			"name": "Step 1 - Query Catalog",
+			"item": [
+				{
+					"name": "Query Catalog CR",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Parse the JSON response",
+									"var responseJson = pm.response.json();",
+									"",
+									"// Check if the dataset is an array",
+									"if (Array.isArray(responseJson[\"dcat:dataset\"])) {",
+									"    // It's an array, so loop through each dataset object in the response",
+									"    responseJson[\"dcat:dataset\"].forEach(function(dataset) {",
+									"        setVariables(dataset);",
+									"    });",
+									"} else if (responseJson[\"dcat:dataset\"]) {",
+									"    // It's a single object, not an array",
+									"    setVariables(responseJson[\"dcat:dataset\"]);",
+									"}",
+									"",
+									"function setVariables(dataset) {",
+									"    // Get the ID and corresponding value",
+									"    var id = dataset[\"@id\"];",
+									"    var offerId = dataset[\"odrl:hasPolicy\"][\"@id\"];",
+									"    ",
+									"    // Set variables for each object",
+									"    pm.collectionVariables.set(\"ASSET_\" + id, id);",
+									"    pm.collectionVariables.set(\"OFFERID_\" + id, offerId);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"@context\": {},\r\n    \"protocol\": \"dataspace-protocol-http\",\r\n    \"providerUrl\": \"{{PROVIDER_PROTOCOL_URL}}\",\r\n    \"querySpec\": {\r\n        \"offset\": 0,\r\n        \"limit\": 100,\r\n        \"filter\": \"\",\r\n        \"range\": {\r\n            \"from\": 0,\r\n            \"to\": 100\r\n        },\r\n        \"criterion\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/catalog/request/",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"catalog",
+								"request",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step2 - Data Access Per Request",
+			"item": [
+				{
+					"name": "Country Risk",
+					"item": [
+						{
+							"name": "Sharing Controller",
+							"item": [
+								{
+									"name": "Get All Ratings",
+									"item": [
+										{
+											"name": "Initiate EDR Negotation Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n\t\"@context\": {\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n\t},\n\t\"@type\": \"NegotiationInitiateRequestDto\",\n\t\"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n\t\"protocol\": \"dataspace-protocol-http\",\n\t\"connectorId\": \"{{PROVIDER_ID}}\",\n\t\"providerId\": \"{{PROVIDER_ID}}\",\n\t\"offer\": {\n\t\t\"offerId\": \"{{OFFERID_GET_CR_SHARING_RATINGS_FOR_COMPANY}}\",\n\t\t\"assetId\": \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}\",\n\t\t\"policy\": {\n\t\t\t\"@type\": \"odrl:Set\",\n\t\t\t\"odrl:permission\": {\n\t\t\t\t\"odrl:target\": \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}\",\n\t\t\t\t\"odrl:action\": {\n\t\t\t\t\t\"odrl:type\": \"USE\"\n\t\t\t\t},\n\t\t\t\t\"odrl:constraint\": {\n\t\t\t\t\t\"odrl:or\": {\n\t\t\t\t\t\t\"odrl:leftOperand\": \"BusinessPartnerNumber\",\n\t\t\t\t\t\t\"odrl:operator\": {\n                            \"@id\": \"odrl:eq\"\n                        },\n\t\t\t\t\t\t\"odrl:rightOperand\": \"{{POLICY_BPN}}\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"odrl:prohibition\": [],\n\t\t\t\"odrl:obligation\": [],\n\t\t\t\"odrl:target\": \"{{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}\"\n\t\t}\n\t}\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CONSUMER_ADAPTER_URL}}/edrs/",
+													"host": [
+														"{{CONSUMER_ADAPTER_URL}}"
+													],
+													"path": [
+														"edrs",
+														""
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Query EDRs Cached Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"// Parse the JSON response",
+															"var responseBody = pm.response.json();",
+															"",
+															"var lastNegotiatedTransferProcessId = \"\";",
+															"",
+															"// Check if the response is an array and has elements",
+															"if (Array.isArray(responseBody) && responseBody.length > 0) {",
+															"    responseBody.forEach(function(item) {",
+															"        if (item.hasOwnProperty(\"tx:edrState\") && item[\"tx:edrState\"] === \"NEGOTIATED\") {",
+															"            if (item.hasOwnProperty(\"edc:transferProcessId\")) {",
+															"                lastNegotiatedTransferProcessId = item[\"edc:transferProcessId\"];",
+															"            }",
+															"        }",
+															"    });",
+															"",
+															"    if (lastNegotiatedTransferProcessId !== \"\") {",
+															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
+															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
+															"        // For example, you can set it as an environment variable",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"    } else {",
+															"        console.log(\"No negotiated transfer process ID found.\");",
+															"    }",
+															"} else {",
+															"    console.log(\"Response is not an array or it has no elements.\");",
+															"}",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CONSUMER_ADAPTER_URL}}/edrs?assetId={{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}",
+													"host": [
+														"{{CONSUMER_ADAPTER_URL}}"
+													],
+													"path": [
+														"edrs"
+													],
+													"query": [
+														{
+															"key": "assetId",
+															"value": "{{ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get EDR by tp ID Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"// Parse the JSON response",
+															"var responseBody = pm.response.json();",
+															"",
+															"// Check if the response contains the \"edc:authCode\" property",
+															"if (responseBody.hasOwnProperty(\"edc:authCode\")) {",
+															"    // Get the value of \"edc:authCode\"",
+															"    var authCode = responseBody[\"edc:authCode\"];",
+															"",
+															"    // Set the collection variable with the value of \"edc:authCode\"",
+															"    pm.collectionVariables.set(\"AUTH_CODE\", authCode);",
+															"",
+															"    // Log the value to the Postman console",
+															"    console.log(\"edc:authCode: \" + authCode);",
+															"} else {",
+															"    console.log(\"Response does not contain 'edc:authCode' property.\");",
+															"}"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CONSUMER_ADAPTER_URL}}/edrs/{{TRANSFERID_AUTOTEST}}",
+													"host": [
+														"{{CONSUMER_ADAPTER_URL}}"
+													],
+													"path": [
+														"edrs",
+														"{{TRANSFERID_AUTOTEST}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Public API GET Copy",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "value",
+															"value": "{{AUTH_CODE}}",
+															"type": "string"
+														},
+														{
+															"key": "key",
+															"value": "Authorization",
+															"type": "string"
+														}
+													]
+												},
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \r\n}"
+												},
+												"url": {
+													"raw": "{{PROVIDER_PUBLIC_API}}?year=2021&name=John&email=John@email.com&companyName=TestCompany",
+													"host": [
+														"{{PROVIDER_PUBLIC_API}}"
+													],
+													"query": [
+														{
+															"key": "year",
+															"value": "2021"
+														},
+														{
+															"key": "name",
+															"value": "John"
+														},
+														{
+															"key": "email",
+															"value": "John@email.com"
+														},
+														{
+															"key": "companyName",
+															"value": "TestCompany"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Get Scores for Each Bpn Rating",
+									"item": [
+										{
+											"name": "Initiate EDR Negotation Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n\t\"@context\": {\n\t\t\"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n\t},\n\t\"@type\": \"NegotiationInitiateRequestDto\",\n\t\"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n\t\"protocol\": \"dataspace-protocol-http\",\n\t\"connectorId\": \"{{PROVIDER_ID}}\",\n\t\"providerId\": \"{{PROVIDER_ID}}\",\n\t\"offer\": {\n\t\t\"offerId\": \"{{OFFERID_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN}}\",\n\t\t\"assetId\": \"{{ASSET_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN}}\",\n\t\t\"policy\": {\n\t\t\t\"@type\": \"odrl:Set\",\n\t\t\t\"odrl:permission\": {\n\t\t\t\t\"odrl:target\": \"{{ASSET_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN}}\",\n\t\t\t\t\"odrl:action\": {\n\t\t\t\t\t\"odrl:type\": \"USE\"\n\t\t\t\t},\n\t\t\t\t\"odrl:constraint\": {\n\t\t\t\t\t\"odrl:or\": {\n\t\t\t\t\t\t\"odrl:leftOperand\": \"BusinessPartnerNumber\",\n\t\t\t\t\t\t\"odrl:operator\": {\n                            \"@id\": \"odrl:eq\"\n                        },\n\t\t\t\t\t\t\"odrl:rightOperand\": \"{{POLICY_BPN}}\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"odrl:prohibition\": [],\n\t\t\t\"odrl:obligation\": [],\n\t\t\t\"odrl:target\": \"{{ASSET_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN}}\"\n\t\t}\n\t}\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CONSUMER_ADAPTER_URL}}/edrs/",
+													"host": [
+														"{{CONSUMER_ADAPTER_URL}}"
+													],
+													"path": [
+														"edrs",
+														""
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Query EDRs Cached Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"// Parse the JSON response",
+															"var responseBody = pm.response.json();",
+															"",
+															"var lastNegotiatedTransferProcessId = \"\";",
+															"",
+															"// Check if the response is an array and has elements",
+															"if (Array.isArray(responseBody) && responseBody.length > 0) {",
+															"    responseBody.forEach(function(item) {",
+															"        if (item.hasOwnProperty(\"tx:edrState\") && item[\"tx:edrState\"] === \"NEGOTIATED\") {",
+															"            if (item.hasOwnProperty(\"edc:transferProcessId\")) {",
+															"                lastNegotiatedTransferProcessId = item[\"edc:transferProcessId\"];",
+															"            }",
+															"        }",
+															"    });",
+															"",
+															"    if (lastNegotiatedTransferProcessId !== \"\") {",
+															"        console.log(\"Last Negotiated Transfer Process ID: \" + lastNegotiatedTransferProcessId);",
+															"        // You can also use the value of lastNegotiatedTransferProcessId as needed",
+															"        // For example, you can set it as an environment variable",
+															"        pm.collectionVariables.set(\"TRANSFERID_AUTOTEST\", lastNegotiatedTransferProcessId);",
+															"    } else {",
+															"        console.log(\"No negotiated transfer process ID found.\");",
+															"    }",
+															"} else {",
+															"    console.log(\"Response is not an array or it has no elements.\");",
+															"}",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CONSUMER_ADAPTER_URL}}/edrs?assetId={{ASSET_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN}}",
+													"host": [
+														"{{CONSUMER_ADAPTER_URL}}"
+													],
+													"path": [
+														"edrs"
+													],
+													"query": [
+														{
+															"key": "assetId",
+															"value": "{{ASSET_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get EDR by tp ID Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"// Parse the JSON response",
+															"var responseBody = pm.response.json();",
+															"",
+															"// Check if the response contains the \"edc:authCode\" property",
+															"if (responseBody.hasOwnProperty(\"edc:authCode\")) {",
+															"    // Get the value of \"edc:authCode\"",
+															"    var authCode = responseBody[\"edc:authCode\"];",
+															"",
+															"    // Set the collection variable with the value of \"edc:authCode\"",
+															"    pm.collectionVariables.set(\"AUTH_CODE\", authCode);",
+															"",
+															"    // Log the value to the Postman console",
+															"    console.log(\"edc:authCode: \" + authCode);",
+															"} else {",
+															"    console.log(\"Response does not contain 'edc:authCode' property.\");",
+															"}"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CONSUMER_ADAPTER_URL}}/edrs/{{TRANSFERID_AUTOTEST}}",
+													"host": [
+														"{{CONSUMER_ADAPTER_URL}}"
+													],
+													"path": [
+														"edrs",
+														"{{TRANSFERID_AUTOTEST}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Public API GET Copy",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "value",
+															"value": "{{AUTH_CODE}}",
+															"type": "string"
+														},
+														{
+															"key": "key",
+															"value": "Authorization",
+															"type": "string"
+														}
+													]
+												},
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \r\n}"
+												},
+												"url": {
+													"raw": "{{PROVIDER_PUBLIC_API}}?datasource[]={\n  \"dataSourceName\": \"CPI Rating 2021\",\n  \"yearPublished\": 2021\n}&bpns[]={\n  \"bpn\": \"BPNL00000007QZG8\",\n  \"country\": \"Germany\"\n}&name=John&email=John@email.com&companyName=TestCompany",
+													"host": [
+														"{{PROVIDER_PUBLIC_API}}"
+													],
+													"query": [
+														{
+															"key": "datasource[]",
+															"value": "{\n  \"dataSourceName\": \"CPI Rating 2021\",\n  \"yearPublished\": 2021\n}"
+														},
+														{
+															"key": "bpns[]",
+															"value": "{\n  \"bpn\": \"BPNL00000007QZG8\",\n  \"country\": \"Germany\"\n}"
+														},
+														{
+															"key": "name",
+															"value": "John"
+														},
+														{
+															"key": "email",
+															"value": "John@email.com"
+														},
+														{
+															"key": "companyName",
+															"value": "TestCompany"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{API-KEY}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Api-Key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CONSUMER_MEMBER_EDC_BASE_URL",
+			"value": "https://country-risk-consumer-member-edc.int.demo.catena-x.net",
+			"type": "string"
+		},
+		{
+			"key": "COUNTRY_RISK_EDC_BASE_URL",
+			"value": "https://country-risk-edc.int.demo.catena-x.net",
+			"type": "string"
+		},
+		{
+			"key": "CONSUMER_MANAGEMENT_URL",
+			"value": "{{CONSUMER_MEMBER_EDC_BASE_URL}}/management/v2",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_PROTOCOL_URL",
+			"value": "{{COUNTRY_RISK_EDC_BASE_URL}}/api/v1/dsp"
+		},
+		{
+			"key": "PROVIDER_MANAGEMENT_URL",
+			"value": "{{COUNTRY_RISK_EDC_BASE_URL}}/management/v2"
+		},
+		{
+			"key": "CONSUMER_ADAPTER_URL",
+			"value": "{{CONSUMER_MEMBER_EDC_BASE_URL}}/management",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_PUBLIC_API",
+			"value": "{{COUNTRY_RISK_EDC_BASE_URL}}/api/public",
+			"type": "string"
+		},
+		{
+			"key": "POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "ACCESS_POLICY_ID",
+			"value": "COUNTRY_RISK_TEST_BPN",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_DEFINITION_ID",
+			"value": "COUNTRY_RISK_COMPANY_TEST_SHARING_MEMBER_V2",
+			"type": "default"
+		},
+		{
+			"key": "POLICY_BPN",
+			"value": "BPNL00000007RWSM",
+			"type": "default"
+		},
+		{
+			"key": "PROVIDER_ID",
+			"value": "BPNL00000007RF54",
+			"type": "string"
+		},
+		{
+			"key": "EDC_NAMESPACE",
+			"value": "https://w3id.org/edc/v0.0.1/ns/",
+			"type": "string"
+		},
+		{
+			"key": "API-KEY",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TRANSFERID_AUTOTEST",
+			"value": ""
+		},
+		{
+			"key": "NEGOTIATION_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TRANSFER_PROCESS_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "OFFERID_GET_CR_SHARING_RATINGS_FOR_COMPANY",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_GET_CR_SHARING_RATINGS_FOR_COMPANY",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN",
+			"value": ""
+		},
+		{
+			"key": "OFFERID_GET_CR_SHARING_RATING_SCORES_FOR_EACH_BPN",
+			"value": ""
+		},
+		{
+			"key": "AUTH_CODE",
+			"value": ""
+		},
+		{
+			"key": "CONTRACT_AGREEMENT_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TRANSFER_ID",
+			"value": ""
+		},
+		{
+			"key": "ASSET_CLIENT_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "GATE_PROVIDER_ID",
+			"value": "BPNL00000007RF54",
+			"type": "string"
+		}
+	]
+}
