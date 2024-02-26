@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.8</version>
+        <version>3.1.9</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
@@ -54,7 +54,7 @@
         <jacoco.version>0.8.7</jacoco.version>
 
         <spring-security-web-version>6.2.1</spring-security-web-version>
-        <postgresql-version>42.6.0</postgresql-version>
+        <postgresql-version>42.7.2</postgresql-version>
         <jackson-databind-nullable>0.2.6</jackson-databind-nullable>
         <wiremock-standalone-version>3.0.0-beta-10</wiremock-standalone-version>
         <snake-yaml-version>2.2</snake-yaml-version>

@@ -24,6 +24,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -43,8 +45,8 @@ public class SecurityConfiguration  {
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.cors(withDefaults())
-                        .csrf(((csrf)-> csrf.disable()))
-                                .authorizeHttpRequests(((authz)-> authz
+                        .csrf((AbstractHttpConfigurer::disable))
+                                .authorizeHttpRequests((auth-> auth
                                         .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/edc/**")
                                         .authenticated()
                                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**","/management/**")
@@ -76,12 +78,12 @@ public class SecurityConfiguration  {
 
 
         httpSecurity.cors(withDefaults())
-                .csrf(((csrf)-> csrf.disable()))
-                .formLogin(((form)-> form.disable()))
-                .httpBasic((httpBasic)-> httpBasic.disable())
-                .logout((logout)-> logout.disable())
-                .headers((headers)->headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
-                .authorizeHttpRequests(((authz)-> authz
+                .csrf((AbstractHttpConfigurer::disable))
+                .formLogin((AbstractHttpConfigurer::disable))
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
+                .headers(headers->headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .authorizeHttpRequests((auth-> auth
                         .requestMatchers("/error","/api/**","/management/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
                         .permitAll()
                 ));
