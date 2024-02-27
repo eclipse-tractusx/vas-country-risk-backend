@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.valueaddedservice.constants.VasConstants;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.RangeType;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
@@ -40,7 +41,9 @@ public class RangeLogicService {
     RangeService rangeService;
 
     public void saveRanges(List<RangeDTO> rangeDTOS, CompanyUserDTO companyUserDTO)  {
-        log.debug("saveRanges save new ranges {} for companyUser {}",rangeDTOS,companyUserDTO);
+        String sanitizedRange = StringEscapeUtils.escapeJava(rangeDTOS.toString());
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("saveRanges save new ranges {} for companyUser {}",sanitizedRange,sanitizedCompany);
         List<RangeDTO> list = rangeService.getUserRanges(companyUserDTO);
         if (list.isEmpty()) {
             rangeDTOS.forEach(rangeDTO -> {
@@ -57,7 +60,8 @@ public class RangeLogicService {
     
     @Cacheable(value = "vas-range", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<RangeDTO> getUserRangesOrDefault(CompanyUserDTO companyUserDTO) {
-        log.debug("getUserRangesOrDefault get ranges for companyUser {}",companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("getUserRangesOrDefault get ranges for companyUser {}",sanitizedCompany);
         List<RangeDTO> ranges = rangeService.getUserRanges(companyUserDTO);
         if (!ranges.isEmpty()) {
             return ranges;

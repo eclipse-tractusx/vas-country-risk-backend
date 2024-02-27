@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.valueaddedservice.dto.BusinessPartnerDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CountryDTO;
@@ -42,7 +43,8 @@ public class ExternalBusinessPartnersLogicService {
     
     @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName},#roles}", unless = "#result == null")
     public List<String> getExternalPartnersCountry (CompanyUserDTO companyUserDTO,String token,List<String> roles) {
-        log.debug("getExternalPartnersCountry for companyUserDTO {}",companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("getExternalPartnersCountry for companyUserDTO {}",sanitizedCompany);
         List<BusinessPartnerDTO> businessPartnerDTOS;
         businessPartnerDTOS = businessPartnersLogicService.getExternalBusinessPartners(companyUserDTO,token,roles);
         List<String> countryList = new ArrayList<>();

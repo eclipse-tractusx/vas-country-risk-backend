@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.CountryDTO;
 import org.eclipse.tractusx.valueaddedservice.service.CountryService;
@@ -47,7 +48,8 @@ public class CountryLogicService {
 
     @Cacheable(value = "vas-country", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName},#roles }", unless = "#result == null")
     public List<CountryDTO> getAssociatedCountries (CompanyUserDTO companyUserDTO,String token,List<String> roles) {
-        log.debug("getAssociatedCountries filtered by companyUserDTO " + companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("getAssociatedCountries filtered by companyUserDTO " + sanitizedCompany);
         List<String> countryList;
         countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUserDTO,token,roles);
 
@@ -61,7 +63,8 @@ public class CountryLogicService {
     
     @Cacheable(value = "vas-country", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName},#roles}", unless = "#result == null")
     public List<CountryDTO> getCountryFilterByISO2(CompanyUserDTO companyUserDTO,String token,List<String> roles){
-        log.debug("getCountryFilterByISO2 filtered by companyUserDTO "+ companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("getCountryFilterByISO2 filtered by companyUserDTO "+ sanitizedCompany);
         List<CountryDTO> countryDTOList = countryService.findAll().stream().filter(MethodUtils.distinctByKey(CountryDTO::getIso2)).toList();
         countryDTOList.forEach(countryDTO -> countryDTO.setTotalBpn(externalBusinessPartnersLogicService.getTotalBpnByCountry(countryDTO,companyUserDTO,token,roles)));
 

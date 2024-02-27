@@ -45,14 +45,12 @@ public class SecurityConfiguration  {
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.cors(withDefaults())
-                        .csrf((AbstractHttpConfigurer::disable))
                                 .authorizeHttpRequests((auth-> auth
                                         .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/edc/**")
                                         .authenticated()
                                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**","/management/**")
                                         .permitAll()
                                 ));
-
         httpSecurity.oauth2ResourceServer(resourceServer -> resourceServer
                 .jwt(withDefaults()));
 
@@ -75,10 +73,7 @@ public class SecurityConfiguration  {
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
     public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
 
-
-
         httpSecurity.cors(withDefaults())
-                .csrf((AbstractHttpConfigurer::disable))
                 .formLogin((AbstractHttpConfigurer::disable))
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)

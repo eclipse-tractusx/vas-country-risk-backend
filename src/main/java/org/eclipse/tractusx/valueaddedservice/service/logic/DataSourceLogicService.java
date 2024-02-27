@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.Type;
 import org.eclipse.tractusx.valueaddedservice.dto.CompanyUserDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.DataSourceDTO;
@@ -51,7 +52,8 @@ public class DataSourceLogicService {
 
     @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByYearAndCompanyUser(Integer year, CompanyUserDTO companyUserDTO){
-        log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("findRatingsByYearAndCompanyUser {}",sanitizedCompany);
         List<DataSourceDTO> dataSourceDTOS = dataSourceService.findRatingsByYearAndTypeGlobal(year);
         List<DataSourceDTO> companyRatings = dataSourceService.findByYearPublishedAndCompanyUserCompanyNameAndType(year, companyUserDTO, Type.Company);
         List<DataSourceDTO> dataSourceDTOByYearAndUser = dataSourceService.findRatingByYearAndUser(year,companyUserDTO);
@@ -63,7 +65,8 @@ public class DataSourceLogicService {
     
     @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByCompanyUser(CompanyUserDTO companyUserDTO){
-        log.debug("findRatingsByCompanyUser {}",companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("findRatingsByCompanyUser {}",sanitizedCompany);
         return dataSourceService.findRatingByUser(companyUserDTO);
 
     }
@@ -75,7 +78,8 @@ public class DataSourceLogicService {
 
     @Cacheable(value = "vas-datasource", key = "{#root.methodName , {#year,#companyUserDTO.companyName}}", unless = "#result == null")
     public List<DataSourceDTO> findRatingsByYearAndCompanyUserCompany(Integer year, CompanyUserDTO companyUserDTO){
-        log.debug("findRatingsByYearAndCompanyUser {}",companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("findRatingsByYearAndCompanyUser {}",sanitizedCompany);
         List<DataSourceDTO>  dataSourceDTOS = dataSourceService.findRatingsByYearAndTypeGlobal(year);
         List<DataSourceDTO> companyRatings = dataSourceService.findByYearPublishedAndCompanyUserCompanyNameAndType(year, companyUserDTO, Type.Company);
         dataSourceDTOS.addAll(companyRatings);
