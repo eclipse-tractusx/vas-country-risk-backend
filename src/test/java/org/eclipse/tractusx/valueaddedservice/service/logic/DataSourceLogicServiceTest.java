@@ -49,7 +49,7 @@ class DataSourceLogicServiceTest {
     @Test
     @DisplayName("Should return an empty list when the companyuserdto is null")
     void findRatingsByCompanyUserWhenCompanyUserDTOIsNull() {
-        CompanyUserDTO companyUserDTO = null;
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         List<DataSourceDTO> dataSourceDTOS =
                 dataSourceLogicService.findRatingsByCompanyUser(companyUserDTO);
         assertTrue(dataSourceDTOS.isEmpty());

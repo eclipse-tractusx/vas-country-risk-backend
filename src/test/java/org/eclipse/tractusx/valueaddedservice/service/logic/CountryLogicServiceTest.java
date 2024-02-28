@@ -136,7 +136,7 @@ class CountryLogicServiceTest {
     @Test
     @DisplayName("Should return an empty list when the companyuserdto is null")
     void getAssociatedCountriesWhenCompanyUserDTONullThenReturnEmptyList() {
-        CompanyUserDTO companyUserDTO = null;
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         List<CountryDTO> countryDTOList =
                 countryLogicService.getAssociatedCountries(companyUserDTO, "", new ArrayList<>());
         assertTrue(countryDTOList.isEmpty());

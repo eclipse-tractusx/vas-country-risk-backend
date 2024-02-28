@@ -1,22 +1,22 @@
 /********************************************************************************
-* Copyright (c) 2022,2024 BMW Group AG
-* Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
-*
-* See the NOTICE file(s) distributed with this work for additional
-* information regarding copyright ownership.
-*
-* This program and the accompanying materials are made available under the
-* terms of the Apache License, Version 2.0 which is available at
-* https://www.apache.org/licenses/LICENSE-2.0.
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-* WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-* License for the specific language governing permissions and limitations
-* under the License.
-*
-* SPDX-License-Identifier: Apache-2.0
-********************************************************************************/
+ * Copyright (c) 2022,2024 BMW Group AG
+ * Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.rest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +36,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -54,7 +55,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ValueAddedServiceApplication.class)
 @ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class UploadAndDownloadApiIntegrationTest {
 
@@ -70,12 +71,14 @@ class UploadAndDownloadApiIntegrationTest {
     @Autowired
     private DataSourceMapper dataSourceMapper;
 
+    @Autowired
+    private WebTestClient webTestClient;
 
-    private Map<String,Object> getMap() throws IOException {
-        Map<String,Object> map = new HashMap<>();
-        map.put("companyName","TestCompany");
-        map.put("name","John");
-        map.put("email","John@email.com");
+    private Map<String, Object> getMap() throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("companyName", "TestCompany");
+        map.put("name", "John");
+        map.put("email", "John@email.com");
 
         return map;
     }
@@ -84,8 +87,8 @@ class UploadAndDownloadApiIntegrationTest {
     @Test
     void uploadCsv() throws Exception {
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -109,9 +112,9 @@ class UploadAndDownloadApiIntegrationTest {
 
         RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         //Get Current Year
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
@@ -121,10 +124,11 @@ class UploadAndDownloadApiIntegrationTest {
         URI uriRatings = uritemplateRatings.expand(map);
         RequestEntity<Void> requestRatings = RequestEntity
                 .get(uriRatings).build();
-        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {
+        });
         List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
 
-        assertNotEquals(0,dataSourceDTOList.size());
+        assertNotEquals(0, dataSourceDTOList.size());
 
         DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
         assertEquals(VasConstants.HEADER_CSV_NAME, dataSourceDTO.getFileName());
@@ -137,24 +141,24 @@ class UploadAndDownloadApiIntegrationTest {
     @Transactional
     void getDataSourceTemplate() throws Exception {
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/getTemplate?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/getTemplate?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
         RequestEntity<Void> request = RequestEntity
                 .get(uri).accept(MediaType.APPLICATION_OCTET_STREAM).build();
-        ResponseEntity<String> responseEntity = testRestTemplate.exchange(request,String.class);
-        String data =  responseEntity.getBody();
+        ResponseEntity<String> responseEntity = testRestTemplate.exchange(request, String.class);
+        String data = responseEntity.getBody();
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
-        assertNotEquals(0,data.length());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotEquals(0, data.length());
 
     }
 
     @Test
     void errorOnUpload() throws Exception {
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -180,9 +184,9 @@ class UploadAndDownloadApiIntegrationTest {
 
         RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         //Get Current Year
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
@@ -192,18 +196,19 @@ class UploadAndDownloadApiIntegrationTest {
         URI uriRatings = uritemplateRatings.expand(map);
         RequestEntity<Void> requestRatings = RequestEntity
                 .get(uriRatings).build();
-        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {
+        });
         List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
 
-        assertNotEquals(0,dataSourceDTOList.size());
+        assertNotEquals(0, dataSourceDTOList.size());
 
         DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
         assertEquals(VasConstants.HEADER_CSV_NAME_ERROR, dataSourceDTO.getFileName());
 
 
-        responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.BAD_REQUEST,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
         cleanDataSources(dataSourceDTO);
     }
@@ -211,8 +216,8 @@ class UploadAndDownloadApiIntegrationTest {
     @Test
     void uploadCsvAndDeleteCSV() throws Exception {
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -236,9 +241,9 @@ class UploadAndDownloadApiIntegrationTest {
 
         RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         //Get Current Year
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
@@ -248,22 +253,24 @@ class UploadAndDownloadApiIntegrationTest {
         URI uriRatings = uriTemplateRatings.expand(map);
         RequestEntity<Void> requestRatings = RequestEntity
                 .get(uriRatings).build();
-        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {
+        });
         List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
 
-        assertNotEquals(0,dataSourceDTOList.size());
+        assertNotEquals(0, dataSourceDTOList.size());
 
         DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
         assertEquals(VasConstants.HEADER_CSV_NAME, dataSourceDTO.getFileName());
 
         uriTemplateRatings = new UriTemplate("/api/dashboard/deleteRating/{id}?name={name}&companyName={companyName}&email={email}");
-        map.put("id",dataSourceDTO.getId());
+        map.put("id", dataSourceDTO.getId());
         uriRatings = uriTemplateRatings.expand(map);
         requestRatings = RequestEntity
                 .delete(uriRatings).build();
 
-        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCode().value();
-        assertEquals(HttpStatus.NO_CONTENT.value(),status);
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {
+        }).getStatusCode().value();
+        assertEquals(HttpStatus.NO_CONTENT.value(), status);
 
 
     }
@@ -271,8 +278,8 @@ class UploadAndDownloadApiIntegrationTest {
     @Test
     void uploadCsvAndDeleteCSVFromOtherUserError() throws Exception {
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -296,9 +303,9 @@ class UploadAndDownloadApiIntegrationTest {
 
         RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         //Get Current Year
         map.put("year", Calendar.getInstance().get(Calendar.YEAR));
@@ -308,23 +315,35 @@ class UploadAndDownloadApiIntegrationTest {
         URI uriRatings = uriTemplateRatings.expand(map);
         RequestEntity<Void> requestRatings = RequestEntity
                 .get(uriRatings).build();
-        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DataSourceDTO>> responseRatings = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {
+        });
         List<DataSourceDTO> dataSourceDTOList = responseRatings.getBody();
 
-        assertNotEquals(0,dataSourceDTOList.size());
+        assertNotEquals(0, dataSourceDTOList.size());
 
         DataSourceDTO dataSourceDTO = dataSourceDTOList.get(0);
         assertEquals(VasConstants.HEADER_CSV_NAME, dataSourceDTO.getFileName());
 
-        uriTemplateRatings = new UriTemplate("/api/dashboard/deleteRating/{id}?name={name}&companyName={companyName}&email={email}");
-        map.put("id",dataSourceDTO.getId());
-        map.put("name","Not john");
-        uriRatings = uriTemplateRatings.expand(map);
-        requestRatings = RequestEntity
-                .delete(uriRatings).build();
 
-        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCode().value();
-        assertEquals(HttpStatus.UNAUTHORIZED.value(),status);
+        // Assuming dataSourceDTO and map are already defined and populated as needed
+        map = new HashMap<>();
+        map.put("id", dataSourceDTO.getId()); // Assuming dataSourceDTO is defined elsewhere
+        map.put("name", "Not john"); // Overriding the name in the map
+        map.put("companyName", "YourCompanyName"); // Assuming value is set
+        map.put("email", "email@example.com"); // Assuming value is set
+
+
+        Map<String, Object> finalMap = map;
+
+        webTestClient.delete()
+                .uri(uriBuilder -> uriBuilder.path("/api/dashboard/deleteRating/{id}")
+                        .queryParam("name", finalMap.get("name"))
+                        .queryParam("companyName", finalMap.get("companyName"))
+                        .queryParam("email", finalMap.get("email"))
+                        .build(finalMap.get("id")))
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.UNAUTHORIZED);
+
 
         cleanDataSources(dataSourceDTO);
     }
@@ -332,24 +351,25 @@ class UploadAndDownloadApiIntegrationTest {
     @Test
     void uploadCsvAndDeleteCSVNotFoundError() throws Exception {
 
-        Map<String,Object> map = getMap();
+        Map<String, Object> map = getMap();
         UriTemplate uriTemplateRatings = new UriTemplate("/api/dashboard/deleteRating/{id}?name={name}&companyName={companyName}&email={email}");
-        map.put("id",Integer.MAX_VALUE);
+        map.put("id", Integer.MAX_VALUE);
 
         URI uriRatings = uriTemplateRatings.expand(map);
         RequestEntity requestRatings = RequestEntity
                 .delete(uriRatings).build();
 
-        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {}).getStatusCode().value();
-        assertEquals(HttpStatus.NOT_FOUND.value(),status);
+        int status = testRestTemplate.exchange(requestRatings, new ParameterizedTypeReference<>() {
+        }).getStatusCode().value();
+        assertEquals(HttpStatus.NOT_FOUND.value(), status);
 
     }
 
     @Test
     void uploadCsvWithErrorOnScore() throws Exception {
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/uploadCsv?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         HttpHeaders headers = new HttpHeaders();
@@ -373,9 +393,9 @@ class UploadAndDownloadApiIntegrationTest {
 
         RequestEntity requestEntity = new RequestEntity(body, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.NOT_ACCEPTABLE,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, responseEntity.getStatusCode());
 
 
     }
@@ -385,7 +405,7 @@ class UploadAndDownloadApiIntegrationTest {
 
         List<DataSourceValue> deleteList = dataSourceValueRepository.findByDataSource(dataSourceMapper.toEntity(dataSourceDTO));
 
-        assertNotEquals(0,deleteList.size());
+        assertNotEquals(0, deleteList.size());
 
         dataSourceValueRepository.deleteAll(deleteList);
 

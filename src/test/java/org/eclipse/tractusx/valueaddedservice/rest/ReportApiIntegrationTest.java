@@ -1,22 +1,22 @@
 /********************************************************************************
-* Copyright (c) 2022,2024 BMW Group AG
-* Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
-*
-* See the NOTICE file(s) distributed with this work for additional
-* information regarding copyright ownership.
-*
-* This program and the accompanying materials are made available under the
-* terms of the Apache License, Version 2.0 which is available at
-* https://www.apache.org/licenses/LICENSE-2.0.
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-* WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-* License for the specific language governing permissions and limitations
-* under the License.
-*
-* SPDX-License-Identifier: Apache-2.0
-********************************************************************************/
+ * Copyright (c) 2022,2024 BMW Group AG
+ * Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.rest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = ValueAddedServiceApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ValueAddedServiceApplication.class)
 @ContextConfiguration(initializers = PostgreSQLContextInitializer.class)
 class ReportApiIntegrationTest {
 
@@ -71,18 +71,18 @@ class ReportApiIntegrationTest {
     @Autowired
     CompanyUserRepository companyUserRepository;
 
-    private Map<String,Object> getMap() throws IOException {
-        Map<String,Object> map = new HashMap<>();
-        map.put("companyName","TestCompany");
-        map.put("name","John");
-        map.put("email","john@email.com");
+    private Map<String, Object> getMap() throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("companyName", "TestCompany");
+        map.put("name", "John");
+        map.put("email", "john@email.com");
         map.put("ratingName", "testRating123");
 
         return map;
     }
 
     @AfterEach
-    public void cleanReports(){
+    public void cleanReports() {
         reportValuesRepository.deleteAll();
         reportRepository.deleteAll();
         companyUserRepository.deleteAll();
@@ -90,19 +90,19 @@ class ReportApiIntegrationTest {
     }
 
     @Test
-    void saveReports () throws Exception {
+    void saveReports() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -110,13 +110,14 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
     }
 
@@ -126,40 +127,40 @@ class ReportApiIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         //################## Duplicated Name on Report ##############
         RequestEntity requestEntityDupe = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<String> responseEntityDupe = testRestTemplate.exchange(requestEntityDupe,String.class);
+        ResponseEntity<String> responseEntityDupe = testRestTemplate.exchange(requestEntityDupe, String.class);
 
-        assertEquals(HttpStatus.BAD_REQUEST,responseEntityDupe.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntityDupe.getStatusCode());
     }
 
     @Test
-    void getReportsValueByReport () throws Exception {
+    void getReportsValueByReport() throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
-        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity,ResponseMessage.class);
+        ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplate = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -167,18 +168,19 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
         reportDTO.setId(reportDTOSize.get(0).getId());
 
         // ######## ReportsByReport #######
-        UriTemplate uriTemplateByReport=
+        UriTemplate uriTemplateByReport =
                 new UriTemplate("/api/dashboard/getReportsValueByReport?id={id}&" +
                         "reportName={reportName}&" +
                         "companyUserName={companyUserName}&" +
@@ -187,12 +189,12 @@ class ReportApiIntegrationTest {
                         "email={email}" +
                         "&type={type}");
 
-        Map<String,Object> mapByReport = new HashMap<>();
-        mapByReport.put("id",reportDTO.getId());
-        mapByReport.put("reportName",reportDTO.getReportName());
-        mapByReport.put("companyUserName",reportDTO.getCompanyUserName());
-        mapByReport.put("companyName",reportDTO.getCompany());
-        mapByReport.put("type",reportDTO.getType());
+        Map<String, Object> mapByReport = new HashMap<>();
+        mapByReport.put("id", reportDTO.getId());
+        mapByReport.put("reportName", reportDTO.getReportName());
+        mapByReport.put("companyUserName", reportDTO.getCompanyUserName());
+        mapByReport.put("companyName", reportDTO.getCompany());
+        mapByReport.put("type", reportDTO.getType());
         mapByReport.putAll(map);
 
         URI uriByReport = uriTemplateByReport.expand(mapByReport);
@@ -201,11 +203,11 @@ class ReportApiIntegrationTest {
         ResponseEntity<List<ReportValuesDTO>> responseEntityByReport = testRestTemplate.exchange(requestByReport, new ParameterizedTypeReference<>() {});
         List<ReportValuesDTO> listByReport =  responseEntityByReport.getBody();
 
-        assertEquals(HttpStatus.OK,responseEntityByReport.getStatusCode());
-        assertNotEquals(0,listByReport.size());
+        assertEquals(HttpStatus.OK, responseEntityByReport.getStatusCode());
+        assertNotEquals(0, listByReport.size());
     }
 
-    private ReportDTO createReport(){
+    private ReportDTO createReport() {
 
         List<Object> list = new ArrayList<>();
         list.add("value");
@@ -227,7 +229,7 @@ class ReportApiIntegrationTest {
     }
 
     //Update Report Object
-    private ReportDTO createReportUpdate(){
+    private ReportDTO createReportUpdate() {
 
         List<Object> list = new ArrayList<>();
         list.add("valueUpdate");
@@ -249,19 +251,19 @@ class ReportApiIntegrationTest {
     }
 
     @Test
-    void saveReportsAndDelete () throws Exception {
+    void saveReportsAndDelete() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -269,46 +271,47 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
 
         // ############# Delete API ##############
         UriTemplate uriTemplateDelete = new UriTemplate("/api/dashboard/deleteReport/{id}?name={name}&companyName={companyName}&email={email}");
-        map.put("id",reportDTOSize.get(0).getId());
+        map.put("id", reportDTOSize.get(0).getId());
         URI uriDelete = uriTemplateDelete.expand(map);
 
 
         RequestEntity request = new RequestEntity(HttpMethod.DELETE, uriDelete);
 
-        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.NO_CONTENT,responseEntityDelete.getStatusCode());
-
+        assertEquals(HttpStatus.NO_CONTENT, responseEntityDelete.getStatusCode());
 
 
     }
 
     @Test
-    void saveReportsAndUpdate () throws Exception {
+    void saveReportsAndUpdate() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -316,13 +319,14 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
         // ############# Update API ##############
         //reportValuesDTO name changed from ReportValues to ReportValuesUpdated
@@ -337,12 +341,12 @@ class ReportApiIntegrationTest {
 
         ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.NO_CONTENT,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, responseEntityUpdate.getStatusCode());
 
         // ############# Get Update Report Values ##############
         reportDTO.setId(reportDTOSize.get(0).getId());
 
-        UriTemplate uriTemplateByReport=
+        UriTemplate uriTemplateByReport =
                 new UriTemplate("/api/dashboard/getReportsValueByReport?id={id}&" +
                         "reportName={reportName}&" +
                         "companyUserName={companyUserName}&" +
@@ -351,39 +355,40 @@ class ReportApiIntegrationTest {
                         "email={email}" +
                         "&type={type}");
 
-        Map<String,Object> mapByReport = new HashMap<>();
-        mapByReport.put("id",reportDTO.getId());
-        mapByReport.put("reportName",reportDTO.getReportName());
-        mapByReport.put("companyUserName",reportDTO.getCompanyUserName());
-        mapByReport.put("companyName",reportDTO.getCompany());
-        mapByReport.put("type",reportDTO.getType());
+        Map<String, Object> mapByReport = new HashMap<>();
+        mapByReport.put("id", reportDTO.getId());
+        mapByReport.put("reportName", reportDTO.getReportName());
+        mapByReport.put("companyUserName", reportDTO.getCompanyUserName());
+        mapByReport.put("companyName", reportDTO.getCompany());
+        mapByReport.put("type", reportDTO.getType());
         mapByReport.putAll(map);
 
         URI uriByReport = uriTemplateByReport.expand(mapByReport);
         RequestEntity<Void> requestByReport = RequestEntity
                 .get(uriByReport).build();
-        ResponseEntity<List<ReportValuesDTO>> responseEntityByReport = testRestTemplate.exchange(requestByReport, new ParameterizedTypeReference<>() {});
-        List<ReportValuesDTO> listByReport =  responseEntityByReport.getBody();
+        ResponseEntity<List<ReportValuesDTO>> responseEntityByReport = testRestTemplate.exchange(requestByReport, new ParameterizedTypeReference<>() {
+        });
+        List<ReportValuesDTO> listByReport = responseEntityByReport.getBody();
 
-        assertEquals(HttpStatus.OK,responseEntityByReport.getStatusCode());
-        assertNotEquals(0,listByReport.size());
+        assertEquals(HttpStatus.OK, responseEntityByReport.getStatusCode());
+        assertNotEquals(0, listByReport.size());
         assertEquals("ReportValuesUpdated", listByReport.get(0).getName());
     }
 
     @Test
-    void saveReportsAndDeleteOtherUserError () throws Exception {
+    void saveReportsAndDeleteOtherUserError() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -391,65 +396,64 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
 
         // ############# Delete API ##############
+        webTestClient.delete()
+                .uri(uriBuilder -> uriBuilder.path("/api/dashboard/deleteReport/{id}")
+                        .queryParam("name", "Not John") // Updated name to "Not John"
+                        .queryParam("companyName", map.get("companyName"))
+                        .queryParam("email", map.get("email"))
+                        .build(reportDTOSize.get(0).getId())).exchange()
+                .expectStatus().isEqualTo(HttpStatus.UNAUTHORIZED);
+
+
+    }
+
+    @Test
+    void deleteNonExistReportError() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ReportDTO reportDTO = createReport();
+        Map<String, Object> map = getMap();
+
+        // ############# Delete API ##############
         UriTemplate uriTemplateDelete = new UriTemplate("/api/dashboard/deleteReport/{id}?name={name}&companyName={companyName}&email={email}");
-        map.put("id",reportDTOSize.get(0).getId());
-        map.put("name","Not John");
+        map.put("id", Integer.MAX_VALUE);
         URI uriDelete = uriTemplateDelete.expand(map);
 
 
         RequestEntity request = new RequestEntity(HttpMethod.DELETE, uriDelete);
 
-        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.UNAUTHORIZED,responseEntityDelete.getStatusCode());
-
+        assertEquals(HttpStatus.NOT_FOUND, responseEntityDelete.getStatusCode());
     }
 
     @Test
-    void deleteNonExistReportError () throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        ReportDTO reportDTO = createReport();
-        Map<String,Object> map = getMap();
-
-        // ############# Delete API ##############
-        UriTemplate uriTemplateDelete = new UriTemplate("/api/dashboard/deleteReport/{id}?name={name}&companyName={companyName}&email={email}");
-        map.put("id",Integer.MAX_VALUE);
-        URI uriDelete = uriTemplateDelete.expand(map);
-
-
-        RequestEntity request = new RequestEntity(HttpMethod.DELETE, uriDelete);
-
-        ResponseEntity responseEntityDelete = testRestTemplate.exchange(request, new ParameterizedTypeReference<>() {});
-
-        assertEquals(HttpStatus.NOT_FOUND,responseEntityDelete.getStatusCode());
-    }
-
-    @Test
-    void saveReportsAndShare () throws Exception {
+    void saveReportsAndShare() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -457,13 +461,14 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
         // ############# Share the Created Report ##############
 
@@ -487,26 +492,26 @@ class ReportApiIntegrationTest {
 
         ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.NO_CONTENT,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, responseEntityUpdate.getStatusCode());
 
     }
 
 
     @Test
-    void saveReportsAndShareDuplicatedError () throws Exception {
+    void saveReportsAndShareDuplicatedError() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
 
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -514,13 +519,14 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
         // ############# Share the Created Report ##############
 
@@ -544,20 +550,20 @@ class ReportApiIntegrationTest {
 
         ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.NO_CONTENT,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, responseEntityUpdate.getStatusCode());
 
         ResponseEntity<ResponseMessage> responseError = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.BAD_REQUEST,responseError.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, responseError.getStatusCode());
 
     }
 
     @Test
-    void UpdateNonExistReportError () throws Exception {
+    void UpdateNonExistReportError() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        Map<String,Object> map = getMap();
+        Map<String, Object> map = getMap();
 
         // ############# Update API ##############
         //reportValuesDTO name changed from ReportValues to ReportValuesUpdated
@@ -572,16 +578,16 @@ class ReportApiIntegrationTest {
 
         ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.NOT_FOUND,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, responseEntityUpdate.getStatusCode());
 
     }
 
     @Test
-    //Share a Report when the user is not in the DB
-    void ShareReportNoUserFoundError () throws Exception {
+        //Share a Report when the user is not in the DB
+    void ShareReportNoUserFoundError() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        Map<String,Object> map = getMap();
+        Map<String, Object> map = getMap();
 
         ReportDTO reportDTOShare = createReport();
 
@@ -596,7 +602,7 @@ class ReportApiIntegrationTest {
 
         ResponseEntity<ResponseMessage> responseEntityUpdate = testRestTemplate.exchange(requestEntityUpdate, ResponseMessage.class);
 
-        assertEquals(HttpStatus.BAD_REQUEST,responseEntityUpdate.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntityUpdate.getStatusCode());
 
     }
 
@@ -605,15 +611,15 @@ class ReportApiIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ReportDTO reportDTO = createReport();
-        Map<String,Object> map = getMap();
-        UriTemplate uritemplate= new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
+        Map<String, Object> map = getMap();
+        UriTemplate uritemplate = new UriTemplate("/api/dashboard/saveReports?name={name}&companyName={companyName}&email={email}");
         URI uri = uritemplate.expand(map);
 
         RequestEntity requestEntity = new RequestEntity(reportDTO, headers, HttpMethod.POST, uri);
 
         ResponseEntity<ResponseMessage> responseEntity = testRestTemplate.exchange(requestEntity, ResponseMessage.class);
 
-        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // ############# Get API ##############
         UriTemplate uriTemplateGet = new UriTemplate("/api/dashboard/getReportsByCompanyUser?name={name}&companyName={companyName}&email={email}");
@@ -621,13 +627,14 @@ class ReportApiIntegrationTest {
 
         RequestEntity requestEntityGet = new RequestEntity(HttpMethod.GET, uriGet);
 
-        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<ReportDTO>> responseEntityGet = testRestTemplate.exchange(requestEntityGet, new ParameterizedTypeReference<>() {
+        });
 
-        assertEquals(HttpStatus.OK,responseEntityGet.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntityGet.getStatusCode());
 
         List<ReportDTO> reportDTOSize = responseEntityGet.getBody();
 
-        assertNotEquals(0,reportDTOSize.size());
+        assertNotEquals(0, reportDTOSize.size());
 
 
         // ############# Delete API ##############
