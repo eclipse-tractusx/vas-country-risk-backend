@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [1.3.1] - [unreleased]
+## [1.3.1] - [2024-02-29]
 
 ### Fixes
 - Fix vulnerability on postgresql version upgrade to 42.7.2
