@@ -127,7 +127,7 @@ maven/mavencentral/org.springframework.boot/spring-boot-actuator/3.2.3, Apache-2
 maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.2.3, Apache-2.0, approved, #11751
 maven/mavencentral/org.springframework.boot/spring-boot-starter-actuator/3.2.3, Apache-2.0, approved, #12918
 maven/mavencentral/org.springframework.boot/spring-boot-starter-aop/3.2.3, Apache-2.0, approved, #11928
-maven/mavencentral/org.springframework.boot/spring-boot-starter-cache/3.2.3, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-cache/3.2.3, Apache-2.0, approved, #13493
 maven/mavencentral/org.springframework.boot/spring-boot-starter-data-jpa/3.2.3, Apache-2.0, approved, #11926
 maven/mavencentral/org.springframework.boot/spring-boot-starter-jdbc/3.2.3, Apache-2.0, approved, #11878
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.2.3, Apache-2.0, approved, #11894
@@ -144,8 +144,8 @@ maven/mavencentral/org.springframework.boot/spring-boot-starter/3.2.3, Apache-2.
 maven/mavencentral/org.springframework.boot/spring-boot-test-autoconfigure/3.2.3, Apache-2.0, approved, #12920
 maven/mavencentral/org.springframework.boot/spring-boot-test/3.2.3, Apache-2.0, approved, #12916
 maven/mavencentral/org.springframework.boot/spring-boot/3.2.3, Apache-2.0, approved, #11752
-maven/mavencentral/org.springframework.cloud/spring-cloud-commons/4.1.1, , restricted, clearlydefined
-maven/mavencentral/org.springframework.cloud/spring-cloud-context/4.1.1, , restricted, clearlydefined
+maven/mavencentral/org.springframework.cloud/spring-cloud-commons/4.1.1, Apache-2.0, approved, #13495
+maven/mavencentral/org.springframework.cloud/spring-cloud-context/4.1.1, Apache-2.0, approved, #13494
 maven/mavencentral/org.springframework.cloud/spring-cloud-starter-bootstrap/4.1.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.cloud/spring-cloud-starter/4.1.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.data/spring-data-commons/3.2.3, Apache-2.0, approved, #11917
@@ -163,7 +163,7 @@ maven/mavencentral/org.springframework.security/spring-security-web/6.2.1, Apach
 maven/mavencentral/org.springframework/spring-aop/6.1.4, Apache-2.0, approved, #11755
 maven/mavencentral/org.springframework/spring-aspects/6.1.4, Apache-2.0, approved, #11905
 maven/mavencentral/org.springframework/spring-beans/6.1.4, Apache-2.0, approved, #11754
-maven/mavencentral/org.springframework/spring-context-support/6.1.4, , restricted, clearlydefined
+maven/mavencentral/org.springframework/spring-context-support/6.1.4, Apache-2.0, approved, #13496
 maven/mavencentral/org.springframework/spring-context/6.1.4, Apache-2.0, approved, #11753
 maven/mavencentral/org.springframework/spring-core/6.1.4, Apache-2.0 AND BSD-3-Clause, approved, #11750
 maven/mavencentral/org.springframework/spring-expression/6.1.4, Apache-2.0, approved, #11747
