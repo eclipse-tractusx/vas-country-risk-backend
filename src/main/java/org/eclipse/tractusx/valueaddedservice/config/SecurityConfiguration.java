@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -41,16 +42,13 @@ public class SecurityConfiguration  {
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "true")
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
-
         httpSecurity.cors(withDefaults())
-                        .csrf(((csrf)-> csrf.disable()))
-                                .authorizeHttpRequests(((authz)-> authz
+                                .authorizeHttpRequests((auth-> auth
                                         .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/edc/**")
                                         .authenticated()
                                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**","/management/**")
                                         .permitAll()
                                 ));
-
         httpSecurity.oauth2ResourceServer(resourceServer -> resourceServer
                 .jwt(withDefaults()));
 
@@ -69,26 +67,12 @@ public class SecurityConfiguration  {
         };
     }
 
+
+
     @Bean
     @ConditionalOnProperty(prefix = "security", name = "enabled", havingValue = "false")
-    public SecurityFilterChain securityFilterChainLocal(final HttpSecurity httpSecurity) throws Exception {
-
-
-
-        httpSecurity.cors(withDefaults())
-                .csrf(((csrf)-> csrf.disable()))
-                .formLogin(((form)-> form.disable()))
-                .httpBasic((httpBasic)-> httpBasic.disable())
-                .logout((logout)-> logout.disable())
-                .headers((headers)->headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
-                .authorizeHttpRequests(((authz)-> authz
-                        .requestMatchers("/error","/api/**","/management/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
-                        .permitAll()
-                ));
-
-
-
-        return httpSecurity.build();
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/**");
     }
 
 

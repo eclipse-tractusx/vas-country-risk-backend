@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.valueaddedservice.constants.VasConstants;
 import org.eclipse.tractusx.valueaddedservice.dto.*;
 import org.eclipse.tractusx.valueaddedservice.service.DashboardService;
@@ -159,23 +160,24 @@ public class DashBoardResource {
             CompanyUserDTO companyUser,
             @Parameter(name = "file", description = "") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-        log.debug( "REST request to uploadCsv");
+        log.debug("REST request to uploadCsv");
         String message = "";
-        message = VasConstants.UPLOAD_SUCCESS_MESSAGE + file.getOriginalFilename();
+        String sanitizedFileName = StringEscapeUtils.escapeJava(file.getOriginalFilename());
+        message = VasConstants.UPLOAD_SUCCESS_MESSAGE + sanitizedFileName;
         try {
             dashboardService.saveCsv(file, ratingName, companyUser, year, type);
         } catch (DataIntegrityViolationException e) {
-            message = VasConstants.UPLOAD_ERROR_MESSAGE + ratingName + "!";
-            log.error( message);
-            log.error( VasConstants.ERROR_LOG + e.getMessage());
+
+            String sanitizedRatingName = StringEscapeUtils.escapeJava(ratingName);
+            message = VasConstants.UPLOAD_ERROR_MESSAGE + sanitizedRatingName + "!";
+            log.error(message);
+            log.error(VasConstants.ERROR_LOG + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         } catch (Exception e) {
-            log.error( VasConstants.ERROR_LOG + e.getMessage());
+            log.error(VasConstants.ERROR_LOG + e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new ResponseMessage(e.getMessage()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-
-
     }
 
     @Operation(summary = "Retrieves current user ranges")
@@ -254,18 +256,20 @@ public class DashBoardResource {
             @ApiResponse(responseCode = "401", description = "Authentication Required", content = @Content)})
     @PostMapping("/dashboard/saveReports")
     public ResponseEntity<ResponseMessage> saveReports(@Valid @RequestBody ReportDTO reportDTO, CompanyUserDTO companyUserDTO) {
-        log.debug( "REST request to save reports");
+        log.debug("REST request to save reports");
         String message = "";
         try {
             dashboardService.saveReportForUser(companyUserDTO, reportDTO);
         } catch (DataIntegrityViolationException e) {
-            message = "Could not upload the report duplicate name: " + reportDTO.getReportName() + "!";
-            log.error( message);
-            log.error( "Error " + e.getMessage());
+            String sanitizedReportName = StringEscapeUtils.escapeJava(reportDTO.getReportName());
+            message = "Could not upload the report duplicate name: " + sanitizedReportName + "!";
+            log.error(message);
+            log.error("Error " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         } catch (Exception e) {
-            message = "Could not upload the report: " + reportDTO.getReportName() + "!";
-            log.error( "Error " + e.getMessage());
+            String sanitizedReportName = StringEscapeUtils.escapeJava(reportDTO.getReportName());
+            message = "Could not upload the report: " + sanitizedReportName + "!";
+            log.error("Error " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -281,13 +285,15 @@ public class DashBoardResource {
         try {
             dashboardService.shareReportForUser(reportDTO);
         } catch (DataIntegrityViolationException e) {
-            message = "Could not upload the report duplicate name: " + reportDTO.getReportName() + "!";
-            log.error( message);
-            log.error( "Error " + e.getMessage());
+            String sanitizedReportName = StringEscapeUtils.escapeJava(reportDTO.getReportName());
+            message = "Could not upload the report duplicate name: " + sanitizedReportName + "!";
+            log.error(message);
+            log.error("Error " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         } catch (Exception e) {
-            message = "Could not upload the report: " + reportDTO.getReportName() + "!";
-            log.error( "Error " + e.getMessage());
+            String sanitizedReportName = StringEscapeUtils.escapeJava(reportDTO.getReportName());
+            message = "Could not upload the report: " + sanitizedReportName + "!";
+            log.error("Error " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

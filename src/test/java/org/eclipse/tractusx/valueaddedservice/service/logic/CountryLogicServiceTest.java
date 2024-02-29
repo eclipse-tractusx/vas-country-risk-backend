@@ -136,7 +136,7 @@ class CountryLogicServiceTest {
     @Test
     @DisplayName("Should return an empty list when the companyuserdto is null")
     void getAssociatedCountriesWhenCompanyUserDTONullThenReturnEmptyList() {
-        CompanyUserDTO companyUserDTO = null;
+        CompanyUserDTO companyUserDTO = new CompanyUserDTO();
         List<CountryDTO> countryDTOList =
                 countryLogicService.getAssociatedCountries(companyUserDTO, "", new ArrayList<>());
         assertTrue(countryDTOList.isEmpty());
@@ -150,9 +150,6 @@ class CountryLogicServiceTest {
         companyUserDTO.setEmail("john@email.com");
         companyUserDTO.setCompanyName("TestCompany");
 
-        List<String> countryList = new ArrayList<>();
-        countryList.add("Germany");
-        countryList.add("France");
 
         List<CountryDTO> countryDTOList = new ArrayList<>();
         CountryDTO countryDTO = new CountryDTO();

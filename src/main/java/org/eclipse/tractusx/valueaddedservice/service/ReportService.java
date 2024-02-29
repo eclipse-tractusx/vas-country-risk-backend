@@ -19,6 +19,7 @@
 ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.service;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.valueaddedservice.domain.Report;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.Type;
 import org.eclipse.tractusx.valueaddedservice.dto.ReportDTO;
@@ -58,7 +59,8 @@ public class ReportService {
      * @return the persisted entity.
      */
     public ReportDTO save(ReportDTO reportDTO) {
-        log.debug("Request to save Report : {}", reportDTO);
+        String reportString = StringEscapeUtils.escapeJava(reportDTO.toString());
+        log.debug("Request to save Report : {}", reportString);
         Report report = reportMapper.toEntity(reportDTO);
         report = reportRepository.save(report);
         return reportMapper.toDto(report);

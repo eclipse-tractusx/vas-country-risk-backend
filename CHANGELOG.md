@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+## [1.3.1] - [unreleased]
+
+### Fixes
+- Fix vulnerability on postgresql version upgrade to 42.7.2
+- Fix vulnerability found upgrade spring boot version to 3.2.3
+
+### Changed
+- Change Spring security configuration and enable csrf configuration
+
 ## [1.3.0] - 2024-02-19
 
 ### Changed

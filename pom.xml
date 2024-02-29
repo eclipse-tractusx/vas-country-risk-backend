@@ -23,12 +23,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.8</version>
+        <version>3.2.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.eclipse.tractusx</groupId>
     <artifactId>value-added-service</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
     <name>vas-country-risk-backend</name>
     <description>Project to Validate Country Risks Score</description>
     <properties>
@@ -41,7 +41,7 @@
         <spring-boot.version>3.1.7</spring-boot.version>
         <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
         <org.springdoc.springdoc-openapi-ui>2.1.0</org.springdoc.springdoc-openapi-ui>
-        <org.springframework.cloud>4.0.4</org.springframework.cloud>
+        <org.springframework.cloud>4.1.1</org.springframework.cloud>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/target/jacoco-report/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
@@ -54,7 +54,7 @@
         <jacoco.version>0.8.7</jacoco.version>
 
         <spring-security-web-version>6.2.1</spring-security-web-version>
-        <postgresql-version>42.6.0</postgresql-version>
+        <postgresql-version>42.7.2</postgresql-version>
         <jackson-databind-nullable>0.2.6</jackson-databind-nullable>
         <wiremock-standalone-version>3.0.0-beta-10</wiremock-standalone-version>
         <snake-yaml-version>2.2</snake-yaml-version>
@@ -264,11 +264,7 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-help-plugin</artifactId>
-                <version>${maven-clean-plugin.version}</version>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
