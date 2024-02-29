@@ -36,7 +36,7 @@
         <validation-api.version>2.0.1.Final</validation-api.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <org.projectlombok.version>1.18.28</org.projectlombok.version>
-        <liquibase.version>4.23.0</liquibase.version>
+        <liquibase.version>4.26.0</liquibase.version>
         <liquibase-hibernate5.version>4.22.0</liquibase-hibernate5.version>
         <spring-boot.version>3.1.7</spring-boot.version>
         <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
