@@ -54,7 +54,7 @@ public class CountryLogicService {
         countryList = externalBusinessPartnersLogicService.getExternalPartnersCountry(companyUserDTO,token,roles);
 
         List<CountryDTO> countryDTOS;
-        countryDTOS = countryService.findByCountryIn(countryList);
+        countryDTOS = countryService.findByIso2In(countryList);
 
         return countryDTOS;
     }
