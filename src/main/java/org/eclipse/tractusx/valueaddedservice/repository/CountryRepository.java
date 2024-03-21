@@ -33,7 +33,7 @@ import java.util.Optional;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
-    List<Country> findByCountryIn(List<String> stringList);
+    List<Country> findByIso2In(List<String> stringList);
 
     Optional<Country> findByCountry(String countryName);
 

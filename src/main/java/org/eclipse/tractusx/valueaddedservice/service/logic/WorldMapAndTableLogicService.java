@@ -155,7 +155,7 @@ public class WorldMapAndTableLogicService {
     }
 
     private DashBoardTableDTO mapScoreForEachBpn(DashBoardTableDTO d, List<DataDTO> dataDTOS,List<RatingDTO> ratingDTOS){
-        List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getCountry().equalsIgnoreCase(d.getCountry())).toList();
+        List<DataDTO> dataSourceForCountry = dataDTOS.stream().filter(each -> each.getIso2().equalsIgnoreCase(d.getCountry())).toList();
         final float[] generalFormulaTotal = {0F};
         final String[] ratingsList = {""};
         final float[] totalRatedByUser = {0F};

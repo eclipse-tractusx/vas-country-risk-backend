@@ -38,7 +38,7 @@ public interface DataSourceValueRepository extends JpaRepository<DataSourceValue
     @Query("select new org.eclipse.tractusx.valueaddedservice.dto.DataDTO(dsv.country,dsv.score,ds.dataSourceName,dsv.iso3,dsv.iso2,dsv.continent) " +
             "from DataSource ds INNER JOIN DataSourceValue dsv " +
             "ON dsv.dataSource.id = ds.id " +
-            "and dsv.country in ?2 " +
+            "and dsv.iso2 in ?2 " +
             "and ds.dataSourceName in ?3 "+
             "and ds.yearPublished = ?4 "+
             "and dsv.score > ?1 ")

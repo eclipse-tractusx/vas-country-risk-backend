@@ -19,6 +19,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.AddressType;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.BusinessPartnerRole;
@@ -70,13 +72,15 @@ public class RequestLogicService {
     @Cacheable(value = "vas-bpdm", key = "{#root.methodName , {#roles}}", unless = "#result == null")
     public List<BusinessPartnerDTO> handleRequestsToBpdm(List<String> roles) {
         List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
-        if (sequentialRequestsEnabled) {
-            finalDtoList.addAll(handleSequentialRequests());
-        } else {
-            finalDtoList.addAll(handleNonSequentialRequests());
-        }
-        return finalDtoList;
+//        if (sequentialRequestsEnabled) {
+//            finalDtoList.addAll(handleSequentialRequests());
+//        } else {
+//            finalDtoList.addAll(handleNonSequentialRequests());
+//        }
+        return getMockBusinessPartnerDTOs();
     }
+
+
 
     private List<BusinessPartnerDTO> handleSequentialRequests() {
         List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
@@ -199,6 +203,75 @@ public class RequestLogicService {
     }
 
 
+    public List<BusinessPartnerDTO> getMockBusinessPartnerDTOs() {
+        String json = "[\n" +
+                "  {\n" +
+                "    \"id\": 1,\n" +
+                "    \"bpn\": \"BPN-0001\",\n" +
+                "    \"legalName\": \"Divape Company\",\n" +
+                "    \"street\": \"1st Avenue\",\n" +
+                "    \"houseNumber\": \"100A\",\n" +
+                "    \"zipCode\": \"633104\",\n" +
+                "    \"city\": \"Covilhã\",\n" +
+                "    \"country\": \"ES\",\n" +
+                "    \"longitude\": \"107.6185727\",\n" +
+                "    \"latitude\": \"-6.6889038\",\n" +
+                "    \"supplier\": false,\n" +
+                "    \"customer\": true\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\": 2,\n" +
+                "    \"bpn\": \"BPN-0002\",\n" +
+                "    \"legalName\": \"Innovatech Solutions\",\n" +
+                "    \"street\": \"Tech Park Rd\",\n" +
+                "    \"houseNumber\": \"20B\",\n" +
+                "    \"zipCode\": \"500010\",\n" +
+                "    \"city\": \"Lisbon\",\n" +
+                "    \"country\": \"DE\",\n" +
+                "    \"longitude\": \"108.123456\",\n" +
+                "    \"latitude\": \"-7.123456\",\n" +
+                "    \"supplier\": true,\n" +
+                "    \"customer\": false\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\": 3,\n" +
+                "    \"bpn\": \"BPN-0004\",\n" +
+                "    \"legalName\": \"Innovatech Solutions Made Up\",\n" +
+                "    \"street\": \"Tech Park Rd\",\n" +
+                "    \"houseNumber\": \"20B\",\n" +
+                "    \"zipCode\": \"500010\",\n" +
+                "    \"city\": \"Paris\",\n" +
+                "    \"country\": \"FR\",\n" +
+                "    \"longitude\": \"108.123456\",\n" +
+                "    \"latitude\": \"-7.123456\",\n" +
+                "    \"supplier\": false,\n" +
+                "    \"customer\": false\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\": 3,\n" +
+                "    \"bpn\": \"BPN-0003\",\n" +
+                "    \"legalName\": \"Eco Friendly Packaging\",\n" +
+                "    \"street\": \"Greenway Dr\",\n" +
+                "    \"houseNumber\": \"5\",\n" +
+                "    \"zipCode\": \"755004\",\n" +
+                "    \"city\": \"Porto\",\n" +
+                "    \"country\": \"PT\",\n" +
+                "    \"longitude\": \"106.654321\",\n" +
+                "    \"latitude\": \"-5.654321\",\n" +
+                "    \"supplier\": true,\n" +
+                "    \"customer\": true\n" +
+                "  }\n" +
+                "]";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<BusinessPartnerDTO> businessPartnerDTOList = new ArrayList<>();
+        try {
+            businessPartnerDTOList = objectMapper.readValue(json, new TypeReference<List<BusinessPartnerDTO>>(){});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return businessPartnerDTOList;
+    }
 
 
 

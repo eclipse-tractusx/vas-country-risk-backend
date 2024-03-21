@@ -52,8 +52,8 @@ public class CountryService {
     }
 
     @Transactional(readOnly = true)
-    public List<CountryDTO> findByCountryIn(List<String> stringList){
-        return countryMapper.toDto(countryRepository.findByCountryIn(stringList));
+    public List<CountryDTO> findByIso2In(List<String> stringList){
+        return countryMapper.toDto(countryRepository.findByIso2In(stringList));
     }
 
     @Transactional(readOnly = true)

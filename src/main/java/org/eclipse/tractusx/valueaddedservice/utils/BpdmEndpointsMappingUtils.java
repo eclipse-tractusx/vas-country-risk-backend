@@ -104,7 +104,7 @@ public class BpdmEndpointsMappingUtils {
         businessPartnerDTO.setStreet(physicalAddress.getStreet().getName());
         businessPartnerDTO.setHouseNumber(physicalAddress.getStreet().getHouseNumber());
         businessPartnerDTO.setCity(physicalAddress.getCity());
-        businessPartnerDTO.setCountry(physicalAddress.getCountry());
+        businessPartnerDTO.setCountry(physicalAddress.getPoolCountry().getTechnicalKey());
         businessPartnerDTO.setZipCode(physicalAddress.getPostalCode());
         if (physicalAddress.getGeographicCoordinates() != null) {
             GateGeoCoordinateDto coordinates = physicalAddress.getGeographicCoordinates();

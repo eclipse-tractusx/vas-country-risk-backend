@@ -159,7 +159,7 @@ class CountryLogicServiceTest {
         countryDTO.setContinent("Europe");
         countryDTOList.add(countryDTO);
 
-        when(countryService.findByCountryIn(anyList())).thenReturn(countryDTOList);
+        when(countryService.findByIso2In(anyList())).thenReturn(countryDTOList);
 
         List<CountryDTO> result = countryLogicService.getAssociatedCountries(companyUserDTO, "", new ArrayList<>());
 
