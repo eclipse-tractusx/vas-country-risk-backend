@@ -39,7 +39,7 @@
         <liquibase.version>4.26.0</liquibase.version>
         <liquibase-hibernate5.version>4.25.1</liquibase-hibernate5.version>
         <spring-boot.version>3.2.3</spring-boot.version>
-        <org.zalando.problem-spring-web>0.26.0</org.zalando.problem-spring-web>
+        <org.zalando.problem-spring-web>0.29.1</org.zalando.problem-spring-web>
         <org.springdoc.springdoc-openapi-ui>2.1.0</org.springdoc.springdoc-openapi-ui>
         <org.springframework.cloud>4.1.1</org.springframework.cloud>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
