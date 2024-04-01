@@ -64,7 +64,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <testcontainers.version>1.18.3</testcontainers.version>
-        <springdoc-openapi-starter-webmvc-ui>2.1.0</springdoc-openapi-starter-webmvc-ui>
+        <springdoc-openapi-starter-webmvc-ui>2.5.0</springdoc-openapi-starter-webmvc-ui>
         <org.owasp.antisamy>1.7.5</org.owasp.antisamy>
 
     </properties>
