@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+## [2.0.0] - [unreleased]
+
+## Added
+- Implement `triggerNegotiation` function in `NegotiationServiceLogic` to handle sequential negotiation requests with external services, enhancing the negotiation process with error handling and response transformation.
+- Introduce new DTOs (`NegotiationRequestDTO`, `NegotiationResponseDTO`, `EDRResponseDTO`) to streamline the handling of negotiation data and responses.
+- Add utility functions in `EdcEndpointsMappingUtils` for parsing and extracting specific fields from JSON responses, improving data extraction reliability and code maintainability.
+
+## Changed
+- Modify `executeSequentialNegotiationRequests` logic to include additional steps in the negotiation process, ensuring the correct sequence of requests and proper handling of intermediate responses.
+- Update error handling across the negotiation process to log detailed error messages and fallback values, improving debugging and reliability.
+- Refactor `createNegotiationRequestBody` to dynamically generate request bodies based on input parameters, enhancing flexibility and readability.
+
+## Fixed
+- Address issue with incorrect extraction of `transferProcessId` by adjusting JSON path in `extractTransferProcessId` function.
+
+
 ## [1.3.2] - [2024-04-17]
 
 ### Changed

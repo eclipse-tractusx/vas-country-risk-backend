@@ -108,7 +108,6 @@ security:
 logging:
   level:
     root: INFO
-    org.eclipse.tractusx.valueaddedservice: DEBUG
 
 application:
   name: default
@@ -124,6 +123,9 @@ application:
     policyBpn: 'BPN000'
     apiKey: ""
   edc:
+    providers:
+      - BPDMPool
+      - BPDMGate
     enabled: false
 
 

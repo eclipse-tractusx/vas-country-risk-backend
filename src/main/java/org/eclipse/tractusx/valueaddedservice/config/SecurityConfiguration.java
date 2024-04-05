@@ -44,7 +44,7 @@ public class SecurityConfiguration  {
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(withDefaults())
                                 .authorizeHttpRequests((auth-> auth
-                                        .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/edc/**")
+                                        .requestMatchers("/error","/api/dashboard/**","/api/sharing/**","/api/negotiation/**")
                                         .authenticated()
                                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**","/management/**")
                                         .permitAll()
