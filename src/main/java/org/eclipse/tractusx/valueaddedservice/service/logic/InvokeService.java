@@ -56,6 +56,12 @@ public class InvokeService {
                 .body(BodyInserters.fromValue(httpEntity.getBody()))
                 .retrieve()
                 .bodyToMono(String.class)
+                .doOnSubscribe(subscription -> {
+                    // Logging request details
+                    log.debug("Sending request to URL: {}", url);
+                    log.debug("Request Headers: {}", httpEntity.getHeaders());
+                    log.debug("Request Body: {}", httpEntity.getBody());
+                })
                 .map(mappingFunction)
                 .onErrorResume(e -> {
                     log.error("error url {} message {}", url, e.getMessage());
@@ -71,11 +77,18 @@ public class InvokeService {
                 .body(BodyInserters.fromValue(httpEntity.getBody()))
                 .retrieve()
                 .bodyToMono(String.class)
+                .doOnSubscribe(subscription -> {
+                    // Logging request details
+                    log.debug("Sending request to URL: {}", url);
+                    log.debug("Request Headers: {}", httpEntity.getHeaders());
+                    log.debug("Request Body: {}", httpEntity.getBody());
+                })
                 .map(mappingFunction)
                 .onErrorResume(e -> {
-                    log.error("error url {} message {}", url, e.getMessage());
+                    log.error("Error url {} message {}", url, e.getMessage());
                     throw new RuntimeException(e.getMessage());
                 });
+
     }
 
     public Mono<Boolean> executeRequest(String clientType,String url, HttpMethod httpMethod, HttpEntity<?> httpEntity) {
@@ -100,6 +113,12 @@ public class InvokeService {
                 .body(BodyInserters.fromValue(httpEntity.getBody()))
                 .retrieve()
                 .bodyToMono(String.class)
+                .doOnSubscribe(subscription -> {
+                    // Logging request details
+                    log.debug("Sending request to URL: {}", url);
+                    log.debug("Request Headers: {}", httpEntity.getHeaders());
+                    log.debug("Request Body: {}", httpEntity.getBody());
+                })
                 .map(mappingFunction)
                 .onErrorResume(e -> {
                     log.error("error url {} message {}", url, e.getMessage());
@@ -126,6 +145,12 @@ public class InvokeService {
                 .body(BodyInserters.fromValue(httpEntity.getBody()))
                 .retrieve()
                 .bodyToMono(String.class)
+                .doOnSubscribe(subscription -> {
+                    // Logging request details
+                    log.debug("Sending request to URL: {}", url);
+                    log.debug("Request Headers: {}", httpEntity.getHeaders());
+                    log.debug("Request Body: {}", httpEntity.getBody());
+                })
                 .map(mappingFunction)
                 .onErrorResume(e -> {
                     log.error("error url {} message {}", url, e.getMessage());

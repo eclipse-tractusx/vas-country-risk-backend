@@ -47,6 +47,9 @@ public class CacheEvictService {
     @Autowired
     ReportLogicService reportLogicService;
 
+    @Autowired
+    NegotiationServiceLogic negotiationServiceLogic;
+
     @Scheduled(fixedRate = ONE_HOUR)
     public void clearCacheCountry() {
         countryLogicService.invalidateAllCache();
@@ -75,5 +78,11 @@ public class CacheEvictService {
     public void clearCacheReports() {
         reportLogicService.invalidateAllCache();
         log.info("Cache for Reports cleared.");
+    }
+
+    @Scheduled(fixedRate = ONE_MINUTE*1)
+    public void clearCacheNegotiation() {
+        negotiationServiceLogic.invalidateAllCache();
+        log.info("Cache for Negotiation cleared.");
     }
 }
