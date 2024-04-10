@@ -56,7 +56,8 @@ public class ExternalBusinessPartnersLogicService {
     
     @Cacheable(value = "vas-bpn", key = "{#root.methodName , {#countryDTO.iso3, #companyUserDTO.name,#companyUserDTO.email,#companyUserDTO.companyName},#roles}", unless = "#result == null")
     public Long getTotalBpnByCountry(CountryDTO countryDTO,CompanyUserDTO companyUserDTO,String token,List<String> roles){
-        log.debug("getTotalBpnByCountry filtered by country {} and companyUser {}",countryDTO,companyUserDTO);
+        String sanitizedCompany = StringEscapeUtils.escapeJava(companyUserDTO.toString());
+        log.debug("getTotalBpnByCountry filtered by country {} and companyUser {}",countryDTO, sanitizedCompany);
         List<BusinessPartnerDTO> businessPartnerDTOS = businessPartnersLogicService.getExternalBusinessPartners(companyUserDTO,token,roles);
         return  businessPartnerDTOS.stream().filter(businessPartnerDTO -> businessPartnerDTO.getCountry().equalsIgnoreCase(countryDTO.getCountry())).count();
 
