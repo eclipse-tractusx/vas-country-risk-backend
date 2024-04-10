@@ -54,7 +54,7 @@
         <jacoco.version>0.8.7</jacoco.version>
 
         <spring-security-web-version>6.2.3</spring-security-web-version>
-        <postgresql-version>42.7.2</postgresql-version>
+        <postgresql-version>42.7.3</postgresql-version>
         <jackson-databind-nullable>0.2.6</jackson-databind-nullable>
         <wiremock-standalone-version>3.0.0-beta-10</wiremock-standalone-version>
         <snake-yaml-version>2.2</snake-yaml-version>
