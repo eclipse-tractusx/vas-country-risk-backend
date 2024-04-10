@@ -52,9 +52,11 @@ public class JsonMappingUtils {
         }
     }
     public static List<PoolLegalEntityDto> mapToListOfPoolLegalEntityDto(String jsonResponse) {
+
         try {
-            return objectMapper.readValue(jsonResponse, new TypeReference<>() {
-            });
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode contentNode = rootNode.path("content");
+            return objectMapper.readValue(contentNode.toString(), new TypeReference<List<PoolLegalEntityDto>>() {});
         } catch (Exception e) {
             throw new RuntimeException("Error mapping JSON to List<PoolLegalEntityDto>", e);
         }
