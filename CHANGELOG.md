@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+## [1.3.2] - [unreleased]
+
+### Changed
+- Changed Mapping from Country to ISOCode
+- Fix vulnerability on spring boot web version upgrade to 6.2.3
+
 ## [1.3.1] - [2024-02-29]
 
 ### Fixes
