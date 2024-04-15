@@ -19,8 +19,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.AddressType;
 import org.eclipse.tractusx.valueaddedservice.domain.enumeration.BusinessPartnerRole;
@@ -71,16 +69,14 @@ public class RequestLogicService {
 
     @Cacheable(value = "vas-bpdm", key = "{#root.methodName , {#roles}}", unless = "#result == null")
     public List<BusinessPartnerDTO> handleRequestsToBpdm(List<String> roles) {
-        List<BusinessPartnerDTO> finalDtoList = getMockBusinessPartnerDTOs();
-        //if (sequentialRequestsEnabled) {
-       //     finalDtoList.addAll(handleSequentialRequests());
-       // } else {
-        //    finalDtoList.addAll(handleNonSequentialRequests());
-       // }
-        return getMockBusinessPartnerDTOs();
+        List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
+        if (sequentialRequestsEnabled) {
+            finalDtoList.addAll(handleSequentialRequests());
+        } else {
+            finalDtoList.addAll(handleNonSequentialRequests());
+        }
+        return finalDtoList;
     }
-
-
 
     private List<BusinessPartnerDTO> handleSequentialRequests() {
         List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
@@ -136,14 +132,16 @@ public class RequestLogicService {
 
         log.info("Starting process to fetch external business partners from legal entity on pool.");
         List<String> bpnlList = getBpnsByAddressType(map, AddressType.LegalAddress);
-        httpEntity = createHttpEntity(bpnlList);
+        Map<String, List<String>> legalEntityBody = new HashMap<>();
+        legalEntityBody.put("bpnLs", bpnlList);
+        httpEntity = createHttpEntity(legalEntityBody);
         List<PoolLegalEntityDto> poolLegalEntityDtos = invokeService.executeRequest("pool", bpdmLegalUrl, HttpMethod.POST, httpEntity, JsonMappingUtils::mapToListOfPoolLegalEntityDto).block();
         log.info("Processed business partners from legal entity on pool, list size {}", poolLegalEntityDtos.size());
 
         log.info("Starting process to fetch external business partners from site on pool.");
         List<String> bpnsList = getBpnsByAddressType(map, AddressType.SiteMainAddress);
         Map<String, List<String>> sitesBody = new HashMap<>();
-        sitesBody.put("sites", bpnsList);
+        sitesBody.put("siteBpns", bpnsList);
         httpEntity = createHttpEntity(sitesBody);
         List<PoolSiteDto> poolSiteDtos = invokeService.executeRequest("pool", bpdmSiteUrl, HttpMethod.POST, httpEntity, JsonMappingUtils::mapJsonToListOfPoolSiteDto).block();
         log.info("Processed business partners from site on pool, list size {}", poolSiteDtos.size());
@@ -151,7 +149,7 @@ public class RequestLogicService {
         log.info("Starting process to fetch external business partners from address on pool.");
         List<String> bpnaList = getBpnsByAddressType(map, AddressType.AdditionalAddress);
         Map<String, List<String>> addressesBody = new HashMap<>();
-        addressesBody.put("addresses", bpnaList);
+        addressesBody.put("addressBpns", bpnaList);
         httpEntity = createHttpEntity(addressesBody);
 
         List<PoolAddressDto> poolAddressDtos = invokeService.executeRequest("pool", bpdmAddressUrl, HttpMethod.POST, httpEntity, JsonMappingUtils::mapJsonToListOfPoolAddressDto).block();
@@ -203,75 +201,6 @@ public class RequestLogicService {
     }
 
 
-    public List<BusinessPartnerDTO> getMockBusinessPartnerDTOs() {
-        String json = "[\n" +
-                "  {\n" +
-                "    \"id\": 1,\n" +
-                "    \"bpn\": \"BPN-0001\",\n" +
-                "    \"legalName\": \"Divape Company\",\n" +
-                "    \"street\": \"1st Avenue\",\n" +
-                "    \"houseNumber\": \"100A\",\n" +
-                "    \"zipCode\": \"633104\",\n" +
-                "    \"city\": \"Covilhã\",\n" +
-                "    \"country\": \"ES\",\n" +
-                "    \"longitude\": \"107.6185727\",\n" +
-                "    \"latitude\": \"-6.6889038\",\n" +
-                "    \"supplier\": false,\n" +
-                "    \"customer\": true\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 2,\n" +
-                "    \"bpn\": \"BPN-0002\",\n" +
-                "    \"legalName\": \"Innovatech Solutions\",\n" +
-                "    \"street\": \"Tech Park Rd\",\n" +
-                "    \"houseNumber\": \"20B\",\n" +
-                "    \"zipCode\": \"500010\",\n" +
-                "    \"city\": \"Lisbon\",\n" +
-                "    \"country\": \"DE\",\n" +
-                "    \"longitude\": \"108.123456\",\n" +
-                "    \"latitude\": \"-7.123456\",\n" +
-                "    \"supplier\": true,\n" +
-                "    \"customer\": false\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 3,\n" +
-                "    \"bpn\": \"BPN-0004\",\n" +
-                "    \"legalName\": \"Innovatech Solutions Made Up\",\n" +
-                "    \"street\": \"Tech Park Rd\",\n" +
-                "    \"houseNumber\": \"20B\",\n" +
-                "    \"zipCode\": \"500010\",\n" +
-                "    \"city\": \"Paris\",\n" +
-                "    \"country\": \"FR\",\n" +
-                "    \"longitude\": \"108.123456\",\n" +
-                "    \"latitude\": \"-7.123456\",\n" +
-                "    \"supplier\": false,\n" +
-                "    \"customer\": false\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 3,\n" +
-                "    \"bpn\": \"BPN-0003\",\n" +
-                "    \"legalName\": \"Eco Friendly Packaging\",\n" +
-                "    \"street\": \"Greenway Dr\",\n" +
-                "    \"houseNumber\": \"5\",\n" +
-                "    \"zipCode\": \"755004\",\n" +
-                "    \"city\": \"Porto\",\n" +
-                "    \"country\": \"PT\",\n" +
-                "    \"longitude\": \"106.654321\",\n" +
-                "    \"latitude\": \"-5.654321\",\n" +
-                "    \"supplier\": true,\n" +
-                "    \"customer\": true\n" +
-                "  }\n" +
-                "]";
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<BusinessPartnerDTO> businessPartnerDTOList = new ArrayList<>();
-        try {
-            businessPartnerDTOList = objectMapper.readValue(json, new TypeReference<List<BusinessPartnerDTO>>(){});
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return businessPartnerDTOList;
-    }
 
 
 
