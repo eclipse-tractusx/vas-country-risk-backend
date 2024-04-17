@@ -191,62 +191,93 @@ public class ConfigServerMock {
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", APPLICATION_JSON_VALUE)
-                        .withBody("[\n" +
+                        .withBody("{\n" +
+                                "  \"totalElements\": 1,\n" +
+                                "  \"totalPages\": 1,\n" +
+                                "  \"page\": 1,\n" +
+                                "  \"contentSize\": 1,\n" +
+                                "  \"content\": [\n" +
                                 "    {\n" +
-                                "        \"legalName\": \"Showcase Business Partner Address\",\n" +
-                                "        \"bpnl\": \"BPNL00000007QZG8\",\n" +
-                                "        \"identifiers\": [],\n" +
-                                "        \"legalShortName\": null,\n" +
-                                "        \"legalForm\": null,\n" +
+                                "      \"bpnl\": \"BPNL00000007QZG8\",\n" +
+                                "      \"legalName\": \"Showcase Business Partner Address\",\n" +
+                                "      \"legalShortName\": null,\n" +
+                                "      \"legalForm\": {\n" +
+                                "        \"technicalKey\": \"UNKNOWN\",\n" +
+                                "        \"name\": null,\n" +
+                                "        \"abbreviation\": null\n" +
+                                "      },\n" +
+                                "      \"identifiers\": [],\n" +
+                                "      \"states\": [],\n" +
+                                "      \"relations\": [],\n" +
+                                "      \"currentness\": \"2023-11-29T10:59:00.034673Z\",\n" +
+                                "      \"confidenceCriteria\": {\n" +
+                                "        \"sharedByOwner\": true,\n" +
+                                "        \"checkedByExternalDataSource\": false,\n" +
+                                "        \"numberOfSharingMembers\": 0,\n" +
+                                "        \"lastConfidenceCheckAt\": \"2023-11-29T10:59:00.034673Z\",\n" +
+                                "        \"nextConfidenceCheckAt\": \"2024-11-29T10:59:00.034673Z\",\n" +
+                                "        \"confidenceLevel\": 1\n" +
+                                "      },\n" +
+                                "      \"isCatenaXMemberData\": true,\n" +
+                                "      \"createdAt\": \"2023-11-29T10:59:00.047537Z\",\n" +
+                                "      \"updatedAt\": \"2023-11-29T10:59:00.047543Z\",\n" +
+                                "      \"legalAddress\": {\n" +
+                                "        \"bpna\": \"BPNA000000007BT8\",\n" +
+                                "        \"name\": \"Showcase Business Partner Address\",\n" +
                                 "        \"states\": [],\n" +
-                                "        \"classifications\": [],\n" +
-                                "        \"relations\": [],\n" +
-                                "        \"currentness\": \"2023-11-29T10:59:00.034673Z\",\n" +
-                                "        \"createdAt\": \"2023-11-29T10:59:00.047537Z\",\n" +
-                                "        \"updatedAt\": \"2023-11-29T10:59:00.047543Z\",\n" +
-                                "        \"legalAddress\": {\n" +
-                                "            \"bpna\": \"BPNA000000007BT8\",\n" +
-                                "            \"name\": \"Showcase Business Partner Address\",\n" +
-                                "            \"states\": [],\n" +
-                                "            \"identifiers\": [],\n" +
-                                "            \"physicalPostalAddress\": {\n" +
-                                "                \"geographicCoordinates\": null,\n" +
-                                "                \"country\": {\n" +
-                                "                    \"technicalKey\": \"DE\",\n" +
-                                "                    \"name\": \"Germany\"\n" +
-                                "                },\n" +
-                                "                \"administrativeAreaLevel1\": {\n" +
-                                "                    \"countryCode\": \"DE\",\n" +
-                                "                    \"regionCode\": \"DE-BW\",\n" +
-                                "                    \"regionName\": \"Baden-Wurttemberg\"\n" +
-                                "                },\n" +
-                                "                \"administrativeAreaLevel2\": null,\n" +
-                                "                \"administrativeAreaLevel3\": null,\n" +
-                                "                \"postalCode\": \"77777\",\n" +
-                                "                \"city\": \"City X\",\n" +
-                                "                \"district\": \"\",\n" +
-                                "                \"street\": {\n" +
-                                "                    \"name\": \"Base Street\",\n" +
-                                "                    \"houseNumber\": \"3\",\n" +
-                                "                    \"milestone\": \"\",\n" +
-                                "                    \"direction\": \"\"\n" +
-                                "                },\n" +
-                                "                \"companyPostalCode\": null,\n" +
-                                "                \"industrialZone\": null,\n" +
-                                "                \"building\": null,\n" +
-                                "                \"floor\": null,\n" +
-                                "                \"door\": null\n" +
-                                "            },\n" +
-                                "            \"alternativePostalAddress\": null,\n" +
-                                "            \"bpnLegalEntity\": \"BPNL00000007QZG8\",\n" +
-                                "            \"isLegalAddress\": true,\n" +
-                                "            \"bpnSite\": null,\n" +
-                                "            \"isMainAddress\": false,\n" +
-                                "            \"createdAt\": \"2023-11-29T10:59:00.045497Z\",\n" +
-                                "            \"updatedAt\": \"2023-11-29T10:59:00.059879Z\"\n" +
-                                "        }\n" +
+                                "        \"identifiers\": [],\n" +
+                                "        \"physicalPostalAddress\": {\n" +
+                                "          \"geographicCoordinates\": null,\n" +
+                                "          \"country\": {\n" +
+                                "            \"technicalKey\": \"DE\",\n" +
+                                "            \"name\": \"Germany\"\n" +
+                                "          },\n" +
+                                "          \"administrativeAreaLevel1\": {\n" +
+                                "            \"countryCode\": \"DE\",\n" +
+                                "            \"regionCode\": \"DE-BW\",\n" +
+                                "            \"regionName\": \"Baden-Wurttemberg\"\n" +
+                                "          },\n" +
+                                "          \"administrativeAreaLevel2\": null,\n" +
+                                "          \"administrativeAreaLevel3\": null,\n" +
+                                "          \"postalCode\": \"77777\",\n" +
+                                "          \"city\": \"City X\",\n" +
+                                "          \"district\": \"\",\n" +
+                                "          \"street\": {\n" +
+                                "            \"name\": \"Base Street\",\n" +
+                                "            \"houseNumber\": \"3\",\n" +
+                                "            \"houseNumberSupplement\": null,\n" +
+                                "            \"milestone\": \"\",\n" +
+                                "            \"direction\": \"\",\n" +
+                                "            \"namePrefix\": null,\n" +
+                                "            \"additionalNamePrefix\": null,\n" +
+                                "            \"nameSuffix\": null,\n" +
+                                "            \"additionalNameSuffix\": null\n" +
+                                "          },\n" +
+                                "          \"companyPostalCode\": null,\n" +
+                                "          \"industrialZone\": null,\n" +
+                                "          \"building\": null,\n" +
+                                "          \"floor\": null,\n" +
+                                "          \"door\": null\n" +
+                                "        },\n" +
+                                "        \"alternativePostalAddress\": null,\n" +
+                                "        \"bpnLegalEntity\": \"BPNL00000007QZG8\",\n" +
+                                "        \"bpnSite\": null,\n" +
+                                "        \"isCatenaXMemberData\": true,\n" +
+                                "        \"createdAt\": \"2023-11-29T10:59:00.045497Z\",\n" +
+                                "        \"updatedAt\": \"2023-11-29T10:59:00.059879Z\",\n" +
+                                "        \"confidenceCriteria\": {\n" +
+                                "          \"sharedByOwner\": true,\n" +
+                                "          \"checkedByExternalDataSource\": false,\n" +
+                                "          \"numberOfSharingMembers\": 0,\n" +
+                                "          \"lastConfidenceCheckAt\": \"2023-11-29T10:59:00.045497Z\",\n" +
+                                "          \"nextConfidenceCheckAt\": \"2024-11-29T10:59:00.045497Z\",\n" +
+                                "          \"confidenceLevel\": 1\n" +
+                                "        },\n" +
+                                "        \"addressType\": \"LegalAndSiteMainAddress\"\n" +
+                                "      }\n" +
                                 "    }\n" +
-                                "]")));
+                                "  ]\n" +
+                                "}\n")));
     }
 
 
