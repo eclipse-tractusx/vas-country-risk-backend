@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [1.3.2] - [unreleased]
+## [1.3.2] - [2024-04-17]
 
 ### Changed
 - Changed Mapping from Country to ISOCode
