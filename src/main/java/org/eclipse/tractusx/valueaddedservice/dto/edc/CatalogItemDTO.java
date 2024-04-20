@@ -30,7 +30,7 @@ import lombok.*;
 @Schema(description = "Represents a catalog item available for negotiation")
 public class CatalogItemDTO {
 
-    @Schema(description = "Unique identifier of the catalog item", example = "1", required = true)
+    @Schema(description = "Unique identifier of the catalog item", example = "5191c813-97c7-4a50-8acc-5ad500772640", required = true)
     private String id;
 
     @Schema(description = "Identifier of the offer associated with the catalog item", example = "offer123", required = true)

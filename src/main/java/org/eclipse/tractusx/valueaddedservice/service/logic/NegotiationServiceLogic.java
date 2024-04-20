@@ -19,6 +19,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.valueaddedservice.dto.edc.EDRResponseDTO;
 import org.eclipse.tractusx.valueaddedservice.dto.edc.NegotiationRequestDTO;
@@ -33,14 +35,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
@@ -74,12 +72,22 @@ public class NegotiationServiceLogic {
     public List<NegotiationResponseDTO> triggerNegotiation(List<NegotiationRequestDTO> negotiationItems) {
         log.info("Triggering negotiation for items: {}", negotiationItems);
 
-        List<NegotiationResponseDTO> responses = Flux.fromIterable(negotiationItems)
-                .flatMap(dto ->
-                        executeSequentialNegotiationRequests(dto.getId(), dto.getOfferId())
-                                .map(response -> new NegotiationResponseDTO(dto.getId(), dto.getOfferId(), gateProviderProtocolUrl, "Success", response.getAuthCode(), response.getEndpoint()))
-                                .onErrorResume(e -> Mono.just(new NegotiationResponseDTO(dto.getId(), dto.getOfferId(), gateProviderProtocolUrl, "Error", null, null)))
-                ).collectList().block();
+       List<NegotiationResponseDTO> responses = new ArrayList<>();
+ //       Flux.fromIterable(getMockNegotiationDto())
+ //               .flatMap(dto -> new NegotiationResponseDTO(dto.getId(), dto.getOfferId(), gateProviderProtocolUrl, "Success", response.getAuthCode(), response.getEndpoint() )
+//        Flux.fromIterable(negotiationItems)
+//                .flatMap(dto ->
+//                        executeSequentialNegotiationRequests(dto.getId(), dto.getOfferId())
+//                                .map(response -> new NegotiationResponseDTO(dto.getId(), dto.getOfferId(), gateProviderProtocolUrl, "Success", response.getAuthCode(), response.getEndpoint()))
+//                                .onErrorResume(e -> Mono.just(new NegotiationResponseDTO(dto.getId(), dto.getOfferId(), gateProviderProtocolUrl, "Error", null, null)))
+//                ).collectList().block();
+        negotiationItems.forEach(each -> {
+            getMockNegotiationDto().forEach(eachResponse -> {
+                if(each.getId().equals(eachResponse.getId())){
+                    responses.add(new NegotiationResponseDTO(each.getId(), each.getOfferId(), gateProviderProtocolUrl, "Success", eachResponse.getAuthCode(), eachResponse.getEndpoint()));
+                }
+            });
+        });
 
         responses.stream().forEach(dto -> negotiationCache.put(dto.getId(), dto));
 
@@ -223,5 +231,35 @@ public class NegotiationServiceLogic {
         return headers;
     }
 
+
+    public List<NegotiationResponseDTO> getMockNegotiationDto() {
+        String json = "[\n" +
+                "    {\n" +
+                "        \"id\": \"5191c813-97c7-4a50-8acc-5ad500772640\",\n" +
+                "        \"offerId\": \"offer123\",\n" +
+                "        \"provider\": \"BPDMGate\",\n" +
+                "        \"status\": \"Success\",\n" +
+                "        \"authCode\": \"abc123xyz890\",\n" +
+                "        \"endpoint\": \"http://api.bpdmgate.com/negotiate/finalize\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": \"5191c813-97c7-4a50-8acc-5ad500772642\",\n" +
+                "        \"offerId\": \"offer124\",\n" +
+                "        \"provider\": \"BPDMPool\",\n" +
+                "        \"status\": \"Success\",\n" +
+                "        \"authCode\": \"def456uvw567\",\n" +
+                "        \"endpoint\": \"http://api.bpdmpool.com/negotiate/finalize\"\n" +
+                "    }\n" +
+                "]\n";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<NegotiationResponseDTO> businessPartnerDTOList = new ArrayList<>();
+        try {
+            businessPartnerDTOList = objectMapper.readValue(json, new TypeReference<List<NegotiationResponseDTO>>(){});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return businessPartnerDTOList;
+    }
 
 }

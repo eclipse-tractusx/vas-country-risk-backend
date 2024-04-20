@@ -19,6 +19,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.service.logic;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -82,8 +83,8 @@ public class EdcLogicService {
         log.debug("Request Headers: " + headers);
         log.debug("Request Body: " + requestBody);
 
-
-        return invokeService.executeRequest("default",consumerManagementUrl + "/v2/catalog/request/", HttpMethod.POST, httpEntity, this::mapResponseFromQueryCatalog).block();
+        return getMockCatalog();
+        //return invokeService.executeRequest("default",consumerManagementUrl + "/v2/catalog/request/", HttpMethod.POST, httpEntity, this::mapResponseFromQueryCatalog).block();
     }
 
     // Helper methods
@@ -159,6 +160,34 @@ public class EdcLogicService {
     }
 
 
+
+    public List<CatalogItemDTO> getMockCatalog() {
+        String json = "[\n" +
+                "    {\n" +
+                "        \"id\": \"5191c813-97c7-4a50-8acc-5ad500772640\",\n" +
+                "        \"offerId\": \"offer123\",\n" +
+                "        \"provider\": \"BPDMGate\",\n" +
+                "        \"subject\": \"cx-taxo:ReadAccessPoolForCatenaXMember\",\n" +
+                "        \"description\": \"Grants the Catena-X Member read access to the Pool API, allowing for efficient data sharing and management within the BPDM Gate.\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": \"5191c813-97c7-4a50-8acc-5ad500772642\",\n" +
+                "        \"offerId\": \"offer124\",\n" +
+                "        \"provider\": \"BPDMPool\",\n" +
+                "        \"subject\": \"cx-taxo:WriteAccessPoolForCatenaXMember\",\n" +
+                "        \"description\": \"Enables the Catena-X Member write access to the Pool API, facilitating active participation and contribution to the BPDMPool ecosystem.\"\n" +
+                "    }\n" +
+                "]\n";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<CatalogItemDTO> businessPartnerDTOList = new ArrayList<>();
+        try {
+            businessPartnerDTOList = objectMapper.readValue(json, new TypeReference<List<CatalogItemDTO>>(){});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return businessPartnerDTOList;
+    }
 
 
 }
