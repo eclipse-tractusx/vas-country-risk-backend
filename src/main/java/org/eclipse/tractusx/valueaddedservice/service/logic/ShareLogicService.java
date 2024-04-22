@@ -96,7 +96,7 @@ public class  ShareLogicService {
         shareDTO.setBpn(bp.getBpn());
         shareDTO.setCountry(bp.getCountry());
         dataDTOS.forEach(dataDTO -> {
-            if(Objects.equals(dataDTO.getCountry(), bp.getCountry())){
+            if(Objects.equals(dataDTO.getIso2(), bp.getCountry())){
                 ShareRatingDTO shareRatingDTO = new ShareRatingDTO();
                 shareRatingDTO.setDataSourceName(dataDTO.getDataSourceName());
                 shareRatingDTO.setScore(dataDTO.getScore());

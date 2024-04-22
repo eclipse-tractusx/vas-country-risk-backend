@@ -38,7 +38,7 @@ public class InputSharingBusinessPartnerDTO implements Serializable {
     @Schema(example = "BPN-NUMBER")
     private String bpn;
 
-    @Schema(example = "Portugal")
+    @Schema(example = "PT")
     private String country;
 
 
