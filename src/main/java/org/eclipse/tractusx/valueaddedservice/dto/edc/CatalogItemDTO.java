@@ -19,15 +19,30 @@
  ********************************************************************************/
 package org.eclipse.tractusx.valueaddedservice.dto.edc;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 @Setter
 @Getter
 @ToString
-public class EDRResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(description = "Represents a catalog item available for negotiation")
+public class CatalogItemDTO {
 
-    private String authCode;
-    private String endpoint;
+    @Schema(description = "Unique identifier of the catalog item", example = "1", required = true)
+    private String id;
+
+    @Schema(description = "Identifier of the offer associated with the catalog item", example = "offer123", required = true)
+    private String offerId;
+
+    @Schema(description = "Provider of the catalog item", example = "Provider A")
+    private String provider;
+
+    @Schema(description = "Subject of the catalog item", example = "cx-taxo:ReadAccessPoolForCatenaXMember")
+    private String subject;
+
+    @Schema(description = "Description of the catalog item", example = "Grants the Catena-X Member read access to the Pool API...")
+    private String description;
 }
+

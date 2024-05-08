@@ -27,6 +27,7 @@ import org.eclipse.tractusx.valueaddedservice.dto.bpdm.gate.GateBusinessPartnerO
 import org.eclipse.tractusx.valueaddedservice.dto.bpdm.pool.PoolAddressDto;
 import org.eclipse.tractusx.valueaddedservice.dto.bpdm.pool.PoolLegalEntityDto;
 import org.eclipse.tractusx.valueaddedservice.dto.bpdm.pool.PoolSiteDto;
+import org.eclipse.tractusx.valueaddedservice.dto.edc.NegotiationResponseDTO;
 import org.eclipse.tractusx.valueaddedservice.utils.BpdmEndpointsMappingUtils;
 import org.eclipse.tractusx.valueaddedservice.utils.JsonMappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Slf4j
@@ -46,7 +48,7 @@ public class RequestLogicService {
 
 
     @Autowired
-    EDCLogicService edcLogicService;
+    EdcLogicService edcLogicService;
 
     @Value("${application.edc.enabled:}")
     private boolean sequentialRequestsEnabled;
@@ -66,29 +68,48 @@ public class RequestLogicService {
     @Autowired
     InvokeService invokeService;
 
+    @Autowired
+    NegotiationServiceLogic negotiationServiceLogic;
 
-    @Cacheable(value = "vas-bpdm", key = "{#root.methodName , {#roles}}", unless = "#result == null")
+    @Cacheable(value = "vas-bpdm", key = "#root.methodName + ',' + #roles", unless = "#result == null or #result.isEmpty()")
     public List<BusinessPartnerDTO> handleRequestsToBpdm(List<String> roles) {
         List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
         if (sequentialRequestsEnabled) {
-            finalDtoList.addAll(handleSequentialRequests());
+            // Check the negotiation cache for stored requests
+            ConcurrentHashMap<String, NegotiationResponseDTO> negotiationRequestDTOS = negotiationServiceLogic.getStoredNegotiation();
+            if (negotiationRequestDTOS.isEmpty()) {
+                log.error("No negotiation requests found in cache.");
+                return Collections.emptyList();
+            }
+            // Handle sequential requests by passing the map
+            finalDtoList.addAll(handleSequentialRequests(negotiationRequestDTOS));
         } else {
             finalDtoList.addAll(handleNonSequentialRequests());
         }
         return finalDtoList;
     }
 
-    private List<BusinessPartnerDTO> handleSequentialRequests() {
+    private List<BusinessPartnerDTO> handleSequentialRequests(ConcurrentHashMap<String,NegotiationResponseDTO> negotiationResponseDTOS) {
         List<BusinessPartnerDTO> finalDtoList = new ArrayList<>();
 
+        // Check for the presence of required keys in the negotiationResponseDTOS map
+        List<String> requiredKeys = Arrays.asList("POST_GENERIC_OUTPUT_SEARCH", "POST_BPL_POOL_SEARCH", "POST_BPS_POOL_SEARCH", "POST_BPA_POOL_SEARCH");
+        for (String key : requiredKeys) {
+            if (!negotiationResponseDTOS.containsKey(key)) {
+                log.error("Missing required negotiation response DTO for key: {}", key);
+                return Collections.emptyList(); // Return an empty list immediately if a key is missing
+            }
+        }
+
         log.info("Sequential requests enabled. Starting process to fetch external business partners from generic.");
-        String genericEndPointResponse = edcLogicService.executeSequentialRequests("POST_GENERIC_OUTPUT_SEARCH", Collections.emptyList()).block();
+
+        String genericEndPointResponse = edcLogicService.sendFinalRequest(negotiationResponseDTOS.get("POST_GENERIC_OUTPUT_SEARCH"), Collections.emptyList()).block();
         Map<AddressType, Map<String, Collection<BusinessPartnerRole>>> map = processBusinessPartners(JsonMappingUtils.mapContentToListOfBusinessPartnerOutputDto(genericEndPointResponse));
         log.info("Processed business partners from generic endpoint");
 
         log.info("Starting process to fetch external business partners from legal entity on pool.");
         List<String> bpnlList = getBpnsByAddressType(map, AddressType.LegalAddress);
-        String bpnl = edcLogicService.executeSequentialRequests("POST_BPL_POOL_SEARCH", bpnlList).block();
+        String bpnl = edcLogicService.sendFinalRequest(negotiationResponseDTOS.get("POST_BPL_POOL_SEARCH"), bpnlList).block();
         List<PoolLegalEntityDto> poolLegalEntityDtos = JsonMappingUtils.mapToListOfPoolLegalEntityDto(bpnl);
         log.info("Processed business partners from legal entity on pool, list size {}", poolLegalEntityDtos.size());
 
@@ -96,7 +117,7 @@ public class RequestLogicService {
         List<String> bpnsList = getBpnsByAddressType(map, AddressType.SiteMainAddress);
         Map<String, List<String>> sitesBody = new HashMap<>();
         sitesBody.put("sites", bpnsList);
-        String bpns = edcLogicService.executeSequentialRequests("POST_BPS_POOL_SEARCH", sitesBody).block();
+        String bpns = edcLogicService.sendFinalRequest(negotiationResponseDTOS.get("POST_BPS_POOL_SEARCH"), sitesBody).block();
         List<PoolSiteDto> poolSiteDtoList = JsonMappingUtils.mapJsonToListOfPoolSiteDto(bpns);
         List<String> bpnaList = getBpnsByAddressType(map, AddressType.AdditionalAddress);
         log.info("Processed business partners from site on pool, list size {}", poolSiteDtoList.size());
@@ -104,7 +125,7 @@ public class RequestLogicService {
         log.info("Starting process to fetch external business partners from address on pool.");
         Map<String, List<String>> addressesBody = new HashMap<>();
         addressesBody.put("addresses", bpnaList);
-        String bpna = edcLogicService.executeSequentialRequests("POST_BPA_POOL_SEARCH", addressesBody).block();
+        String bpna = edcLogicService.sendFinalRequest(negotiationResponseDTOS.get("POST_BPA_POOL_SEARCH"), addressesBody).block();
         List<PoolAddressDto> poolAddressDtos = JsonMappingUtils.mapJsonToListOfPoolAddressDto(bpna);
         log.info("Processed business partners from address on pool, list size {}", poolAddressDtos.size());
 
